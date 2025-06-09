@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "ì¤í¬ë¦°ì·_2023-07-13_ì¤í_8.46.32-removebg-preview.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ì¤í¬ë¦°ì·_2023-07-13_ì¤í_8.46.32-removebg-preview 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ì¤í¬ë¦°ì·_2023-07-13_ì¤í_8.46.32-removebg-preview 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
