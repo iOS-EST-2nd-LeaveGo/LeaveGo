@@ -10,12 +10,18 @@ import UIKit
 class MapHeaderView: UIView {
   
   // MARK: Properties
+  var containerView: UIView = {
+    let view = UIView()
+    view.backgroundColor = .systemBackground
+    return view
+  }()
    var stackView: UIStackView = {
      let stackView = UIStackView()
      stackView.axis = .vertical
      stackView.alignment = .center
      stackView.distribution = .fill
      stackView.spacing = 16
+     stackView.backgroundColor = .systemBackground
      return stackView
    }()
   var searchTextFieldBackbroundView: UIView = {
@@ -54,7 +60,10 @@ class MapHeaderView: UIView {
 // MARK: LayoutSupport
 extension MapHeaderView: LayoutSupport {
   func addSubviews() {
-    self.addSubview(stackView)
+    self.addSubview(containerView)
+    
+    containerView.addSubview(stackView)
+    
     stackView.addArrangedSubview(searchTextFieldBackbroundView)
     stackView.addArrangedSubview(displaySegmented)
     
@@ -62,12 +71,20 @@ extension MapHeaderView: LayoutSupport {
   }
   
   func setupSubviewsConstraints() {
+    containerView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      containerView.topAnchor.constraint(equalTo: self.topAnchor),
+      containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+      containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+    ])
+    
     stackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      stackView.topAnchor.constraint(equalTo: self.topAnchor),
-      stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-      stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+      stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+      stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+      stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+      stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)
     ])
     
     searchTextFieldBackbroundView.translatesAutoresizingMaskIntoConstraints = false

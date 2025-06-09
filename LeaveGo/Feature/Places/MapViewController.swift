@@ -35,6 +35,7 @@ class MapViewController: UIViewController {
       return button
     }()
   let userLocationImageView = UIImageView(image: UIImage(named: "btn_location"))
+  let mapHeaderView = MapHeaderView()
   
   // MARK: LifeCycle
   override func viewDidLoad() {
@@ -200,6 +201,7 @@ extension MapViewController: LayoutSupport {
   func addSubviews() {
     self.view.addSubview(mapView)
     mapView.addSubview(userLocationButton)
+    mapView.addSubview(mapHeaderView)
     
     userLocationButton.addSubview(userLocationImageView)
   }
@@ -220,6 +222,13 @@ extension MapViewController: LayoutSupport {
           userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
           userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
     ])
+    
+    mapHeaderView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      mapHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      mapHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      mapHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+      ])
   }
   
 }
