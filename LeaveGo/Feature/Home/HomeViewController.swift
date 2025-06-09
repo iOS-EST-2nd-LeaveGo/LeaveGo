@@ -6,24 +6,35 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeViewController: UIViewController {
+    
+    
+    var locationManager = LocationManager()
+    var location: CLLocationCoordinate2D?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+//        _ = LocationManager.shared
+        setupLocation()
+ 
     }
     
+    
+    func setupLocation() {
+        locationManager.fetchLocation { [weak self] (location, error) in
+            guard let self = self else { return }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+            if let location = location {
+                self.location = location
+                print("📍 사용자 위치 - 위도: \(location.latitude), 경도: \(location.longitude)")
+            } else if let error = error {
+                print("❌ 위치 가져오기 실패: \(error.localizedDescription)")
+            } else {
+                print("⚠️ 알 수 없는 오류 발생")
+            }
+        }
     }
-    */
-
 }
