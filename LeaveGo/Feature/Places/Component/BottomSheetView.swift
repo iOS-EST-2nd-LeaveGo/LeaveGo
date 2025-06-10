@@ -5,122 +5,115 @@
 //  Created by 이치훈 on 6/10/25.
 //
 
-//
-//  TrashDetailViewController.swift
-//  Trash_Where_iOS
-//
-//  Created by 이치훈 on 2023/07/20.
-//
-
 import MapKit
 import UIKit
 
-final class BottomSheetView: UIView {
-
-    // MARK: - Properties
-    private let handleView = UIView()
-    private var topConstraint: NSLayoutConstraint!
-    private var panStartTopConstant: CGFloat = 0.0
-
-    // MARK: - Initializer
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-        setupHandle()
-        setupPanGesture()
+final class BottomSheetView: PassThroughView {
+  
+  // MARK: Constants
+  enum Mode {
+    case tip
+    case full
+  }
+  
+  private enum Const {
+    static let duration = 0.5
+    static let cornerRadius = 10 // 37.0
+    static let barViewTopSpacing = 5.0
+    static let barViewSize = CGSize(width: UIScreen.main.bounds.width * 0.1, height: 5.0)
+    static let bottomSheetRatio: (Mode) -> Double = { mode in
+      switch mode {
+      case .tip:
+        return 0.77 // 값 작을수록 sheetview 높이 커짐
+      case .full:
+        return 0.65
+      }
     }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView()
-        setupHandle()
-        setupPanGesture()
+    static let bottomSheetYPosition: (Mode) -> Double = { mode in
+      Self.bottomSheetRatio(mode) * UIScreen.main.bounds.height
     }
-
-    // MARK: - Setup
-    private func setupView() {
-        backgroundColor = .systemBackground
-        layer.cornerRadius = 12
-        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.1
-        layer.shadowOffset = CGSize(width: 0, height: -2)
-        layer.shadowRadius = 5
-        translatesAutoresizingMaskIntoConstraints = false
-    }
-
-    private func setupHandle() {
-        handleView.backgroundColor = .lightGray
-        handleView.layer.cornerRadius = 3
-        handleView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(handleView)
-        NSLayoutConstraint.activate([
-            handleView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            handleView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            handleView.widthAnchor.constraint(equalToConstant: 40),
-            handleView.heightAnchor.constraint(equalToConstant: 6)
-        ])
-    }
-
-    private func setupPanGesture() {
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        addGestureRecognizer(pan)
-    }
-
-    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: self)
-        let velocity = gesture.velocity(in: self)
-
-        switch gesture.state {
-        case .began:
-            panStartTopConstant = topConstraint.constant
-
-        case .changed:
-            let newConstant = panStartTopConstant + translation.y
-            topConstraint.constant = max(newConstant, 0)
-
-        case .ended:
-            let isDismiss = velocity.y > 500
-            animate(toDismiss: isDismiss)
-
-        default: break
+  }
+  
+  // MARK: Properties
+  /// Mode(확장)상태에 따라 실행될 로직들
+  var mode: Mode = .tip {
+      didSet {
+        switch self.mode {
+        case .tip:
+          mapView?.deselectAnnotation(mapView?.selectedAnnotations as? MKAnnotation, animated: true)
+          // TODO: mapView.removeMapViewOverlayOfLast()
+          // TODO: self.changeModeToTip()
+          break
+        case .full:
+          // TODO: self.changeModeToFull()
+          break
         }
+        // TODO: self.updateConstraint(offset: Const.bottomSheetYPosition(self.mode))
+      }
     }
-
-    private func animate(toDismiss: Bool) {
-        let target: CGFloat = toDismiss ? superview!.bounds.height : 0
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
-          self.topConstraint.constant = target
-          self.superview?.layoutIfNeeded()
-        }
+    var bottomSheetColor: UIColor? {
+      didSet { self.bottomSheetView.backgroundColor = self.bottomSheetColor }
     }
-
-    // MARK: - Public show/hide
-    func attach(to parent: UIViewController, height: CGFloat) {
-        guard let parentView = parent.view else { return }
-        parentView.addSubview(self)
-
-        topConstraint = topAnchor.constraint(equalTo: parentView.bottomAnchor)
-        NSLayoutConstraint.activate([
-            topConstraint,
-            leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
-            trailingAnchor.constraint(equalTo: parentView.trailingAnchor),
-            heightAnchor.constraint(equalToConstant: height)
-        ])
-        parentView.layoutIfNeeded()
+    var barViewColor: UIColor? {
+      didSet { self.barView.backgroundColor = self.barViewColor }
     }
-
-    func show() {
-        topConstraint.constant = 0
-        UIView.animate(withDuration: 0.3) {
-            self.superview?.layoutIfNeeded()
-        }
+    var customOrangeColor: UIColor = UIColor(cgColor: CGColor(red: 243/255, green: 166/255, blue: 88/255, alpha: 1))
+  // TODO: identi color정해지면 바꾸기
+    var mapView: MKMapView!
+//    weak var delegate: BottomSheetViewDelegate?
+    var selectedPinModel: PlaceAnnotationModel?
+    static let locationManager: CLLocationManager = {
+      let locationManager = CLLocationManager()
+      locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+      locationManager.distanceFilter = kCLDistanceFilterNone
+      locationManager.startUpdatingLocation()
+      locationManager.startUpdatingHeading()
+      locationManager.requestWhenInUseAuthorization()
+      return locationManager
+    }()
+    var distanceOfMeters: Double = 0.0 {
+      didSet {
+        self.distanceLabel.text = "\(distanceOfMeters)"
+      }
     }
-
-    func dismiss() {
-        topConstraint.constant = superview!.bounds.height
-        UIView.animate(withDuration: 0.3) {
-            self.superview?.layoutIfNeeded()
-        }
-    }
+  
+  // MARK: UI
+  lazy var boundaryLineView: UIView = {
+      let view = UIView()
+      view.backgroundColor = customOrangeColor
+      return view
+    }()
+    let bottomSheetView: UIView = {
+      let view = UIView()
+      return view
+    }()
+    private let barView: UIView = {
+      let view = UIView()
+      view.backgroundColor = .white
+      view.isUserInteractionEnabled = false
+      view.layer.cornerRadius = 2.5
+      return view
+    }()
+    let handlerView: UIView = {
+      let view = UIView()
+      view.backgroundColor = .clear
+      return view
+    }()
+    
+    // stateContainView
+    let stateContainView: UIView = {
+      let view = UIView()
+      return view
+    }()
+  lazy var distanceLabel: UILabel = {
+      let label = UILabel()
+      label.text = "94"
+      //"\(self.distanceOfMeters)"
+      label.font = UIFont(name: "Inter-Bold", size: 15)
+      label.textColor = .gray//UIColor(cgColor: CGColor(red: 147, green: 145, blue: 145, alpha: 1))
+      return label
+    }()
+  
+  
+  
 }

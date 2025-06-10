@@ -26,6 +26,7 @@ final class PlaceAnnotationView: MKAnnotationView {
     super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
     
     setupUI()
+    print("annotaion view init")
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -48,14 +49,4 @@ final class PlaceAnnotationView: MKAnnotationView {
 }
 
 // annotation model
-class PlaceAnnotation: NSObject, MKAnnotation {
-  let coordinate: CLLocationCoordinate2D
-  var pinModel: PlaceAnnotationModel!
-  
-  init(pinModel: PlaceAnnotationModel) {
-    self.pinModel = nil
-    self.coordinate = CLLocationCoordinate2D(latitude: pinModel.latitude,
-                                             longitude: pinModel.longitude)
-  }
-  
-}
+

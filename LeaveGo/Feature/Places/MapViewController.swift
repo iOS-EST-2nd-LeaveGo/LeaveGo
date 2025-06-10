@@ -38,15 +38,15 @@ class MapViewController: UIViewController {
   let mapHeaderView = MapHeaderView()
   
   // Sample Data
-  var pinModels = [
-    PlaceAnnotationModel(address: "대전 동구 천동 대전로 0번길", latitude: 36.3167000, longitude: 127.4435000),
-    PlaceAnnotationModel(address: "대전 동구 천동 대전로 542번길", latitude: 36.3167000, longitude: 127.4400000),
-    PlaceAnnotationModel(address: "대전 동구 천동 대전로 3번길", latitude: 36.3141000, longitude: 127.4455000),
-    PlaceAnnotationModel(address: "대전 동구 천동 대전로 4번길", latitude: 36.3198000, longitude: 127.4482000),
-    PlaceAnnotationModel(address: "대전 동구 천동 대전로 5번길", latitude: 36.3164000, longitude: 127.4411000),
-    PlaceAnnotationModel(address: "대전 동구 용운동 대학로 1번길", latitude: 36.3346000, longitude: 127.4556000),
-    PlaceAnnotationModel(address: "대전 동구 용운동 대학로 3번길", latitude: 36.3368000, longitude: 127.4567000)]
-    
+    var pinModels = [
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4435000), title: "1", subtitle: "대전 동구 천동 대전로 0번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4400000), title: "2", subtitle: "대전 동구 천동 대전로 542번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3141000, longitude: 127.4455000), title: "3", subtitle: "대전 동구 천동 대전로 3번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3198000, longitude: 127.4482000), title: "4", subtitle: "대전 동구 천동 대전로 4번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3164000, longitude: 127.4411000), title: "5", subtitle: "대전 동구 천동 대전로 5번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3346000, longitude: 127.4556000), title: "6", subtitle: "대전 동구 천동 대전로 1번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3368000, longitude: 127.4567000), title: "7", subtitle: "대전 동구 용운동 대학로 3번길")
+    ]
   
   // MARK: LifeCycle
   override func viewDidLoad() {
@@ -62,7 +62,7 @@ class MapViewController: UIViewController {
   
   func addTrashAnnotation() {
       _=pinModels.map {
-        mapView.addAnnotation(PlaceAnnotation(pinModel: $0))
+        mapView.addAnnotation($0)
       }
     }
   
@@ -166,30 +166,6 @@ extension MapViewController: MKMapViewDelegate {
     return annotationView
   }
   
-  func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-    if !(annotation is PlaceAnnotationModel) {
-      return
-    }
-    
-//    mapView.removeMapViewOverlayOfLast()
-    let selectedTrashPinModel = (mapView.selectedAnnotations.first as? TrashAnnotation)!.pinModel
-    bottomSheetView.selectedPinModel = selectedTrashPinModel
-//    self.bottomSheetView.popUpBottomSheet()
-    self.bottomSheetView.TrashNameLabel.text = selectedTrashPinModel?.address
-    
-    var coordiCenterLa = annotation.coordinate.latitude
-    let coordiCenterLo = annotation.coordinate.longitude
-    coordiCenterLa -= 0.002
-    
-    let coordinate = CLLocationCoordinate2D(latitude: coordiCenterLa, longitude: coordiCenterLo)
-    let region = MKCoordinateRegion(center: coordinate,
-                                    latitudinalMeters: 450, longitudinalMeters: 450)
-    mapView.setRegion(region, animated: true)
-    calculateDirections(coordinate: annotation.coordinate)
-    
-    
-  }
-  
   /// 경로위에 표시되는 line UI를 정의
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     if overlay is MKPolyline {
@@ -242,6 +218,7 @@ extension MapViewController: LayoutSupport {
   func addSubviews() {
     self.view.addSubview(mapView)
     mapView.addSubview(userLocationButton)
+//    mapView.addSubview(mapHeaderView)
     
     userLocationButton.addSubview(userLocationImageView)
   }
@@ -262,6 +239,13 @@ extension MapViewController: LayoutSupport {
           userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
           userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
     ])
+    
+//    mapHeaderView.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      mapHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
+//      mapHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//      mapHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+//      ])
   }
   
 }
