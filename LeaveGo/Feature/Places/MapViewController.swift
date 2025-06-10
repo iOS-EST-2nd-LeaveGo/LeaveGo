@@ -218,7 +218,7 @@ extension MapViewController: LayoutSupport {
   func addSubviews() {
     self.view.addSubview(mapView)
     mapView.addSubview(userLocationButton)
-    mapView.addSubview(mapHeaderView)
+//    mapView.addSubview(mapHeaderView)
     
     userLocationButton.addSubview(userLocationImageView)
   }
@@ -240,12 +240,12 @@ extension MapViewController: LayoutSupport {
           userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
     ])
     
-    mapHeaderView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      mapHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
-      mapHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      mapHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-      ])
+//    mapHeaderView.translatesAutoresizingMaskIntoConstraints = false
+//    NSLayoutConstraint.activate([
+//      mapHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
+//      mapHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//      mapHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+//      ])
   }
   
 }
