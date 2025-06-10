@@ -17,8 +17,6 @@
 				Feature/Home/Component/.gitkeep,
 				Feature/Home/Model/.gitkeep,
 				Feature/Mypage/Component/.gitkeep,
-				Feature/Places/Component/.gitkeep,
-				Feature/Places/Model/.gitkeep,
 				Feature/Planner/Component/.gitkeep,
 				Feature/Planner/Model/.gitkeep,
 				Info.plist,
