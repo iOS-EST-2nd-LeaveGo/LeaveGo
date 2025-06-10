@@ -9,7 +9,10 @@ import Foundation
 import CoreLocation
 
 final class LocationManager: CLLocationManager, CLLocationManagerDelegate {
-        
+    
+    // 싱글톤
+    static let shared = LocationManager()
+    
     typealias FetchLocationCompletion = (CLLocationCoordinate2D?, Error?) -> Void
 
     // 동작을 담아주기 위해 클로저를 만들어 줌
@@ -89,6 +92,8 @@ extension LocationManager {
         self.fetchLocationCompletion?(coordinate, nil)
         // 위의 실행 후 클로저 초기화
         self.fetchLocationCompletion = nil
+        
+//        print("test : \(locations)")
     }
     
     // 잠재적인 오류에 응답하기 위해서 생성
