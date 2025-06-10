@@ -37,6 +37,17 @@ class MapViewController: UIViewController {
   let userLocationImageView = UIImageView(image: UIImage(named: "btn_location"))
   let mapHeaderView = MapHeaderView()
   
+  // Sample Data
+    var pinModels = [
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4435000), title: "1", subtitle: "대전 동구 천동 대전로 0번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4400000), title: "2", subtitle: "대전 동구 천동 대전로 542번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3141000, longitude: 127.4455000), title: "3", subtitle: "대전 동구 천동 대전로 3번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3198000, longitude: 127.4482000), title: "4", subtitle: "대전 동구 천동 대전로 4번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3164000, longitude: 127.4411000), title: "5", subtitle: "대전 동구 천동 대전로 5번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3346000, longitude: 127.4556000), title: "6", subtitle: "대전 동구 천동 대전로 1번길"),
+      PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3368000, longitude: 127.4567000), title: "7", subtitle: "대전 동구 용운동 대학로 3번길")
+    ]
+  
   // MARK: LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -46,7 +57,14 @@ class MapViewController: UIViewController {
     setupMapView()
     configureSubviews()
     addTarget()
+    addTrashAnnotation()
   }
+  
+  func addTrashAnnotation() {
+      _=pinModels.map {
+        mapView.addAnnotation($0)
+      }
+    }
   
   func addTarget() {
       userLocationButton.addTarget(self, action: #selector(setMapRegion), for: .touchUpInside)
@@ -113,9 +131,8 @@ extension MapViewController: MKMapViewDelegate {
         // ios 16 이상부터는 layer없이 바로 anchorpoint를 설정할 수 있음!
         return annotationView
       }
-      
-    // -----
-      guard let annotation = annotation as? PlaceAnnotation else {
+
+      guard let annotation = annotation as? PlaceAnnotationModel else {
         return nil
       }
       
@@ -135,6 +152,7 @@ extension MapViewController: MKMapViewDelegate {
       let size = CGSize(width: 40, height: 40)
       UIGraphicsBeginImageContext(size)
       
+    // annotation Type에 따라 image 세팅
 //      switch annotation.imageType {
 //      case 0:
 //        annotationImage = UIImage(named: "TrashPin")
@@ -144,10 +162,6 @@ extension MapViewController: MKMapViewDelegate {
 //        annotationImage = UIImage(systemName: "trash.circle")
 //      }
 //      annotationImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-    
-    // PlaceAnnotationView로 이동된 코드입니다. :)
-//      let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-//      annotationView?.image = resizedImage
       
       return annotationView
     }
@@ -228,7 +242,7 @@ extension MapViewController: LayoutSupport {
     
     mapHeaderView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      mapHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      mapHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
       mapHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       mapHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
       ])

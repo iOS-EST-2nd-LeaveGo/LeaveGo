@@ -81,7 +81,7 @@ extension MapHeaderView: LayoutSupport {
     
     stackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+      stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
       stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
       stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
       stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)
