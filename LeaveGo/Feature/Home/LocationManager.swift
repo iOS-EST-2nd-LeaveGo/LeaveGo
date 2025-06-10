@@ -44,12 +44,38 @@ final class LocationManager: CLLocationManager, CLLocationManagerDelegate {
         super.requestLocation()
     }
     
-    /// 현재 위치를 받고 컴플리션을 통해 동작을 실행하는 메서드
+    /// 위치 권한 상태에 따라 위치 요청을 수행하는 메서드
+    ///
+    /// - 권한이 있는 경우: 즉시 위치 요청 수행
+    /// - 권한이 없는 경우: 권한 요청 후 위치 요청은 별도로 수행 필요
+    /// - 거부된 경우: 에러 클로저 호출
     func fetchLocation(completion: @escaping FetchLocationCompletion) {
-        self.requestLocation()
-        // completion 동작을 didFetchLocation 동작에 담는다.
+        // 클로저를 저장하여 위치 업데이트 결과를 나중에 전달할 수 있게 보관
         self.fetchLocationCompletion = completion
+
+        // 현재 위치 권한 상태 확인
+        let status = self.authorizationStatus
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            // 위치 권한이 허용된 경우, 위치 요청 수행
+            self.requestLocation()
+
+        case .notDetermined:
+            // 아직 권한이 결정되지 않은 경우, 권한 요청 수행
+            // 사용자가 '허용'을 누르면 `locationManagerDidChangeAuthorization`에서 requestLocation() 호출됨
+            self.requestWhenInUseAuthorization()
+
+        default:
+            // 권한이 거부되었거나 제한된 경우, 에러 클로저 호출
+            let error = NSError(
+                domain: "LocationError",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "위치 권한이 필요합니다."]
+            )
+            completion(nil, error)
+        }
     }
+
 }
 
 extension LocationManager {
