@@ -7,11 +7,12 @@
 
 import UIKit
 
-enum TransportMode: Int {
-	case car, walk
-}
-
 class RouteBottomSheetView: UIView {
+	
+	enum TransportMode: Int {
+		case car, walk
+	}
+	
 	private let carButton: UIButton = {
 		var config = UIButton.Configuration.filled()
 		config.image = UIImage(systemName: "car.fill")
