@@ -7,6 +7,7 @@
 
 import UIKit
 
+// 온보딩 소개화면 추후구현
 class OnboardingViewController: UIViewController {
 
     override func viewDidLoad() {
