@@ -14,7 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // API_KEY 테스팅 용도로 작성: 프로젝트 제출 시 주석 처리하기
+        if Bundle.main.apiKey != nil {
+            print("🔐 API_KEY: ", Bundle.main.apiKey!)
+        }
+        
         return true
     }
 
