@@ -23,7 +23,7 @@ class PreferenceItemCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
 //            contentView.layer.borderWidth = isSelected ? 1 : 0
-            contentView.layer.backgroundColor = isSelected ? UIColor.systemRed.cgColor : UIColor.clear.cgColor
+            contentView.layer.backgroundColor = isSelected ? UIColor.systemBlue.cgColor : UIColor.clear.cgColor
         }
     }
 

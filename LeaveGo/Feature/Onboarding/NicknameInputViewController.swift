@@ -14,9 +14,11 @@ class NicknameInputViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
 
     @IBAction func saveNickname(_ sender: Any) {
-        let nickname = nicknameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let nickname = nicknameTextField.text ?? ""
 
-        UserSetting.shared.nickname = nickname
+        if Validation.isValidNickname(nickname) {
+            UserSetting.shared.nickname = nickname
+        }
     }
 
     override func viewDidLoad() {
@@ -33,25 +35,23 @@ class NicknameInputViewController: UIViewController {
 }
 
 extension NicknameInputViewController: UITextFieldDelegate {
-    // 
+    // 입력한 닉네임 검증하고 버튼 활성화/비활성화
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let nickname = nicknameTextField.text ?? ""
 
         guard let finalNickname = UITextField.replacingText(text: nickname, range: range, string: string) else {
             saveButton.isEnabled = false
+
             return true
         }
 
         saveButton.isEnabled = Validation.isValidNickname(finalNickname)
+
         return true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let nickname = nicknameTextField.text ?? ""
-
-        if Validation.isValidNickname(nickname) {
             saveNickname(self)
-        }
 
         return true
     }

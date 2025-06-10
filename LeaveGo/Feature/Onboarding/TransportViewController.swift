@@ -23,8 +23,9 @@ class TransportViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print(UserSetting.shared.nickname)
-        print(UserSetting.shared.preferredTransport)
+//        //test
+//        print(UserSetting.shared.nickname)
+//        print(UserSetting.shared.preferredTransport?.rawValue)
 
         // 레이아웃 설정
         transportCollectionView.collectionViewLayout = threeColumnGridLayout()
