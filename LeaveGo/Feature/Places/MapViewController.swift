@@ -35,7 +35,6 @@ class MapViewController: UIViewController {
       return button
     }()
   let userLocationImageView = UIImageView(image: UIImage(named: "btn_location"))
-  let mapHeaderView = MapHeaderView()
   
   // Sample Data
     var pinModels = [
