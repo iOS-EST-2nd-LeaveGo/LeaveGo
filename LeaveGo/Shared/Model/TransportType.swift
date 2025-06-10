@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 이동수단 Type
 enum TransportType: String, CaseIterable {
     case walk = "도보"
     case bicycle = "자전거"
@@ -14,8 +15,8 @@ enum TransportType: String, CaseIterable {
 
     var iconName: String {
         switch self {
-        case .walk: return "bicycle"
-        case .bicycle: return "figure.walk"
+        case .walk: return "figure.walk"
+        case .bicycle: return "bicycle"
         case .car: return "car"
         }
     }

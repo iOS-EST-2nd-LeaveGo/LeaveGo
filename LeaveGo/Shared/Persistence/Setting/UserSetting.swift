@@ -8,7 +8,7 @@
 import Foundation
 
 // UserDefaults Setting
-// 닉네임, 여향취향, 선호이동수단
+// 닉네임, 여행취향, 선호이동수단
 final class UserSetting {
     static let shared = UserSetting()
 
