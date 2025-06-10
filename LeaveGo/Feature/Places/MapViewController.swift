@@ -119,52 +119,52 @@ extension MapViewController: MKMapViewDelegate {
   }
   
   func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-      // 사용자 현재위치의 view setting
-      if annotation is MKUserLocation {
-        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userlocation")
-        annotationView.image = UIImage(named: "img_userlocation")
-    annotationView.layer.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        annotationView.layer.shadowColor = UIColor.orange.cgColor
-        annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
-        annotationView.layer.shadowOpacity = 0.5
-        annotationView.layer.shadowRadius = 5
-        // ios 16 이상부터는 layer없이 바로 anchorpoint를 설정할 수 있음!
-        return annotationView
-      }
-
-      guard let annotation = annotation as? PlaceAnnotationModel else {
-        return nil
-      }
-      
-      var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
-                                                                  PlaceAnnotationView.identifier)
-      
-      if annotationView == nil {
-        annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier:
-                                            PlaceAnnotationView.identifier)
-        annotationView?.canShowCallout = false
-        annotationView?.contentMode = .scaleAspectFit
-      } else {
-        annotationView?.annotation = annotation
-      }
-      
-      let annotationImage: UIImage!
-      let size = CGSize(width: 40, height: 40)
-      UIGraphicsBeginImageContext(size)
-      
-    // annotation Type에 따라 image 세팅
-//      switch annotation.imageType {
-//      case 0:
-//        annotationImage = UIImage(named: "TrashPin")
-//      case 1:
-//        annotationImage = UIImage(named: "StorePin")
-//      default:
-//        annotationImage = UIImage(systemName: "trash.circle")
-//      }
-//      annotationImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-      
+    // 사용자 현재위치의 view setting
+    if annotation is MKUserLocation {
+      let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userlocation")
+      annotationView.image = UIImage(named: "img_userlocation")
+      annotationView.layer.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+      annotationView.layer.shadowColor = UIColor.orange.cgColor
+      annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
+      annotationView.layer.shadowOpacity = 0.5
+      annotationView.layer.shadowRadius = 5
+      // ios 16 이상부터는 layer없이 바로 anchorpoint를 설정할 수 있음!
       return annotationView
     }
+    
+    guard let annotation = annotation as? PlaceAnnotationModel else {
+      return nil
+    }
+    
+    var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
+                                                                PlaceAnnotationView.identifier)
+    
+    
+    if annotationView == nil {
+      annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier:
+                                          PlaceAnnotationView.identifier)
+      annotationView?.canShowCallout = false
+      annotationView?.contentMode = .scaleAspectFit
+    } else {
+      annotationView?.annotation = annotation
+    }
+    
+    let annotationImage: UIImage!
+    let size = CGSize(width: 40, height: 40)
+    UIGraphicsBeginImageContext(size)
+    
+    
+    annotationImage = UIImage(systemName: "pin.circle.fill")
+    annotationImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+    
+    
+    
+    
+    let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+    annotationView?.image = resizedImage
+    
+    return annotationView
+  }
   
   /// 경로위에 표시되는 line UI를 정의
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {

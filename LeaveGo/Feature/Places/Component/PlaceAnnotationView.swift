@@ -22,14 +22,19 @@ final class PlaceAnnotationView: MKAnnotationView {
     return label
   }()
   
+  override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+    super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+    
+    setupUI()
+    print("annotaion view init")
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   func setupUI() {
-    image = UIImage(systemName: "pin.circle.fill")
-    if image != nil {
-      let size = CGSize(width: 40, height: 40)
-      image!.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-    }
-    let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-    image = resizedImage
+    
     
     addSubview(titleLabel)
     
