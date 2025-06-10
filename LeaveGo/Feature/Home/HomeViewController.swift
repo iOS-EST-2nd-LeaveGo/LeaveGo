@@ -6,8 +6,41 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeViewController: UIViewController {
+    
+    
+    var location: CLLocationCoordinate2D?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupLocation()
+        
+        Task {
+            // await runAPITestForLocationBasedEndpoint(mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 2000)
+            await runAPITestForPlaceDetailEndpoint(contentId: 126128, contentTypeId: 12)
+        }
+ 
+    }
+    
+    
+    func setupLocation() {
+           // 싱글톤
+           LocationManager.shared.fetchLocation { [weak self] (location, error) in
+               guard let self = self else { return }
+
+               if let location = location {
+                   self.location = location
+                   print("📍 사용자 위치 - 위도: \(location.latitude), 경도: \(location.longitude)")
+               } else if let error = error {
+                   print("❌ 위치 가져오기 실패: \(error.localizedDescription)")
+               } else {
+                   print("⚠️ 알 수 없는 오류 발생")
+               }
+           }
+       }
+    
     func runAPITestForLocationBasedEndpoint(mapX: Double, mapY: Double, radius: Int) async {
         // API_KEY 값 언래핑
         guard let apikey = Bundle.main.apiKey else { return }
@@ -80,13 +113,5 @@ class HomeViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        Task {
-            // await runAPITestForLocationBasedEndpoint(mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 2000)
-            await runAPITestForPlaceDetailEndpoint(contentId: 126128, contentTypeId: 12)
-        }
-    }
+
 }
