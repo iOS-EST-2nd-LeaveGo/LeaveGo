@@ -15,7 +15,14 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-  
+//  @IBAction func test(_ sender: Any) {
+//   
+//    let mapVC = MapViewController()
+//    mapVC.modalPresentationStyle = .fullScreen
+//    
+//    present(mapVC, animated: true)
+//  }
+//  
     /*
     // MARK: - Navigation
 
