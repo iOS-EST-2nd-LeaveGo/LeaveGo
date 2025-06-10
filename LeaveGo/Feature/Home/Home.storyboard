@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zbn-Nd-ZB4">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,8 +16,22 @@
                     <view key="view" contentMode="scaleToFill" id="jgU-GP-1E5">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="홈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IcO-TF-oO3">
+                                <rect key="frame" x="189" y="416" width="15" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="HTH-3Y-9Iw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="HTH-3Y-9Iw" firstAttribute="trailing" secondItem="IcO-TF-oO3" secondAttribute="trailing" constant="189" id="YnO-NB-CGX"/>
+                            <constraint firstItem="IcO-TF-oO3" firstAttribute="leading" secondItem="HTH-3Y-9Iw" secondAttribute="leading" constant="189" id="YsJ-8q-TWa"/>
+                            <constraint firstItem="IcO-TF-oO3" firstAttribute="top" secondItem="HTH-3Y-9Iw" secondAttribute="top" constant="313" id="iLJ-Vb-mde"/>
+                            <constraint firstItem="HTH-3Y-9Iw" firstAttribute="bottom" secondItem="IcO-TF-oO3" secondAttribute="bottom" constant="332" id="wsO-lq-K1z"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="g5g-9m-I5c"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -33,7 +48,7 @@
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zj1-oU-vVa">
-                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
