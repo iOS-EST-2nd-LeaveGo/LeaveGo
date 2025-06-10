@@ -24,8 +24,6 @@
 				Feature/Planner/Model/.gitkeep,
 				Info.plist,
 				Shared/Component/.gitkeep,
-				Shared/Extension/.gitkeep,
-				Shared/Model/.gitkeep,
 				Shared/Persistence/Setting/.gitkeep,
 				Shared/Service/.gitkeep,
 				Shared/Util/.gitkeep,
