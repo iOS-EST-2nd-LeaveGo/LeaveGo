@@ -15,7 +15,6 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
     
     var places: [PlaceList] = []
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,11 +24,9 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
-        
         Task {
             // 탭바에 지도 누르면  임의 장소 설정(mapX, mapY)  및 현재 위치 중심 반경(radius) 입력
             await runAPITestForLocationBasedEndpoint(mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 2000)
-            
         }
     }
     
@@ -77,9 +74,6 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
     
 }
 
-
-
-
 extension PlacesViewController: UITableViewDataSource {
     /// 테이블 뷰의 셀 개수를 반환합니다.
     /// - Returns: places 배열의 요소 개수
@@ -103,23 +97,30 @@ extension PlacesViewController: UITableViewDataSource {
         cell.timeLabel.text = "09:00 ~ 18:00 • 1시간"
 
         // 이미지 처리
-        if let imageUrl = URL(string: place.firstimage), !place.firstimage.isEmpty {
-            // 비동기 이미지 로드 예시 (Kingfisher 사용 시)
-            // cell.placeImageView.kf.setImage(with: imageUrl)
-
-            // 혹은 URLSession을 이용한 간단한 비동기 이미지 로딩
+        // 1. PlaceList의 thumbnailImage는 String? 타입이므로 nil인지 확인
+        // 2. nil이 아니고 빈 문자열이 아닌 경우, URL 생성 시도
+        if let thumbnail = place.thumbnailImage,
+           !thumbnail.isEmpty,
+           let imageUrl = URL(string: thumbnail) {
+            
+            // 3. 백그라운드 스레드에서 네트워크 작업 시작
             DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: imageUrl), let image = UIImage(data: data) {
+                // 4. try? 로 이미지 데이터를 네트워크에서 가져오기 시도 (예외 발생 시 nil 반환)
+                if let data = try? Data(contentsOf: imageUrl),
+                   let image = UIImage(data: data) {
+                    // 5. 이미지 생성 성공 시, 메인 스레드에서 셀의 이미지 뷰에 설정
                     DispatchQueue.main.async {
                         cell.thumbnailImageView.image = image
                     }
                 } else {
+                    // 6. 데이터 가져오기나 이미지 생성 실패 시, 기본 이미지로 대체 (메인 스레드)
                     DispatchQueue.main.async {
                         cell.thumbnailImageView.image = UIImage(named: "placeholder")
                     }
                 }
             }
         } else {
+            // 7. thumbnailImage가 nil이거나 빈 문자열인 경우, 기본 이미지 표시
             cell.thumbnailImageView.image = UIImage(named: "placeholder")
         }
 
