@@ -19,14 +19,18 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PW6-cP-x2J">
                                 <rect key="frame" x="16" y="409" width="361" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="next" smartInsertDeleteType="no" textContentType="username"/>
+                                <connections>
+                                    <outlet property="delegate" destination="sFa-JZ-X0g" id="qL7-Ka-rCU"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Adr-I8-cKW">
                                 <rect key="frame" x="16" y="749" width="361" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="다음"/>
                                 <connections>
+                                    <action selector="saveNickname:" destination="sFa-JZ-X0g" eventType="touchUpInside" id="bzA-wi-i9e"/>
                                     <segue destination="e3n-Bl-NxA" kind="show" id="STy-cr-qxQ"/>
                                 </connections>
                             </button>
@@ -44,6 +48,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="닉네임" largeTitleDisplayMode="never" id="gQv-fd-GX4"/>
+                    <connections>
+                        <outlet property="nicknameTextField" destination="PW6-cP-x2J" id="ICh-Hj-GmA"/>
+                        <outlet property="saveButton" destination="Adr-I8-cKW" id="1Ps-nT-aTM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cPH-fR-IVF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -61,6 +69,9 @@
                                 <rect key="frame" x="16" y="749" width="361" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="완료"/>
+                                <connections>
+                                    <action selector="saveTransport:" destination="e3n-Bl-NxA" eventType="touchUpInside" id="txT-3x-bb5"/>
+                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Ge-wJ-SX6">
                                 <rect key="frame" x="0.0" y="178" width="393" height="555"/>
@@ -72,7 +83,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Wsu-Ri-d9h" customClass="PreferenceItemCell" customModule="LeaveGo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PreferenceItemCell" id="Wsu-Ri-d9h" customClass="PreferenceItemCell" customModule="LeaveGo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e5R-df-7zW">

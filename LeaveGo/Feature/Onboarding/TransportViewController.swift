@@ -8,19 +8,35 @@
 import UIKit
 
 class TransportViewController: UIViewController {
+    private var selectedTransport: TransportType?
 
     @IBOutlet weak var transportCollectionView: UICollectionView!
+
+    @IBAction func saveTransport(_ sender: Any) {
+        guard let transport = selectedTransport else {
+            return
+        }
+
+        UserSetting.shared.preferredTransport = transport
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        transportCollectionView.collectionViewLayout = threeColumnGridLayout()
-        transportCollectionView.allowsMultipleSelection = true
+        print(UserSetting.shared.nickname)
+        print(UserSetting.shared.preferredTransport)
 
+        // 레이아웃 설정
+        transportCollectionView.collectionViewLayout = threeColumnGridLayout()
+//        transportCollectionView.allowsMultipleSelection = true
+
+        // cell 등록
         transportCollectionView.register(UINib(nibName: "PreferenceItemCell", bundle: nil), forCellWithReuseIdentifier: "PreferenceItemCell")
 
     }
 
+    // CompositionalLayout을 활용한 3열 그리드 생성
+    // 재활용시 리팩토리 작업 필요
     private func threeColumnGridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0/3.0), heightDimension: .fractionalWidth(1.0/3.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -36,11 +52,10 @@ class TransportViewController: UIViewController {
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
-
+ 
 extension TransportViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return TransportType.allCases.count
-
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -50,5 +65,11 @@ extension TransportViewController: UICollectionViewDataSource {
         cell.setup(with: item)
 
         return cell
+    }
+}
+
+extension TransportViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedTransport = TransportType.allCases[indexPath.item]
     }
 }
