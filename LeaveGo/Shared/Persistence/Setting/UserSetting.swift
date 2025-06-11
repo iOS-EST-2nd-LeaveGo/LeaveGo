@@ -12,7 +12,7 @@ import Foundation
 final class UserSetting {
     static let shared = UserSetting()
 
-    private init() {}
+    private init() { }
 
     enum Key {
         static let nickname = "nickname"
