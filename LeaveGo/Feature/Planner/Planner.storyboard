@@ -29,7 +29,7 @@
         <scene sceneID="ZLm-Ja-wRv">
             <objects>
                 <navigationController storyboardIdentifier="PlannerNav" automaticallyAdjustsScrollViewInsets="NO" id="FJt-va-RIX" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="여행" id="ddC-sX-Bft"/>
+                    <tabBarItem key="tabBarItem" title="여행" image="hat.widebrim.fill" catalog="system" id="ddC-sX-Bft"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hkd-jK-49B">
@@ -47,6 +47,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="hat.widebrim.fill" catalog="system" width="128" height="79"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
