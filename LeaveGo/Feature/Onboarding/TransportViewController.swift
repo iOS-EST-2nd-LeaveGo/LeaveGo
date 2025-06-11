@@ -12,6 +12,8 @@ class TransportViewController: UIViewController {
 
     @IBOutlet weak var transportCollectionView: UICollectionView!
 
+    @IBOutlet weak var saveButton: UIButton!
+
     @IBAction func saveTransport(_ sender: Any) {
         guard let transport = selectedTransport else {
             return
@@ -27,7 +29,6 @@ class TransportViewController: UIViewController {
             let window = scene.windows.first {
             window.rootViewController = mainTabBar
         }
-
     }
 
     override func viewDidLoad() {
@@ -40,29 +41,35 @@ class TransportViewController: UIViewController {
         navigationItem.backButtonTitle = ""
 
         // 레이아웃 설정
-        transportCollectionView.collectionViewLayout = threeColumnGridLayout()
+        transportCollectionView.collectionViewLayout = gridLayout()
 //        transportCollectionView.allowsMultipleSelection = true
 
         // cell 등록
         transportCollectionView.register(UINib(nibName: "PreferenceItemCell", bundle: nil), forCellWithReuseIdentifier: "PreferenceItemCell")
 
+        saveButton.layer.cornerRadius = saveButton.frame.height / 2
+        saveButton.clipsToBounds = true
+
     }
 
-    // CompositionalLayout을 활용한 3열 그리드 생성
-    // 재활용시 리팩토리 작업 필요
-    private func threeColumnGridLayout() -> UICollectionViewLayout {
+    // CompositionalLayout을 활용한 3열 그리드 레이아웃 생성
+    private func gridLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0/3.0), heightDimension: .fractionalWidth(1.0/3.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0/3.0))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
 //        section.interGroupSpacing = 8
 
         return UICollectionViewCompositionalLayout(section: section)
+    }
+
+    deinit {
+        print("TransportViewController 해제완료")
     }
 }
  
