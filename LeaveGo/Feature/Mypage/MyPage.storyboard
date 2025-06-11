@@ -8,22 +8,73 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--My Page View Controller-->
+        <!--마이페이지-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="MyPageVC" id="Y6W-OH-hqX" customClass="MyPageViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="39n-vZ-3No">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MypageCell" textLabel="f4R-Vo-3fG" style="IBUITableViewCellStyleDefault" id="lC6-gi-Mt7">
+                                        <rect key="frame" x="20" y="55.333332061767578" width="353" height="44.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lC6-gi-Mt7" id="Uf3-0i-TnB">
+                                            <rect key="frame" x="0.0" y="0.0" width="322.66666666666669" height="44.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f4R-Vo-3fG">
+                                                    <rect key="frame" x="20" y="0.0" width="294.66666666666669" height="44.666667938232422"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="hPF-Dr-R47"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="EDf-Bv-s2p"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="39n-vZ-3No" secondAttribute="bottom" id="2HI-lN-Z68"/>
+                            <constraint firstItem="39n-vZ-3No" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="J0Z-jB-svl"/>
+                            <constraint firstItem="39n-vZ-3No" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="kcm-0E-eQK"/>
+                            <constraint firstItem="39n-vZ-3No" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="sa5-iX-OGz"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="34A-49-RMK"/>
+                    <navigationItem key="navigationItem" title="마이페이지" largeTitleDisplayMode="never" id="34A-49-RMK"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064.885496183206" y="18.30985915492958"/>
+            <point key="canvasLocation" x="972" y="18"/>
+        </scene>
+        <!--Compose Nickname View Controller-->
+        <scene sceneID="4so-c0-HN5">
+            <objects>
+                <viewController storyboardIdentifier="ComposeNicknameVC" id="Zy2-mf-rcd" customClass="ComposeNicknameViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Sdu-hd-qNU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="djd-Tp-iPW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="K0e-cL-jyH"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SiK-Yp-51L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1807" y="-636"/>
         </scene>
         <!--마이페이지-->
         <scene sceneID="S4b-qH-TJN">
@@ -44,6 +95,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qvJ-2y-PxR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="138.1679389312977" y="18.30985915492958"/>
+        </scene>
+        <!--Compose User Setting View Controller-->
+        <scene sceneID="clA-nS-WUT">
+            <objects>
+                <viewController storyboardIdentifier="ComposeUserSettingVC" id="l7P-Q9-5rL" customClass="ComposeUserSettingViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fbq-2o-UlR">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="qYk-O8-27f"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="yvf-b8-Y8B"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Md-Wu-vhw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1807" y="18"/>
         </scene>
     </scenes>
     <resources>
