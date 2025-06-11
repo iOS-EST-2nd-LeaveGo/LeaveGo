@@ -12,19 +12,6 @@ import UIKit
 class MapViewController: UIViewController {
   
   // MARK: Properties
-//  static var locationManager: CLLocationManager = {
-//    let locationManager = CLLocationManager()
-//    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-//    locationManager.distanceFilter = kCLDistanceFilterNone
-//    
-//    locationManager.requestWhenInUseAuthorization()
-//      
-//      
-//          locationManager.startUpdatingLocation()
-//          locationManager.startUpdatingHeading()
-//      
-//    return locationManager
-//  }()
     var didSetInitialRegion = false
   
   // UI
