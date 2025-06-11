@@ -14,25 +14,32 @@ class RouteBottomSheetView: UIView {
 	}
 
 	// MARK: – Subviews
+	let carButton: UIButton = {
+		let btn = UIButton(type: .system)
+		var cfg = UIButton.Configuration.filled()
+		cfg.image = UIImage(systemName: "car.fill")
+		cfg.baseBackgroundColor = .systemGray5
+		cfg.baseForegroundColor = .label
+		btn.configuration = cfg
+		btn.tag = TransportMode.car.rawValue
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		return btn
+	}()
+
+	let walkButton: UIButton = {
+		let btn = UIButton(type: .system)
+		var cfg = UIButton.Configuration.filled()
+		cfg.image = UIImage(systemName: "figure.walk")
+		cfg.baseBackgroundColor = .systemGray5
+		cfg.baseForegroundColor = .label
+		btn.configuration = cfg
+		btn.tag = TransportMode.walk.rawValue
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		return btn
+	}()
 
 	let topStack: UIStackView = {
-		let carButton = UIButton(type: .system)
-		var carConfig = UIButton.Configuration.filled()
-		carConfig.image = UIImage(systemName: "car.fill")
-		carConfig.baseBackgroundColor = .systemGray5
-		carConfig.baseForegroundColor = .label
-		carButton.configuration = carConfig
-		carButton.tag = TransportMode.car.rawValue
-
-		let walkButton = UIButton(type: .system)
-		var walkConfig = UIButton.Configuration.filled()
-		walkConfig.image = UIImage(systemName: "figure.walk")
-		walkConfig.baseBackgroundColor = .systemGray5
-		walkConfig.baseForegroundColor = .label
-		walkButton.configuration = walkConfig
-		walkButton.tag = TransportMode.walk.rawValue
-
-		let stack = UIStackView(arrangedSubviews: [carButton, walkButton])
+		let stack = UIStackView()
 		stack.axis = .horizontal
 		stack.distribution = .fillEqually
 		stack.spacing = 8
@@ -70,6 +77,8 @@ class RouteBottomSheetView: UIView {
 	private func setupLayout() {
 		backgroundColor = .white
 		addSubview(topStack)
+		topStack.addArrangedSubview(carButton)
+		topStack.addArrangedSubview(walkButton)
 		addSubview(closeButton)
 		addSubview(tableView)
 
@@ -97,22 +106,25 @@ class RouteBottomSheetView: UIView {
 		tableHeightConstraint.isActive = true
 	}
 
+//	func addTransportTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
+//		for view in topStack.arrangedSubviews {
+//			if let btn = view as? UIButton {
+//				btn.addTarget(target, action: action, for: event)
+//			}
+//		}
+//	}
+	
 	func addTransportTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
-		for view in topStack.arrangedSubviews {
-			if let btn = view as? UIButton {
-				btn.addTarget(target, action: action, for: event)
-			}
-		}
+		carButton.addTarget(target, action: action, for: event)
+		walkButton.addTarget(target, action: action, for: event)
 	}
 	
 	func select(mode: TransportMode) {
-		for view in topStack.arrangedSubviews {
-			guard let btn = view as? UIButton else { continue }
-			if btn.tag == mode.rawValue {
-				btn.configuration?.baseBackgroundColor = .systemBlue.withAlphaComponent(0.3)
-			} else {
-				btn.configuration?.baseBackgroundColor = .systemGray5
-			}
+		for btn in [carButton, walkButton] {
+			btn.configuration?.baseBackgroundColor =
+				(btn.tag == mode.rawValue)
+				? UIColor.systemBlue.withAlphaComponent(0.3)
+				: .systemGray5
 		}
 	}
 }

@@ -73,21 +73,39 @@ class RouteBottomSheetViewController: UIViewController {
 		sheetView.closeButton.addTarget(self,
 										action: #selector(dismissSheet),
 										for: .touchUpInside)
-		sheetView.addTransportTarget(self,
-									 action: #selector(transportTapped(_:)),
-									 for: .touchUpInside)
+		sheetView.carButton.addTarget(self,
+									  action: #selector(carTapped),
+									  for: .touchUpInside)
+		// 도보 버튼
+		sheetView.walkButton.addTarget(self,
+									   action: #selector(walkTapped),
+									   for: .touchUpInside)
+									 
 		sheetView.select(mode: .car)
+		
 	}
 
 	// MARK: – Actions
 	@objc private func dismissSheet() {
 		dismiss(animated: true)
 	}
-
-	@objc private func transportTapped(_ btn: UIButton) {
-		guard let m = RouteBottomSheetView.TransportMode(rawValue: btn.tag) else { return }
-		sheetView.select(mode: m)
+	
+	@objc private func carTapped() {
+		sheetView.select(mode: .car)
+		// TODO: 테스트용 얼럿
+		let alert = UIAlertController(title: "🚗 Car", message: "자동차 버튼 눌림", preferredStyle: .alert)
+		alert.addAction(.init(title: "OK", style: .default))
+		present(alert, animated: true)
 	}
+	
+	@objc private func walkTapped() {
+		sheetView.select(mode: .walk)
+		// TODO: 도보 버튼 눌렀을 때 할 작업
+		let alert = UIAlertController(title: "🚶‍♂️ Walk", message: "도보 버튼 눌림", preferredStyle: .alert)
+		alert.addAction(.init(title: "OK", style: .default))
+		present(alert, animated: true)
+	}
+	
 
 	// MARK: – Table Height
 

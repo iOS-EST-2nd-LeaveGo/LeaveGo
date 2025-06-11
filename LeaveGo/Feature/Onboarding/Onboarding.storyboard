@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -14,11 +14,11 @@
             <objects>
                 <viewController storyboardIdentifier="NicknameInputVC" id="sFa-JZ-X0g" customClass="NicknameInputViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nAn-fn-yeA">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="닉네임을 입력해주세요" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PW6-cP-x2J">
-                                <rect key="frame" x="16" y="409" width="361" height="34"/>
+                                <rect key="frame" x="16" y="405" width="358" height="34"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="next" smartInsertDeleteType="no" textContentType="username"/>
                                 <connections>
@@ -26,7 +26,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Adr-I8-cKW">
-                                <rect key="frame" x="16" y="749.66666666666663" width="361" height="34.333333333333371"/>
+                                <rect key="frame" x="16" y="741.66666666666663" width="358" height="34.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="다음"/>
                                 <connections>
@@ -35,10 +35,10 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="jno-i3-1VB">
-                                <rect key="frame" x="16" y="255.33333333333334" width="361" height="101.66666666666666"/>
+                                <rect key="frame" x="16" y="251.33333333333334" width="358" height="101.66666666666666"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ff8-Ph-H2c">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="67.666666666666671"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="358" height="67.666666666666671"/>
                                         <string key="text">사용하실 닉네임을 
 입력해 주세요</string>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
@@ -46,7 +46,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2~6자 사이로 입력해주세요 (특수문자/공백 제외)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1s-lR-vMG">
-                                        <rect key="frame" x="0.0" y="83.666666666666657" width="361" height="18"/>
+                                        <rect key="frame" x="0.0" y="83.666666666666657" width="358" height="18"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -84,11 +84,11 @@
             <objects>
                 <viewController storyboardIdentifier="TransportVC" id="e3n-Bl-NxA" customClass="TransportViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qqU-Yf-CHk">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaw-fV-lEK">
-                                <rect key="frame" x="16" y="749.66666666666663" width="361" height="34.333333333333371"/>
+                                <rect key="frame" x="16" y="741.66666666666663" width="358" height="34.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="완료"/>
                                 <connections>
@@ -96,10 +96,10 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ul1-hC-fYa">
-                                <rect key="frame" x="16" y="255.33333333333334" width="361" height="101.66666666666666"/>
+                                <rect key="frame" x="16" y="251.33333333333334" width="358" height="101.66666666666666"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xT-1x-DbG">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="67.666666666666671"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="358" height="67.666666666666671"/>
                                         <string key="text">어떤 이동 수단을 
 자주 이용하시나요?</string>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
@@ -107,7 +107,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선호하는 이동 수단을 한가지 선택해주세요" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y95-qN-mXB">
-                                        <rect key="frame" x="0.0" y="83.666666666666657" width="361" height="18"/>
+                                        <rect key="frame" x="0.0" y="83.666666666666657" width="358" height="18"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -115,7 +115,7 @@
                                 </subviews>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Ge-wJ-SX6">
-                                <rect key="frame" x="0.0" y="389" width="393" height="344.66666666666674"/>
+                                <rect key="frame" x="0.0" y="385" width="390" height="340.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wHd-XF-r4U">
                                     <size key="itemSize" width="180" height="196"/>
@@ -183,11 +183,11 @@
             <objects>
                 <viewController storyboardIdentifier="OnboardingVC" id="pX2-mL-42K" customClass="OnboardingViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wZu-DU-mur">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIJ-cA-pv7">
-                                <rect key="frame" x="16" y="749" width="361" height="35"/>
+                                <rect key="frame" x="16" y="741" width="358" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="다음"/>
                                 <connections>
@@ -215,7 +215,7 @@
                 <navigationController storyboardIdentifier="OnboardingNavController" automaticallyAdjustsScrollViewInsets="NO" id="dx4-oY-gtN" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Y3r-l1-r1H">
-                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
+                        <rect key="frame" x="0.0" y="94" width="390" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
