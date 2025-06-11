@@ -9,7 +9,6 @@ import Foundation
 import os
 
 extension Bundle {
-    
     var apiKey: String? {
         guard let file = self.path(forResource: "Secrets", ofType: "plist") else {
             os_log(.error, log: .default, "⛔️ Secrets.plist 파일을 찾을 수 없습니다.")
