@@ -1,273 +1,273 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
-    <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-    </dependencies>
-    <scenes>
-        <!--닉네임 설정-->
-        <scene sceneID="PzP-Ft-Etb">
-            <objects>
-                <viewController storyboardIdentifier="NicknameInputVC" id="sFa-JZ-X0g" customClass="NicknameInputViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="nAn-fn-yeA">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" spacing="64" translatesAutoresizingMaskIntoConstraints="NO" id="qEa-St-cX1">
-                                <rect key="frame" x="32" y="210" width="329" height="187.66666666666663"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="jno-i3-1VB">
-                                        <rect key="frame" x="0.0" y="0.0" width="329" height="101.66666666666667"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ff8-Ph-H2c">
-                                                <rect key="frame" x="0.0" y="0.0" width="329" height="67.666666666666671"/>
-                                                <string key="text">사용하실 닉네임을 
+	<device id="retina6_12" orientation="portrait" appearance="light"/>
+	<dependencies>
+		<plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+		<capability name="Named colors" minToolsVersion="9.0"/>
+		<capability name="Safe area layout guides" minToolsVersion="9.0"/>
+		<capability name="System colors in document resources" minToolsVersion="11.0"/>
+		<capability name="collection view cell content view" minToolsVersion="11.0"/>
+		<capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+	</dependencies>
+	<scenes>
+		<!--닉네임 설정-->
+		<scene sceneID="PzP-Ft-Etb">
+			<objects>
+				<viewController storyboardIdentifier="NicknameInputVC" id="sFa-JZ-X0g" customClass="NicknameInputViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+					<view key="view" contentMode="scaleToFill" id="nAn-fn-yeA">
+						<rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+						<autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+						<subviews>
+							<stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" spacing="64" translatesAutoresizingMaskIntoConstraints="NO" id="qEa-St-cX1">
+								<rect key="frame" x="32" y="210" width="329" height="187.66666666666663"/>
+								<subviews>
+									<stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="jno-i3-1VB">
+										<rect key="frame" x="0.0" y="0.0" width="329" height="101.66666666666667"/>
+										<subviews>
+											<label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ff8-Ph-H2c">
+												<rect key="frame" x="0.0" y="0.0" width="329" height="67.666666666666671"/>
+												<string key="text">사용하실 닉네임을
 입력해 주세요</string>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                <color key="textColor" name="CustomLabelColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2~6자 사이로 입력해주세요 (특수문자/공백 제외)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1s-lR-vMG">
-                                                <rect key="frame" x="0.0" y="83.666666666666686" width="329" height="18"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                <color key="textColor" name="CustomLabelColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="닉네임을 입력해주세요" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PW6-cP-x2J" customClass="PaddedTextField" customModule="LeaveGo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="165.66666666666669" width="329" height="22"/>
-                                        <color key="backgroundColor" name="CustomBackgroundColor"/>
-                                        <color key="textColor" name="CustomLabelColor"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" smartInsertDeleteType="no" textContentType="username"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="sFa-JZ-X0g" id="qL7-Ka-rCU"/>
-                                        </connections>
-                                    </textField>
-                                </subviews>
-                                <viewLayoutGuide key="safeArea" id="cpa-h2-SgT"/>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Adr-I8-cKW">
-                                <rect key="frame" x="32" y="720" width="329" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="gWa-cw-pwV"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="다음">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="saveNickname:" destination="sFa-JZ-X0g" eventType="touchUpInside" id="bzA-wi-i9e"/>
-                                    <segue destination="e3n-Bl-NxA" kind="show" id="STy-cr-qxQ"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="zRX-iX-pQj"/>
-                        <keyboardLayoutGuide key="keyboard" id="iyf-6K-eXM"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="zRX-iX-pQj" firstAttribute="trailing" secondItem="Adr-I8-cKW" secondAttribute="trailing" constant="32" id="788-Wl-jiM"/>
-                            <constraint firstItem="qEa-St-cX1" firstAttribute="centerX" secondItem="nAn-fn-yeA" secondAttribute="centerX" id="7KO-1a-yrM"/>
-                            <constraint firstItem="qEa-St-cX1" firstAttribute="leading" secondItem="zRX-iX-pQj" secondAttribute="leading" constant="32" id="CM4-QA-GEt"/>
-                            <constraint firstItem="zRX-iX-pQj" firstAttribute="trailing" secondItem="qEa-St-cX1" secondAttribute="trailing" constant="32" id="TP0-Sy-xfo"/>
-                            <constraint firstItem="Adr-I8-cKW" firstAttribute="leading" secondItem="zRX-iX-pQj" secondAttribute="leading" constant="32" id="cx3-Bc-zMG"/>
-                            <constraint firstItem="qEa-St-cX1" firstAttribute="top" secondItem="zRX-iX-pQj" secondAttribute="top" constant="48" id="gEK-Fe-13n"/>
-                            <constraint firstItem="zRX-iX-pQj" firstAttribute="bottom" secondItem="Adr-I8-cKW" secondAttribute="bottom" constant="16" id="pZo-hZ-4iI"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="닉네임 설정" largeTitleDisplayMode="never" id="gQv-fd-GX4"/>
-                    <connections>
-                        <outlet property="nicknameTextField" destination="PW6-cP-x2J" id="ICh-Hj-GmA"/>
-                        <outlet property="saveButton" destination="Adr-I8-cKW" id="1Ps-nT-aTM"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cPH-fR-IVF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2675.5725190839694" y="-4.2253521126760569"/>
-        </scene>
-        <!--이동 수단 선택-->
-        <scene sceneID="nGN-6W-1yb">
-            <objects>
-                <viewController storyboardIdentifier="TransportVC" id="e3n-Bl-NxA" customClass="TransportViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qqU-Yf-CHk">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ul1-hC-fYa">
-                                <rect key="frame" x="71.666666666666671" y="209.99999999999997" width="249.66666666666663" height="101.66666666666666"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xT-1x-DbG">
-                                        <rect key="frame" x="0.0" y="0.0" width="249.66666666666666" height="67.666666666666671"/>
-                                        <string key="text">어떤 이동 수단을 
+												<fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+												<color key="textColor" name="CustomLabelColor"/>
+												<nil key="highlightedColor"/>
+											</label>
+											<label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2~6자 사이로 입력해주세요 (특수문자/공백 제외)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1s-lR-vMG">
+												<rect key="frame" x="0.0" y="83.666666666666686" width="329" height="18"/>
+												<fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+												<color key="textColor" name="CustomLabelColor"/>
+												<nil key="highlightedColor"/>
+											</label>
+										</subviews>
+									</stackView>
+									<textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="닉네임을 입력해주세요" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PW6-cP-x2J" customClass="PaddedTextField" customModule="LeaveGo" customModuleProvider="target">
+										<rect key="frame" x="0.0" y="165.66666666666669" width="329" height="22"/>
+										<color key="backgroundColor" name="CustomBackgroundColor"/>
+										<color key="textColor" name="CustomLabelColor"/>
+										<fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+										<textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" smartInsertDeleteType="no" textContentType="username"/>
+										<connections>
+											<outlet property="delegate" destination="sFa-JZ-X0g" id="qL7-Ka-rCU"/>
+										</connections>
+									</textField>
+								</subviews>
+								<viewLayoutGuide key="safeArea" id="cpa-h2-SgT"/>
+							</stackView>
+							<button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Adr-I8-cKW">
+								<rect key="frame" x="32" y="720" width="329" height="48"/>
+								<constraints>
+									<constraint firstAttribute="height" constant="48" id="gWa-cw-pwV"/>
+								</constraints>
+								<state key="normal" title="Button"/>
+								<buttonConfiguration key="configuration" style="filled" title="다음">
+									<fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
+								</buttonConfiguration>
+								<connections>
+									<action selector="saveNickname:" destination="sFa-JZ-X0g" eventType="touchUpInside" id="bzA-wi-i9e"/>
+									<segue destination="e3n-Bl-NxA" kind="show" id="STy-cr-qxQ"/>
+								</connections>
+							</button>
+						</subviews>
+						<viewLayoutGuide key="safeArea" id="zRX-iX-pQj"/>
+						<keyboardLayoutGuide key="keyboard" id="iyf-6K-eXM"/>
+						<color key="backgroundColor" systemColor="systemBackgroundColor"/>
+						<constraints>
+							<constraint firstItem="zRX-iX-pQj" firstAttribute="trailing" secondItem="Adr-I8-cKW" secondAttribute="trailing" constant="32" id="788-Wl-jiM"/>
+							<constraint firstItem="qEa-St-cX1" firstAttribute="centerX" secondItem="nAn-fn-yeA" secondAttribute="centerX" id="7KO-1a-yrM"/>
+							<constraint firstItem="qEa-St-cX1" firstAttribute="leading" secondItem="zRX-iX-pQj" secondAttribute="leading" constant="32" id="CM4-QA-GEt"/>
+							<constraint firstItem="zRX-iX-pQj" firstAttribute="trailing" secondItem="qEa-St-cX1" secondAttribute="trailing" constant="32" id="TP0-Sy-xfo"/>
+							<constraint firstItem="Adr-I8-cKW" firstAttribute="leading" secondItem="zRX-iX-pQj" secondAttribute="leading" constant="32" id="cx3-Bc-zMG"/>
+							<constraint firstItem="qEa-St-cX1" firstAttribute="top" secondItem="zRX-iX-pQj" secondAttribute="top" constant="48" id="gEK-Fe-13n"/>
+							<constraint firstItem="zRX-iX-pQj" firstAttribute="bottom" secondItem="Adr-I8-cKW" secondAttribute="bottom" constant="16" id="pZo-hZ-4iI"/>
+						</constraints>
+					</view>
+					<navigationItem key="navigationItem" title="닉네임 설정" largeTitleDisplayMode="never" id="gQv-fd-GX4"/>
+					<connections>
+						<outlet property="nicknameTextField" destination="PW6-cP-x2J" id="ICh-Hj-GmA"/>
+						<outlet property="saveButton" destination="Adr-I8-cKW" id="1Ps-nT-aTM"/>
+					</connections>
+				</viewController>
+				<placeholder placeholderIdentifier="IBFirstResponder" id="cPH-fR-IVF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+			</objects>
+			<point key="canvasLocation" x="2675.5725190839694" y="-4.2253521126760569"/>
+		</scene>
+		<!--이동 수단 선택-->
+		<scene sceneID="nGN-6W-1yb">
+			<objects>
+				<viewController storyboardIdentifier="TransportVC" id="e3n-Bl-NxA" customClass="TransportViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+					<view key="view" contentMode="scaleToFill" id="qqU-Yf-CHk">
+						<rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+						<autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+						<subviews>
+							<stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ul1-hC-fYa">
+								<rect key="frame" x="71.666666666666671" y="209.99999999999997" width="249.66666666666663" height="101.66666666666666"/>
+								<subviews>
+									<label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xT-1x-DbG">
+										<rect key="frame" x="0.0" y="0.0" width="249.66666666666666" height="67.666666666666671"/>
+										<string key="text">어떤 이동 수단을
 자주 이용하시나요?</string>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                        <color key="textColor" name="CustomLabelColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선호하는 이동 수단을 한가지 선택해주세요" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y95-qN-mXB">
-                                        <rect key="frame" x="0.0" y="83.666666666666686" width="249.66666666666666" height="18"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                        <color key="textColor" name="CustomLabelColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Ge-wJ-SX6">
-                                <rect key="frame" x="0.0" y="343.66666666666674" width="393" height="360.33333333333326"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wHd-XF-r4U">
-                                    <size key="itemSize" width="180" height="196"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PreferenceItemCell" id="Wsu-Ri-d9h" customClass="PreferenceItemCell" customModule="LeaveGo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e5R-df-7zW">
-                                            <rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rdy-oK-tWC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="rdy-oK-tWC" secondAttribute="trailing" id="8tO-1Y-7aD"/>
-                                                <constraint firstAttribute="bottom" secondItem="rdy-oK-tWC" secondAttribute="bottom" id="CvY-UZ-7kn"/>
-                                                <constraint firstItem="rdy-oK-tWC" firstAttribute="top" secondItem="e5R-df-7zW" secondAttribute="top" id="jbK-N1-mEU"/>
-                                                <constraint firstItem="rdy-oK-tWC" firstAttribute="leading" secondItem="e5R-df-7zW" secondAttribute="leading" id="pfh-k2-65g"/>
-                                            </constraints>
-                                        </collectionViewCellContentView>
-                                        <size key="customSize" width="180" height="196"/>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="e3n-Bl-NxA" id="gSo-Wx-Wbq"/>
-                                    <outlet property="delegate" destination="e3n-Bl-NxA" id="MXB-pm-cIV"/>
-                                </connections>
-                            </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaw-fV-lEK">
-                                <rect key="frame" x="32" y="720" width="329" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="HrD-3a-HPU"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="완료">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="saveTransport:" destination="e3n-Bl-NxA" eventType="touchUpInside" id="txT-3x-bb5"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="fv1-ZT-ePW"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="7Ge-wJ-SX6" firstAttribute="top" secondItem="ul1-hC-fYa" secondAttribute="bottom" constant="32" id="7aT-uk-9n4"/>
-                            <constraint firstItem="ul1-hC-fYa" firstAttribute="top" secondItem="fv1-ZT-ePW" secondAttribute="top" constant="48" id="EQV-jt-sT6"/>
-                            <constraint firstItem="7Ge-wJ-SX6" firstAttribute="leading" secondItem="fv1-ZT-ePW" secondAttribute="leading" id="Igm-fm-as2"/>
-                            <constraint firstItem="ul1-hC-fYa" firstAttribute="centerX" secondItem="qqU-Yf-CHk" secondAttribute="centerX" id="K5F-Cg-1B0"/>
-                            <constraint firstItem="eaw-fV-lEK" firstAttribute="leading" secondItem="fv1-ZT-ePW" secondAttribute="leading" constant="32" id="S1n-Rw-HZj"/>
-                            <constraint firstItem="eaw-fV-lEK" firstAttribute="top" secondItem="7Ge-wJ-SX6" secondAttribute="bottom" constant="16" id="YYU-Eo-G7b"/>
-                            <constraint firstItem="fv1-ZT-ePW" firstAttribute="trailing" secondItem="eaw-fV-lEK" secondAttribute="trailing" constant="32" id="dKb-D4-kOB"/>
-                            <constraint firstItem="fv1-ZT-ePW" firstAttribute="bottom" secondItem="eaw-fV-lEK" secondAttribute="bottom" constant="16" id="fDJ-rS-PpP"/>
-                            <constraint firstItem="7Ge-wJ-SX6" firstAttribute="trailing" secondItem="fv1-ZT-ePW" secondAttribute="trailing" id="imR-9S-cca"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="이동 수단 선택" largeTitleDisplayMode="never" id="OFA-OC-2BE">
-                        <barButtonItem key="rightBarButtonItem" title="Skip" id="W1v-6v-oK1"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="saveButton" destination="eaw-fV-lEK" id="VUI-Oh-baN"/>
-                        <outlet property="transportCollectionView" destination="7Ge-wJ-SX6" id="6t7-Vw-Iwa"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZJu-T3-ueg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3525.9541984732823" y="-4.2253521126760569"/>
-        </scene>
-        <!--소개-->
-        <scene sceneID="j1R-Bm-MwT">
-            <objects>
-                <viewController storyboardIdentifier="OnboardingVC" id="pX2-mL-42K" customClass="OnboardingViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="wZu-DU-mur">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIJ-cA-pv7">
-                                <rect key="frame" x="32" y="720" width="329" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="oF3-jo-sOn"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="다음">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="sFa-JZ-X0g" kind="show" id="mKN-8f-Pi8"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Mc5-dm-xo9"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="dIJ-cA-pv7" firstAttribute="leading" secondItem="Mc5-dm-xo9" secondAttribute="leading" constant="32" id="0n4-yu-Enk"/>
-                            <constraint firstItem="Mc5-dm-xo9" firstAttribute="bottom" secondItem="dIJ-cA-pv7" secondAttribute="bottom" constant="16" id="Qx9-Z1-Dmp"/>
-                            <constraint firstItem="Mc5-dm-xo9" firstAttribute="trailing" secondItem="dIJ-cA-pv7" secondAttribute="trailing" constant="32" id="lQ0-1i-5wl"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="소개" largeTitleDisplayMode="always" id="CN6-zy-wvy"/>
-                    <connections>
-                        <outlet property="saveButton" destination="dIJ-cA-pv7" id="ozK-FJ-o8p"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xyz-Eq-bIy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1827" y="-4"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Qjk-XZ-xKk">
-            <objects>
-                <navigationController storyboardIdentifier="OnboardingNav" automaticallyAdjustsScrollViewInsets="NO" id="dx4-oY-gtN" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Y3r-l1-r1H">
-                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" name="CustomLabelColor"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" name="CustomLabelColor"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="pX2-mL-42K" kind="relationship" relationship="rootViewController" id="atp-BC-b5H"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lZ9-4n-EMe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="967" y="-4"/>
-        </scene>
-    </scenes>
-    <resources>
-        <namedColor name="CustomBackgroundColor">
-            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="CustomLabelColor">
-            <color red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
+										<fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+										<color key="textColor" name="CustomLabelColor"/>
+										<nil key="highlightedColor"/>
+									</label>
+									<label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="선호하는 이동 수단을 한가지 선택해주세요" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y95-qN-mXB">
+										<rect key="frame" x="0.0" y="83.666666666666686" width="249.66666666666666" height="18"/>
+										<fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+										<color key="textColor" name="CustomLabelColor"/>
+										<nil key="highlightedColor"/>
+									</label>
+								</subviews>
+							</stackView>
+							<collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Ge-wJ-SX6">
+								<rect key="frame" x="0.0" y="343.66666666666674" width="393" height="360.33333333333326"/>
+								<color key="backgroundColor" systemColor="systemBackgroundColor"/>
+								<collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wHd-XF-r4U">
+									<size key="itemSize" width="180" height="196"/>
+									<size key="headerReferenceSize" width="0.0" height="0.0"/>
+									<size key="footerReferenceSize" width="0.0" height="0.0"/>
+									<inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+								</collectionViewFlowLayout>
+								<cells>
+									<collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PreferenceItemCell" id="Wsu-Ri-d9h" customClass="PreferenceItemCell" customModule="LeaveGo" customModuleProvider="target">
+										<rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
+										<autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+										<collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e5R-df-7zW">
+											<rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
+											<autoresizingMask key="autoresizingMask"/>
+											<subviews>
+												<view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rdy-oK-tWC">
+													<rect key="frame" x="0.0" y="0.0" width="180" height="196"/>
+													<color key="backgroundColor" systemColor="systemBackgroundColor"/>
+												</view>
+											</subviews>
+											<constraints>
+												<constraint firstAttribute="trailing" secondItem="rdy-oK-tWC" secondAttribute="trailing" id="8tO-1Y-7aD"/>
+												<constraint firstAttribute="bottom" secondItem="rdy-oK-tWC" secondAttribute="bottom" id="CvY-UZ-7kn"/>
+												<constraint firstItem="rdy-oK-tWC" firstAttribute="top" secondItem="e5R-df-7zW" secondAttribute="top" id="jbK-N1-mEU"/>
+												<constraint firstItem="rdy-oK-tWC" firstAttribute="leading" secondItem="e5R-df-7zW" secondAttribute="leading" id="pfh-k2-65g"/>
+											</constraints>
+										</collectionViewCellContentView>
+										<size key="customSize" width="180" height="196"/>
+									</collectionViewCell>
+								</cells>
+								<connections>
+									<outlet property="dataSource" destination="e3n-Bl-NxA" id="gSo-Wx-Wbq"/>
+									<outlet property="delegate" destination="e3n-Bl-NxA" id="MXB-pm-cIV"/>
+								</connections>
+							</collectionView>
+							<button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaw-fV-lEK">
+								<rect key="frame" x="32" y="720" width="329" height="48"/>
+								<constraints>
+									<constraint firstAttribute="height" constant="48" id="HrD-3a-HPU"/>
+								</constraints>
+								<state key="normal" title="Button"/>
+								<buttonConfiguration key="configuration" style="filled" title="완료">
+									<fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
+								</buttonConfiguration>
+								<connections>
+									<action selector="saveTransport:" destination="e3n-Bl-NxA" eventType="touchUpInside" id="txT-3x-bb5"/>
+								</connections>
+							</button>
+						</subviews>
+						<viewLayoutGuide key="safeArea" id="fv1-ZT-ePW"/>
+						<color key="backgroundColor" systemColor="systemBackgroundColor"/>
+						<constraints>
+							<constraint firstItem="7Ge-wJ-SX6" firstAttribute="top" secondItem="ul1-hC-fYa" secondAttribute="bottom" constant="32" id="7aT-uk-9n4"/>
+							<constraint firstItem="ul1-hC-fYa" firstAttribute="top" secondItem="fv1-ZT-ePW" secondAttribute="top" constant="48" id="EQV-jt-sT6"/>
+							<constraint firstItem="7Ge-wJ-SX6" firstAttribute="leading" secondItem="fv1-ZT-ePW" secondAttribute="leading" id="Igm-fm-as2"/>
+							<constraint firstItem="ul1-hC-fYa" firstAttribute="centerX" secondItem="qqU-Yf-CHk" secondAttribute="centerX" id="K5F-Cg-1B0"/>
+							<constraint firstItem="eaw-fV-lEK" firstAttribute="leading" secondItem="fv1-ZT-ePW" secondAttribute="leading" constant="32" id="S1n-Rw-HZj"/>
+							<constraint firstItem="eaw-fV-lEK" firstAttribute="top" secondItem="7Ge-wJ-SX6" secondAttribute="bottom" constant="16" id="YYU-Eo-G7b"/>
+							<constraint firstItem="fv1-ZT-ePW" firstAttribute="trailing" secondItem="eaw-fV-lEK" secondAttribute="trailing" constant="32" id="dKb-D4-kOB"/>
+							<constraint firstItem="fv1-ZT-ePW" firstAttribute="bottom" secondItem="eaw-fV-lEK" secondAttribute="bottom" constant="16" id="fDJ-rS-PpP"/>
+							<constraint firstItem="7Ge-wJ-SX6" firstAttribute="trailing" secondItem="fv1-ZT-ePW" secondAttribute="trailing" id="imR-9S-cca"/>
+						</constraints>
+					</view>
+					<navigationItem key="navigationItem" title="이동 수단 선택" largeTitleDisplayMode="never" id="OFA-OC-2BE">
+						<barButtonItem key="rightBarButtonItem" title="Skip" id="W1v-6v-oK1"/>
+					</navigationItem>
+					<connections>
+						<outlet property="saveButton" destination="eaw-fV-lEK" id="VUI-Oh-baN"/>
+						<outlet property="transportCollectionView" destination="7Ge-wJ-SX6" id="6t7-Vw-Iwa"/>
+					</connections>
+				</viewController>
+				<placeholder placeholderIdentifier="IBFirstResponder" id="ZJu-T3-ueg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+			</objects>
+			<point key="canvasLocation" x="3525.9541984732823" y="-4.2253521126760569"/>
+		</scene>
+		<!--소개-->
+		<scene sceneID="j1R-Bm-MwT">
+			<objects>
+				<viewController storyboardIdentifier="OnboardingVC" id="pX2-mL-42K" customClass="OnboardingViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+					<view key="view" contentMode="scaleToFill" id="wZu-DU-mur">
+						<rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+						<autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+						<subviews>
+							<button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIJ-cA-pv7">
+								<rect key="frame" x="32" y="720" width="329" height="48"/>
+								<constraints>
+									<constraint firstAttribute="height" constant="48" id="oF3-jo-sOn"/>
+								</constraints>
+								<state key="normal" title="Button"/>
+								<buttonConfiguration key="configuration" style="filled" title="다음">
+									<fontDescription key="titleFontDescription" style="UICTFontTextStyleTitle3"/>
+								</buttonConfiguration>
+								<connections>
+									<segue destination="sFa-JZ-X0g" kind="show" id="mKN-8f-Pi8"/>
+								</connections>
+							</button>
+						</subviews>
+						<viewLayoutGuide key="safeArea" id="Mc5-dm-xo9"/>
+						<color key="backgroundColor" systemColor="systemBackgroundColor"/>
+						<constraints>
+							<constraint firstItem="dIJ-cA-pv7" firstAttribute="leading" secondItem="Mc5-dm-xo9" secondAttribute="leading" constant="32" id="0n4-yu-Enk"/>
+							<constraint firstItem="Mc5-dm-xo9" firstAttribute="bottom" secondItem="dIJ-cA-pv7" secondAttribute="bottom" constant="16" id="Qx9-Z1-Dmp"/>
+							<constraint firstItem="Mc5-dm-xo9" firstAttribute="trailing" secondItem="dIJ-cA-pv7" secondAttribute="trailing" constant="32" id="lQ0-1i-5wl"/>
+						</constraints>
+					</view>
+					<navigationItem key="navigationItem" title="소개" largeTitleDisplayMode="always" id="CN6-zy-wvy"/>
+					<connections>
+						<outlet property="saveButton" destination="dIJ-cA-pv7" id="ozK-FJ-o8p"/>
+					</connections>
+				</viewController>
+				<placeholder placeholderIdentifier="IBFirstResponder" id="xyz-Eq-bIy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+			</objects>
+			<point key="canvasLocation" x="1827" y="-4"/>
+		</scene>
+		<!--Navigation Controller-->
+		<scene sceneID="Qjk-XZ-xKk">
+			<objects>
+				<navigationController storyboardIdentifier="OnboardingNav" automaticallyAdjustsScrollViewInsets="NO" id="dx4-oY-gtN" sceneMemberID="viewController">
+					<toolbarItems/>
+					<navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Y3r-l1-r1H">
+						<rect key="frame" x="0.0" y="118" width="393" height="96"/>
+						<autoresizingMask key="autoresizingMask"/>
+						<textAttributes key="titleTextAttributes">
+							<color key="textColor" name="CustomLabelColor"/>
+						</textAttributes>
+						<textAttributes key="largeTitleTextAttributes">
+							<color key="textColor" name="CustomLabelColor"/>
+						</textAttributes>
+					</navigationBar>
+					<nil name="viewControllers"/>
+					<connections>
+						<segue destination="pX2-mL-42K" kind="relationship" relationship="rootViewController" id="atp-BC-b5H"/>
+					</connections>
+				</navigationController>
+				<placeholder placeholderIdentifier="IBFirstResponder" id="lZ9-4n-EMe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+			</objects>
+			<point key="canvasLocation" x="967" y="-4"/>
+		</scene>
+	</scenes>
+	<resources>
+		<namedColor name="CustomBackgroundColor">
+			<color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+		</namedColor>
+		<namedColor name="CustomLabelColor">
+			<color red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+		</namedColor>
+		<systemColor name="systemBackgroundColor">
+			<color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+		</systemColor>
+	</resources>
 </document>
