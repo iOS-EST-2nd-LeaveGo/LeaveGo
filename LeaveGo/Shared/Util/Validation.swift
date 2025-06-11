@@ -14,19 +14,14 @@ struct Validation {
     // 닉네임 검증
     // 공백 x, 알파벳/한글/숫자만 허용, 2~6글자 허용
     static func isValidNickname(_ nickname: String) -> Bool {
-        let validNickname = nickname.filter { !$0.isWhitespace }
+        let trimmedNickname = nickname.filter { !$0.isWhitespace }
 
-        let allowedCharacterSet = CharacterSet.alphanumerics.union(CharacterSet(charactersIn:
-        	"가힣"))
-
-        guard validNickname.rangeOfCharacter(from: allowedCharacterSet.inverted) == nil else {
+        do {
+            let regex = try Regex("^[가-힣A-Za-z0-9]{2,6}$")
+            return trimmedNickname.wholeMatch(of: regex) != nil
+        } catch {
+            print(error)
             return false
         }
-
-        guard (2...6).contains(validNickname.count) else {
-            return false
-        }
-
-        return true
     }
 }
