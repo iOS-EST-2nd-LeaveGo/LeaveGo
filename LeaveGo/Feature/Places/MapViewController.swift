@@ -39,7 +39,7 @@ class MapViewController: UIViewController {
       button.layer.shadowRadius = 3
       return button
     }()
-  let userLocationImageView = UIImageView(image: UIImage(named: "btn_location"))
+  let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
   
   // Sample Data
     var pinModels = [
