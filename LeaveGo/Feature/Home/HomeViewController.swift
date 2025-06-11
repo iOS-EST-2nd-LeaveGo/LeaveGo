@@ -77,6 +77,7 @@ class HomeViewController: UIViewController {
         }
     }
     
+
     func runAPITestForPlaceDetailEndpoint(contentId: Int, contentTypeId: Int) async {
         // API_KEY 값 언래핑
         guard let apikey = Bundle.main.apiKey else { return }
@@ -111,6 +112,7 @@ class HomeViewController: UIViewController {
         } catch {
             print("😵 네트워크 오류: \(error)")
         }
+
     }
 
 
