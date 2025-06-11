@@ -12,19 +12,19 @@ import UIKit
 class MapViewController: UIViewController {
   
   // MARK: Properties
-  static var locationManager: CLLocationManager = {
-    let locationManager = CLLocationManager()
-    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-    locationManager.distanceFilter = kCLDistanceFilterNone
-    
-    locationManager.requestWhenInUseAuthorization()
-      
-      if CLLocationManager.locationServicesEnabled() {
-          locationManager.startUpdatingLocation()
-          locationManager.startUpdatingHeading()
-      }
-    return locationManager
-  }()
+//  static var locationManager: CLLocationManager = {
+//    let locationManager = CLLocationManager()
+//    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+//    locationManager.distanceFilter = kCLDistanceFilterNone
+//    
+//    locationManager.requestWhenInUseAuthorization()
+//      
+//      
+//          locationManager.startUpdatingLocation()
+//          locationManager.startUpdatingHeading()
+//      
+//    return locationManager
+//  }()
     var didSetInitialRegion = false
   
   // UI
@@ -56,18 +56,42 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCLLocationManager()
         setupMapView()
         
         addTarget()
         addTestAnnotation()
         configureSubviews()
+
     }
+    
   
   func addTestAnnotation() {
       _=pinModels.map {
         mapView.addAnnotation($0)
       }
+    }
+    
+    func setupCLLocationManager() {
+        // 기존 delegate 설정은 LocationManager 내부에서 처리됨
+        LocationManager.shared.fetchLocation { [weak self] coordinate, error in
+            guard let self = self else { return }
+            
+            if let coordinate = coordinate, !self.didSetInitialRegion {
+                let centerLat = coordinate.latitude - 0.001
+                let centerLon = coordinate.longitude
+                
+                let region = MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: centerLat, longitude: centerLon),
+                    latitudinalMeters: 450,
+                    longitudinalMeters: 450
+                )
+                
+                self.mapView.setRegion(region, animated: false)
+                self.didSetInitialRegion = true
+            } else if let error = error {
+                print("위치 오류:", error.localizedDescription)
+            }
+        }
     }
   
   func addTarget() {
@@ -184,11 +208,7 @@ extension MapViewController: MKMapViewDelegate {
 
 // MARK: CLLocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
-  
-  func setupCLLocationManager() {
-      MapViewController.locationManager.delegate = self
-  }
-  
+
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
       guard !didSetInitialRegion else { return }
      guard let location = locations.last else { return }
@@ -203,7 +223,7 @@ extension MapViewController: CLLocationManagerDelegate {
       didSetInitialRegion = true
      
      // 위치 업데이트 종료
-      MapViewController.locationManager.stopUpdatingLocation()
+      LocationManager.shared.stopUpdatingLocation()
    }
   
   /// 사용자의 방향에따라 annotaion의 방향을 변경
