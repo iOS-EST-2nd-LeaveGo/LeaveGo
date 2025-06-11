@@ -142,8 +142,8 @@ extension LocationManager: CLLocationManagerDelegate {
 
                 alert.addAction(UIAlertAction(title: "취소", style: .cancel))
                 alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
+                    if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
                     }
                 })
 
