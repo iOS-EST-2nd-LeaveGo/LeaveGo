@@ -85,7 +85,7 @@ extension LocationManager {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // 사용자의 최신 위치 정보를 가져옵니다.
-        guard let location = locations.first else { return }
+        guard let location = locations.last else { return }
         let coordinate = location.coordinate
         
         // coordinate 값을 갖고 저장 한, 동작을 실행
@@ -93,7 +93,7 @@ extension LocationManager {
         // 위의 실행 후 클로저 초기화
         self.fetchLocationCompletion = nil
         
-//        print("test : \(locations)")
+//        print("test : \(locations.last)")
     }
     
     // 잠재적인 오류에 응답하기 위해서 생성
@@ -110,12 +110,12 @@ extension LocationManager {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways , .authorizedWhenInUse:
-            print("Location Auth: Allow")
+            print("위치상태 : 허용")
             // 인증 메세지 늦게 클릭하면 처음 업데이트 되는 데이터를 못받게 됨.
             // (그래서 권한을 확인으로 설정 시, 위치를 한 번 받아 줬다)
             self.startUpdatingLocation()
         case .notDetermined , .denied , .restricted:
-            print("Location Auth: denied")
+            print("위치상태: 허용안됨")
             self.stopUpdatingLocation()
         default: break
         }
