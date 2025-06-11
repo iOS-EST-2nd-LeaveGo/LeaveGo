@@ -51,7 +51,12 @@ extension NicknameInputViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            saveNickname(self)
+        let nickname = nicknameTextField.text ?? ""
+
+        if Validation.isValidNickname(nickname) {
+            saveButton.sendActions(for: .touchUpInside)
+            saveButton.resignFirstResponder()
+        }
 
         return true
     }

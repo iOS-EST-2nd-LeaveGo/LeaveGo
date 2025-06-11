@@ -11,26 +11,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
 
-	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-		// Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-		// If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-		// This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-		guard let _ = (scene as? UIWindowScene) else { return }
-		
-		guard let windowScene = (scene as? UIWindowScene) else { return }
-		
-		window = UIWindow(windowScene: windowScene)
-		
-		let targetSB = UIStoryboard(name: "PlaceRoute", bundle: nil)
-		
-		// 앱 실행시 먼저 보이는 스토리보드 뷰 - 임시로 설정한 작업 화면
-		if let targetVC = targetSB.instantiateViewController(withIdentifier: "PlaceRoute") as? PlaceRouteViewController {
-			window?.rootViewController = targetVC
-			window?.makeKeyAndVisible()
-		} else {
-			print("❗️ targetVC 못 찾음. Storyboard ID 다시 확인!")
-		}	
-	}
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
+        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        guard let _ = (scene as? UIWindowScene) else { return }
+
+        let didFinishOnboarding = UserDefaults.standard.bool(forKey: "didFinishOnboarding")
+        if didFinishOnboarding {
+			let mainSB = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
+            window?.rootViewController = mainTabBar
+        } else {
+            let onboardingSB = UIStoryboard(name: "Onboarding", bundle: nil)
+            let onboardingNav = onboardingSB.instantiateViewController(withIdentifier: "OnboardingNav")
+            window?.rootViewController = onboardingNav
+        }
+
+        window?.makeKeyAndVisible()
+
+    }
+
 
 	func sceneDidDisconnect(_ scene: UIScene) {
 		// Called as the scene is being released by the system.
