@@ -17,32 +17,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
 		// MARK: 기본코드(공통코드)
-//        let didFinishOnboarding = UserDefaults.standard.bool(forKey: "didFinishOnboarding")
-//        if didFinishOnboarding {
-//			let mainSB = UIStoryboard(name: "Main", bundle: nil)
-//            let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
-//            window?.rootViewController = mainTabBar
-//        } else {
-//            let onboardingSB = UIStoryboard(name: "Onboarding", bundle: nil)
-//            let onboardingNav = onboardingSB.instantiateViewController(withIdentifier: "OnboardingNav")
-//            window?.rootViewController = onboardingNav
-//        }
-//
-//        window?.makeKeyAndVisible()
-		
-		guard let windowScene = (scene as? UIWindowScene) else { return }
-		
-		window = UIWindow(windowScene: windowScene)
-		
-		let discoverSB = UIStoryboard(name: "PlaceRoute", bundle: nil)
-		
-		// 앱 실행시 먼저 보이는 스토리보드 뷰 - 임시로 설정한 작업 화면
-		if let discoverVC = discoverSB.instantiateViewController(withIdentifier: "PlaceRoute") as? PlaceRouteViewController {
-			window?.rootViewController = discoverVC
-			window?.makeKeyAndVisible()
-		} else {
-			print("❗️ PlaceRouteViewController 못 찾음. Storyboard ID 다시 확인!")
-		}
+        let didFinishOnboarding = UserDefaults.standard.bool(forKey: "didFinishOnboarding")
+        if didFinishOnboarding {
+			let mainSB = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
+            window?.rootViewController = mainTabBar
+        } else {
+            let onboardingSB = UIStoryboard(name: "Onboarding", bundle: nil)
+            let onboardingNav = onboardingSB.instantiateViewController(withIdentifier: "OnboardingNav")
+            window?.rootViewController = onboardingNav
+        }
+
+        window?.makeKeyAndVisible()
     }
 
 
