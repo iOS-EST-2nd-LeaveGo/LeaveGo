@@ -29,7 +29,7 @@
         <scene sceneID="S4b-qH-TJN">
             <objects>
                 <navigationController storyboardIdentifier="MyPageNav" automaticallyAdjustsScrollViewInsets="NO" id="LA7-dj-P2A" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="마이페이지" id="aMb-0K-Rgy"/>
+                    <tabBarItem key="tabBarItem" title="마이페이지" image="person.fill" catalog="system" id="aMb-0K-Rgy"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="lLh-9h-rJn">
@@ -47,6 +47,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

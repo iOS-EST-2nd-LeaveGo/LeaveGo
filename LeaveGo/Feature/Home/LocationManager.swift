@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-final class LocationManager: CLLocationManager, CLLocationManagerDelegate {
+final class LocationManager: CLLocationManager {
     
     // 싱글톤
     static let shared = LocationManager()
@@ -27,6 +27,8 @@ final class LocationManager: CLLocationManager, CLLocationManagerDelegate {
         // 이 메서드만 따로 빼서, 실행해줘도 되요!
         self.requestWhenInUseAuthorization()
         // 위치 정확도 (여기선 배터리 상황에 따른 최적의 정확도로 설정)
+        self.distanceFilter = 5
+        // 5미터 이동할 때 마다 gps를 update합니다.
         self.desiredAccuracy = kCLLocationAccuracyBest
     }
     
@@ -34,7 +36,8 @@ final class LocationManager: CLLocationManager, CLLocationManagerDelegate {
     ///
     /// 이 메서드를 여러 번 호출해도 새 이벤트가 생성되지 않으므로, 새로운 이벤트를 받으러면, 꼭 stopUpdatingLocation을 사용 후 사용해야 합니다.
     override func startUpdatingLocation() {
-        super.startUpdatingLocation()
+            super.startUpdatingLocation()
+            super.startUpdatingHeading()
     }
     
     /// 위치 업데이트 생성 중지
@@ -81,7 +84,7 @@ final class LocationManager: CLLocationManager, CLLocationManagerDelegate {
 
 }
 
-extension LocationManager {
+extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // 사용자의 최신 위치 정보를 가져옵니다.

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="puC-V8-b3x">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -15,21 +15,39 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="es1-qR-huv">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="7G1-WR-QhU"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="cci-ge-VGl"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="es1-qR-huv" firstAttribute="trailing" secondItem="5EZ-qb-Rvc" secondAttribute="trailing" id="2SM-4H-1Vo"/>
+                            <constraint firstItem="es1-qR-huv" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="9nI-hz-KnS"/>
+                            <constraint firstItem="es1-qR-huv" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="Fju-zv-OJk"/>
+                            <constraint firstAttribute="bottom" secondItem="es1-qR-huv" secondAttribute="bottom" id="New-kP-Ta2"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DjP-3q-tF5"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="es1-qR-huv" id="30p-Yd-BeR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1064.885496183206" y="18.30985915492958"/>
+            <point key="canvasLocation" x="1029.7709923664122" y="22.535211267605636"/>
         </scene>
-        <!--지도?-->
+        <!--Navigation Controller-->
         <scene sceneID="fnm-EM-Hj1">
             <objects>
                 <navigationController storyboardIdentifier="PlacesNav" automaticallyAdjustsScrollViewInsets="NO" id="puC-V8-b3x" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="지도?" id="mce-1j-1id"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cgN-Dl-hjP">
