@@ -12,15 +12,20 @@ import UIKit
 class MapViewController: UIViewController {
   
   // MARK: Properties
-  var locationManager: CLLocationManager = {
+  static var locationManager: CLLocationManager = {
     let locationManager = CLLocationManager()
     locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
     locationManager.distanceFilter = kCLDistanceFilterNone
-    locationManager.startUpdatingLocation()
-    locationManager.startUpdatingHeading()
+    
     locationManager.requestWhenInUseAuthorization()
+      
+      if CLLocationManager.locationServicesEnabled() {
+          locationManager.startUpdatingLocation()
+          locationManager.startUpdatingHeading()
+      }
     return locationManager
   }()
+    var didSetInitialRegion = false
   
   // UI
   var mapView: MKMapView!
@@ -48,18 +53,18 @@ class MapViewController: UIViewController {
     ]
   
   // MARK: LifeCycle
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    
-    setupCLLocationManager()
-    setupMapView()
-    configureSubviews()
-    addTarget()
-    addTrashAnnotation()
-  }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupCLLocationManager()
+        setupMapView()
+        
+        addTarget()
+        addTestAnnotation()
+        configureSubviews()
+    }
   
-  func addTrashAnnotation() {
+  func addTestAnnotation() {
       _=pinModels.map {
         mapView.addAnnotation($0)
       }
@@ -76,7 +81,7 @@ class MapViewController: UIViewController {
       
       var coordiCenterLa = mapView.userLocation.coordinate.latitude
       let coordiCenterLo = mapView.userLocation.coordinate.longitude
-//      coordiCenterLa -= 0.001
+      coordiCenterLa -= 0.001
       let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coordiCenterLa, longitude: coordiCenterLo),
                                       latitudinalMeters: 450, longitudinalMeters: 450)
       mapView.setRegion(region, animated: true)
@@ -156,9 +161,6 @@ extension MapViewController: MKMapViewDelegate {
     annotationImage = UIImage(systemName: "pin.circle.fill")
     annotationImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
     
-    
-    
-    
     let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
     annotationView?.image = resizedImage
     
@@ -184,10 +186,11 @@ extension MapViewController: MKMapViewDelegate {
 extension MapViewController: CLLocationManagerDelegate {
   
   func setupCLLocationManager() {
-    self.locationManager.delegate = self
+      MapViewController.locationManager.delegate = self
   }
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+      guard !didSetInitialRegion else { return }
      guard let location = locations.last else { return }
      
      var coordiCenterLa = location.coordinate.latitude
@@ -197,9 +200,10 @@ extension MapViewController: CLLocationManagerDelegate {
      let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coordiCenterLa, longitude: coordiCenterLo),
                                      latitudinalMeters: 450, longitudinalMeters: 450)
      mapView.setRegion(region, animated: false)
+      didSetInitialRegion = true
      
      // 위치 업데이트 종료
-     self.locationManager.stopUpdatingLocation()
+      MapViewController.locationManager.stopUpdatingLocation()
    }
   
   /// 사용자의 방향에따라 annotaion의 방향을 변경
@@ -217,7 +221,6 @@ extension MapViewController: LayoutSupport {
   func addSubviews() {
     self.view.addSubview(mapView)
     mapView.addSubview(userLocationButton)
-//    mapView.addSubview(mapHeaderView)
     
     userLocationButton.addSubview(userLocationImageView)
   }
@@ -238,17 +241,6 @@ extension MapViewController: LayoutSupport {
           userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
           userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
     ])
-    
-//    mapHeaderView.translatesAutoresizingMaskIntoConstraints = false
-//    NSLayoutConstraint.activate([
-//      mapHeaderView.topAnchor.constraint(equalTo: view.topAnchor),
-//      mapHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//      mapHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//      ])
   }
   
-}
-
-#Preview {
-  MapViewController()
 }
