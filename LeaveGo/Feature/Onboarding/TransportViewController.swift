@@ -18,14 +18,26 @@ class TransportViewController: UIViewController {
         }
 
         UserSetting.shared.preferredTransport = transport
+        UserDefaults.standard.set(true, forKey: "didFinishOnboarding")
+
+        let mainSB = UIStoryboard(name: "Main", bundle: nil)
+        let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
+
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let window = scene.windows.first {
+            window.rootViewController = mainTabBar
+        }
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        //test
-//        print(UserSetting.shared.nickname)
-//        print(UserSetting.shared.preferredTransport?.rawValue)
+        //        //test
+        //        print(UserSetting.shared.nickname)
+        //        print(UserSetting.shared.preferredTransport?.rawValue)
+
+        navigationItem.backButtonTitle = ""
 
         // 레이아웃 설정
         transportCollectionView.collectionViewLayout = threeColumnGridLayout()
@@ -48,7 +60,7 @@ class TransportViewController: UIViewController {
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
-        section.interGroupSpacing = 8
+//        section.interGroupSpacing = 8
 
         return UICollectionViewCompositionalLayout(section: section)
     }
