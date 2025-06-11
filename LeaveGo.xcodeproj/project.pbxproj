@@ -17,13 +17,11 @@
 				Feature/Home/Component/.gitkeep,
 				Feature/Home/Model/.gitkeep,
 				Feature/Mypage/Component/.gitkeep,
+				Feature/Mypage/Model/.gitkeep,
 				Feature/Planner/Component/.gitkeep,
 				Feature/Planner/Model/.gitkeep,
 				Info.plist,
 				Shared/Component/.gitkeep,
-				Shared/Persistence/Setting/.gitkeep,
-				Shared/Util/.gitkeep,
-				Shared/Service/.gitkeep,
 			);
 			target = 7F828CD22DF4C1650021F149 /* LeaveGo */;
 		};
