@@ -6,15 +6,27 @@
 //
 
 import UIKit
+import MapKit
 
-class PlaceRouteViewController: UIViewController {
-	@IBOutlet weak var locationContainer: UIView!
-	private var bottomSheet: RouteBottomSheetViewController!
+/// 장소목록 탭바 메뉴 화면 구성 중 - 경로 찾기 버튼 누르면 나오는 경로 설정 화면
+class PlaceRouteViewController: UIViewController, RouteBottomSheetViewControllerDelegate {
 	
+	@IBOutlet weak var locationContainer: UIView!
+	@IBOutlet weak var routeMapView: MKMapView!
+	
+	private lazy var mapManager: RouteMapManager = {
+		RouteMapManager(mapView: routeMapView)
+	}()
+		
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
-		embedBottomSheet()
+		setupMapViewGesture()
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		presentBottomSheet()
 	}
 	
 	private func setupUI() {
@@ -22,19 +34,47 @@ class PlaceRouteViewController: UIViewController {
 		locationContainer.clipsToBounds = true
 	}
 	
-	private func embedBottomSheet() {
-		bottomSheet = RouteBottomSheetViewController()
-		addChild(bottomSheet)
-		view.addSubview(bottomSheet.view)
-		bottomSheet.didMove(toParent: self)
+	private func setupMapViewGesture() {
+		routeMapView.isZoomEnabled = true
+		routeMapView.isScrollEnabled = true
+		routeMapView.isRotateEnabled = true
+		routeMapView.isPitchEnabled = true
+		routeMapView.isUserInteractionEnabled = true
 		
-		bottomSheet.view.translatesAutoresizingMaskIntoConstraints = false
-		NSLayoutConstraint.activate([
-			bottomSheet.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			bottomSheet.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			bottomSheet.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-			bottomSheet.view.heightAnchor.constraint(equalToConstant: 300)
-		])
+	}
+
+	
+	private func presentBottomSheet() {
+		let sheetVC = RouteBottomSheetViewController()
+		sheetVC.delegate = self
+		sheetVC.modalPresentationStyle = .pageSheet
+		sheetVC.isModalInPresentation = true
+
+		if let sheet = sheetVC.sheetPresentationController {
+			let customDetent = UISheetPresentationController.Detent.custom(resolver: { context in
+				return 0.3 * context.maximumDetentValue
+			})
+
+			sheet.detents = [customDetent, .large()]
+			sheet.largestUndimmedDetentIdentifier = .medium
+			sheet.prefersGrabberVisible = true
+			sheet.preferredCornerRadius = 24
+			sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+		}
+
+		present(sheetVC, animated: true)
 	}
 	
+	
+	func didTapCarButton() {
+		mapManager.drawRoute()
+	}
+	
+}
+
+
+extension PlaceRouteViewController: UIGestureRecognizerDelegate {
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true 
+	}
 }
