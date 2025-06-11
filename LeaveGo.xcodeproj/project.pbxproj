@@ -22,7 +22,6 @@
 				Feature/Planner/Model/.gitkeep,
 				Info.plist,
 				Shared/Component/.gitkeep,
-				Shared/Persistence/Setting/.gitkeep,
 			);
 			target = 7F828CD22DF4C1650021F149 /* LeaveGo */;
 		};

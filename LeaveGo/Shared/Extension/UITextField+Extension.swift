@@ -9,10 +9,11 @@ import UIKit
 
 extension UITextField {
     // Placeholder 왼쪽 여백
-    func setLeftPadding(_ padding: CGFloat) {
-        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.height))
-        self.leftViewMode = .always
-    }
+//    func setLeftPadding(_ padding: CGFloat) {
+//        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.height))
+//        self.leftViewMode = .always
+//
+//    }
 
     // shouldChangeCharactersIn 이전 문자열, 입력 문자 결합
     static func replacingText(text: String, range: NSRange, string: String) -> String? {
