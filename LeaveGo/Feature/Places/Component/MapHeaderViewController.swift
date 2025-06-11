@@ -59,9 +59,6 @@ class MapHeaderViewController: UIViewController {
     newVC.didMove(toParent: self)
     currentVC = newVC
   }
-    
-  // TODO: displaySegmented에 의해 ListView <-> MapView 전환
-  
   
 }
 
