@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RouteBottomSheetViewControllerDelegate: AnyObject {
+	func didTapCarButton()
+}
+
 class RouteBottomSheetViewController: UIViewController {
 	// MARK: – Properties
 
@@ -27,9 +31,9 @@ class RouteBottomSheetViewController: UIViewController {
 	]
 
 	private var connectorLayer: CAShapeLayer?
+	weak var delegate: RouteBottomSheetViewControllerDelegate?
 
 	// MARK: – Lifecycle
-
 	override func loadView() {
 		view = RouteBottomSheetView()
 	}
@@ -48,7 +52,6 @@ class RouteBottomSheetViewController: UIViewController {
 	}
 
 	// MARK: – Setup
-
 	private func setupTableView() {
 		let tv = sheetView.tableView
 		tv.register(RouteStopCell.self,
@@ -57,7 +60,7 @@ class RouteBottomSheetViewController: UIViewController {
 		tv.delegate   = self
 
 		tv.rowHeight       = cellHeight + spacing
-		tv.isScrollEnabled = false
+		tv.isScrollEnabled = true 
 		tv.isEditing       = true
 		tv.separatorStyle  = .singleLine
 		tv.separatorColor  = .systemGray5
@@ -68,29 +71,40 @@ class RouteBottomSheetViewController: UIViewController {
 			right: 32
 		)
 	}
-
+	
 	private func setupButtons() {
-		sheetView.closeButton.addTarget(self,
-										action: #selector(dismissSheet),
-										for: .touchUpInside)
-		sheetView.addTransportTarget(self,
-									 action: #selector(transportTapped(_:)),
-									 for: .touchUpInside)
+//		sheetView.closeButton.addTarget(self,
+//										action: #selector(dismissSheet),
+//										for: .touchUpInside)
+		sheetView.carButton.addTarget(self,
+									  action: #selector(carTapped),
+									  for: .touchUpInside)
+		sheetView.walkButton.addTarget(self,
+									   action: #selector(walkTapped),
+									   for: .touchUpInside)
+									 
 		sheetView.select(mode: .car)
+		
 	}
 
 	// MARK: – Actions
 	@objc private func dismissSheet() {
 		dismiss(animated: true)
 	}
-
-	@objc private func transportTapped(_ btn: UIButton) {
-		guard let m = RouteBottomSheetView.TransportMode(rawValue: btn.tag) else { return }
-		sheetView.select(mode: m)
+	
+	@objc private func carTapped() {
+		sheetView.select(mode: .car)
+		print("tapped car button")
+		delegate?.didTapCarButton()
 	}
+	
+	@objc private func walkTapped() {
+		sheetView.select(mode: .walk)
+		print("tapped walk button")
+	}
+	
 
 	// MARK: – Table Height
-
 	private func updateTableHeight() {
 		let total = CGFloat(stops.count) * (cellHeight + spacing)
 		sheetView.tableHeightConstraint.constant = total

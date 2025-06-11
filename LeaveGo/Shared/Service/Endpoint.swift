@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Endpoint 별로 파라메터를 포함한 최종 URL 을 반환해주는 Enum
 enum Endpoint {
     case placeList(mapX: Double, mapY: Double, radius: Int)
     case placeDetail(contentId: Int, contentTypeId: Int)
