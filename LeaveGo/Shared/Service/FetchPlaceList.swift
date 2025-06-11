@@ -2,56 +2,31 @@
 //  FetchPlaceList.swift
 //  LeaveGo
 //
-//  Created by Kitcat Seo on 6/10/25.
+//  Created by Kitcat Seo on 6/11/25.
 //
 
 import Foundation
 
-class NetworkManager {
-    static let shared = NetworkManager()
-    
+extension NetworkManager {
     func fetchPlaceList(mapX: Double, mapY: Double, radius: Int) async throws -> [PlaceList]? {
-        // API_KEY 값 언래핑
-        guard let apikey = Bundle.main.apiKey else { return nil }
+        // 장소 목록을 담을 변수 선언
+        var placeList = [PlaceList]()
         
-        let baseUrl = "https://apis.data.go.kr/B551011/KorService2/locationBasedList2?MobileOS=IOS&MobileApp=LeaveGo&_type=json"
+        // endpoint 에 필수값들을 전달해 URL 생성
+        let endpoint = Endpoint.placeList(mapX: mapX, mapY: mapY, radius: radius)
         
-        guard let url = URL(string: "\(baseUrl)&mapX=\(mapX)&mapY=\(mapY)&radius=\(radius)&serviceKey=\(apikey)") else {
-            throw NetworkError.invalidURL
-        }
+        // endpoint 에서 반환하는 url 을 가지고 request 생성
+        let newRequest = try makeRequest(endpoint: endpoint)
         
-        let request = URLRequest(url: url)
-        
-        let session = URLSession.shared
-        
-        do {
-            let (data, response) = try await session.data(for: request)
+        // request 와 디코딩 타입을 가지고 API 호출
+        if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceList>.self) {
             
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw NetworkError.invalidResponse
-            }
-            
-            switch httpResponse.statusCode {
-            case 200:
-                let decoder = JSONDecoder()
-                
-                do {
-                    let responseRoot = try decoder.decode(ResponseRoot<PlaceList>.self, from: data)
-                    let placeList = responseRoot.response.body.items.item
-                    print("🙆‍♀️ API 호출 성공: \n\(placeList)")
-                    return placeList
-                } catch {
-                    print("😵 Decode 에러: \(error)")
-                }
-            default:
-                print("😵 HTTP 오류 코드: \(httpResponse.statusCode)")
-                throw NetworkError.invalidResponse
-            }
-        } catch {
-            print("😵 네트워크 오류: \(error)")
-            throw NetworkError.invalidResponse
+            // 변수에 장소 목록 업데이트
+            placeList = data.response.body.items.item
+            print("🙆‍♀️ API 호출 성공: \n\(placeList)")
+            return placeList
+        } else {
+            return nil
         }
-        
-        return nil
     }
 }

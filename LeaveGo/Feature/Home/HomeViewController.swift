@@ -24,7 +24,6 @@ class HomeViewController: UIViewController {
  
     }
     
-    
     func setupLocation() {
            // 싱글톤
            LocationManager.shared.fetchLocation { [weak self] (location, error) in
