@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RouteBottomSheetViewControllerDelegate: AnyObject {
+	func didTapCarButton()
+}
+
 class RouteBottomSheetViewController: UIViewController {
 	// MARK: – Properties
 
@@ -27,9 +31,9 @@ class RouteBottomSheetViewController: UIViewController {
 	]
 
 	private var connectorLayer: CAShapeLayer?
+	weak var delegate: RouteBottomSheetViewControllerDelegate?
 
 	// MARK: – Lifecycle
-
 	override func loadView() {
 		view = RouteBottomSheetView()
 	}
@@ -48,7 +52,6 @@ class RouteBottomSheetViewController: UIViewController {
 	}
 
 	// MARK: – Setup
-
 	private func setupTableView() {
 		let tv = sheetView.tableView
 		tv.register(RouteStopCell.self,
@@ -57,7 +60,7 @@ class RouteBottomSheetViewController: UIViewController {
 		tv.delegate   = self
 
 		tv.rowHeight       = cellHeight + spacing
-		tv.isScrollEnabled = false
+		tv.isScrollEnabled = true 
 		tv.isEditing       = true
 		tv.separatorStyle  = .singleLine
 		tv.separatorColor  = .systemGray5
@@ -68,15 +71,14 @@ class RouteBottomSheetViewController: UIViewController {
 			right: 32
 		)
 	}
-
+	
 	private func setupButtons() {
-		sheetView.closeButton.addTarget(self,
-										action: #selector(dismissSheet),
-										for: .touchUpInside)
+//		sheetView.closeButton.addTarget(self,
+//										action: #selector(dismissSheet),
+//										for: .touchUpInside)
 		sheetView.carButton.addTarget(self,
 									  action: #selector(carTapped),
 									  for: .touchUpInside)
-		// 도보 버튼
 		sheetView.walkButton.addTarget(self,
 									   action: #selector(walkTapped),
 									   for: .touchUpInside)
@@ -92,23 +94,17 @@ class RouteBottomSheetViewController: UIViewController {
 	
 	@objc private func carTapped() {
 		sheetView.select(mode: .car)
-		// TODO: 테스트용 얼럿
-		let alert = UIAlertController(title: "🚗 Car", message: "자동차 버튼 눌림", preferredStyle: .alert)
-		alert.addAction(.init(title: "OK", style: .default))
-		present(alert, animated: true)
+		print("tapped car button")
+		delegate?.didTapCarButton()
 	}
 	
 	@objc private func walkTapped() {
 		sheetView.select(mode: .walk)
-		// TODO: 도보 버튼 눌렀을 때 할 작업
-		let alert = UIAlertController(title: "🚶‍♂️ Walk", message: "도보 버튼 눌림", preferredStyle: .alert)
-		alert.addAction(.init(title: "OK", style: .default))
-		present(alert, animated: true)
+		print("tapped walk button")
 	}
 	
 
 	// MARK: – Table Height
-
 	private func updateTableHeight() {
 		let total = CGFloat(stops.count) * (cellHeight + spacing)
 		sheetView.tableHeightConstraint.constant = total

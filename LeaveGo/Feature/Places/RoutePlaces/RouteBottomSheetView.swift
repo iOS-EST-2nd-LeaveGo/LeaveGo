@@ -46,13 +46,13 @@ class RouteBottomSheetView: UIView {
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		return stack
 	}()
-
-	let closeButton: UIButton = {
-		let btn = UIButton(type: .system)
-		btn.setImage(UIImage(systemName: "xmark"), for: .normal)
-		btn.translatesAutoresizingMaskIntoConstraints = false
-		return btn
-	}()
+	// 임시 주석 - 경로 디테일 뷰 작업자 상황에 따라 쓸지 말지 고려
+//	let closeButton: UIButton = {
+//		let btn = UIButton(type: .system)
+//		btn.setImage(UIImage(systemName: "xmark"), for: .normal)
+//		btn.translatesAutoresizingMaskIntoConstraints = false
+//		return btn
+//	}()
 
 	let tableView: UITableView = {
 		let tv = UITableView()
@@ -79,7 +79,7 @@ class RouteBottomSheetView: UIView {
 		addSubview(topStack)
 		topStack.addArrangedSubview(carButton)
 		topStack.addArrangedSubview(walkButton)
-		addSubview(closeButton)
+		//addSubview(closeButton)
 		addSubview(tableView)
 
 		NSLayoutConstraint.activate([
@@ -89,12 +89,12 @@ class RouteBottomSheetView: UIView {
 			topStack.heightAnchor.constraint(equalToConstant: 44),
 		])
 
-		NSLayoutConstraint.activate([
-			closeButton.centerYAnchor.constraint(equalTo: topStack.centerYAnchor),
-			closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-			closeButton.widthAnchor.constraint(equalToConstant: 24),
-			closeButton.heightAnchor.constraint(equalToConstant: 24),
-		])
+//		NSLayoutConstraint.activate([
+//			closeButton.centerYAnchor.constraint(equalTo: topStack.centerYAnchor),
+//			closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//			closeButton.widthAnchor.constraint(equalToConstant: 24),
+//			closeButton.heightAnchor.constraint(equalToConstant: 24),
+//		])
 
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: topStack.bottomAnchor, constant: 16),
@@ -106,13 +106,6 @@ class RouteBottomSheetView: UIView {
 		tableHeightConstraint.isActive = true
 	}
 
-//	func addTransportTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
-//		for view in topStack.arrangedSubviews {
-//			if let btn = view as? UIButton {
-//				btn.addTarget(target, action: action, for: event)
-//			}
-//		}
-//	}
 	
 	func addTransportTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
 		carButton.addTarget(target, action: action, for: event)
