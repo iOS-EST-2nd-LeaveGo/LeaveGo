@@ -153,9 +153,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RKLR3WUKA4;
+				DEVELOPMENT_TEAM = 95FV8GCJUC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeaveGo/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다2";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다1";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -167,7 +169,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leavego.LeaveGo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leavego.LeaveGo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -186,9 +188,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = RKLR3WUKA4;
+				DEVELOPMENT_TEAM = 95FV8GCJUC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeaveGo/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다2";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다1";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -200,7 +204,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.leavego.LeaveGo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leavego.LeaveGo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
