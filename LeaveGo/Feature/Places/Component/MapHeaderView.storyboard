@@ -86,7 +86,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6VK-hH-bGu" secondAttribute="trailing" id="x2p-ef-ZN1"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="지도" id="hbB-dJ-akG"/>
+                    <tabBarItem key="tabBarItem" title="지도" image="map.fill" catalog="system" id="hbB-dJ-akG"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>
@@ -100,11 +100,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
