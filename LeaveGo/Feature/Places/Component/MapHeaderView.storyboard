@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--장소-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="MapHeaderView" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="221"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
+                                        <rect key="frame" x="0.0" y="118" width="393" height="87"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fo6-eH-J1A" userLabel="TextFieldBackgroundView">
+                                                <rect key="frame" x="16" y="0.0" width="361" height="40"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="장소 이름, 태그로 검색하세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3A7-VX-CfK">
+                                                        <rect key="frame" x="16" y="10.666666666666659" width="329" height="18.666666666666671"/>
+                                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                                <constraints>
+                                                    <constraint firstItem="3A7-VX-CfK" firstAttribute="leading" secondItem="Fo6-eH-J1A" secondAttribute="leading" constant="16" id="04B-dK-gge"/>
+                                                    <constraint firstItem="3A7-VX-CfK" firstAttribute="centerY" secondItem="Fo6-eH-J1A" secondAttribute="centerY" id="aSv-2T-Lkj"/>
+                                                    <constraint firstAttribute="height" constant="40" id="rwQ-oo-Cby"/>
+                                                    <constraint firstAttribute="trailing" secondItem="3A7-VX-CfK" secondAttribute="trailing" constant="16" id="t2k-jU-uv7"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
+                                                <rect key="frame" x="107" y="56" width="179" height="32"/>
+                                                <segments>
+                                                    <segment title="리스트로 보기"/>
+                                                    <segment title="지도로 보기"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Fo6-eH-J1A" secondAttribute="trailing" constant="16" id="UwT-O6-ae3"/>
+                                            <constraint firstItem="Fo6-eH-J1A" firstAttribute="leading" secondItem="O5G-hG-of0" secondAttribute="leading" constant="16" id="h08-pQ-JUz"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="O5G-hG-of0" secondAttribute="trailing" id="2Lu-hf-B0M"/>
+                                    <constraint firstItem="O5G-hG-of0" firstAttribute="leading" secondItem="OQh-5Y-cNb" secondAttribute="leading" id="asP-vC-5rc"/>
+                                    <constraint firstAttribute="bottom" secondItem="O5G-hG-of0" secondAttribute="bottom" constant="16" id="t0Y-So-SeR"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
+                                <rect key="frame" x="0.0" y="221" width="393" height="631"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6VK-hH-bGu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="A5l-gJ-eUS"/>
+                            <constraint firstItem="6VK-hH-bGu" firstAttribute="top" secondItem="OQh-5Y-cNb" secondAttribute="bottom" id="BTq-C4-hZQ"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="F0a-Ku-ALg"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="H9Z-0p-JuL"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="top" secondItem="O5G-hG-of0" secondAttribute="top" id="IJV-wc-BlL"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="Jfb-Yr-Rbu"/>
+                            <constraint firstAttribute="bottom" secondItem="6VK-hH-bGu" secondAttribute="bottom" id="MAG-du-rS4"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6VK-hH-bGu" secondAttribute="trailing" id="x2p-ef-ZN1"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="장소" image="map.fill" catalog="system" id="hbB-dJ-akG"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>
+                        <outlet property="searchTextField" destination="3A7-VX-CfK" id="AWA-hj-VZM"/>
+                        <outlet property="segmentContentView" destination="6VK-hH-bGu" id="Kvm-hZ-f3x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139.69465648854961" y="3.5211267605633805"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

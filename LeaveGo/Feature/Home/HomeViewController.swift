@@ -74,6 +74,7 @@ class HomeViewController: UIViewController {
         } catch {
             print("😵 네트워크 오류: \(error)")
         }
+
     }
 
 

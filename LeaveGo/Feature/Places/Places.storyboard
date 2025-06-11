@@ -44,11 +44,10 @@
             </objects>
             <point key="canvasLocation" x="1064.885496183206" y="18.30985915492958"/>
         </scene>
-        <!--지도?-->
+        <!--Navigation Controller-->
         <scene sceneID="fnm-EM-Hj1">
             <objects>
                 <navigationController storyboardIdentifier="PlacesNav" automaticallyAdjustsScrollViewInsets="NO" id="puC-V8-b3x" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="지도?" id="mce-1j-1id"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cgN-Dl-hjP">
