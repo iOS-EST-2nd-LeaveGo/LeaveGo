@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--지도-->
+        <!--장소-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="MapHeaderView" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -86,7 +86,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6VK-hH-bGu" secondAttribute="trailing" id="x2p-ef-ZN1"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="지도" image="map.fill" catalog="system" id="hbB-dJ-akG"/>
+                    <tabBarItem key="tabBarItem" title="장소" image="map.fill" catalog="system" id="hbB-dJ-akG"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>
