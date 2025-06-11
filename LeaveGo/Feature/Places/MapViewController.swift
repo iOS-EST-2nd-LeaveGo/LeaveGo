@@ -61,10 +61,8 @@ class MapViewController: UIViewController {
         addTarget()
         addTestAnnotation()
         configureSubviews()
-
     }
     
-  
   func addTestAnnotation() {
       _=pinModels.map {
         mapView.addAnnotation($0)
