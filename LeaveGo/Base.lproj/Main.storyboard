@@ -36,10 +36,10 @@
             </objects>
             <point key="canvasLocation" x="-352" y="-27"/>
         </scene>
-        <!--PlacesNav-->
+        <!--MapHeaderView-->
         <scene sceneID="PdS-1f-8UJ">
             <objects>
-                <viewControllerPlaceholder storyboardName="Places" referencedIdentifier="PlacesNav" id="AIW-Rj-ozE" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="MapHeaderView" referencedIdentifier="MapHeaderView" id="AIW-Rj-ozE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="JHz-ar-lI7"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZEj-ci-DmL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
