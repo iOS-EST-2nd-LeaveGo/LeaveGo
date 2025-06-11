@@ -13,7 +13,13 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var moreButton: UIButton!
+    
+    // ✅ 추가: 버튼 클릭 시 ViewController에서 처리할 수 있도록 콜백 선언
+    var moreButtonTapped: (() -> Void)?
+    
+    @IBAction func moreButton(_ sender: Any) {
+        moreButtonTapped?()
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

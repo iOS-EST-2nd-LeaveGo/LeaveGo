@@ -14,14 +14,14 @@ enum MypageSection: Int, CaseIterable {
     var title: String {
         switch self {
         case .userSetting: return "사용자 설정"
-        case .userStorage: return "저장소 관리"
+        case .userStorage: return "장소 관리"
         }
     }
 
     var items: [MypageItem] {
         switch self {
         case .userSetting:
-            return [.changeNickname, .personalSetting]
+            return [.editNickname, .personalSetting]
         case .userStorage:
             return [.bookmarks, .offlinePlaces]
         }

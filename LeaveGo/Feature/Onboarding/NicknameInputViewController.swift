@@ -8,6 +8,10 @@
 import UIKit
 
 class NicknameInputViewController: UIViewController {
+    var mode: NicknameMode = .onboarding
+
+    @IBOutlet weak var titleLabel: UILabel!
+
 
     @IBOutlet weak var nicknameTextField: UITextField!
 
@@ -19,12 +23,52 @@ class NicknameInputViewController: UIViewController {
         if Validation.isValidNickname(nickname) {
             UserSetting.shared.nickname = nickname
         }
+
+        switch mode {
+        case .onboarding:
+            performSegue(withIdentifier: "goToTransportSegue", sender: nil)
+        case .editing:
+            NotificationCenter.default.post(name: .nicknameDidChange, object: nil)
+            navigationController?.popViewController(animated: true)
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        saveButton.isEnabled = false
+        nicknameTextField.layer.cornerRadius = 10
+        nicknameTextField.layer.borderWidth = 1
+        nicknameTextField.layer.borderColor = UIColor.lightGray.cgColor
+
+        saveButton.layer.cornerRadius = saveButton.frame.height / 2
+        saveButton.clipsToBounds = true
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false  // 터치 이벤트 전달되게
+        view.addGestureRecognizer(tap)
+
+        switch mode {
+        case .onboarding:
+            nicknameTextField.text = ""
+            nicknameTextField.placeholder = "닉네임을 입력해주세요"
+        case .editing:
+            if let nickname = UserSetting.shared.nickname, !nickname.isEmpty {
+                nicknameTextField.text = nickname
+                saveButton.isEnabled = Validation.isValidNickname(nickname)
+            } else {
+                nicknameTextField.text = ""
+                nicknameTextField.placeholder = "닉네임을 입력해주세요"
+                saveButton.isEnabled = false
+            }
+
+            navigationItem.title = "닉네임 변경"
+
+            titleLabel.isHidden = true
+
+            saveButton.setTitle("변경", for: .normal)
+            saveButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
+
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -32,26 +76,31 @@ class NicknameInputViewController: UIViewController {
 
         nicknameTextField.becomeFirstResponder()
     }
+
+    func textFieldDidChanged(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        saveButton.isEnabled = Validation.isValidNickname(text)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension NicknameInputViewController: UITextFieldDelegate {
     // 입력한 닉네임 검증하고 버튼 활성화/비활성화
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let nickname = nicknameTextField.text ?? ""
-
-        guard let finalNickname = UITextField.replacingText(text: nickname, range: range, string: string) else {
-            saveButton.isEnabled = false
-
-            return true
-        }
-
-        saveButton.isEnabled = Validation.isValidNickname(finalNickname)
-
-        return true
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+          saveButton.isEnabled = Validation.isValidNickname(text)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            saveNickname(self)
+        let nickname = nicknameTextField.text ?? ""
+
+        if Validation.isValidNickname(nickname) {
+            saveButton.sendActions(for: .touchUpInside)
+            saveButton.resignFirstResponder()
+        }
 
         return true
     }
