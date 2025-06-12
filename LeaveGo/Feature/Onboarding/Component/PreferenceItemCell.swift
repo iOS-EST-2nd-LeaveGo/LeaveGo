@@ -16,6 +16,7 @@ class PreferenceItemCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        contentView.layer.borderColor = UIColor.accent.cgColor
         contentView.layer.cornerRadius = 10
         contentView.layer.borderWidth = 1
     }
@@ -23,7 +24,6 @@ class PreferenceItemCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
 //            contentView.layer.borderWidth = isSelected ? 1 : 0
-            contentView.layer.borderColor = UIColor.accent.cgColor
             contentView.layer.backgroundColor = isSelected ? UIColor.systemBlue.cgColor : UIColor.clear.cgColor
         }
     }

@@ -58,6 +58,7 @@ class TransportViewController: UIViewController {
 
         saveButton.layer.cornerRadius = saveButton.frame.height / 2
         saveButton.clipsToBounds = true
+        
         if mode == .editing {
             navigationItem.rightBarButtonItem?.isHidden = true
 
