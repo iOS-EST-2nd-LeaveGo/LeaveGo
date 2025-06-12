@@ -9,111 +9,118 @@ import MapKit
 import UIKit
 
 final class BottomSheetView: PassThroughView {
-    
-    // MARK: Constants
-    enum Mode {
-        case tip
-        case full
-    }
-    
-    private enum Const {
-        static let duration = 0.5
-        static let cornerRadius = 10 // 37.0
-        static let barViewTopSpacing = 5.0
-        static let barViewSize = CGSize(width: UIScreen.main.bounds.width * 0.1, height: 5.0)
-        static let bottomSheetRatio: (Mode) -> Double = { mode in
-            switch mode {
-            case .tip:
-                return 0.77 // 값 작을수록 sheetview 높이 커짐
-            case .full:
-                return 0.65
-            }
-        }
-        static let bottomSheetYPosition: (Mode) -> Double = { mode in
-            Self.bottomSheetRatio(mode) * UIScreen.main.bounds.height
-        }
-    }
-    
-    // MARK: Properties
-    /// Mode(확장)상태에 따라 실행될 로직들
-    var mode: Mode = .tip {
-        didSet {
-            switch self.mode {
-            case .tip:
-                mapView?.deselectAnnotation(mapView?.selectedAnnotations as? MKAnnotation, animated: true)
-                // TODO: mapView.removeMapViewOverlayOfLast()
-                // TODO: self.changeModeToTip()
-                break
-            case .full:
-                // TODO: self.changeModeToFull()
-                break
-            }
-            // TODO: self.updateConstraint(offset: Const.bottomSheetYPosition(self.mode))
-        }
-    }
-    var bottomSheetColor: UIColor? {
-        didSet { self.bottomSheetView.backgroundColor = self.bottomSheetColor }
-    }
-    var barViewColor: UIColor? {
-        didSet { self.barView.backgroundColor = self.barViewColor }
-    }
-    var customOrangeColor: UIColor = UIColor(cgColor: CGColor(red: 243/255, green: 166/255, blue: 88/255, alpha: 1))
-    // TODO: identi color정해지면 바꾸기
-    var mapView: MKMapView!
-    //    weak var delegate: BottomSheetViewDelegate?
-    var selectedPinModel: PlaceAnnotationModel?
-    static let locationManager: CLLocationManager = {
-        let locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.startUpdatingLocation()
-        locationManager.startUpdatingHeading()
-        locationManager.requestWhenInUseAuthorization()
-        return locationManager
-    }()
-    var distanceOfMeters: Double = 0.0 {
-        didSet {
-            self.distanceLabel.text = "\(distanceOfMeters)"
-        }
-    }
-    
-    // MARK: UI
-    lazy var boundaryLineView: UIView = {
+    // MARK: UI 구성 요소
+    private let sheetView: UIView = {
         let view = UIView()
-        view.backgroundColor = customOrangeColor
+        view.backgroundColor = .systemBackground
+        view.layer.cornerRadius = 20
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: -2)
+        view.layer.shadowRadius = 8
         return view
     }()
-    let bottomSheetView: UIView = {
+    
+    private let handlerView: UIView = {
         let view = UIView()
+        view.backgroundColor = .systemGray2
+        view.layer.cornerRadius = 3
         return view
     }()
-    private let barView: UIView = {
+    let stackview: UIStackView = {
+        let stackview = UIStackView()
+        stackview.axis = .vertical
+        stackview.alignment = .center
+        stackview.distribution = .fillEqually
+        stackview.spacing = 10
+        return stackview
+    }()
+    let directionButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("🔄", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        return button
+    }()
+    let spacingView1: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.isUserInteractionEnabled = false
-        view.layer.cornerRadius = 2.5
+        view.backgroundColor = .clear
         return view
     }()
-    let handlerView: UIView = {
+    let spacingView2: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    // stateContainView
-    let stateContainView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    lazy var distanceLabel: UILabel = {
-        let label = UILabel()
-        label.text = "94"
-        //"\(self.distanceOfMeters)"
-        label.font = UIFont(name: "Inter-Bold", size: 15)
-        label.textColor = .gray//UIColor(cgColor: CGColor(red: 147, green: 145, blue: 145, alpha: 1))
-        return label
-    }()
+    // MARK: LifeCycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .clear
+        
+        configureSubviews()
+        addTarget()
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
+    func addTarget() {
+        directionButton.addTarget(self, action: #selector(tappedDirectionButton), for: .touchUpInside)
+    }
+    
+    @objc func tappedDirectionButton() {
+        // TODO: RoutePlaces 호출
+        print("tappedDirectionButton")
+    }
+    
+}
+
+// MARK: LayoutSupport
+extension BottomSheetView: LayoutSupport {
+    
+    func addSubviews() {
+        addSubview(sheetView)
+        
+        sheetView.addSubview(handlerView)
+        sheetView.addSubview(stackview)
+        
+        stackview.addArrangedSubview(spacingView1)
+        stackview.addArrangedSubview(directionButton)
+        stackview.addArrangedSubview(spacingView2)
+    }
+    
+    func setupSubviewsConstraints() {
+        sheetView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            sheetView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            sheetView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            sheetView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            sheetView.heightAnchor.constraint(equalToConstant: 400)
+        ])
+        
+        handlerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            handlerView.topAnchor.constraint(equalTo: sheetView.topAnchor, constant: 8),
+            handlerView.centerXAnchor.constraint(equalTo: sheetView.centerXAnchor),
+            handlerView.widthAnchor.constraint(equalToConstant: 40),
+            handlerView.heightAnchor.constraint(equalToConstant: 6)
+        ])
+        
+        stackview.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackview.topAnchor.constraint(equalTo: handlerView.bottomAnchor, constant: 8),
+            stackview.leadingAnchor.constraint(equalTo: handlerView.leadingAnchor, constant: 10),
+            stackview.trailingAnchor.constraint(equalTo: handlerView.trailingAnchor, constant: 10)
+            ])
+        
+        directionButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            directionButton.heightAnchor.constraint(equalToConstant: 44),
+            directionButton.widthAnchor.constraint(equalToConstant: 44)
+            ])
+    }
     
 }
