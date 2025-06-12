@@ -16,6 +16,16 @@ struct PlaceModel {
     let longitude: Double // use in PlacesVC
     
     let detail: PlaceDetailModel?
+    
+    init(contentId: String, title: String, thumbnailImage: String?, distance: String, latitude: String?, longitude: String?, detail: PlaceDetailModel?) {
+        self.contentId = contentId
+        self.title = title
+        self.thumbnailImage = thumbnailImage
+        self.distance = distance
+        self.latitude = Double(latitude ?? "0.0") ?? 0.0
+        self.longitude = Double(longitude ?? "0.0") ?? 0.0
+        self.detail = detail
+    }
 }
 
 struct PlaceDetailModel {
