@@ -22,6 +22,8 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 		super.viewDidLoad()
 		setupUI()
 		setupMapViewGesture()
+		let pinch = UIPinchGestureRecognizer(target: self, action: #selector(debugZoom(_:)))
+		routeMapView.addGestureRecognizer(pinch)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -41,6 +43,14 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 		routeMapView.isPitchEnabled = true
 		routeMapView.isUserInteractionEnabled = true
 		
+		let pinch = UIPinchGestureRecognizer(target: self, action: #selector(debugZoom(_:)))
+		pinch.cancelsTouchesInView = false
+		routeMapView.addGestureRecognizer(pinch)
+		
+	}
+	
+	@objc private func debugZoom(_ gesture: UIPinchGestureRecognizer) {
+		print("📌 Zoom detected: scale = \(gesture.scale)")
 	}
 
 	
@@ -51,15 +61,15 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 		sheetVC.isModalInPresentation = true
 
 		if let sheet = sheetVC.sheetPresentationController {
-			let customDetent = UISheetPresentationController.Detent.custom(resolver: { context in
+			let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("collapsed")) { context in
 				return 0.3 * context.maximumDetentValue
-			})
+			}
 
 			sheet.detents = [customDetent, .large()]
-			sheet.largestUndimmedDetentIdentifier = .medium
+			sheet.largestUndimmedDetentIdentifier = .large
 			sheet.prefersGrabberVisible = true
-			sheet.preferredCornerRadius = 24
-			sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+			sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+			sheet.prefersEdgeAttachedInCompactHeight = true
 		}
 
 		present(sheetVC, animated: true)
@@ -75,6 +85,6 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 
 extension PlaceRouteViewController: UIGestureRecognizerDelegate {
 	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-		return true 
+		return true
 	}
 }
