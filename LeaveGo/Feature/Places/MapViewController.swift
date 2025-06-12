@@ -43,7 +43,8 @@ class MapViewController: UIViewController {
         return btsView
     }()
     
-    var placeModelList: [PlaceModel]?
+    var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
+    var annotationList: [PlaceAnnotationModel] = []
     
     // Sample Data
     var pinModels = [
@@ -66,9 +67,19 @@ class MapViewController: UIViewController {
         self.setupMapView()
         
         self.addTarget()
-        self.addTestAnnotation()
+//        self.addTestAnnotation()
         
         self.configureSubviews()
+    
+        
+        guard let placeModelList = self.placeModelList else { return }
+        let annotations = placeModelList.compactMap {
+            
+            print("lat: \($0.latitude), lon: \($0.longitude)")
+            return $0.toAnnotationModel()
+        }
+        
+        mapView.addAnnotations(annotations)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +102,8 @@ class MapViewController: UIViewController {
             mapView.addAnnotation($0)
         }
     }
+    
+    
     
     func addTarget() {
         userLocationButton.addTarget(self, action: #selector(setMapRegion), for: .touchUpInside)

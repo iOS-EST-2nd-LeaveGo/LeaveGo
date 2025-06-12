@@ -40,6 +40,8 @@ final class MapHeaderViewController: UIViewController {
         loadLocation()
         loadPlaceList()
         loadThumbnailImage()
+        
+        
     }
     
     /// loadPlaceList에 필요한 location Data를 얻어옵니다.
@@ -59,6 +61,7 @@ final class MapHeaderViewController: UIViewController {
     private func loadPlaceList() {
         Task {
             if let APIplaceList = try? await NetworkManager.shared.fetchPlaceList(page: 1,
+                                                                                  numOfRows: 20,
                                                                                   mapX: location.longitude,
                                                                                   mapY: location.latitude,
                                                                                   radius: 2000) {

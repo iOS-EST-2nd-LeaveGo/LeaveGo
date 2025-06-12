@@ -30,7 +30,6 @@ class HomeViewController: UIViewController {
             if let APIPlaceDetail = try await NetworkManager.shared.fetchPlaceDetail(contentId: 126128) {
                 placeDetail = APIPlaceDetail
                 print("🏠 HomeView: \(String(describing: placeDetail!))")
-              
             }
         }
     }
