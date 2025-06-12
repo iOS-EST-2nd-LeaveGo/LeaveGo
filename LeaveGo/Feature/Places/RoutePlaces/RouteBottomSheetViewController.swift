@@ -42,6 +42,7 @@ class RouteBottomSheetViewController: UIViewController {
 		super.viewDidLoad()
 		setupTableView()
 		setupButtons()
+		setupPassthroughArea()
 		updateTableHeight()
 		sheetView.tableView.reloadData()
 	}
@@ -49,6 +50,7 @@ class RouteBottomSheetViewController: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		drawConnectorDots()
+		
 	}
 
 	// MARK: – Setup
@@ -72,10 +74,21 @@ class RouteBottomSheetViewController: UIViewController {
 		)
 	}
 	
+	private func setupPassthroughArea() {
+		let passthrough = RouteSheetPassthroughView()
+		passthrough.backgroundColor = .clear
+		passthrough.translatesAutoresizingMaskIntoConstraints = false
+		view.insertSubview(passthrough, at: 0)
+		
+		NSLayoutConstraint.activate([
+			passthrough.topAnchor.constraint(equalTo: view.topAnchor),
+			passthrough.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			passthrough.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			passthrough.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+		])
+	}
+	
 	private func setupButtons() {
-//		sheetView.closeButton.addTarget(self,
-//										action: #selector(dismissSheet),
-//										for: .touchUpInside)
 		sheetView.carButton.addTarget(self,
 									  action: #selector(carTapped),
 									  for: .touchUpInside)

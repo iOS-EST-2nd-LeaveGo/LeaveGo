@@ -46,7 +46,7 @@ class RouteBottomSheetView: UIView {
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		return stack
 	}()
-	// 임시 주석 - 경로 디테일 뷰 작업자 상황에 따라 쓸지 말지 고려
+
 //	let closeButton: UIButton = {
 //		let btn = UIButton(type: .system)
 //		btn.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -88,13 +88,6 @@ class RouteBottomSheetView: UIView {
 			topStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -56),
 			topStack.heightAnchor.constraint(equalToConstant: 44),
 		])
-
-//		NSLayoutConstraint.activate([
-//			closeButton.centerYAnchor.constraint(equalTo: topStack.centerYAnchor),
-//			closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-//			closeButton.widthAnchor.constraint(equalToConstant: 24),
-//			closeButton.heightAnchor.constraint(equalToConstant: 24),
-//		])
 
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: topStack.bottomAnchor, constant: 16),

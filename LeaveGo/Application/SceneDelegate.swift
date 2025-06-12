@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = onboardingNav
         }
 
-        window?.makeKeyAndVisible()
+		        window?.makeKeyAndVisible()
     }
 
 
