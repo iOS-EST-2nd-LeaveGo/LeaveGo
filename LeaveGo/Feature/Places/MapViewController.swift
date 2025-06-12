@@ -43,6 +43,8 @@ class MapViewController: UIViewController {
         return btsView
     }()
     
+    var placeModelList: [PlaceModel]?
+    
     // Sample Data
     var pinModels = [
         PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4435000), title: "1", subtitle: "대전 동구 천동 대전로 0번길"),
