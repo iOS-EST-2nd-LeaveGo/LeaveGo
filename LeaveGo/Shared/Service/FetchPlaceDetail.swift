@@ -22,7 +22,7 @@ extension NetworkManager {
         if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail>.self) {
             
             placeDetail = data.response.body.items.item.first
-            print("🙆‍♀️ API 호출 성공: \n\(String(describing: placeDetail))")
+//            print("🙆‍♀️ API 호출 성공: \n\(String(describing: placeDetail))")
             return placeDetail
         }
         

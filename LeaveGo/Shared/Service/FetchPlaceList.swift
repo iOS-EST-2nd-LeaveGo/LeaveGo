@@ -23,7 +23,7 @@ extension NetworkManager {
         if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceList>.self) {
             placeList = data.response.body.items.item
             
-            print("🙆‍♀️ API 호출 성공: \n\(placeList)")
+//            print("🙆‍♀️ API 호출 성공: \n\(placeList)")
             return placeList
         } else {
             return nil

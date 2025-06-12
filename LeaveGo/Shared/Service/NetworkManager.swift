@@ -14,7 +14,6 @@ class NetworkManager {
     // endpoint 에서 반환하는 url 을 가지고 request 생성
     func makeRequest(endpoint: Endpoint) throws -> URLRequest {
         if let url = endpoint.url {
-            print(url)
             return URLRequest(url: url)
         } else {
             print("😵 URLRequest 생성 실패")
