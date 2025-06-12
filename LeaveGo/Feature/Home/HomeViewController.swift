@@ -18,8 +18,8 @@ class HomeViewController: UIViewController {
         setupLocation()
         
         Task {
-//            try await NetworkManager.shared.fetchPlaceList(mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 2000)
-            try await NetworkManager.shared.fetchPlaceDetail(contentId: 1261111128)
+            try await NetworkManager.shared.fetchPlaceList(page: 1, mapX: 126.76892949097858, mapY: 37.50998540622347, radius: 2000)
+//            try await NetworkManager.shared.fetchPlaceDetail(contentId: 126128)
         }
     }
     
