@@ -9,7 +9,9 @@ import UIKit
 import CoreLocation
 
 class HomeViewController: UIViewController {
-    
+    // 장소 목록 & 상세 호출 예시
+    var placeList = [PlaceList]()
+    var placeDetail: PlaceDetail?
     
     var location: CLLocationCoordinate2D?
     
@@ -18,8 +20,17 @@ class HomeViewController: UIViewController {
         setupLocation()
         
         Task {
-//            try await NetworkManager.shared.fetchPlaceList(mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 2000)
-            try await NetworkManager.shared.fetchPlaceDetail(contentId: 126128, contentTypeId: 12)
+            // 장소 목록 호출 예시
+            if let APIPlaceList = try await NetworkManager.shared.fetchPlaceList(page: 1, mapX: 126.76892949097858, mapY: 37.50998540622347, radius: 2000) {
+                placeList = APIPlaceList
+                print("🏠 HomeView: \(placeList)")
+            }
+            
+            // 장소 상세 호출 예시
+            if let APIPlaceDetail = try await NetworkManager.shared.fetchPlaceDetail(contentId: 126128) {
+                placeDetail = APIPlaceDetail
+                print("🏠 HomeView: \(String(describing: placeDetail!))")
+            }
         }
     }
     

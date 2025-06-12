@@ -1,5 +1,5 @@
 //
-//  PlaceDetail12.swift.swift
+//  PlaceDetail12.swift
 //  LeaveGo
 //
 //  Created by Kitcat Seo on 6/9/25.
