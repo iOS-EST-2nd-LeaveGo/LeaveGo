@@ -85,6 +85,6 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 
 extension PlaceRouteViewController: UIGestureRecognizerDelegate {
 	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-		return true 
+		return true
 	}
 }
