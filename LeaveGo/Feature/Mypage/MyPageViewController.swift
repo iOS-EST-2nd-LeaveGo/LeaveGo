@@ -62,9 +62,9 @@ extension MyPageViewController: UITableViewDataSource {
         let item = mypageSection.items[indexPath.row]
 
 		cell.textLabel?.text = item.title
-//        cell.imageView?.image = UIImage(systemName: MyPageItem.allCases[indexPath.row].iconName)
-        return cell
+        cell.imageView?.image = UIImage(systemName: MypageItem.allCases[indexPath.row].iconName)
 
+        return cell
     }
 }
 
@@ -89,8 +89,7 @@ extension MyPageViewController: UITableViewDelegate {
             navigationController?.pushViewController(transportVC, animated: true)
         case .bookmarks:
             print("북마크 페이지 여기서 연결하시면 됩니다.")
-        case .offlinePlaces:
-            print("asd")
+
         }
 
 

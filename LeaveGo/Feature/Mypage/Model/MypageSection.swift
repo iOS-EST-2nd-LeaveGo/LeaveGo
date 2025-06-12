@@ -23,7 +23,9 @@ enum MypageSection: Int, CaseIterable {
         case .userSetting:
             return [.editNickname, .personalSetting]
         case .userStorage:
-            return [.bookmarks, .offlinePlaces]
+            return [.bookmarks]
         }
     }
+
+
 }
