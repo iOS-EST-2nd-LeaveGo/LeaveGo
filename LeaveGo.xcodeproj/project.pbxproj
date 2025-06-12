@@ -154,12 +154,14 @@
 				DEVELOPMENT_TEAM = GHGPAZGBBT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeaveGo/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다2";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다1";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -187,12 +189,14 @@
 				DEVELOPMENT_TEAM = GHGPAZGBBT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeaveGo/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다2";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근을 위해 권한이 필요합니다1";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

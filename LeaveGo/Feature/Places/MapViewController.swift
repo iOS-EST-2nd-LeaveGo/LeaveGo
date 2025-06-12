@@ -37,6 +37,11 @@ class MapViewController: UIViewController {
         return button
     }()
     let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
+    let bottomSheetView: BottomSheetView = {
+        let btsView = BottomSheetView()
+        
+        return btsView
+    }()
     
     // Sample Data
     var pinModels = [
@@ -112,7 +117,7 @@ class MapViewController: UIViewController {
     
 }
 
-// MARK: MKMapViewDelegate
+// MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
     
     func setupMapView() {
@@ -197,7 +202,7 @@ extension MapViewController: MKMapViewDelegate {
     
 }
 
-// MARK: CLLocationManagerDelegate
+// MARK: - CLLocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
     
     func setupCLLocationManager() {
@@ -236,6 +241,7 @@ extension MapViewController: LayoutSupport {
     func addSubviews() {
         self.view.addSubview(mapView)
         mapView.addSubview(userLocationButton)
+        mapView.addSubview(bottomSheetView)
         
         userLocationButton.addSubview(userLocationImageView)
     }
@@ -255,6 +261,14 @@ extension MapViewController: LayoutSupport {
             userLocationImageView.bottomAnchor.constraint(equalTo: userLocationButton.bottomAnchor, constant: -8),
             userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
             userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
+        ])
+        
+        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            bottomSheetView.topAnchor.constraint(equalTo: mapView.topAnchor),
+            bottomSheetView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor),
+            bottomSheetView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            bottomSheetView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
         ])
     }
     
