@@ -28,7 +28,6 @@ class NicknameInputViewController: UIViewController {
         case .onboarding:
             performSegue(withIdentifier: "goToTransportSegue", sender: nil)
         case .editing:
-            NotificationCenter.default.post(name: .nicknameDidChange, object: nil)
             navigationController?.popViewController(animated: true)
         }
     }

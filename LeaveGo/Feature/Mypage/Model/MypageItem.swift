@@ -22,9 +22,9 @@ enum MypageItem: String, CaseIterable {
 
     var iconName: String {
         switch self {
-        case .editNickname: return "figure.walk"
-        case .personalSetting: return "bicycle"
-        case .bookmarks: return "car"
+        case .editNickname: return "person.text.rectangle"
+        case .personalSetting: return "cloud"
+        case .bookmarks: return "list.star"
         }
     }
 }

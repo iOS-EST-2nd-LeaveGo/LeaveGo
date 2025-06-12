@@ -15,29 +15,16 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.backButtonTitle = ""
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleNicknameDidChange),
-            name: .nicknameDidChange,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleNicknameDidChange),
-            name: .nicknameDidChange,
-            object: nil
-        )
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+//    deinit {
+//        NotificationCenter.default.removeObserver(self)
+//    }
 
-    @objc func handleNicknameDidChange() {
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-    }
+//    @objc func handleNicknameDidChange() {
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
+//    }
 }
 
 extension MyPageViewController: UITableViewDataSource {
@@ -62,7 +49,7 @@ extension MyPageViewController: UITableViewDataSource {
         let item = mypageSection.items[indexPath.row]
 
 		cell.textLabel?.text = item.title
-        cell.imageView?.image = UIImage(systemName: MypageItem.allCases[indexPath.row].iconName)
+        cell.imageView?.image = UIImage(systemName: item.iconName)
 
         return cell
     }

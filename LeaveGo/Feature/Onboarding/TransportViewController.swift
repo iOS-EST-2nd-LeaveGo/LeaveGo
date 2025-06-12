@@ -36,7 +36,6 @@ class TransportViewController: UIViewController {
                 window.rootViewController = mainTabBar
             }
         case .editing:
-            NotificationCenter.default.post(name: .transportDidChange, object: nil)
             navigationController?.popViewController(animated: true)
         }
     }
