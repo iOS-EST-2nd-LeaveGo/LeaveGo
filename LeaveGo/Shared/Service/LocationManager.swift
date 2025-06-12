@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 final class LocationManager: CLLocationManager {
     
@@ -73,6 +74,7 @@ final class LocationManager: CLLocationManager {
 
         default:
             // 권한이 거부되었거나 제한된 경우, 에러 클로저 호출
+            
             let error = NSError(
                 domain: "LocationError",
                 code: 1,
@@ -82,6 +84,17 @@ final class LocationManager: CLLocationManager {
         }
     }
 
+}
+
+
+extension UIApplication {
+    func getKeyWindowRootViewController() -> UIViewController? {
+        return self.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first(where: { $0.isKeyWindow })?
+            .rootViewController
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -96,7 +109,7 @@ extension LocationManager: CLLocationManagerDelegate {
         // 위의 실행 후 클로저 초기화
         self.fetchLocationCompletion = nil
         
-//        print("test : \(locations)")
+//        print("test : \(locations.last)")
     }
     
     // 잠재적인 오류에 응답하기 위해서 생성
@@ -112,15 +125,41 @@ extension LocationManager: CLLocationManagerDelegate {
     // 현재 인증 상태 확인
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
-        case .authorizedAlways , .authorizedWhenInUse:
-            print("Location Auth: Allow")
-            // 인증 메세지 늦게 클릭하면 처음 업데이트 되는 데이터를 못받게 됨.
-            // (그래서 권한을 확인으로 설정 시, 위치를 한 번 받아 줬다)
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("위치상태 : 허용")
             self.startUpdatingLocation()
-        case .notDetermined , .denied , .restricted:
-            print("Location Auth: denied")
+            
+        case .denied, .restricted:
+            print("위치상태: 허용안됨")
             self.stopUpdatingLocation()
+
+            DispatchQueue.main.async {
+                let alert = UIAlertController(
+                    title: "떠나고를 이용하기 위해서는 위치 권한이 필요합니다",
+                    message: "정확한 위치 제공을 위해 설정에서 위치 접근을 허용해 주세요.",
+                    preferredStyle: .alert
+                )
+
+                alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+                alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                    
+                    if let settingsURL = URL(string: UIApplication.openSettingsURLString),
+                       UIApplication.shared.canOpenURL(settingsURL) {
+                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                    }
+                })
+
+                UIApplication.shared.getKeyWindowRootViewController()?.present(alert, animated: true)
+            }
+
+
+        case .notDetermined:
+            print("위치상태: 결정되지 않음")
+            
         default: break
         }
     }
+    
+    
+
 }
