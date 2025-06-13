@@ -12,8 +12,8 @@ import UIKit
 /// - API를 호출하여 장소 정보를 불러오고 테이블 뷰에 반영합니다.
 class PlacesViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    
-    var places: [PlaceList] = []
+ 
+    var placeModelList: [PlaceModel] = [] // NetworkManager로 부터 받아온 PlaceList
     var imageCache: [String: UIImage] = [:]
     
     override func viewDidLoad() {
@@ -24,20 +24,6 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
         tableView.register(nib, forCellReuseIdentifier: "ListTableViewCell")
         tableView.dataSource = self
         tableView.delegate = self
-        
-        Task {
-            do {
-                let endpoint = Endpoint.placeList(page: 1, numOfRows: 20, mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 1000)
-                let request = try NetworkManager.shared.makeRequest(endpoint: endpoint)
-                if let result: ResponseRoot<PlaceList> = try await NetworkManager.shared.performRequest(urlRequest: request, type: ResponseRoot<PlaceList>.self) {
-                    self.places = result.response.body.items.item
-                    self.tableView.reloadData()
-                }
-            } catch {
-                print("❌ 네트워크 요청 실패: \(error)")
-            }
-        }
-        
     }
 }
 
@@ -45,7 +31,7 @@ extension PlacesViewController: UITableViewDataSource {
     /// 테이블 뷰의 셀 개수를 반환합니다.
     /// - Returns: places 배열의 요소 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return places.count
+        return placeModelList.count
     }
     
     /// 테이블 뷰 셀을 구성합니다.
@@ -55,13 +41,13 @@ extension PlacesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let place = places[indexPath.row]
+        let place = placeModelList[indexPath.row]
         // 제목
         cell.titleLabel.text = place.title
         // 거리 (Int로 변환)
-        cell.distanceLabel.text = "\(Int(Double(place.dist) ?? 0))m 떨어짐"
+        cell.distanceLabel.text = "\(Int(Double(place.distance) ?? 0))m 떨어짐"
         // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
-        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간"
+        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
         
         cell.moreButtonTapped = {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -77,41 +63,8 @@ extension PlacesViewController: UITableViewDataSource {
             self.present(actionSheet, animated: true)
         }
         
-        // 이미지 처리
-        // 1. PlaceList의 thumbnailImage는 String? 타입이므로 nil인지 확인
-        // 2. nil이 아니고 빈 문자열이 아닌 경우, URL 생성 시도
-        if let thumbnail = place.thumbnailImage,
-           !thumbnail.isEmpty,
-           let imageUrl = URL(string: thumbnail) {
-            
-            // 3. 이미지 캐시에 저장된 이미지가 있다면 바로 사용
-            if let cachedImage = imageCache[thumbnail] {
-                cell.thumbnailImageView.image = cachedImage
-            } else {
-                // 4. 백그라운드에서 이미지 다운로드
-                DispatchQueue.global().async {
-                    if let data = try? Data(contentsOf: imageUrl),
-                       let image = UIImage(data: data) {
-                        
-                        // 5. 다운로드 성공 시 캐시에 저장 후 UI 업데이트
-                        DispatchQueue.main.async {
-                            self.imageCache[thumbnail] = image
-                            if self.tableView.indexPath(for: cell) == indexPath {
-                                cell.thumbnailImageView.image = image
-                            }
-                        }
-                    } else {
-                        // 6. 다운로드 실패 시 기본 아이콘 표시
-                        DispatchQueue.main.async {
-                            cell.thumbnailImageView.image = UIImage(systemName: "pencil.circle.fill")
-                        }
-                    }
-                }
-            }
-        } else {
-            // 7. 이미지가 없거나 URL이 잘못된 경우 기본 아이콘 표시
-            cell.thumbnailImageView.image = UIImage(systemName: "pencil.circle.fill")
-        }
+        // 이미지 처리        
+        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
         
         return cell
     }
