@@ -60,7 +60,10 @@ extension PlannerViewController: UICollectionViewDataSource {
             
             let planner = plannerList[indexPath.item]
             
-            cell.plannerThumbnailImageView.image = UIImage(named: planner.thumnailPath ?? "pencil")
+            if let thumnailPathExisting = planner.thumnailPath {
+                cell.plannerThumbnailImageView.image = UIImage(named: thumnailPathExisting)
+            }
+            
             cell.plannerTitleLabelView.text = planner.title
             
             return cell

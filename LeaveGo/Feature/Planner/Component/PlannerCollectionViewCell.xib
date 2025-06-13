@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,10 +22,32 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="mEw-2i-zaY" userLabel="Root Stack View">
                         <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C2W-op-ham">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lxe-la-5mI">
                                 <rect key="frame" x="0.0" y="0.0" width="180" height="127.66666666666667"/>
-                                <color key="backgroundColor" name="BorderColor"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qzf-4C-I9H" userLabel="Planner Thumbnail Placeholder Image View">
+                                        <rect key="frame" x="50" y="35.666666666666657" width="80" height="57"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="hyf-SL-tjX"/>
+                                            <constraint firstAttribute="height" constant="60" id="kcP-8W-6tE"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C2W-op-ham">
+                                        <rect key="frame" x="0.0" y="0.0" width="180" height="127.66666666666667"/>
+                                        <color key="backgroundColor" name="BorderColor"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="C2W-op-ham" secondAttribute="bottom" id="CaF-rU-Qmy"/>
+                                    <constraint firstAttribute="trailing" secondItem="C2W-op-ham" secondAttribute="trailing" id="XQ9-UA-oPy"/>
+                                    <constraint firstItem="C2W-op-ham" firstAttribute="leading" secondItem="lxe-la-5mI" secondAttribute="leading" id="YL2-Wl-J87"/>
+                                    <constraint firstItem="qzf-4C-I9H" firstAttribute="centerY" secondItem="lxe-la-5mI" secondAttribute="centerY" id="eGD-lR-b6X"/>
+                                    <constraint firstItem="C2W-op-ham" firstAttribute="top" secondItem="lxe-la-5mI" secondAttribute="top" id="hoy-Nk-WMi"/>
+                                    <constraint firstItem="qzf-4C-I9H" firstAttribute="centerX" secondItem="lxe-la-5mI" secondAttribute="centerX" id="s2y-am-znV"/>
+                                </constraints>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fud-JH-rh6" userLabel="Label Area Stack View">
                                 <rect key="frame" x="0.0" y="127.66666666666667" width="180" height="52.333333333333329"/>
                                 <subviews>
@@ -43,9 +66,9 @@
                             </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="C2W-op-ham" firstAttribute="leading" secondItem="mEw-2i-zaY" secondAttribute="leading" id="0Cj-Gh-dhY"/>
-                            <constraint firstItem="C2W-op-ham" firstAttribute="trailing" secondItem="mEw-2i-zaY" secondAttribute="trailing" id="ibu-3q-YUj"/>
-                            <constraint firstItem="C2W-op-ham" firstAttribute="top" secondItem="mEw-2i-zaY" secondAttribute="top" id="zSw-YZ-vLb"/>
+                            <constraint firstItem="lxe-la-5mI" firstAttribute="top" secondItem="mEw-2i-zaY" secondAttribute="top" id="TX5-vs-W3a"/>
+                            <constraint firstAttribute="trailing" secondItem="lxe-la-5mI" secondAttribute="trailing" id="av2-sy-zWN"/>
+                            <constraint firstItem="lxe-la-5mI" firstAttribute="leading" secondItem="mEw-2i-zaY" secondAttribute="leading" id="ssZ-TD-wOX"/>
                         </constraints>
                     </stackView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HO-EI-XNX">
@@ -78,11 +101,15 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="photo" catalog="system" width="128" height="93"/>
         <namedColor name="BorderColor">
             <color red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CustomLabelColor">
             <color red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
