@@ -88,7 +88,8 @@ final class MapHeaderViewController: UIViewController {
                                                                                   radius: 2000) {
                 print("--------------------------placeModelList---------------------------------")
                 _=APIplaceList.map {
-                    let place = PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, detail: nil)
+                    let place = PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, detail: nil, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                    
                     print(place)
                     placeModelList.append(place)
                 }
