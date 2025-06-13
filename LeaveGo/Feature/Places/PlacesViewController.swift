@@ -49,19 +49,6 @@ extension PlacesViewController: UITableViewDataSource {
         // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
         cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
         
-        cell.moreButtonTapped = {
-            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "오프라인 저장하기(샘플)", style: .default))
-            actionSheet.addAction(UIAlertAction(title: "경로 찾기(샘플)", style: .default))
-            actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel))
-            
-            if let popover = actionSheet.popoverPresentationController {
-                popover.sourceView = cell
-                popover.sourceRect = cell.bounds
-            }
-            
-            self.present(actionSheet, animated: true)
-        }
         
         // 이미지 처리        
         cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
