@@ -64,8 +64,9 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CMp-9i-qiJ">
-                                <rect key="frame" x="16" y="226.66666666666663" width="120" height="120"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus.app" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CMp-9i-qiJ">
+                                <rect key="frame" x="10" y="228.33333333333331" width="120" height="116.99999999999994"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="QPd-ex-NLh"/>
                                     <constraint firstAttribute="width" constant="120" id="m0g-lu-KPY"/>
@@ -88,11 +89,15 @@
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="b90-0i-sZn"/>
                             <constraint firstItem="n9x-Qf-Hnf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="100" id="dro-b3-p2N"/>
                             <constraint firstItem="yyE-Qz-bmp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="eb4-ff-TiV"/>
+                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="m5D-GK-Dgv"/>
+                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="tyo-oR-P22"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SfV-Yf-Wog"/>
                     <connections>
-                        <outlet property="asd" destination="ew6-mm-3Pk" id="lQa-9I-g56"/>
+                        <outlet property="thumbnailAdd" destination="2pe-gF-pr6" id="eSS-xx-sb8"/>
+                        <outlet property="tripName" destination="DhF-mp-Uif" id="BlW-Nc-NZS"/>
+                        <outlet property="tripThumbnail" destination="CMp-9i-qiJ" id="8Ls-by-YZr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -123,6 +128,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plus.app" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
