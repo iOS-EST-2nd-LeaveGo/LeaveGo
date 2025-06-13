@@ -48,18 +48,6 @@ final class MapHeaderViewController: UIViewController {
     
     /// loadPlaceList에 필요한 location Data를 얻어옵니다.
     private func loadLocation() {
-//        LocationManager.shared.fetchLocation { [weak self] location, error in
-//            guard let self = self else { return }
-//            guard let location = location else {
-//                print("❌ 위치 가져오기 실패: \(error?.localizedDescription ?? "Location fetch failed.(알 수 없는 error)")")
-//                return
-//            }
-//            
-//            self.location = location
-//            print("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>")
-//            print(location)
-//            loadPlaceList()
-//        }
         LocationManager.shared.fetchLocation { [weak self] (location, error) in
             guard let self = self else { return }
             
@@ -93,7 +81,8 @@ final class MapHeaderViewController: UIViewController {
                     placeModelList.append(place)
                 }
                 
-                self.transportPlaceList()
+                /// PlaceList API Load 후 ThumbnailImage Load
+                self.loadThumbnailImage()
             }
         }
     }
@@ -106,7 +95,12 @@ final class MapHeaderViewController: UIViewController {
                 
                 fetchThumbnailImage(for: url) { [weak self] image in
                     guard let self = self else { return }
+                    
+                    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
+                    /// placeListVC의 tableView를 다시 그려줍니다.
                     self.placeModelList[index].thumbnailImage = image
+                    self.transportPlaceList()
+                    placeListVC.tableView.reloadData()
                 }
             }
         }
@@ -119,14 +113,18 @@ final class MapHeaderViewController: UIViewController {
                     completion(image)
                 }
             } else {
-                completion(nil)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                print(error ?? "image fetch error")
             }
         }.resume()
     }
     
+    /// placeModelList를 각 VC에 전달
     private func transportPlaceList() {
+        placeListVC.placeModelList = placeModelList
         mapVC.placeModelList = placeModelList
-        // TODO: placeListVC에 model 전달
     }
     
     // MARK: Action

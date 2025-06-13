@@ -10,9 +10,9 @@ import CoreData
 
 extension CoreDataManager {
 
-    // func createSchedule
-    // func fetchAllSchedules
-    // func updateSchedule
-    // func	deleteSchedule
+    // func createPlanner
+    // func fetchAllPlanList
+    // func updatePlanner
+    // func	deletePlanner
 
 }

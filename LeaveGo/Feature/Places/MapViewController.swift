@@ -44,7 +44,6 @@ class MapViewController: UIViewController {
     }()
     
     var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
-    var annotationList: [PlaceAnnotationModel] = []
     
     // MARK: LifeCycle
     override func viewDidLoad() {
