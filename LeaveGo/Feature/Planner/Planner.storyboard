@@ -35,6 +35,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
+                                        <connections>
+                                            <segue destination="K6D-HB-F25" kind="show" id="hAD-fS-CiJ"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -57,6 +60,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1064.885496183206" y="18.30985915492958"/>
+        </scene>
+        <!--장소 추가하기-->
+        <scene sceneID="HmH-Fd-Yg4">
+            <objects>
+                <viewController id="K6D-HB-F25" customClass="PlaceSelectionViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ijz-yu-iEU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Y5u-F2-TbE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="장소 추가하기" id="I92-20-1lO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LAX-aH-IfI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1976" y="18"/>
         </scene>
         <!--여행-->
         <scene sceneID="ZLm-Ja-wRv">
