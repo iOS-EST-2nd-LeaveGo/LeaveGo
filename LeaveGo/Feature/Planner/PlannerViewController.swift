@@ -15,14 +15,11 @@ class PlannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for _ in (0...2) {
-            plannerList.append(mockPlanner)
-        }
+        // 더미 데이터 주입
+        plannerList = mockPlanners
         
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerCollectionViewCell.self)))
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerAddButtonCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerAddButtonCollectionViewCell.self)))
-        print(PlannerCollectionViewCell.self)
-        print(PlannerAddButtonCollectionViewCell.self)
         
         plannerCollectionView.delegate = self
         plannerCollectionView.dataSource = self
@@ -33,10 +30,6 @@ class PlannerViewController: UIViewController {
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
             sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
         )
-    }
-    
-    deinit {
-        print("plannerCollectionView 해제완료")
     }
 }
 

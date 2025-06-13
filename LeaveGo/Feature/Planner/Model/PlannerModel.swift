@@ -17,4 +17,9 @@ class Planner {
     }
 }
 
-let mockPlanner = Planner(title: "여름 휴가 계획", thumnailPath: nil)
+// 더미 데이터
+let mockPlanners = [
+    Planner(title: "👒 모두 다함께 광화문 여행을 떠나봅시다", thumnailPath: nil),
+    Planner(title: "🌊 부산 여행", thumnailPath: nil),
+    Planner(title: "🚀 우주 여행 ✨", thumnailPath: nil)
+]
