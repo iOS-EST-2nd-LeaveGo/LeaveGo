@@ -47,6 +47,10 @@ extension PlannerViewController: UICollectionViewDataSource {
         if plannerList.count == indexPath.item {
             let addPlannerCell = plannerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PlannerAddButtonCollectionViewCell.self), for: indexPath) as! PlannerAddButtonCollectionViewCell
             
+            addPlannerCell.onTab = { [weak self] in
+                self?.performSegue(withIdentifier: "navigateToPlannerCompositionView", sender: indexPath)
+            }
+            
             return addPlannerCell
         } else {
             let cell = plannerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PlannerCollectionViewCell.self), for: indexPath) as! PlannerCollectionViewCell

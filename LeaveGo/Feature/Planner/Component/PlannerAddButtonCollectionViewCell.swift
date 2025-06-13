@@ -8,10 +8,12 @@
 import UIKit
 
 class PlannerAddButtonCollectionViewCell: UICollectionViewCell {
+    var onTab: (() -> Void)?
+    
     @IBOutlet weak var plannerAddButtonView: UIView!
     
-    @IBAction func navigateToComposeView(_ sender: Any) {
-        print("🤖 Compose VC로 이동하는 코드를 작성해라 휴먼")
+    @IBAction func navigateToComposeView(_ sender: UIButton) {
+        onTab?()
     }
     
     override func awakeFromNib() {
