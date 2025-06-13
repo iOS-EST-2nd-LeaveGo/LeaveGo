@@ -27,7 +27,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
         
         Task {
             do {
-                let endpoint = Endpoint.placeList(mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 1000)
+                let endpoint = Endpoint.placeList(page: 1, numOfRows: 20, mapX: 127.0541534400073, mapY: 37.73755263999631, radius: 1000)
                 let request = try NetworkManager.shared.makeRequest(endpoint: endpoint)
                 if let result: ResponseRoot<PlaceList> = try await NetworkManager.shared.performRequest(urlRequest: request, type: ResponseRoot<PlaceList>.self) {
                     self.places = result.response.body.items.item
