@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,20 +13,20 @@
             <objects>
                 <viewController storyboardIdentifier="MapHeaderView" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="221"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="203"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
-                                        <rect key="frame" x="0.0" y="118" width="393" height="87"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="87"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fo6-eH-J1A" userLabel="TextFieldBackgroundView">
-                                                <rect key="frame" x="16" y="0.0" width="361" height="40"/>
+                                                <rect key="frame" x="16" y="0.0" width="343" height="40"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="장소 이름, 태그로 검색하세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3A7-VX-CfK">
-                                                        <rect key="frame" x="16" y="10.666666666666659" width="329" height="18.666666666666671"/>
+                                                        <rect key="frame" x="16" y="10.666666666666673" width="311" height="18.666666666666671"/>
                                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -47,7 +47,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
-                                                <rect key="frame" x="107" y="56" width="179" height="32"/>
+                                                <rect key="frame" x="98" y="56" width="179" height="32"/>
                                                 <segments>
                                                     <segment title="리스트로 보기"/>
                                                     <segment title="지도로 보기"/>
@@ -69,7 +69,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
-                                <rect key="frame" x="0.0" y="221" width="393" height="631"/>
+                                <rect key="frame" x="0.0" y="203" width="375" height="609"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
