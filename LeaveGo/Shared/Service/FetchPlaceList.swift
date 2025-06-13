@@ -9,7 +9,7 @@ import Foundation
 
 extension NetworkManager {
     /// 한 번에 호출할 갯수를 지정하고 싶다면 numOfRows 로 전달하기 : 최대 100개 가능
-    func fetchPlaceList(page: Int = 1, numOfRows: Int = 20, mapX: Double, mapY: Double, radius: Int) async throws -> [PlaceList]? {
+    func fetchPlaceList(page: Int = 1, numOfRows: Int = 40, mapX: Double, mapY: Double, radius: Int) async throws -> [PlaceList]? {
         // 장소 목록을 담을 변수 선언
         var placeList = [PlaceList]()
         

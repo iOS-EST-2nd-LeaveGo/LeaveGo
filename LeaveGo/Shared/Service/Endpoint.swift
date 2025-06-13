@@ -11,7 +11,7 @@ import Foundation
 enum Endpoint {
     case placeList(page: Int, numOfRows: Int, mapX: Double, mapY: Double, radius: Int)
     case placeDetail(contentId: Int)
-    case areaBasedPlaceList(areaCode: Int)
+    case areaBasedPlaceList(page: Int, numOfRows: Int, area: Area)
     
     var url: URL? {
         // API_KEY 값 언래핑
@@ -22,8 +22,8 @@ enum Endpoint {
             return URL(string: "https://apis.data.go.kr/B551011/KorService2/locationBasedList2?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=12&numOfRows=\(numOfRows)&pageNo=\(page)&mapX=\(mapX)&mapY=\(mapY)&radius=\(radius)&serviceKey=\(apikey)")
         case let .placeDetail(contentId):
             return URL(string: "https://apis.data.go.kr/B551011/KorService2/detailIntro2?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=12&contentId=\(contentId)&serviceKey=\(apikey)")
-        case let .areaBasedPlaceList(areaCode):
-            return URL(string: "https://apis.data.go.kr/B551011/KorService1/areaBasedList1?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=12&areaCode=\(areaCode)&serviceKey=\(apikey)")
+        case let .areaBasedPlaceList(page, numOfRows, area):
+            return URL(string: "https://apis.data.go.kr/B551011/KorService2/areaBasedSyncList2?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=12&numOfRows=\(numOfRows)&pageNo=\(page)&areaCode=\(area.code)&serviceKey=\(apikey)")
         }
     }
 }

@@ -12,26 +12,35 @@ class HomeViewController: UIViewController {
     // 장소 목록 & 상세 호출 예시
     var placeList = [PlaceList]()
     var placeDetail: PlaceDetail?
+    var areaBasedPlaceList = [AreaBasedPlaceList]()
     
     var location: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupLocation()
-//        
-//        Task {
-//            // 장소 목록 호출 예시
-//            if let APIPlaceList = try await NetworkManager.shared.fetchPlaceList(page: 1, mapX: 126.76892949097858, mapY: 37.50998540622347, radius: 2000) {
-//                placeList = APIPlaceList
-//                print("🏠 HomeView: \(placeList)")
-//            }
-//            
-//            // 장소 상세 호출 예시
-//            if let APIPlaceDetail = try await NetworkManager.shared.fetchPlaceDetail(contentId: 126128) {
-//                placeDetail = APIPlaceDetail
-//                print("🏠 HomeView: \(String(describing: placeDetail!))")
-//            }
-//        }
+        // setupLocation()
+        
+        /*
+        Task {
+            // 장소 목록 호출 예시
+            if let APIPlaceList = try await NetworkManager.shared.fetchPlaceList(page: 1, mapX: 126.76892949097858, mapY: 37.50998540622347, radius: 2000) {
+                placeList = APIPlaceList
+                // print("🏠 HomeView: \(placeList)")
+            }
+            
+            // 장소 상세 호출 예시
+            if let APIPlaceDetail = try await NetworkManager.shared.fetchPlaceDetail(contentId: 126128) {
+                placeDetail = APIPlaceDetail
+                // print("🏠 HomeView: \(String(describing: placeDetail!))")
+            }
+         
+            // 지역 기반 장소 목록 호출 예시
+            if let APIPlaceList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: .daegu) {
+                areaBasedPlaceList = APIPlaceList
+                // print("🏠 HomeView: \(String(describing: areaBasedPlaceList))")
+            }
+        }
+         */
     }
     
 //    func setupLocation() {
