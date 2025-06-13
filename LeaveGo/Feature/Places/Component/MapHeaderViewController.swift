@@ -113,7 +113,9 @@ final class MapHeaderViewController: UIViewController {
                     completion(image)
                 }
             } else {
-                completion(nil)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
                 print(error ?? "image fetch error")
             }
         }.resume()
