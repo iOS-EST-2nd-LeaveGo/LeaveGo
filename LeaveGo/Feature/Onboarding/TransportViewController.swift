@@ -50,7 +50,14 @@ class TransportViewController: UIViewController {
         navigationItem.backButtonTitle = ""
         saveButton.isEnabled = false
         // 레이아웃 설정
-        transportCollectionView.collectionViewLayout = gridLayout()
+//        transportCollectionView.collectionViewLayout = gridLayout()
+        transportCollectionView.collectionViewLayout = CollectionViewLayout.grid(
+            columns: 3,
+            itemInsets: NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
+            groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        )
+
         //        transportCollectionView.allowsMultipleSelection = true
 
         // cell 등록
@@ -82,22 +89,6 @@ class TransportViewController: UIViewController {
 
             saveButton.isEnabled = true
         }
-    }
-
-    // CompositionalLayout을 활용한 3열 그리드 레이아웃 생성
-    private func gridLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0/3.0), heightDimension: .fractionalWidth(1.0/3.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0/3.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        //        section.interGroupSpacing = 8
-
-        return UICollectionViewCompositionalLayout(section: section)
     }
 
     deinit {
