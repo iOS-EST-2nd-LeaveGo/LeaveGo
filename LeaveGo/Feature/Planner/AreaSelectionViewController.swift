@@ -12,15 +12,24 @@ class AreaSelectionViewController: UIViewController {
     @IBOutlet weak var selectButtonView: UIButton!
     
     @IBAction func navigateToPlaceList(_ sender: UIButton) {
+        
     }
     
-    var selectedArea: Int?
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PlaceSelectionTableViewController {
+            guard selectedArea != nil else { return }
+            
+            vc.area = selectedArea!
+        }
+    }
+    
+    var selectedArea: Area?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         areaSelectionCollectionView.register(UINib(nibName: String(describing: AreaSelectionCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: AreaSelectionCollectionViewCell.self))
-
+        
         areaSelectionCollectionView.delegate = self
         areaSelectionCollectionView.dataSource = self
         areaSelectionCollectionView.collectionViewLayout = CollectionViewLayout.grid(
@@ -39,7 +48,7 @@ class AreaSelectionViewController: UIViewController {
 
 extension AreaSelectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedArea = Area.allCases[indexPath.item].code
+        selectedArea = Area.allCases[indexPath.item]
         selectButtonView.isEnabled = true
         selectButtonView.backgroundColor = selectButtonView.isEnabled ? UIColor.accent : UIColor.gray
         selectButtonView.layer.cornerRadius = 16

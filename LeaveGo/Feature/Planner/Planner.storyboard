@@ -14,7 +14,7 @@
         <!--나의 여행-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="PlannerVC" hidesBottomBarWhenPushed="YES" id="Y6W-OH-hqX" customClass="PlannerViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlannerVC" id="Y6W-OH-hqX" customClass="PlannerViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,7 +65,7 @@
         <!--여행 지역 선택하기-->
         <scene sceneID="HmH-Fd-Yg4">
             <objects>
-                <viewController id="K6D-HB-F25" customClass="AreaSelectionViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="K6D-HB-F25" customClass="AreaSelectionViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ijz-yu-iEU">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -92,7 +92,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="llt-YT-T1e">
-                                <rect key="frame" x="16" y="703" width="361" height="48"/>
+                                <rect key="frame" x="16" y="752" width="361" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="NVN-rt-UDO"/>
                                 </constraints>
@@ -104,6 +104,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="9QL-rt-bDP"/>
+                                    <segue destination="q8i-jm-OT9" kind="show" id="E0E-4r-ofX"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -124,6 +125,32 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LAX-aH-IfI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1976" y="18"/>
+        </scene>
+        <!--여행지 추가하기-->
+        <scene sceneID="EeN-rL-KC8">
+            <objects>
+                <viewController id="q8i-jm-OT9" customClass="PlaceSelectionTableViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fuD-G6-DtG">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-wX-T0R">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hkg-3X-PwD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="여행지 추가하기" id="UhZ-Gs-8Vl"/>
+                    <connections>
+                        <outlet property="placeSelectionTable" destination="9Wn-wX-T0R" id="EB7-kA-xI3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CxI-9V-Dkb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2875.5725190839694" y="17.605633802816904"/>
         </scene>
         <!--여행-->
         <scene sceneID="ZLm-Ja-wRv">

@@ -21,7 +21,6 @@ class PlannerViewController: UIViewController {
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerCollectionViewCell.self)))
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerAddButtonCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerAddButtonCollectionViewCell.self)))
         
-        plannerCollectionView.delegate = self
         plannerCollectionView.dataSource = self
         
         plannerCollectionView.collectionViewLayout = CollectionViewLayout.grid(
@@ -31,10 +30,6 @@ class PlannerViewController: UIViewController {
             sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
         )
     }
-}
-
-extension PlannerViewController: UICollectionViewDelegate {
-    
 }
 
 extension PlannerViewController: UICollectionViewDataSource {
