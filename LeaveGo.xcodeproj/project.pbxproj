@@ -17,7 +17,6 @@
 				Feature/Home/Component/.gitkeep,
 				Feature/Home/Model/.gitkeep,
 				Feature/Mypage/Component/.gitkeep,
-				Feature/Planner/Component/.gitkeep,
 				Info.plist,
 			);
 			target = 7F828CD22DF4C1650021F149 /* LeaveGo */;
@@ -182,7 +181,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GHGPAZGBBT;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeaveGo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

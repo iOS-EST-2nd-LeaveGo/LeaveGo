@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="gTV-IL-0wX" customClass="PlannerCollectionViewCell" customModule="LeaveGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="mEw-2i-zaY" userLabel="Root Stack View">
+                        <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C2W-op-ham">
+                                <rect key="frame" x="0.0" y="0.0" width="180" height="127.66666666666667"/>
+                                <color key="backgroundColor" name="BorderColor"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="fud-JH-rh6" userLabel="Label Area Stack View">
+                                <rect key="frame" x="0.0" y="127.66666666666667" width="180" height="52.333333333333329"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUZ-9j-bW4">
+                                        <rect key="frame" x="16" y="15.999999999999984" width="148" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                        <color key="textColor" name="CustomLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="CUZ-9j-bW4" firstAttribute="centerX" secondItem="fud-JH-rh6" secondAttribute="centerX" id="ewo-fZ-5sU"/>
+                                    <constraint firstItem="CUZ-9j-bW4" firstAttribute="centerY" secondItem="fud-JH-rh6" secondAttribute="centerY" id="mYW-O0-vqV"/>
+                                </constraints>
+                                <directionalEdgeInsets key="directionalLayoutMargins" top="16" leading="16" bottom="16" trailing="16"/>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="C2W-op-ham" firstAttribute="leading" secondItem="mEw-2i-zaY" secondAttribute="leading" id="0Cj-Gh-dhY"/>
+                            <constraint firstItem="C2W-op-ham" firstAttribute="trailing" secondItem="mEw-2i-zaY" secondAttribute="trailing" id="ibu-3q-YUj"/>
+                            <constraint firstItem="C2W-op-ham" firstAttribute="top" secondItem="mEw-2i-zaY" secondAttribute="top" id="zSw-YZ-vLb"/>
+                        </constraints>
+                    </stackView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HO-EI-XNX">
+                        <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain"/>
+                        <connections>
+                            <action selector="navigateToDetailVC:" destination="gTV-IL-0wX" eventType="touchUpInside" id="gfF-wu-Xcm"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="mEw-2i-zaY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="4aK-vU-Lfi"/>
+                <constraint firstItem="mEw-2i-zaY" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6rR-sJ-QjQ"/>
+                <constraint firstAttribute="trailing" secondItem="6HO-EI-XNX" secondAttribute="trailing" id="a8N-eE-LRs"/>
+                <constraint firstItem="mEw-2i-zaY" firstAttribute="trailing" secondItem="gTV-IL-0wX" secondAttribute="trailing" id="c6P-Mv-J4k"/>
+                <constraint firstItem="mEw-2i-zaY" firstAttribute="bottom" secondItem="gTV-IL-0wX" secondAttribute="bottom" id="dE2-gN-340"/>
+                <constraint firstItem="6HO-EI-XNX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hP1-BV-eOC"/>
+                <constraint firstAttribute="bottom" secondItem="6HO-EI-XNX" secondAttribute="bottom" id="oV1-Sm-ZLM"/>
+                <constraint firstItem="6HO-EI-XNX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="unQ-Do-BcP"/>
+            </constraints>
+            <connections>
+                <outlet property="plannerCardStackView" destination="mEw-2i-zaY" id="WHs-EF-9iP"/>
+                <outlet property="plannerThumbnailImageView" destination="C2W-op-ham" id="PJw-iF-7JE"/>
+                <outlet property="plannerTitleLabelView" destination="CUZ-9j-bW4" id="Xhn-fs-qXC"/>
+            </connections>
+            <point key="canvasLocation" x="39.694656488549619" y="20.422535211267608"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="BorderColor">
+            <color red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomLabelColor">
+            <color red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
