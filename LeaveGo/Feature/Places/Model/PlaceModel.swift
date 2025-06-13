@@ -24,8 +24,8 @@ struct PlaceModel {
         self.title = title
         self.thumbnailURL = thumbnailURL
         self.distance = distance
-        self.latitude = Double(latitude!) ?? 0.0
-        self.longitude = Double(longitude!) ?? 0.0
+        self.latitude = Double(latitude ?? "") ?? 0.0
+        self.longitude = Double(longitude ?? "") ?? 0.0
         self.detail = detail
     }
     

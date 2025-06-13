@@ -37,37 +37,59 @@ final class MapHeaderViewController: UIViewController {
         displaySegmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         switchToVC(placeListVC)
         
+        print("---viewDidLoad--------")
+        
         loadLocation()
-        loadPlaceList()
-        loadThumbnailImage()
+        
+        loadThumbnailImage() // TODO: loadPlaceList 컴플리트에서 실행
         
         
     }
     
     /// loadPlaceList에 필요한 location Data를 얻어옵니다.
     private func loadLocation() {
-        LocationManager.shared.fetchLocation { [weak self] location, error in
+//        LocationManager.shared.fetchLocation { [weak self] location, error in
+//            guard let self = self else { return }
+//            guard let location = location else {
+//                print("❌ 위치 가져오기 실패: \(error?.localizedDescription ?? "Location fetch failed.(알 수 없는 error)")")
+//                return
+//            }
+//            
+//            self.location = location
+//            print("<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>")
+//            print(location)
+//            loadPlaceList()
+//        }
+        LocationManager.shared.fetchLocation { [weak self] (location, error) in
             guard let self = self else { return }
-            guard let location = location else {
-                print("❌ 위치 가져오기 실패: \(error?.localizedDescription ?? "Location fetch failed.(알 수 없는 error)")")
-                return
+            
+            if let location = location {
+                self.location = location
+                print("📍 사용자 위치 - 위도: \(location.latitude), 경도: \(location.longitude)")
+            } else if let error = error {
+                print("❌ 위치 가져오기 실패: \(error.localizedDescription)")
+            } else {
+                print("⚠️ 알 수 없는 오류 발생")
             }
             
-            self.location = location
+            loadPlaceList()
         }
     }
     
     /// PlaceList들을 load합니다.
     private func loadPlaceList() {
         Task {
+            print("------------------------------location-----------------------------------")
+            print("latitude: \(location.latitude), longitude: \(location.longitude)")
             if let APIplaceList = try? await NetworkManager.shared.fetchPlaceList(page: 1,
                                                                                   numOfRows: 20,
                                                                                   mapX: location.longitude,
                                                                                   mapY: location.latitude,
                                                                                   radius: 2000) {
+                print("--------------------------placeModelList---------------------------------")
                 _=APIplaceList.map {
                     let place = PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, detail: nil)
-                    
+                    print(place)
                     placeModelList.append(place)
                 }
                 
