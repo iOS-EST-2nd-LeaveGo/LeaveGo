@@ -6,22 +6,22 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="source" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Schedule" representedClassName="ScheduleEntity" syncable="YES" codeGenerationType="class">
+    <entity name="Planner" representedClassName="PlannerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="endDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="thumbnailPath" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
-        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ScheduleItem" inverseName="schedule" inverseEntity="ScheduleItem"/>
+        <relationship name="places" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="PlannerPlace" inverseName="planner" inverseEntity="PlannerPlace"/>
     </entity>
-    <entity name="ScheduleItem" representedClassName="ScheduleItemEntity" syncable="YES" codeGenerationType="class">
+    <entity name="PlannerPlace" representedClassName="PlannerItemEntity" syncable="YES" codeGenerationType="class">
         <attribute name="contentID" attributeType="String"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="thumbnailURL" optional="YES" attributeType="String"/>
-        <relationship name="schedule" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Schedule" inverseName="items" inverseEntity="Schedule"/>
+        <relationship name="planner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Planner" inverseName="places" inverseEntity="Planner"/>
     </entity>
 </model>
