@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Add New Trip View Controller-->
+        <!--세 여행지 추가하기-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="AddNewTripVC" id="Y6W-OH-hqX" customClass="AddNewTripViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlannerEditorVC" id="Y6W-OH-hqX" customClass="PlannerEditorViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,6 +40,9 @@
                                         <rect key="frame" x="259" y="0.0" width="102" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="이미지 추가"/>
+                                        <connections>
+                                            <action selector="thumbnailAddAction:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ik5-Cy-SYb"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -68,8 +71,8 @@
                                 <rect key="frame" x="10" y="228.33333333333331" width="120" height="116.99999999999994"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="QPd-ex-NLh"/>
-                                    <constraint firstAttribute="width" constant="120" id="m0g-lu-KPY"/>
+                                    <constraint firstAttribute="height" constant="120" id="FB5-ub-Jdg"/>
+                                    <constraint firstAttribute="width" constant="120" id="J1p-Lw-KKi"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -77,23 +80,23 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="n9x-Qf-Hnf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="25G-Ii-rbb"/>
-                            <constraint firstItem="yyE-Qz-bmp" firstAttribute="top" secondItem="CMp-9i-qiJ" secondAttribute="bottom" constant="26" id="26A-6Y-R3A"/>
+                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="5Ly-Le-SmX"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="llg-An-mds" secondAttribute="trailing" constant="16" id="5qf-2O-HVI"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="yyE-Qz-bmp" secondAttribute="trailing" constant="16" id="6Ny-J3-I0A"/>
                             <constraint firstItem="llg-An-mds" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="9xd-Rt-EGH"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="DhF-mp-Uif" secondAttribute="trailing" constant="16" id="Elt-av-rt1"/>
                             <constraint firstItem="DhF-mp-Uif" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Gqo-Bz-my9"/>
                             <constraint firstItem="llg-An-mds" firstAttribute="top" secondItem="DhF-mp-Uif" secondAttribute="bottom" constant="18" id="LEh-Y7-bxQ"/>
-                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="N4w-kN-e8A"/>
                             <constraint firstItem="DhF-mp-Uif" firstAttribute="top" secondItem="n9x-Qf-Hnf" secondAttribute="bottom" constant="8" symbolic="YES" id="PlK-y7-t5I"/>
-                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="b90-0i-sZn"/>
                             <constraint firstItem="n9x-Qf-Hnf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="100" id="dro-b3-p2N"/>
-                            <constraint firstItem="yyE-Qz-bmp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="eb4-ff-TiV"/>
-                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="m5D-GK-Dgv"/>
-                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="tyo-oR-P22"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="yyE-Qz-bmp" secondAttribute="trailing" constant="16" id="e8D-7k-ZHg"/>
+                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="k0V-v8-hgg"/>
+                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="k0u-pj-uow"/>
+                            <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="rFT-GG-lXw"/>
+                            <constraint firstItem="yyE-Qz-bmp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="wr8-az-Jcy"/>
+                            <constraint firstItem="yyE-Qz-bmp" firstAttribute="top" secondItem="CMp-9i-qiJ" secondAttribute="bottom" constant="26" id="y0a-rv-j9P"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SfV-Yf-Wog"/>
+                    <navigationItem key="navigationItem" title="세 여행지 추가하기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
                     <connections>
                         <outlet property="thumbnailAdd" destination="2pe-gF-pr6" id="eSS-xx-sb8"/>
                         <outlet property="tripName" destination="DhF-mp-Uif" id="BlW-Nc-NZS"/>
@@ -102,29 +105,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764.1221374045801" y="-75.352112676056336"/>
+            <point key="canvasLocation" x="2690.8396946564885" y="-75.352112676056336"/>
         </scene>
-        <!--Item-->
-        <scene sceneID="bjd-62-bla">
+        <!--Navigation Controller-->
+        <scene sceneID="cKt-Lv-0oJ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="16T-8o-FOx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="v2X-6X-oGf"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QiI-hf-mRZ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yh2-7e-6QZ" userLabel="여행지 생성하기">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hr0-8j-v9g">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="FNZ-PS-OD6"/>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="EKM-di-3is"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SD0-r3-tDl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UtL-r0-he8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="837.40458015267177" y="-75.352112676056336"/>
+            <point key="canvasLocation" x="1764.1221374045801" y="-75.352112676056336"/>
         </scene>
     </scenes>
     <resources>
