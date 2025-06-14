@@ -37,31 +37,27 @@ class MapViewController: UIViewController {
         return button
     }()
     let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
+    let bottomSheetView: BottomSheetView = {
+        let btsView = BottomSheetView()
+        
+        return btsView
+    }()
     
-    // Sample Data
-    var pinModels = [
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4435000), title: "1", subtitle: "대전 동구 천동 대전로 0번길"),
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3167000, longitude: 127.4400000), title: "2", subtitle: "대전 동구 천동 대전로 542번길"),
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3141000, longitude: 127.4455000), title: "3", subtitle: "대전 동구 천동 대전로 3번길"),
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3198000, longitude: 127.4482000), title: "4", subtitle: "대전 동구 천동 대전로 4번길"),
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3164000, longitude: 127.4411000), title: "5", subtitle: "대전 동구 천동 대전로 5번길"),
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3346000, longitude: 127.4556000), title: "6", subtitle: "대전 동구 천동 대전로 1번길"),
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: 36.3368000, longitude: 127.4567000), title: "7", subtitle: "대전 동구 용운동 대학로 3번길")
-    ]
+    var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
     
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        
         setupCLLocationManager()
         self.setupMapView()
         
         self.addTarget()
-        self.addTestAnnotation()
-        
+
         self.configureSubviews()
+    
+        addAnnotation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,10 +75,15 @@ class MapViewController: UIViewController {
         }
     }
     
-    func addTestAnnotation() {
-        _=pinModels.map {
-            mapView.addAnnotation($0)
+    func addAnnotation() {
+        guard let placeModelList = self.placeModelList else { return }
+        let annotations = placeModelList.compactMap {
+            
+            print("lat: \($0.latitude), lon: \($0.longitude)")
+            return $0.toAnnotationModel()
         }
+        
+        mapView.addAnnotations(annotations)
     }
     
     func addTarget() {
@@ -112,7 +113,7 @@ class MapViewController: UIViewController {
     
 }
 
-// MARK: MKMapViewDelegate
+// MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
     
     func setupMapView() {
@@ -157,27 +158,30 @@ extension MapViewController: MKMapViewDelegate {
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
                                                                     PlaceAnnotationView.identifier)
-        
+        as? PlaceAnnotationView
         
         if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier:
+            annotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier:
                                                 PlaceAnnotationView.identifier)
             annotationView?.canShowCallout = false
             annotationView?.contentMode = .scaleAspectFit
         } else {
             annotationView?.annotation = annotation
+            
         }
         
-        let annotationImage: UIImage!
+        
         let size = CGSize(width: 40, height: 40)
         UIGraphicsBeginImageContext(size)
         
+        let annotationImage = UIImage(systemName: "pin.circle.fill")
         
-        annotationImage = UIImage(systemName: "pin.circle.fill")
-        annotationImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        annotationImage?.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         annotationView?.image = resizedImage
+        
+        annotationView?.titleLabel.text = annotation.title
         
         return annotationView
     }
@@ -197,7 +201,7 @@ extension MapViewController: MKMapViewDelegate {
     
 }
 
-// MARK: CLLocationManagerDelegate
+// MARK: - CLLocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
     
     func setupCLLocationManager() {
@@ -236,6 +240,7 @@ extension MapViewController: LayoutSupport {
     func addSubviews() {
         self.view.addSubview(mapView)
         mapView.addSubview(userLocationButton)
+        mapView.addSubview(bottomSheetView)
         
         userLocationButton.addSubview(userLocationImageView)
     }
@@ -255,6 +260,14 @@ extension MapViewController: LayoutSupport {
             userLocationImageView.bottomAnchor.constraint(equalTo: userLocationButton.bottomAnchor, constant: -8),
             userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
             userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
+        ])
+        
+        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            bottomSheetView.topAnchor.constraint(equalTo: mapView.topAnchor),
+            bottomSheetView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor),
+            bottomSheetView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            bottomSheetView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
         ])
     }
     

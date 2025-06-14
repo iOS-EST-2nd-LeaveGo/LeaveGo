@@ -15,6 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+<<<<<<< HEAD
         
         
 //        guard let _ = (scene as? UIWindowScene) else { return }
@@ -46,6 +47,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     } else {
                         print("❗️ targetVC 못 찾음. Storyboard ID 다시 확인!")
                     }
+=======
+        guard let _ = (scene as? UIWindowScene) else { return }
+		// MARK: 기본코드(공통코드)
+        let didFinishOnboarding = UserDefaults.standard.bool(forKey: "didFinishOnboarding")
+        if didFinishOnboarding {
+			let mainSB = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
+            window?.rootViewController = mainTabBar
+        } else {
+            let onboardingSB = UIStoryboard(name: "Onboarding", bundle: nil)
+            let onboardingNav = onboardingSB.instantiateViewController(withIdentifier: "OnboardingNav")
+            window?.rootViewController = onboardingNav
+        }
+
+		        window?.makeKeyAndVisible()
+>>>>>>> ddc770a68e8a888175d3d2301d1f10096d461025
     }
 
 
@@ -77,6 +94,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		// to restore the scene back to its current state.
 
 		// Save changes in the application's managed object context when the application transitions to the background.
-		(UIApplication.shared.delegate as? AppDelegate)?.saveContext()
-	}
+    }
 }

@@ -7,10 +7,7 @@
 
 import Foundation
 
-struct Validation {
-    // 외부에서 인스턴스 생성 금지
-    private init() { }
-
+enum Validation {
     // 닉네임 검증
     // 공백 x, 알파벳/한글/숫자만 허용, 2~6글자 허용
     static func isValidNickname(_ nickname: String) -> Bool {
