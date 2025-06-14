@@ -29,6 +29,7 @@ class PlaceSelectionTableViewController: UIViewController {
         Task {
             if area != nil {
                 placeList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area!)!
+                placeSelectionTable.reloadData()
             }
         }
     }
