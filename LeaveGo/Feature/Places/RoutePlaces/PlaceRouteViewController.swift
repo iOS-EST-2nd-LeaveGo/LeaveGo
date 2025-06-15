@@ -77,7 +77,9 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 	
 	
 	func didTapCarButton() {
-		mapManager.drawRoute()
+		Task {
+			await mapManager.drawRoute()
+		}
 	}
 	
 }

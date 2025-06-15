@@ -26,7 +26,7 @@ final class RouteMapManager: NSObject {
 		mapView.showsUserLocation = true
 	}
 	
-	func drawRoute() {
+	func drawRoute() async {
 		//let start = MKPlacemark(coordinate: startCoordinate)
 		guard let userLocation = locationManager.location?.coordinate else {
 			print("⚠️ 사용자 위치를 가져올 수 없습니다.")
@@ -42,19 +42,16 @@ final class RouteMapManager: NSObject {
 		
 		let directions = MKDirections(request: request)
 		
-		Task {
-			do {
-				let result = try await directions.calculate()
-				guard let route = result.routes.first else { return }
-				
-				mapView.removeOverlays(mapView.overlays)
-				mapView.addOverlay(route.polyline)
-				
-				let region = MKCoordinateRegion(route.polyline.boundingMapRect)
-				await mapView.setRegion(region, animated: true)
-			} catch {
-				print("경로 계산 실패: \(error)")
-			}
+		do {
+			let result = try await directions.calculate()
+			guard let route = result.routes.first else { return }
+			let region = MKCoordinateRegion(route.polyline.boundingMapRect)
+			
+			await mapView.removeOverlays(mapView.overlays)
+			await mapView.addOverlay(route.polyline)
+			await mapView.setRegion(region, animated: true)
+		} catch {
+			print("경로 계산 실패: \(error)")
 		}
 	}
 }
