@@ -44,6 +44,12 @@ class MapViewController: UIViewController {
     }()
     
     var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
+    {
+        didSet {
+            print("------------------ mapVC placeModelList didSet ------------------")
+            print(placeModelList)
+        }
+    }
     
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -56,8 +62,7 @@ class MapViewController: UIViewController {
         self.addTarget()
 
         self.configureSubviews()
-    
-        addAnnotation()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,7 +80,7 @@ class MapViewController: UIViewController {
         }
     }
     
-    func addAnnotation() {
+    public func addAnnotation() {
         guard let placeModelList = self.placeModelList else { return }
         let annotations = placeModelList.compactMap {
             
@@ -123,6 +128,28 @@ extension MapViewController: MKMapViewDelegate {
         mapView.showsUserLocation = true // 사용자 위치
     }
     
+    func simpleClusterImage(emoji: String) -> UIImage {
+        let size = CGSize(width: 40, height: 40)
+        let renderer = UIGraphicsImageRenderer(size: size)
+
+        return renderer.image { _ in
+            // 배경 원
+            let rect = CGRect(origin: .zero, size: size)
+            UIColor.white.setFill()
+            UIBezierPath(ovalIn: rect).fill()
+
+            // 이모지 중심 배치
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 24),
+                .paragraphStyle: paragraphStyle
+            ]
+            let textRect = CGRect(x: 0, y: (size.height - 24) / 2, width: size.width, height: 24)
+            emoji.draw(in: textRect, withAttributes: attributes)
+        }
+    }
+    
     // 척도 범위 설정
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // scale of map
@@ -139,7 +166,7 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // 사용자 현재위치의 view setting
+        // 사용자 현재위치 annotation 설정
         if annotation is MKUserLocation {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userlocation")
             annotationView.image = UIImage(named: "img_userlocation")
@@ -152,6 +179,44 @@ extension MapViewController: MKMapViewDelegate {
             return annotationView
         }
         
+        // cluster annotation 설정
+        if let cluster = annotation as? MKClusterAnnotation {
+            let identifier = "ClusterView"
+            var clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            
+            if clusterView == nil {
+                clusterView = MKAnnotationView(annotation: cluster, reuseIdentifier: identifier)
+                clusterView?.canShowCallout = false
+            } else {
+                clusterView?.annotation = cluster
+            }
+            
+            let firstAnnotation = cluster.memberAnnotations.first as? PlaceAnnotationModel
+            let cat1 = firstAnnotation?.cat1 ?? "1"
+            
+            let emoji: String
+            switch cat1 {
+            case "A01": emoji = "🌿" // 자연
+            case "A02": emoji = "🎨" // 예술
+            case "A03": emoji = "🏄‍♂️" // 레포츠
+            case "A04": emoji = "🛍️" // 쇼핑
+            case "A05": emoji = "🍜" // 음식
+            case "A06": emoji = "🏨" // 숙박
+            case "A07": emoji = "🚅" // 교통
+            case "A08": emoji = "🗺️" // 여행사
+            case "A09": emoji = "🎆" // 축제
+            case "A10": emoji = "🏸" // 레저스포츠
+            case "B01": emoji = "⛩️" // 관광지
+            case "C01": emoji = "🏛️" // 문화시설
+            default: emoji = "📍"
+            }
+            
+            clusterView?.image = simpleClusterImage(emoji: emoji)
+            
+            return clusterView
+        }
+        
+        // 장소 annotation 설정
         guard let annotation = annotation as? PlaceAnnotationModel else {
             return nil
         }
@@ -163,6 +228,9 @@ extension MapViewController: MKMapViewDelegate {
         if annotationView == nil {
             annotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier:
                                                 PlaceAnnotationView.identifier)
+            
+            annotationView?.clusteringIdentifier = "\(annotation.areaCode ?? "1")-\(annotation.cat1 ?? "1")"
+            
             annotationView?.canShowCallout = false
             annotationView?.contentMode = .scaleAspectFit
         } else {
@@ -170,7 +238,7 @@ extension MapViewController: MKMapViewDelegate {
             
         }
         
-        
+        // annotation view
         let size = CGSize(width: 40, height: 40)
         UIGraphicsBeginImageContext(size)
         
@@ -181,7 +249,11 @@ extension MapViewController: MKMapViewDelegate {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         annotationView?.image = resizedImage
         
-        annotationView?.titleLabel.text = annotation.title
+        if let label = annotationView?.titleLabel {
+            label.text = annotation.title ?? ""
+        } else {
+            print("⚠️ titleLabel is nil")
+        }
         
         return annotationView
     }

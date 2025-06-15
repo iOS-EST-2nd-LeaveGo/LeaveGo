@@ -20,7 +20,11 @@ final class MapHeaderViewController: UIViewController {
         let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
         return vc
     }()
-    var mapVC = MapViewController()
+    var mapVC: MapViewController = {
+        let vc = MapViewController()
+        _=vc.view // viewDidLoad를 강제로 호출하기 위해 view에 접근
+        return vc
+    }()
     
     private var currentVC: UIViewController?
     
@@ -42,10 +46,9 @@ final class MapHeaderViewController: UIViewController {
         loadLocation()
         
         loadThumbnailImage() // TODO: loadPlaceList 컴플리트에서 실행
-        
-        
     }
     
+    // MARK: Load API
     /// loadPlaceList에 필요한 location Data를 얻어옵니다.
     private func loadLocation() {
         LocationManager.shared.fetchLocation { [weak self] (location, error) in
@@ -88,6 +91,7 @@ final class MapHeaderViewController: UIViewController {
         }
     }
     
+    // MARK: Load Thumbnail Image
     /// image를 load해서 PlaceModel에 미리 저장해둠
     func loadThumbnailImage() {
         
@@ -97,11 +101,9 @@ final class MapHeaderViewController: UIViewController {
                 fetchThumbnailImage(for: url) { [weak self] image in
                     guard let self = self else { return }
                     
-                    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
-                    /// placeListVC의 tableView를 다시 그려줍니다.
+                   
                     self.placeModelList[index].thumbnailImage = image
-                    self.transportPlaceList()
-                    placeListVC.tableView.reloadData()
+                    self.completedLoading()
                 }
             }
         }
@@ -120,6 +122,14 @@ final class MapHeaderViewController: UIViewController {
                 print(error ?? "image fetch error")
             }
         }.resume()
+    }
+    
+    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
+    /// placeListVC의 tableView를 다시 그려줍니다.
+    private func completedLoading() {
+        transportPlaceList()
+        placeListVC.tableView.reloadData()
+        mapVC.addAnnotation() // loadAnnotation // mapview가 nil
     }
     
     /// placeModelList를 각 VC에 전달
@@ -145,7 +155,7 @@ final class MapHeaderViewController: UIViewController {
             current.removeFromParent()
         }
         
-        // 새 VC 추가
+        // 새 VC 추가 // viewDidload 호출 되는 시점
         addChild(newVC)
         newVC.view.frame = segmentContentView.bounds
         segmentContentView.addSubview(newVC.view)
