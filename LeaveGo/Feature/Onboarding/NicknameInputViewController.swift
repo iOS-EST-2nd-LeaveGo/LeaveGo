@@ -50,6 +50,7 @@ class NicknameInputViewController: UIViewController {
         case .onboarding:
             nicknameTextField.text = ""
             nicknameTextField.placeholder = "닉네임을 입력해주세요"
+            saveButton.isEnabled = false
         case .editing:
             if let nickname = UserSetting.shared.nickname, !nickname.isEmpty {
                 nicknameTextField.text = nickname
