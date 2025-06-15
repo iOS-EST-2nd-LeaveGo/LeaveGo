@@ -59,11 +59,12 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
         cell.setupMenu(mode: .selectable)
         tableView.allowsMultipleSelection = true
         cell.selectionStyle = .none
-//        cell.moreButton.didtab
         
         let place = placeList[indexPath.row]
         cell.titleLabel.text = place.title
         cell.checkmarkImaveView.image = UIImage(systemName: "checkmark.circle")
+        cell.placeId = Int(place.contentId)
+        cell.placeTitle = place.title
         
         // 이미지 처리
         // cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")

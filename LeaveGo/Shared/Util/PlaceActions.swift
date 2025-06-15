@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 enum PlaceActions {
-    static func presentInfoModal(from view: UIView) {
+    // Cell 에서 모달을 생성하기 위해 부모 뷰를 찾기
+    static func presentInfoModal(from view: UIView, mode: DetailMode, placeId: Int, placeTitle: String, dist: String?) {
         guard let vc = view.parentViewController() else {
             print("❌ 부모 VC 를 찾을 수 없음")
             return
@@ -17,7 +18,10 @@ enum PlaceActions {
 
         let storyboard = UIStoryboard(name: String(describing: Planner.self), bundle: nil)
         let modalVC = storyboard.instantiateViewController(withIdentifier: String(describing: PlaceDetailModalViewController.self)) as! PlaceDetailModalViewController
-        vc.present(modalVC, animated: true)
+        modalVC.placeId = placeId
+        modalVC.placeTitle = placeTitle
         modalVC.sheetPresentationController?.detents = [.medium()]
+        
+        vc.present(modalVC, animated: true)
     }
 }
