@@ -70,11 +70,6 @@ class MapViewController: UIViewController {
         // 위치 업데이트 추적 시작
         LocationManager.shared.startUpdating()
 
-        // 현 위치 초기값
-        if let coordinate = LocationManager.shared.currentLocation {
-            currentLocation = coordinate
-        }
-
         setupMapView()
         addTarget()
         configureSubviews()

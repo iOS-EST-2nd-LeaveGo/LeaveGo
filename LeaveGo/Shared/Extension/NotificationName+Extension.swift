@@ -16,5 +16,4 @@ extension Notification.Name {
     static let locationDidUpdate = Notification.Name("locationDidUpdate")
     static let headingDidUpdate = Notification.Name("headingDidUpdate")
     static let locationUpdateDidFail = Notification.Name("locationUpdateDidFail")
-    
 }
