@@ -7,41 +7,40 @@
 
 import Foundation
 
-
 /// addSubviews, setupSubviewsConstraints을 구현한 다음 LifeCycle에서 configureSubviews를 호출해주세요.
 ///UIView type's default configure
 protocol LayoutSupport {
-  
-  /// Combine setupview's all configuration
-  func configureSubviews()
-  
-  /// Add view to view's subview
-  func addSubviews()
-  
-  ///Use ConfigureUI.setupConstraints(detail:apply:)
-  func setupSubviewsConstraints()
-  
+    
+    /// Combine setupview's all configuration
+    func configureSubviews()
+    
+    /// Add view to view's subview
+    func addSubviews()
+    
+    ///Use ConfigureUI.setupConstraints(detail:apply:)
+    func setupSubviewsConstraints()
+    
 }
 
 extension LayoutSupport {
-  
-  func configureSubviews() {
-    addSubviews()
-    setupSubviewsConstraints()
-  }
-  
+    
+    func configureSubviews() {
+        addSubviews()
+        setupSubviewsConstraints()
+    }
+    
 }
 
 protocol SetupSubviewsLayouts {
-  // 잘 안씀
-  ///Use ConfigureUI.setupLayout(detail:apply:)
-  func setupSubviewsLayouts()
-  
+    // 잘 안씀
+    ///Use ConfigureUI.setupLayout(detail:apply:)
+    func setupSubviewsLayouts()
+    
 }
 
 protocol SetupSubviewsConstraints {
-  
-  ///Use ConfigureUI.setupConstraints(detail:apply:)
-  func setupSubviewsConstraints()
-  
+    
+    ///Use ConfigureUI.setupConstraints(detail:apply:)
+    func setupSubviewsConstraints()
+    
 }

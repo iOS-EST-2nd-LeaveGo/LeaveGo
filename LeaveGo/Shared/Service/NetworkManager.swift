@@ -46,9 +46,6 @@ class NetworkManager {
                 print("😵 HTTP 오류 코드: \(httpResponse.statusCode)")
                 throw NetworkError.invalidResponse
             }
-        } catch {
-            print("😵 알 수 없는 네트워크 오류: \(error), \(error.localizedDescription)")
-            throw NetworkError.unKnown
         }
     }
 }
