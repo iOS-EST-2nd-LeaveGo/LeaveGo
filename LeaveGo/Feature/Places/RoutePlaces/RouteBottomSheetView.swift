@@ -10,7 +10,7 @@ import UIKit
 class RouteBottomSheetView: UIView {
 	/// 차, 도보 모드
 	enum TransportMode: Int {
-		case car, walk
+		case car, walk, bicycle
 	}
 
 	// MARK: – Subviews
@@ -22,6 +22,18 @@ class RouteBottomSheetView: UIView {
 		cfg.baseForegroundColor = .label
 		btn.configuration = cfg
 		btn.tag = TransportMode.car.rawValue
+		btn.translatesAutoresizingMaskIntoConstraints = false
+		return btn
+	}()
+	
+	let bicycleButton: UIButton = {
+		let btn = UIButton(type: .system)
+		var cfg = UIButton.Configuration.filled()
+		cfg.image = UIImage(systemName: "bicycle")
+		cfg.baseBackgroundColor = .systemGray5
+		cfg.baseForegroundColor = .label
+		btn.configuration = cfg
+		btn.tag = TransportMode.bicycle.rawValue
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
@@ -78,35 +90,35 @@ class RouteBottomSheetView: UIView {
 		backgroundColor = .white
 		addSubview(topStack)
 		topStack.addArrangedSubview(carButton)
+		topStack.addArrangedSubview(bicycleButton)
 		topStack.addArrangedSubview(walkButton)
-		//addSubview(closeButton)
 		addSubview(tableView)
 
 		NSLayoutConstraint.activate([
 			topStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-			topStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-			topStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -56),
+			topStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+			topStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
 			topStack.heightAnchor.constraint(equalToConstant: 44),
 		])
 
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: topStack.bottomAnchor, constant: 16),
-			tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-			tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+			tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
 		])
 		
 		tableHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
 		tableHeightConstraint.isActive = true
 	}
 
-	
 	func addTransportTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
 		carButton.addTarget(target, action: action, for: event)
 		walkButton.addTarget(target, action: action, for: event)
+		bicycleButton.addTarget(target, action: action, for: event)
 	}
 	
 	func select(mode: TransportMode) {
-		for btn in [carButton, walkButton] {
+		for btn in [carButton, walkButton, bicycleButton] {
 			btn.configuration?.baseBackgroundColor =
 				(btn.tag == mode.rawValue)
 				? UIColor.systemBlue.withAlphaComponent(0.3)
