@@ -13,7 +13,7 @@ final class RouteMapManager: NSObject {
 	private let mapView: MKMapView
 	private let locationManager = CLLocationManager()
 	
-	private let startCoordinate = CLLocationCoordinate2D(latitude: 37.498362, longitude: 127.027603)
+	//private let startCoordinate = CLLocationCoordinate2D(latitude: 37.498362, longitude: 127.027603)
 	private let destCoordinate  = CLLocationCoordinate2D(latitude: 37.294064, longitude: 127.202599)
 	
 	init(mapView: MKMapView) {
@@ -22,16 +22,22 @@ final class RouteMapManager: NSObject {
 		self.mapView.delegate = self
 		locationManager.delegate = self
 		locationManager.requestWhenInUseAuthorization()
+		
 		mapView.showsUserLocation = true
 	}
 	
 	func drawRoute() {
-		let start = MKPlacemark(coordinate: startCoordinate)
-		let dest  = MKPlacemark(coordinate: destCoordinate)
+		//let start = MKPlacemark(coordinate: startCoordinate)
+		guard let userLocation = locationManager.location?.coordinate else {
+			print("⚠️ 사용자 위치를 가져올 수 없습니다.")
+			return
+		}
+		let startPlacemark = MKPlacemark(coordinate: userLocation)
+		let destPlacemark  = MKPlacemark(coordinate: destCoordinate)
 		
 		let request = MKDirections.Request()
-		request.source = MKMapItem(placemark: start)
-		request.destination = MKMapItem(placemark: dest)
+		request.source = MKMapItem(placemark: startPlacemark)
+		request.destination = MKMapItem(placemark: destPlacemark)
 		request.transportType = .automobile
 		
 		let directions = MKDirections(request: request)
