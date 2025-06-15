@@ -47,6 +47,7 @@ final class LocationManager: NSObject {
     func stopUpdating() {
         manager.stopUpdatingLocation()
     }
+
 }
 
 extension UIApplication {

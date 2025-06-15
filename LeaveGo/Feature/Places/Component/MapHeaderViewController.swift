@@ -56,6 +56,11 @@ final class MapHeaderViewController: UIViewController {
         switchToVC(placeListVC)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadPlaceList()
+    }
+
     // 해제
     deinit {
         NotificationCenter.default.removeObserver(self)

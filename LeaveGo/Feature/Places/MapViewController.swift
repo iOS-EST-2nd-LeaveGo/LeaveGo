@@ -76,6 +76,16 @@ class MapViewController: UIViewController {
         addAnnotation()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if var center = LocationManager.shared.currentLocation {
+            center.latitude -= 0.001
+            let region = MKCoordinateRegion(center: center, latitudinalMeters: 450, longitudinalMeters: 450)
+            mapView.setRegion(region, animated: false)
+            didSetInitialRegion = true
+        }
+    }
+
     deinit {
         NotificationCenter.default.removeObserver(self)
         print("MapViewController, 옵저버 해제 완료")
