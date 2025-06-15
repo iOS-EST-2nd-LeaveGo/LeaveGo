@@ -2,28 +2,155 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Planner View Controller-->
+        <!--나의 여행-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="PlannerVC" id="Y6W-OH-hqX" customClass="PlannerViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vzD-w0-H3y">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wNA-Hd-MOT">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PlannerItemCell" id="bAn-lh-cQl">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Soi-b3-gvw">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <segue destination="K6D-HB-F25" kind="show" identifier="navigateToPlannerCompositionView" id="hAD-fS-CiJ"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vzD-w0-H3y" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="BXd-Wa-8BK"/>
+                            <constraint firstItem="vzD-w0-H3y" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Pca-dE-9rh"/>
+                            <constraint firstItem="vzD-w0-H3y" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="akU-yX-QfO"/>
+                            <constraint firstAttribute="bottom" secondItem="vzD-w0-H3y" secondAttribute="bottom" id="p84-DK-vQ1"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="UrU-PR-vUG"/>
+                    <navigationItem key="navigationItem" title="나의 여행" id="UrU-PR-vUG"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="plannerCollectionView" destination="vzD-w0-H3y" id="1WC-pX-d07"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1064.885496183206" y="18.30985915492958"/>
+        </scene>
+        <!--여행 지역 선택하기-->
+        <scene sceneID="HmH-Fd-Yg4">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="K6D-HB-F25" customClass="AreaSelectionViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ijz-yu-iEU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4nD-13-qLO">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="r5B-JS-OwB">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AreaItemCell" id="TS4-FA-O6f">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="0Qi-Z8-pkN">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="llt-YT-T1e">
+                                <rect key="frame" x="16" y="752" width="361" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="NVN-rt-UDO"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="지역 선택하기">
+                                    <backgroundConfiguration key="background" cornerRadius="16"/>
+                                    <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="9QL-rt-bDP"/>
+                                    <segue destination="q8i-jm-OT9" kind="show" id="E0E-4r-ofX"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Y5u-F2-TbE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Y5u-F2-TbE" firstAttribute="trailing" secondItem="llt-YT-T1e" secondAttribute="trailing" constant="16" id="NLI-jI-VeT"/>
+                            <constraint firstItem="llt-YT-T1e" firstAttribute="leading" secondItem="Y5u-F2-TbE" secondAttribute="leading" constant="16" id="W90-6R-9tU"/>
+                            <constraint firstItem="llt-YT-T1e" firstAttribute="bottom" secondItem="Y5u-F2-TbE" secondAttribute="bottom" constant="16" id="rbg-nj-91L"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="여행 지역 선택하기" id="I92-20-1lO"/>
+                    <connections>
+                        <outlet property="areaSelectionCollectionView" destination="4nD-13-qLO" id="lY6-HM-ysD"/>
+                        <outlet property="selectButtonView" destination="llt-YT-T1e" id="XPH-Gc-y9s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LAX-aH-IfI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1976" y="18"/>
+        </scene>
+        <!--여행지 추가하기-->
+        <scene sceneID="EeN-rL-KC8">
+            <objects>
+                <viewController id="q8i-jm-OT9" customClass="PlaceSelectionTableViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fuD-G6-DtG">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-wX-T0R">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hkg-3X-PwD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="여행지 추가하기" id="UhZ-Gs-8Vl"/>
+                    <connections>
+                        <outlet property="placeSelectionTable" destination="9Wn-wX-T0R" id="EB7-kA-xI3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CxI-9V-Dkb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2875.5725190839694" y="17.605633802816904"/>
         </scene>
         <!--여행-->
         <scene sceneID="ZLm-Ja-wRv">
@@ -48,6 +175,12 @@
     </scenes>
     <resources>
         <image name="hat.widebrim.fill" catalog="system" width="128" height="79"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomBackgroundColor">
+            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
