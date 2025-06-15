@@ -12,7 +12,7 @@ final class CoreDataManager {
     static let shared = CoreDataManager()
 
     let persistentContainer: NSPersistentContainer
-    var context: NSManagedObjectContext { persistentContainer.viewContext }
+    let context: NSManagedObjectContext
 
     private init() {
         persistentContainer = NSPersistentContainer(name: "LeaveGo")
@@ -23,6 +23,9 @@ final class CoreDataManager {
                 // Alert 띄우거나 오류 View 보여주기
             }
         })
+
+        context = persistentContainer.viewContext
+
     }
 
     func saveContext () {
