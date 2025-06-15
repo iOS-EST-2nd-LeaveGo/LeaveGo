@@ -44,8 +44,6 @@ final class MapHeaderViewController: UIViewController {
         print("---viewDidLoad--------")
         
         loadLocation()
-        
-        loadThumbnailImage() // TODO: loadPlaceList 컴플리트에서 실행
     }
     
     // MARK: Load API

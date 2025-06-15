@@ -15,13 +15,16 @@ class PlaceAnnotationModel: NSObject, MKAnnotation {
     let cat1: String? // 대분류코드
     let cat2: String? // 중분류코드
     let cat3: String? // 소분류코드
+    
+    let thumbnailImage: UIImage?
 
-    init(coordinate: CLLocationCoordinate2D, title: String?, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+    init(coordinate: CLLocationCoordinate2D, title: String?, areaCode: String?, cat1: String?, cat2: String?, cat3: String?, thumbnailImage: UIImage?) {
         self.coordinate = coordinate
         self.title = title
         self.areaCode = areaCode
         self.cat1 = cat1
         self.cat2 = cat2
         self.cat3 = cat3
+        self.thumbnailImage = thumbnailImage
     }
 }

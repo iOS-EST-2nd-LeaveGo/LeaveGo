@@ -44,7 +44,7 @@ extension PlaceModel {
     /// MapViewContoller에서 mapview에 전달 하기위해 annotaionModel형태로 전달해야 합니다.
     func toAnnotationModel() -> PlaceAnnotationModel {
         PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                             title: title, areaCode: areaCode, cat1: cat1, cat2: cat2, cat3: cat3)
+                             title: title, areaCode: areaCode, cat1: cat1, cat2: cat2, cat3: cat3, thumbnailImage: thumbnailImage)
     }
     
 }

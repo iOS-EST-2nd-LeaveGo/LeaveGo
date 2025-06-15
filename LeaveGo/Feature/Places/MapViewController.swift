@@ -63,6 +63,12 @@ class MapViewController: UIViewController {
 
         self.configureSubviews()
         
+        mapView.register(PlaceAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: String(
+                            describing: PlaceAnnotationModel.self))
+        
+        mapView.register(PlaceClusterAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -131,13 +137,13 @@ extension MapViewController: MKMapViewDelegate {
     func simpleClusterImage(emoji: String) -> UIImage {
         let size = CGSize(width: 40, height: 40)
         let renderer = UIGraphicsImageRenderer(size: size)
-
+        
         return renderer.image { _ in
             // 배경 원
             let rect = CGRect(origin: .zero, size: size)
             UIColor.white.setFill()
             UIBezierPath(ovalIn: rect).fill()
-
+            
             // 이모지 중심 배치
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .center
@@ -179,96 +185,44 @@ extension MapViewController: MKMapViewDelegate {
             return annotationView
         }
         
-        // cluster annotation 설정
-        if let cluster = annotation as? MKClusterAnnotation {
-            let identifier = "ClusterView"
-            var clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        if let place = annotation as? PlaceAnnotationModel {
+            let annotationView = mapView.dequeueReusableAnnotationView(
+                withIdentifier: String(describing: PlaceAnnotationModel.self),
+                for: annotation
+            ) as! PlaceAnnotationView
             
-            if clusterView == nil {
-                clusterView = MKAnnotationView(annotation: cluster, reuseIdentifier: identifier)
-                clusterView?.canShowCallout = false
+            annotationView.configure(with: place)
+            annotationView.canShowCallout = true
+            annotationView.contentMode = .scaleAspectFill
+            
+            return annotationView
+            
+        } else if let cluster = annotation as? MKClusterAnnotation,
+                  let first = cluster.memberAnnotations.first as? PlaceAnnotationModel {
+            // 클러스터 어노테이션은 확대, 축소할 때 맵뷰가 자동으로 추가
+            let annotationView = mapView
+                .dequeueReusableAnnotationView(
+                    withIdentifier: PlaceClusterAnnotationView.identifier,
+                    for: annotation
+                ) as! PlaceClusterAnnotationView
+            
+            let count = cluster.memberAnnotations.count
+            annotationView.configure(with: first.cat1, count: count)
+            annotationView.canShowCallout = false
+            
+            if count > 30 {
+                // 항상 표시
+                annotationView.displayPriority = .required
+            } else if count > 15 {
+                annotationView.displayPriority = .defaultHigh
             } else {
-                clusterView?.annotation = cluster
+                annotationView.displayPriority = .defaultLow
             }
             
-            let firstAnnotation = cluster.memberAnnotations.first as? PlaceAnnotationModel
-            let cat1 = firstAnnotation?.cat1 ?? "1"
-            
-            let emoji: String
-            switch cat1 {
-            case "A01": emoji = "🌿" // 자연
-            case "A02": emoji = "🎨" // 예술
-            case "A03": emoji = "🏄‍♂️" // 레포츠
-            case "A04": emoji = "🛍️" // 쇼핑
-            case "A05": emoji = "🍜" // 음식
-            case "A06": emoji = "🏨" // 숙박
-            case "A07": emoji = "🚅" // 교통
-            case "A08": emoji = "🗺️" // 여행사
-            case "A09": emoji = "🎆" // 축제
-            case "A10": emoji = "🏸" // 레저스포츠
-            case "B01": emoji = "⛩️" // 관광지
-            case "C01": emoji = "🏛️" // 문화시설
-            default: emoji = "📍"
-            }
-            
-            clusterView?.image = simpleClusterImage(emoji: emoji)
-            
-            return clusterView
+            return annotationView
         }
         
-        // 장소 annotation 설정
-        guard let annotation = annotation as? PlaceAnnotationModel else {
-            return nil
-        }
-        
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
-                                                                    PlaceAnnotationView.identifier)
-        as? PlaceAnnotationView
-        
-        if annotationView == nil {
-            annotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier:
-                                                PlaceAnnotationView.identifier)
-            
-            annotationView?.clusteringIdentifier = "\(annotation.areaCode ?? "1")-\(annotation.cat1 ?? "1")"
-            
-            annotationView?.canShowCallout = false
-            annotationView?.contentMode = .scaleAspectFit
-        } else {
-            annotationView?.annotation = annotation
-            
-        }
-        
-        // annotation view
-        let size = CGSize(width: 40, height: 40)
-        UIGraphicsBeginImageContext(size)
-        
-        let annotationImage = UIImage(systemName: "pin.circle.fill")
-        
-        annotationImage?.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        annotationView?.image = resizedImage
-        
-        if let label = annotationView?.titleLabel {
-            label.text = annotation.title ?? ""
-        } else {
-            print("⚠️ titleLabel is nil")
-        }
-        
-        return annotationView
-    }
-    
-    /// 경로위에 표시되는 line UI를 정의
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKPolyline {
-            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
-            polylineRenderer.lineWidth = 5.0
-            polylineRenderer.strokeColor = .blue
-            
-            return polylineRenderer
-        }
-        
-        return MKOverlayRenderer()
+        return nil
     }
     
 }
