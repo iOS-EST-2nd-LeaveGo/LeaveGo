@@ -9,29 +9,8 @@ import UIKit
 import CoreLocation
 
 class HomeViewController: UIViewController {
-    var location: CLLocationCoordinate2D?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setupLocation()
     }
-    
-//    func setupLocation() {
-//        // 싱글톤
-//        LocationManager.shared.fetchLocation { [weak self] (location, error) in
-//            guard let self = self else { return }
-//            
-//            if let location = location {
-//                self.location = location
-//                print("📍 사용자 위치 - 위도: \(location.latitude), 경도: \(location.longitude)")
-//            } else if let error = error {
-//                print("❌ 위치 가져오기 실패: \(error.localizedDescription)")
-//            } else {
-//                print("⚠️ 알 수 없는 오류 발생")
-//            }
-//            
-//            
-//        }
-//    }
-    
 }
