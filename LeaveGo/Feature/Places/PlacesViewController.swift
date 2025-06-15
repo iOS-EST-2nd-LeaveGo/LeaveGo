@@ -41,6 +41,10 @@ extension PlacesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
+        cell.setupMenu(mode: .list)
+        cell.checkmarkImaveView.isHidden = true
+        
         let place = placeModelList[indexPath.row]
         // 제목
         cell.titleLabel.text = place.title
