@@ -16,6 +16,7 @@ class PlaceSelectionTableViewController: UIViewController {
     var area: Area?
     var placeList = [AreaBasedPlaceList]()
     var imageCache: [String: UIImage] = [:]
+    var selectedItems: [IndexPath] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,12 +51,21 @@ extension PlaceSelectionTableViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let place = placeList[indexPath.row]
-        // 제목
-        cell.titleLabel.text = place.title
-        // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
-        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+        // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
+        cell.setupMenu(mode: .selectable)
+        cell.distanceLabel.isHidden = true
+        cell.timeLabel.isHidden = true
         
+        tableView.allowsMultipleSelection = true
+        
+        let place = placeList[indexPath.row]
+        cell.titleLabel.text = place.title
+        
+        if selectedItems.contains(indexPath) {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         
         // 이미지 처리
 //        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
@@ -65,7 +75,22 @@ extension PlaceSelectionTableViewController: UITableViewDataSource {
     
     // 이 코드는 사용자가 셀을 선택한 후 애니메이션과 함께 선택 효과(회색)를 제거해주는 역할을 합니다.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if !selectedItems.contains(indexPath) {
+            selectedItems.append(indexPath)
+        }
+
+        tableView.reloadRows(at: [indexPath], with: .none)
+        
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let index = selectedItems.firstIndex(of: indexPath) {
+            selectedItems.remove(at: index)
+        }
+
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 
