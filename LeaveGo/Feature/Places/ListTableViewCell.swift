@@ -31,6 +31,7 @@ class ListTableViewCell: UITableViewCell {
     func setupMenu(mode: CellMode) {
         switch mode {
         case .list:
+            checkmarkImaveView.isHidden = true
             moreButton.menu = UIMenu(title: "", children: [
                 UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
                     guard let self else { return }
@@ -44,6 +45,13 @@ class ListTableViewCell: UITableViewCell {
             moreButton.showsMenuAsPrimaryAction = true
         default:
             moreButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
+            moreButton.addAction(UIAction(handler: { [weak self] _ in
+                guard let self = self else { return }
+                PlaceActions.presentInfoModal(from: self)
+            }), for: .touchUpInside)
+            
+            distanceLabel.isHidden = true
+            timeLabel.isHidden = true
             // 정보 보여주는 모달 띄우기
         }
     }
