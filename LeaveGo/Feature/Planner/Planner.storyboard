@@ -185,19 +185,13 @@
                                 <rect key="frame" x="0.0" y="118" width="393" height="617"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="CMJ-KM-yxQ" userLabel="Root Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="322.33333333333331"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="214.66666666666666"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ytz-wS-yeL">
-                                                <rect key="frame" x="16" y="15.999999999999998" width="361" height="19.333333333333329"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZkM-oA-rdi">
-                                                <rect key="frame" x="16" y="67.333333333333343" width="361" height="20"/>
+                                                <rect key="frame" x="16" y="16" width="361" height="20"/>
                                             </activityIndicatorView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kUH-k9-3VJ">
-                                                <rect key="frame" x="16" y="119.33333333333334" width="361" height="107"/>
+                                                <rect key="frame" x="16" y="67.999999999999986" width="361" height="130.66666666666663"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twJ-EK-992" userLabel="Title &amp; Bookmark Stack View">
                                                         <rect key="frame" x="0.0" y="0.0" width="361" height="26.666666666666668"/>
@@ -227,10 +221,10 @@
                                                             </button>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="xZp-SQ-Eme" userLabel="Open Time &amp; Distance Stack View">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="xZp-SQ-Eme">
                                                         <rect key="frame" x="0.0" y="34.666666666666657" width="66.333333333333329" height="15.666666666666664"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Time" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RH4-jq-7KP">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Time" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VkO-Y1-3G6">
                                                                 <rect key="frame" x="0.0" y="0.0" width="66.333333333333329" height="15.666666666666666"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                 <color key="textColor" name="SecandaryColor"/>
@@ -238,14 +232,21 @@
                                                             </label>
                                                         </subviews>
                                                     </stackView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FuK-XW-Gwz">
-                                                        <rect key="frame" x="0.0" y="58.33333333333335" width="361" height="20.333333333333336"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open Time" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RH4-jq-7KP">
+                                                        <rect key="frame" x="0.0" y="58.333333333333336" width="66.333333333333329" height="15.666666666666664"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                        <color key="textColor" name="SecandaryColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FuK-XW-Gwz">
+                                                        <rect key="frame" x="0.0" y="82" width="361" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Number" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TfS-Do-0ET">
-                                                        <rect key="frame" x="0.0" y="86.666666666666657" width="126.33333333333333" height="20.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="110.33333333333331" width="126.33333333333333" height="20.333333333333343"/>
+                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="30" trailing="8"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -260,30 +261,30 @@
                                                     <constraint firstItem="xZp-SQ-Eme" firstAttribute="leading" secondItem="kUH-k9-3VJ" secondAttribute="leading" id="u2K-n1-rgl"/>
                                                 </constraints>
                                             </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
-                                                <rect key="frame" x="16" y="258.33333333333331" width="361" height="48"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
-                                                </constraints>
-                                                <color key="tintColor" name="AccentColor"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" image="arrow.trianglehead.turn.up.right.circle.fill" catalog="system" title="경로 찾기" imagePadding="5">
-                                                    <backgroundConfiguration key="background" cornerRadius="16"/>
-                                                    <color key="baseForegroundColor" name="CustomBackgroundColor"/>
-                                                </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="HBK-Wl-ayK"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstItem="Vs9-Jp-hrI" firstAttribute="top" secondItem="kUH-k9-3VJ" secondAttribute="bottom" constant="32" id="21C-fj-I6G"/>
-                                        </constraints>
                                         <directionalEdgeInsets key="directionalLayoutMargins" top="16" leading="16" bottom="16" trailing="16"/>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
+                                        <rect key="frame" x="16" y="569" width="361" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
+                                        </constraints>
+                                        <color key="tintColor" name="AccentColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" image="arrow.trianglehead.turn.up.right.circle.fill" catalog="system" title="경로 찾기" imagePadding="5">
+                                            <backgroundConfiguration key="background" cornerRadius="16"/>
+                                            <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="HBK-Wl-ayK"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="Vs9-Jp-hrI" firstAttribute="leading" secondItem="rfA-K2-8HL" secondAttribute="leading" constant="16" id="2aU-9c-8cW"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="leading" secondItem="aW9-H0-nUi" secondAttribute="leading" id="3ZR-3J-Yat"/>
+                                    <constraint firstItem="rfA-K2-8HL" firstAttribute="bottom" secondItem="Vs9-Jp-hrI" secondAttribute="bottom" id="7P3-Ho-dkS"/>
+                                    <constraint firstItem="rfA-K2-8HL" firstAttribute="trailing" secondItem="Vs9-Jp-hrI" secondAttribute="trailing" constant="16" id="8fL-ko-LpH"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="trailing" secondItem="aW9-H0-nUi" secondAttribute="trailing" id="aQx-6P-hz6"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="width" secondItem="rfA-K2-8HL" secondAttribute="width" id="rYt-QB-wsf"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="bottom" secondItem="aW9-H0-nUi" secondAttribute="bottom" id="xJV-u2-bgU"/>
@@ -311,9 +312,11 @@
                         <outlet property="bookmarkButton" destination="qV4-qz-mXv" id="UVp-IE-Pou"/>
                         <outlet property="contactNumberLabel" destination="TfS-Do-0ET" id="VLq-S6-g2d"/>
                         <outlet property="distanceLabel" destination="1KG-vG-4Io" id="BAb-JH-c6t"/>
-                        <outlet property="fetchErrorMessageLabel" destination="Ytz-wS-yeL" id="107-QY-b6e"/>
+                        <outlet property="findRouteButton" destination="Vs9-Jp-hrI" id="kEE-OR-V1M"/>
                         <outlet property="openTimeLabel" destination="RH4-jq-7KP" id="iF7-Hm-Nth"/>
+                        <outlet property="restDateLabel" destination="VkO-Y1-3G6" id="Nbd-NW-QK9"/>
                         <outlet property="titleLabel" destination="0dL-8a-9gO" id="9IT-In-A87"/>
+                        <outlet property="workingHourStackView" destination="xZp-SQ-Eme" id="JIg-XT-hcS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OfO-Ku-VHZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

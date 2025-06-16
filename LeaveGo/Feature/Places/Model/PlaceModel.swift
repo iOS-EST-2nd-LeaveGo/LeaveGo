@@ -54,7 +54,6 @@ extension PlaceModel {
                              cat2: cat2,
                              cat3: cat3)
     }
-    
 }
 
 struct PlaceDetailModel {
