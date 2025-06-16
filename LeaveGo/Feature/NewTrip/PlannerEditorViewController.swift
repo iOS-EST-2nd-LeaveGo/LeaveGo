@@ -62,6 +62,3 @@ extension PlannerEditorViewController: PHPickerViewControllerDelegate {
     }
 }
 
-//#Preview {
-//    AddNewTripViewController()
-//}

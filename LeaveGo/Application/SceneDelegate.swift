@@ -17,37 +17,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         
-//        guard let _ = (scene as? UIWindowScene) else { return }
-//		// MARK: 기본코드(공통코드)
-//        let didFinishOnboarding = UserDefaults.standard.bool(forKey: "didFinishOnboarding")
-//        if didFinishOnboarding {
-//			let mainSB = UIStoryboard(name: "Main", bundle: nil)
-//            let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
-//            window?.rootViewController = mainTabBar
-//        } else {
-//            let onboardingSB = UIStoryboard(name: "Onboarding", bundle: nil)
-//            let onboardingNav = onboardingSB.instantiateViewController(withIdentifier: "OnboardingNav")
-//            window?.rootViewController = onboardingNav
-//        }
-//
-//        window?.makeKeyAndVisible()
+        guard let _ = (scene as? UIWindowScene) else { return }
+		// MARK: 기본코드(공통코드)
+        let didFinishOnboarding = UserDefaults.standard.bool(forKey: "didFinishOnboarding")
+        if didFinishOnboarding {
+			let mainSB = UIStoryboard(name: "Main", bundle: nil)
+            let mainTabBar = mainSB.instantiateViewController(withIdentifier: "MainTabBarController")
+            window?.rootViewController = mainTabBar
+        } else {
+            let onboardingSB = UIStoryboard(name: "Onboarding", bundle: nil)
+            let onboardingNav = onboardingSB.instantiateViewController(withIdentifier: "OnboardingNav")
+            window?.rootViewController = onboardingNav
+        }
+
+        window?.makeKeyAndVisible()
         
 //        효환 테스트용
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-               
-               window = UIWindow(windowScene: windowScene)
-               
-               let targetSB = UIStoryboard(name: "PlannerEditor", bundle: nil)
-               
-                // 앱 실행시 먼저 보이는 스토리보드 뷰 - 임시로 설정한 작업 화면
-                    if let targetVC = targetSB.instantiateViewController(withIdentifier: "PlannerEditorVC") as? PlannerEditorViewController {
-                        window?.rootViewController = targetVC
-                        window?.makeKeyAndVisible()
-                    } else {
-                        print("❗️ targetVC 못 찾음. Storyboard ID 다시 확인!")
-                    }
-
-    }
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//               
+//               window = UIWindow(windowScene: windowScene)
+//               
+//               let targetSB = UIStoryboard(name: "PlannerEditor", bundle: nil)
+//               
+//                // 앱 실행시 먼저 보이는 스토리보드 뷰 - 임시로 설정한 작업 화면
+//                    if let targetVC = targetSB.instantiateViewController(withIdentifier: "PlannerEditorVC") as? PlannerEditorViewController {
+//                        window?.rootViewController = targetVC
+//                        window?.makeKeyAndVisible()
+//                    } else {
+//                        print("❗️ targetVC 못 찾음. Storyboard ID 다시 확인!")
+//                    }
+//
+//    }
 
 
 	func sceneDidDisconnect(_ scene: UIScene) {
