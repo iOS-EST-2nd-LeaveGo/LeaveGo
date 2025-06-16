@@ -103,7 +103,7 @@
         <scene sceneID="rmp-Bp-i6u">
             <objects>
                 <navigationController storyboardIdentifier="MapHeaderNav" automaticallyAdjustsScrollViewInsets="NO" id="wnC-kO-3Tp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="장소" image="map" catalog="system" selectedImage="map.fill" id="Efz-sb-Wak"/>
+                    <tabBarItem key="tabBarItem" title="장소" image="map.fill" catalog="system" id="Efz-sb-Wak"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xzc-Ss-771">
@@ -121,7 +121,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="map" catalog="system" width="128" height="112"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
