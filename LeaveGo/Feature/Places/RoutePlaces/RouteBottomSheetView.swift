@@ -37,7 +37,19 @@ class RouteBottomSheetView: UIView {
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
-
+	
+	let emptyStateLabel: UILabel = {
+		let lbl = UILabel()
+		lbl.text = "자전거 경로를 사용할 수 없습니다"
+		lbl.textColor = .secondaryLabel
+		lbl.font = .systemFont(ofSize: 14)
+		lbl.textAlignment = .center
+		lbl.numberOfLines = 0
+		lbl.isHidden = true
+		lbl.translatesAutoresizingMaskIntoConstraints = false
+		return lbl
+	}()
+	
 	let walkButton: UIButton = {
 		let btn = UIButton(type: .system)
 		var cfg = UIButton.Configuration.filled()
@@ -49,7 +61,7 @@ class RouteBottomSheetView: UIView {
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
-
+	
 	let topStack: UIStackView = {
 		let stack = UIStackView()
 		stack.axis = .horizontal
@@ -59,14 +71,7 @@ class RouteBottomSheetView: UIView {
 		return stack
 	}()
 
-//	let closeButton: UIButton = {
-//		let btn = UIButton(type: .system)
-//		btn.setImage(UIImage(systemName: "xmark"), for: .normal)
-//		btn.translatesAutoresizingMaskIntoConstraints = false
-//		return btn
-//	}()
-
-	let tableView: UITableView = {
+	let startDestinationTableView: UITableView = {
 		let tv = UITableView()
 		tv.translatesAutoresizingMaskIntoConstraints = false
 		return tv
@@ -85,14 +90,19 @@ class RouteBottomSheetView: UIView {
 	}
 
 	// MARK: – Layout
-
+	
 	private func setupLayout() {
-		backgroundColor = .white
+		backgroundColor = UIColor { tc in
+			tc.userInterfaceStyle == .dark
+			? .black
+			: .white
+		}
 		addSubview(topStack)
 		topStack.addArrangedSubview(carButton)
 		topStack.addArrangedSubview(bicycleButton)
 		topStack.addArrangedSubview(walkButton)
-		addSubview(tableView)
+		addSubview(startDestinationTableView)
+		addSubview(emptyStateLabel)
 
 		NSLayoutConstraint.activate([
 			topStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -102,12 +112,19 @@ class RouteBottomSheetView: UIView {
 		])
 
 		NSLayoutConstraint.activate([
-			tableView.topAnchor.constraint(equalTo: topStack.bottomAnchor, constant: 16),
-			tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-			tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+			startDestinationTableView.topAnchor.constraint(equalTo: topStack.bottomAnchor, constant: 16),
+			startDestinationTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+			startDestinationTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
 		])
 		
-		tableHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+		NSLayoutConstraint.activate([
+			emptyStateLabel.topAnchor.constraint(equalTo: startDestinationTableView.bottomAnchor, constant: 16),
+			emptyStateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+			emptyStateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+		])
+
+		
+		tableHeightConstraint = startDestinationTableView.heightAnchor.constraint(equalToConstant: 0)
 		tableHeightConstraint.isActive = true
 	}
 
@@ -118,11 +135,26 @@ class RouteBottomSheetView: UIView {
 	}
 	
 	func select(mode: TransportMode) {
+		let bg = UIColor { tc in
+			tc.userInterfaceStyle == .dark ? .white : .systemGray5
+		}
+		let fg = UIColor.black
+		let border = UIColor.black
+		
 		for btn in [carButton, walkButton, bicycleButton] {
-			btn.configuration?.baseBackgroundColor =
-				(btn.tag == mode.rawValue)
-				? UIColor.systemBlue.withAlphaComponent(0.3)
-				: .systemGray5
+			guard var cfg = btn.configuration else { continue }
+			cfg.baseBackgroundColor = bg
+			cfg.baseForegroundColor = fg
+			
+			if btn.tag == mode.rawValue {
+				cfg.background.strokeColor = border
+				cfg.background.strokeWidth = 1
+			} else {
+				cfg.background.strokeColor = .clear
+				cfg.background.strokeWidth = 0
+			}
+			
+			btn.configuration = cfg
 		}
 	}
 }

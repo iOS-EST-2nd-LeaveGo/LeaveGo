@@ -9,12 +9,29 @@ import Foundation
 import MapKit
 import CoreLocation
 
+enum RouteError: Error {
+	case locationUnavailable
+	case noRoutes
+}
+
 final class RouteMapManager: NSObject {
 	private let mapView: MKMapView
 	private let locationManager = CLLocationManager()
 	
 	//private let startCoordinate = CLLocationCoordinate2D(latitude: 37.498362, longitude: 127.027603)
+	var startPlacemark: MKPlacemark? {
+		guard let coord = locationManager.location?.coordinate else {
+			return nil
+		}
+		return MKPlacemark(coordinate: coord)
+	}
+	// TODO: - 차후에 목적지 고정 좌표를 장소목록 세그먼트의 MapVC의 DetailViewController에서 받아와야 함
 	private let destCoordinate  = CLLocationCoordinate2D(latitude: 37.294064, longitude: 127.202599)
+	
+	/// 목적지 고정 좌표를 MKPlacemark로 변환
+	var destPlacemark: MKPlacemark {
+		MKPlacemark(coordinate: destCoordinate)
+	}
 	
 	init(mapView: MKMapView) {
 		self.mapView = mapView
@@ -26,34 +43,39 @@ final class RouteMapManager: NSObject {
 		mapView.showsUserLocation = true
 	}
 	
-	func drawRoute() async {
-		//let start = MKPlacemark(coordinate: startCoordinate)
-		guard let userLocation = locationManager.location?.coordinate else {
-			print("⚠️ 사용자 위치를 가져올 수 없습니다.")
-			return
+	func calculateRoutes(transportType: MKDirectionsTransportType = .automobile) async throws -> [MKRoute] {
+		guard let start = startPlacemark else {
+			throw RouteError.locationUnavailable
 		}
-		let startPlacemark = MKPlacemark(coordinate: userLocation)
-		let destPlacemark  = MKPlacemark(coordinate: destCoordinate)
-		
-		let request = MKDirections.Request()
-		request.source = MKMapItem(placemark: startPlacemark)
-		request.destination = MKMapItem(placemark: destPlacemark)
-		request.transportType = .automobile
+		let dest = destPlacemark
+
+		var request = MKDirections.Request()
+		request.source = MKMapItem(placemark: start)
+		request.destination = MKMapItem(placemark: dest)
+		request.transportType = transportType
+		request.requestsAlternateRoutes = true
 		
 		let directions = MKDirections(request: request)
-		
-		do {
-			let result = try await directions.calculate()
-			guard let route = result.routes.first else { return }
-			let region = MKCoordinateRegion(route.polyline.boundingMapRect)
-			
-			await mapView.removeOverlays(mapView.overlays)
-			await mapView.addOverlay(route.polyline)
-			await mapView.setRegion(region, animated: true)
-		} catch {
-			print("경로 계산 실패: \(error)")
-		}
+		let response   = try await directions.calculate()
+		return response.routes
 	}
+
+	/// 선택된 경로에 대한 MKPolyline 그리기
+	/// - Parameter route: 경로수단 옵션
+	func drawRoute(_ route: MKRoute) {
+		mapView.removeOverlays(mapView.overlays)
+		mapView.addOverlay(route.polyline)
+		let region = MKCoordinateRegion(route.polyline.boundingMapRect)
+		mapView.setRegion(region, animated: true)
+	}
+	
+//	func calculateAndDrawFirstRoute() async throws {
+//		let routes = try await calculateRoutes()
+//		guard let first = routes.first else {
+//			throw RouteError.noRoutes
+//		}
+//		drawRoute(first)
+//	}
 }
 
 extension RouteMapManager: MKMapViewDelegate {
