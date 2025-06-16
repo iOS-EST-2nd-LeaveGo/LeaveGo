@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 extension CoreDataManager {
 
@@ -33,6 +34,18 @@ extension CoreDataManager {
         } catch {
             print("fetch 실패: \(error.localizedDescription)")
             return []
+        }
+    }
+
+    func fetchPlannerCount() -> Int {
+        let request: NSFetchRequest<PlannerEntity> = PlannerEntity.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+
+        do {
+            let count = try context.count(for: request)
+            return count
+        } catch {
+            return 0
         }
     }
 
