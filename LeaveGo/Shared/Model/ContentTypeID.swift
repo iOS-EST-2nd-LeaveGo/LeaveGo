@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ContentTypeID: Int {
+enum ContentTypeID: Int, CaseIterable {
     case touristAttraction = 12
     case cultureFacility = 14
     // case festival = 15
@@ -16,7 +16,7 @@ enum ContentTypeID: Int {
     // case accommodation = 32
     case shopping = 38
     case restaurant = 39
-    
+
     static func from(_ int: Int) -> ContentTypeID? {
         return ContentTypeID(rawValue: int)
     }
