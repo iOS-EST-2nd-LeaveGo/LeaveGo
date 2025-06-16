@@ -14,7 +14,7 @@ class PlaceSelectionTableViewController: UIViewController {
     @IBOutlet weak var placeSelectionTable: UITableView!
 
     var area: Area?
-    var placeList = [AreaBasedPlaceList]()
+    var placeList = [PlaceModel]()
     var imageCache: [String: UIImage] = [:]
     var selectedItems: [IndexPath] = []
     
@@ -26,16 +26,18 @@ class PlaceSelectionTableViewController: UIViewController {
         placeSelectionTable.register(nib, forCellReuseIdentifier: String(describing: ListTableViewCell.self))
         placeSelectionTable.dataSource = self
         placeSelectionTable.delegate = self
+        placeSelectionTable.allowsMultipleSelection = true
+        placeSelectionTable.setEditing(false, animated: true)
         
         Task {
             if area != nil {
-                placeList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area!)!
+                // TODO: PlaceModel 분기처리해서 맞는 모델로 디코딩하기
+                // placeList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area!)!
                 placeSelectionTable.reloadData()
             }
         }
     }
 }
-
 
 extension PlaceSelectionTableViewController: UITableViewDataSource {
     /// 테이블 뷰의 셀 개수를 반환합니다.
@@ -43,7 +45,9 @@ extension PlaceSelectionTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return placeList.count
     }
-    
+}
+
+extension PlaceSelectionTableViewController: UITableViewDelegate {
     /// 테이블 뷰 셀을 구성합니다.
     /// - 각 셀에 장소 제목, 거리, 시간, 이미지 정보를 표시합니다.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,36 +57,28 @@ extension PlaceSelectionTableViewController: UITableViewDataSource {
         
         // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
         cell.setupMenu(mode: .selectable)
-        cell.distanceLabel.isHidden = true
-        cell.timeLabel.isHidden = true
-        
         tableView.allowsMultipleSelection = true
+        cell.selectionStyle = .none
         
         let place = placeList[indexPath.row]
         cell.titleLabel.text = place.title
-        
-        if selectedItems.contains(indexPath) {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
+        cell.checkmarkImaveView.image = UIImage(systemName: "checkmark.circle")
+        cell.place = place as PlaceModel
         
         // 이미지 처리
-//        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
+        // cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
         
         return cell
     }
     
-    // 이 코드는 사용자가 셀을 선택한 후 애니메이션과 함께 선택 효과(회색)를 제거해주는 역할을 합니다.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if !selectedItems.contains(indexPath) {
             selectedItems.append(indexPath)
         }
-
-        tableView.reloadRows(at: [indexPath], with: .none)
         
-        tableView.deselectRow(at: indexPath, animated: true)
+        if let cell = tableView.cellForRow(at: indexPath) as? ListTableViewCell {
+            cell.checkmarkImaveView.image = UIImage(systemName: "checkmark.circle.fill")
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -92,8 +88,4 @@ extension PlaceSelectionTableViewController: UITableViewDataSource {
 
         tableView.reloadRows(at: [indexPath], with: .none)
     }
-}
-
-extension PlaceSelectionTableViewController: UITableViewDelegate {
-    
 }

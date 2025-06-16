@@ -41,22 +41,22 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="9cl-uL-adY">
-                                        <rect key="frame" x="120" y="8" width="260.33333333333331" height="64.333333333333329"/>
+                                        <rect key="frame" x="120" y="9.6666666666666679" width="260.33333333333331" height="60.666666666666657"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3t-dT-fm7">
                                                 <rect key="frame" x="0.0" y="0.0" width="260.33333333333331" height="18"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                <color key="textColor" name="CustomLabelColor"/>
+                                                <color key="textColor" name="SecandaryColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJG-7X-vbR">
-                                                <rect key="frame" x="0.0" y="22" width="260.33333333333331" height="24"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                <rect key="frame" x="0.0" y="22" width="260.33333333333331" height="20.333333333333329"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <color key="textColor" name="CustomLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsf-8m-xvm">
-                                                <rect key="frame" x="0.0" y="50" width="260.33333333333331" height="14.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="46.333333333333336" width="260.33333333333331" height="14.333333333333336"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                 <color key="textColor" name="SecandaryColor"/>
                                                 <nil key="highlightedColor"/>
@@ -72,9 +72,6 @@
                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                     <color key="baseForegroundColor" name="CustomLabelColor"/>
                                 </buttonConfiguration>
-                                <connections>
-                                    <action selector="moreButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Moj-Af-X2b"/>
-                                </connections>
                             </button>
                         </subviews>
                     </stackView>

@@ -43,15 +43,17 @@ extension PlacesViewController: UITableViewDataSource {
         
         // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
         cell.setupMenu(mode: .list)
-        cell.checkmarkImaveView.isHidden = true
         
         let place = placeModelList[indexPath.row]
         // 제목
         cell.titleLabel.text = place.title
+        
         // 거리 (Int로 변환)
-        cell.distanceLabel.text = "\(Int(Double(place.distance) ?? 0))m 떨어짐"
+        if let distance = place.distance {
+            cell.distanceLabel.text = "\(Int(Double(distance) ?? 0))m 떨어짐"
+        }
         // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
-        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+        // cell.timeLabel.text = place.detail?.openTime
         
         
         // 이미지 처리        
