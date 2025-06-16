@@ -19,11 +19,7 @@ enum PlaceActions {
         let storyboard = UIStoryboard(name: String(describing: Planner.self), bundle: nil)
         let modalVC = storyboard.instantiateViewController(withIdentifier: String(describing: PlaceDetailModalViewController.self)) as! PlaceDetailModalViewController
         modalVC.place = place
-        modalVC.sheetPresentationController?.detents = [
-            .custom { context in return 300 },
-            .medium()
-        ]
-        modalVC.sheetPresentationController?.prefersGrabberVisible = true
+        modalVC.sheetPresentationController?.detents = [.medium()]
         
         vc.present(modalVC, animated: true)
     }

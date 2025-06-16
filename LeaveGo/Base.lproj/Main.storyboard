@@ -2,9 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QEt-eV-SLR">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,7 +13,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0ZJ-mS-2Q4">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="aHr-Hw-sQX" kind="relationship" relationship="viewControllers" id="vCt-OL-LEW"/>
@@ -38,10 +36,10 @@
             </objects>
             <point key="canvasLocation" x="-352" y="-27"/>
         </scene>
-        <!--MapHeaderNav-->
+        <!--MapHeaderView-->
         <scene sceneID="PdS-1f-8UJ">
             <objects>
-                <viewControllerPlaceholder storyboardName="MapHeaderView" referencedIdentifier="MapHeaderNav" id="AIW-Rj-ozE" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="MapHeaderView" referencedIdentifier="MapHeaderView" id="AIW-Rj-ozE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="JHz-ar-lI7"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZEj-ci-DmL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -69,9 +67,4 @@
             <point key="canvasLocation" x="854" y="-27"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

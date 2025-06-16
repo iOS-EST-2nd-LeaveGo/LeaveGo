@@ -14,28 +14,27 @@ enum RouteError: Error {
 	case noRoutes
 }
 
-/// 경로 설정 서비스매니저
 final class RouteMapManager: NSObject {
 	private let mapView: MKMapView
 	private let locationManager = CLLocationManager()
-
+	
+	//private let startCoordinate = CLLocationCoordinate2D(latitude: 37.498362, longitude: 127.027603)
 	var startPlacemark: MKPlacemark? {
 		guard let coord = locationManager.location?.coordinate else {
 			return nil
 		}
 		return MKPlacemark(coordinate: coord)
 	}
-
-	private let destination: RouteDestination
+	// TODO: - 차후에 목적지 고정 좌표를 장소목록 세그먼트의 MapVC의 DetailViewController에서 받아와야 함
+	private let destCoordinate  = CLLocationCoordinate2D(latitude: 37.294064, longitude: 127.202599)
 	
 	/// 목적지 고정 좌표를 MKPlacemark로 변환
 	var destPlacemark: MKPlacemark {
-		MKPlacemark(coordinate: destination.coordinate)
+		MKPlacemark(coordinate: destCoordinate)
 	}
 	
-	init(mapView: MKMapView, destination: RouteDestination) {
+	init(mapView: MKMapView) {
 		self.mapView = mapView
-		self.destination = destination
 		super.init()
 		self.mapView.delegate = self
 		locationManager.delegate = self
@@ -44,87 +43,39 @@ final class RouteMapManager: NSObject {
 		mapView.showsUserLocation = true
 	}
 	
-	
-	/// 교통수단 이동경로 계산
-	/// - Parameter transportType: 자동차 타입
-	/// - Returns: 경로 정보
 	func calculateRoutes(transportType: MKDirectionsTransportType = .automobile) async throws -> [MKRoute] {
 		guard let start = startPlacemark else {
 			throw RouteError.locationUnavailable
 		}
-		
-		let request = MKDirections.Request()
+		let dest = destPlacemark
+
+		var request = MKDirections.Request()
 		request.source = MKMapItem(placemark: start)
-		request.destination = MKMapItem(placemark: destPlacemark)
+		request.destination = MKMapItem(placemark: dest)
 		request.transportType = transportType
 		request.requestsAlternateRoutes = true
 		
-		let response = try await MKDirections(request: request).calculate()
-		guard !response.routes.isEmpty else {
-			throw RouteError.noRoutes
-		}
+		let directions = MKDirections(request: request)
+		let response   = try await directions.calculate()
 		return response.routes
 	}
 
-	/// MKRoute 또는 직선 폴리라인을 그리고, safeAreaInsets + bottomSheet 높이 기반으로 padding 적용
-	/// - Parameters:
-	///   - route: calculateRoutes() 결과로 얻은 MKRoute. nil 이면 테스트용 직선 폴리라인을 그림.
-	///   - bottomSheetHeight: 바텀시트가 차지하는 높이 (뷰컨에서 sheetVC.view.frame.height 로 전달)
-	func drawRoute(_ route: MKRoute? = nil,
-				   bottomSheetHeight: CGFloat? = nil) {
-		// 1) 기존 오버레이 제거
+	/// 선택된 경로에 대한 MKPolyline 그리기
+	/// - Parameter route: 경로수단 옵션
+	func drawRoute(_ route: MKRoute) {
 		mapView.removeOverlays(mapView.overlays)
-		
-		// 2) Polyline 준비
-		let poly: MKPolyline
-		if let r = route {
-			poly = r.polyline
-		} else if let start = startPlacemark {
-			let coords = [ start.coordinate, destination.coordinate ]
-			poly = MKPolyline(coordinates: coords, count: coords.count)
-		} else {
-			return
-		}
-		
-		// 3) 지도에 추가
-		mapView.addOverlay(poly)
-		
-		// 4) screen focus with safeAreaInsets + bottomSheetHeight
-		let rect = poly.boundingMapRect
-		let safe = mapView.safeAreaInsets
-		let extra: CGFloat = 16
-		
-		// bottom inset: safe.bottom + extra + optional sheet height
-		let bottomInset = safe.bottom + extra + (bottomSheetHeight ?? 0)
-		
-		let insets = UIEdgeInsets(
-			top:    safe.top    + extra,
-			left:   safe.left   + extra,
-			bottom: bottomInset,
-			right:  safe.right  + extra
-		)
-		mapView.setVisibleMapRect(rect, edgePadding: insets, animated: true)
+		mapView.addOverlay(route.polyline)
+		let region = MKCoordinateRegion(route.polyline.boundingMapRect)
+		mapView.setRegion(region, animated: true)
 	}
-
-	   // 예시로 padding을 뷰 컨트롤러에서 구해야할때
-	/*
-	   func drawRoute(_ route: MKRoute? = nil,
-					  edgePadding pad: UIEdgeInsets) {
-		   // 동일하게 1–3)번 수행 후:
-		   let poly: MKPolyline = {
-			   if let r = route { return r.polyline }
-			   guard let start = startPlacemark else { fatalError() }
-			   let c = [start.coordinate, destination.coordinate]
-			   return MKPolyline(coordinates: c, count: c.count)
-		   }()
-
-		   mapView.removeOverlays(mapView.overlays)
-		   mapView.addOverlay(poly)
-		   mapView.setVisibleMapRect(poly.boundingMapRect,
-									 edgePadding: pad,
-									 animated: true)
-	   }
-	*/
+	
+//	func calculateAndDrawFirstRoute() async throws {
+//		let routes = try await calculateRoutes()
+//		guard let first = routes.first else {
+//			throw RouteError.noRoutes
+//		}
+//		drawRoute(first)
+//	}
 }
 
 extension RouteMapManager: MKMapViewDelegate {

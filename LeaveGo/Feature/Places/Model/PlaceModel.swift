@@ -9,8 +9,6 @@ import CoreLocation
 import UIKit
 
 struct PlaceModel {
-    let add1: String?
-    let add2: String?
     let contentId: String // 장소 고유번호
     let title: String // 장소명(use in PlacesVC)
     let thumbnailURL: String?
@@ -25,9 +23,7 @@ struct PlaceModel {
     
     // let detail: PlaceDetailModel?
     
-    init(add1: String?, add2: String?, contentId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
-        self.add1 = add1
-        self.add2 = add2
+    init(contentId: String, title: String, thumbnailURL: String?, distance: String, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
         self.contentId = contentId
         self.title = title
         self.thumbnailURL = thumbnailURL
@@ -40,6 +36,7 @@ struct PlaceModel {
         self.cat2 = cat2
         self.cat3 = cat3
     }
+    
 }
 
 extension PlaceModel {
@@ -68,6 +65,7 @@ extension PlaceModel {
                              cat2: cat2,
                              cat3: cat3)
     }
+    
 }
 
 
