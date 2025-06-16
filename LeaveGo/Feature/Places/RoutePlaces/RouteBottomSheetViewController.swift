@@ -56,8 +56,7 @@ class RouteBottomSheetViewController: UIViewController {
 				  color: .systemPink)
 		]
 	}
-	
-	
+
 	// MARK: – Lifecycle
 	override func loadView() {
 		view = RouteBottomSheetView()
@@ -131,7 +130,6 @@ class RouteBottomSheetViewController: UIViewController {
 										  for: .touchUpInside)
 		
 		sheetView.select(mode: .car)
-		
 	}
 	
 	// MARK: – Actions
@@ -328,7 +326,6 @@ class RouteBottomSheetViewController: UIViewController {
 }
 
 // MARK: – UITableViewDataSource / UITableViewDelegate
-
 extension RouteBottomSheetViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		let stopCount = stops.count
@@ -377,12 +374,15 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 	func tableView(_ tv: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
 		.none
 	}
+	
 	func tableView(_ tv: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
 		false
 	}
+	
 	func tableView(_ tv: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
 		return indexPath.row < stops.count
 	}
+	
 	func tableView(_ tv: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 		let moved = stops.remove(at: sourceIndexPath.row)
 		stops.insert(moved, at: destinationIndexPath.row)
@@ -411,12 +411,9 @@ extension RouteBottomSheetViewController: UITableViewDelegate {
 			self?.delegate?.didSelectRoute(selectedRoute)
 		}
 	}
-	
-	
 }
 
 //MARK: - Preview Setting
-
 #if DEBUG
 import SwiftUI
 import MapKit

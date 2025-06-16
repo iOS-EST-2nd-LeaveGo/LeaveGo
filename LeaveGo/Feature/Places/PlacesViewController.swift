@@ -73,8 +73,6 @@ extension PlacesViewController: UITableViewDataSource, ListTableViewCellDelegate
 	/// 경로 찾기 화면 이동
 	/// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
 	func didTapNavigation(cell: ListTableViewCell) {
-		print("▶︎ didTapNavigation called")
-		
 		guard let indexPath = tableView.indexPath(for: cell) else { return }
 		let place = placeModelList[indexPath.row]
 		
@@ -88,18 +86,14 @@ extension PlacesViewController: UITableViewDataSource, ListTableViewCellDelegate
 		
 		print("▶︎ instantiated:", routeVC)
 		
-		let coord = CLLocationCoordinate2D(latitude: place.latitude,
-										   longitude: place.longitude)
 		routeVC.destination = RouteDestination(place: place)
-		
-		// 4) Push
+
 		print("▶︎ navCtrl:", navigationController as Any)
 		guard let nav = navigationController else {
 			print("navigationController is nil")
 			return
 		}
 		nav.pushViewController(routeVC, animated: true)
-//		navigationController?.pushViewController(routeVC, animated: true)
 	}
 
 	func didTapBookmark(cell: ListTableViewCell) {
