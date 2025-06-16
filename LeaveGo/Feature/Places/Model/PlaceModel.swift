@@ -23,7 +23,7 @@ struct PlaceModel {
     
     // let detail: PlaceDetailModel?
     
-    init(contentId: String, title: String, thumbnailURL: String?, distance: String, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+    init(contentId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
         self.contentId = contentId
         self.title = title
         self.thumbnailURL = thumbnailURL

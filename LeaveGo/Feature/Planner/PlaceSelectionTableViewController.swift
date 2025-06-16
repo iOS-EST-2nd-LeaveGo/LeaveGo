@@ -12,10 +12,9 @@ import UIKit
 /// - API를 호출하여 장소 정보를 불러오고 테이블 뷰에 반영합니다.
 class PlaceSelectionTableViewController: UIViewController {
     @IBOutlet weak var placeSelectionTable: UITableView!
-
+    
     var area: Area?
     var placeList = [PlaceModel]()
-    var imageCache: [String: UIImage] = [:]
     var selectedItems: [IndexPath] = []
     
     override func viewDidLoad() {
@@ -31,10 +30,60 @@ class PlaceSelectionTableViewController: UIViewController {
         
         Task {
             if area != nil {
-                // TODO: PlaceModel 분기처리해서 맞는 모델로 디코딩하기
-                // placeList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area!)!
-                placeSelectionTable.reloadData()
+                await loadPlaceList()
             }
+        }
+    }
+    
+    private func loadPlaceList() async {
+        guard let area else {
+            print("지역 선택되지 않음")
+            return
+        }
+        
+        do {
+            if let fetchedList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area) {
+                
+                self.placeList = fetchedList.map {
+                    PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: nil, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                }
+                await loadThumbnailImage() // async로 변경된 버전 호출
+                
+                // 모든 썸네일까지 다 받은 후 table view 갱신
+                DispatchQueue.main.async {
+                    self.placeSelectionTable.reloadData()
+                }
+            }
+            
+        } catch {
+            print("장소 리스트 불러오기 실패:", error.localizedDescription)
+        }
+    }
+    
+    // MARK: Load Thumbnail Image
+    
+    /// image를 load해서 PlaceModel에 미리 저장해둠
+    func loadThumbnailImage() async {
+        for index in 0 ..< placeList.count {
+            if let urlString = placeList[index].thumbnailURL,
+               let url = URL(string: urlString) {
+                let image = await fetchThumbnailImage(for: url)
+
+                // 이미지 저장은 메인 스레드에서
+                DispatchQueue.main.async { [weak self] in
+                    self?.placeList[index].thumbnailImage = image
+                }
+            }
+        }
+    }
+    
+    func fetchThumbnailImage(for url: URL) async -> UIImage? {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return UIImage(data: data)
+        } catch {
+            print(error.localizedDescription)
+            return nil
         }
     }
 }
@@ -62,11 +111,10 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
         
         let place = placeList[indexPath.row]
         cell.titleLabel.text = place.title
-        cell.checkmarkImaveView.image = UIImage(systemName: "checkmark.circle")
+        cell.checkmarkImageView.image = UIImage(systemName: "checkmark.circle")
         cell.place = place as PlaceModel
         
-        // 이미지 처리
-        // cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
+        cell.thumbnailImageView.image = place.thumbnailImage
         
         return cell
     }
@@ -77,7 +125,7 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
         }
         
         if let cell = tableView.cellForRow(at: indexPath) as? ListTableViewCell {
-            cell.checkmarkImaveView.image = UIImage(systemName: "checkmark.circle.fill")
+            cell.checkmarkImageView.image = UIImage(systemName: "checkmark.circle.fill")
         }
     }
     
@@ -85,7 +133,7 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
         if let index = selectedItems.firstIndex(of: indexPath) {
             selectedItems.remove(at: index)
         }
-
+        
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
