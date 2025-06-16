@@ -23,32 +23,40 @@
                         <rect key="frame" x="16" y="16" width="420" height="108"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cO5-Xk-gEa">
-                                <rect key="frame" x="0.0" y="14" width="356.33333333333331" height="80"/>
+                                <rect key="frame" x="0.0" y="14" width="380.33333333333331" height="80"/>
                                 <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="298-pp-Crx">
+                                        <rect key="frame" x="0.0" y="28.666666666666664" width="24" height="22.666666666666664"/>
+                                        <color key="tintColor" name="CustomLabelColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="XQC-Ei-TW7"/>
+                                            <constraint firstAttribute="height" constant="24" id="tEj-fo-iVI"/>
+                                        </constraints>
+                                    </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6os-g9-Bwe">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                        <rect key="frame" x="32" y="0.0" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="9U4-TU-XAv"/>
                                             <constraint firstAttribute="width" secondItem="6os-g9-Bwe" secondAttribute="height" multiplier="1:1" id="WVw-QU-Iuh"/>
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="9cl-uL-adY">
-                                        <rect key="frame" x="88" y="8" width="268.33333333333331" height="64.333333333333329"/>
+                                        <rect key="frame" x="120" y="8" width="260.33333333333331" height="64.333333333333329"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3t-dT-fm7">
-                                                <rect key="frame" x="0.0" y="0.0" width="268.33333333333331" height="18"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="260.33333333333331" height="18"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <color key="textColor" name="CustomLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJG-7X-vbR">
-                                                <rect key="frame" x="0.0" y="22" width="268.33333333333331" height="24"/>
+                                                <rect key="frame" x="0.0" y="22" width="260.33333333333331" height="24"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                 <color key="textColor" name="CustomLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsf-8m-xvm">
-                                                <rect key="frame" x="0.0" y="50" width="268.33333333333331" height="14.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="50" width="260.33333333333331" height="14.333333333333329"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                 <color key="textColor" name="SecandaryColor"/>
                                                 <nil key="highlightedColor"/>
@@ -58,9 +66,10 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dl7-OQ-mVV">
-                                <rect key="frame" x="372.33333333333331" y="37" width="47.666666666666686" height="34.333333333333343"/>
+                                <rect key="frame" x="396.33333333333331" y="44" width="23.666666666666686" height="20.333333333333329"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system">
+                                <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system" imagePadding="-1">
+                                    <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                     <color key="baseForegroundColor" name="CustomLabelColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -79,6 +88,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="checkmarkImaveView" destination="298-pp-Crx" id="IRZ-9z-OLy"/>
                 <outlet property="distanceLabel" destination="E3t-dT-fm7" id="NPj-o6-AdV"/>
                 <outlet property="moreButton" destination="Dl7-OQ-mVV" id="fxa-T3-ze8"/>
                 <outlet property="thumbnailImageView" destination="6os-g9-Bwe" id="IIG-0W-gCM"/>
@@ -89,6 +99,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <namedColor name="CustomLabelColor">
             <color red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

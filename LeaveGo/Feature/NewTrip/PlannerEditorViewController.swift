@@ -11,7 +11,6 @@ import PhotosUI
 
 class PlannerEditorViewController: UIViewController {
 
-    
     @IBOutlet weak var tripName: UITextField!
     @IBOutlet weak var tripThumbnail: UIImageView!
     @IBOutlet weak var thumbnailAdd: UIButton!
