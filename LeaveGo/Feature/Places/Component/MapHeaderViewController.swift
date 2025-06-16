@@ -104,7 +104,7 @@ final class MapHeaderViewController: UIViewController {
                                                                                   mapY: currentLocation.latitude,
                                                                                   radius: 2000) {
                 _ = APIplaceList.map {
-                    let place = PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, /*detail: nil*/ areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                    let place = PlaceModel(add1: nil, add2: nil, contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, /*detail: nil*/ areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
                     placeModelList.append(place)
                 }
 

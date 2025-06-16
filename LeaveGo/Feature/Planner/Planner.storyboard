@@ -185,13 +185,19 @@
                                 <rect key="frame" x="0.0" y="118" width="393" height="617"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="CMJ-KM-yxQ" userLabel="Root Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="271"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="322.33333333333331"/>
                                         <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ytz-wS-yeL">
+                                                <rect key="frame" x="16" y="15.999999999999998" width="361" height="19.333333333333329"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZkM-oA-rdi">
-                                                <rect key="frame" x="16" y="16" width="361" height="20"/>
+                                                <rect key="frame" x="16" y="67.333333333333343" width="361" height="20"/>
                                             </activityIndicatorView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kUH-k9-3VJ">
-                                                <rect key="frame" x="16" y="68" width="361" height="107"/>
+                                                <rect key="frame" x="16" y="119.33333333333334" width="361" height="107"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twJ-EK-992" userLabel="Title &amp; Bookmark Stack View">
                                                         <rect key="frame" x="0.0" y="0.0" width="361" height="26.666666666666668"/>
@@ -239,7 +245,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Number" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TfS-Do-0ET">
-                                                        <rect key="frame" x="0.0" y="86.666666666666686" width="126.33333333333333" height="20.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="86.666666666666657" width="126.33333333333333" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -255,7 +261,7 @@
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
-                                                <rect key="frame" x="16" y="207" width="361" height="48"/>
+                                                <rect key="frame" x="16" y="258.33333333333331" width="361" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
                                                 </constraints>
@@ -299,12 +305,13 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="ZkM-oA-rdi" id="Iqi-NJ-4Zk"/>
                         <outlet property="addToBookmark" destination="qV4-qz-mXv" id="uBR-2L-JqU"/>
                         <outlet property="addressLabel" destination="FuK-XW-Gwz" id="ngh-hX-tW5"/>
                         <outlet property="bookmarkButton" destination="qV4-qz-mXv" id="UVp-IE-Pou"/>
                         <outlet property="contactNumberLabel" destination="TfS-Do-0ET" id="VLq-S6-g2d"/>
                         <outlet property="distanceLabel" destination="1KG-vG-4Io" id="BAb-JH-c6t"/>
-                        <outlet property="loadingIndicator" destination="ZkM-oA-rdi" id="mHR-wA-uIg"/>
+                        <outlet property="fetchErrorMessageLabel" destination="Ytz-wS-yeL" id="107-QY-b6e"/>
                         <outlet property="openTimeLabel" destination="RH4-jq-7KP" id="iF7-Hm-Nth"/>
                         <outlet property="titleLabel" destination="0dL-8a-9gO" id="9IT-In-A87"/>
                     </connections>

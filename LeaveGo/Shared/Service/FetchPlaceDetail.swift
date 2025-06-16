@@ -8,7 +8,7 @@
 import Foundation
 
 extension NetworkManager {
-    func fetchPlaceDetail(contentId: Int) async throws -> PlaceDetail? {
+    func fetchPlaceDetail(contentId: String) async throws -> PlaceDetail? {
         // 장소 목록을 담을 변수 선언
         var placeDetail: PlaceDetail?
         

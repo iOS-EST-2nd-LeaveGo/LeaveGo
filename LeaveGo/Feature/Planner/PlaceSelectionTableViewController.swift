@@ -45,7 +45,7 @@ class PlaceSelectionTableViewController: UIViewController {
             if let fetchedList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area) {
                 
                 self.placeList = fetchedList.map {
-                    PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: nil, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: nil, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
                 }
                 await loadThumbnailImage() // async로 변경된 버전 호출
                 
@@ -110,6 +110,7 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
         cell.selectionStyle = .none
         
         let place = placeList[indexPath.row]
+        
         cell.titleLabel.text = place.title
         cell.checkmarkImageView.image = UIImage(systemName: "checkmark.circle")
         cell.place = place as PlaceModel
