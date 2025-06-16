@@ -195,15 +195,15 @@ extension MapViewController: MKMapViewDelegate {
             // ios 16 이상부터는 layer없이 바로 anchorpoint를 설정할 수 있음!
             return annotationView
         }
-
+        
         guard let annotation = annotation as? PlaceAnnotationModel else {
             return nil
         }
-
+        
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
                                                                     PlaceAnnotationView.identifier)
         as? PlaceAnnotationView
-
+        
         if annotationView == nil {
             annotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier:
                                                     PlaceAnnotationView.identifier)
@@ -211,22 +211,9 @@ extension MapViewController: MKMapViewDelegate {
             annotationView?.contentMode = .scaleAspectFit
         } else {
             annotationView?.annotation = annotation
-
         }
-
-
-        let size = CGSize(width: 40, height: 40)
-        UIGraphicsBeginImageContext(size)
-
-        let annotationImage = UIImage(systemName: "pin.circle.fill")
-
-        annotationImage?.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        annotationView?.image = resizedImage
-
-        annotationView?.titleLabel.text = annotation.title
-
+        
+        annotationView?.configure(with: annotation)
         return annotationView
     }
 
