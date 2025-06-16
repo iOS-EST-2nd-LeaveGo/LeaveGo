@@ -26,7 +26,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fo6-eH-J1A" userLabel="TextFieldBackgroundView">
                                                 <rect key="frame" x="16" y="0.0" width="343" height="40"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="장소 이름, 태그로 검색하세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3A7-VX-CfK">
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="장소 이름으로 검색하세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3A7-VX-CfK">
                                                         <rect key="frame" x="16" y="10.666666666666659" width="311" height="18.666666666666671"/>
                                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
