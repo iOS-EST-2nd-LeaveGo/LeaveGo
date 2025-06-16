@@ -14,6 +14,8 @@ class PlaceRouteViewController: UIViewController {
 	@IBOutlet weak var locationContainer: UIView!
 	@IBOutlet weak var routeMapView: MKMapView!
 	
+	var destination: RouteDestination?
+	
 	private lazy var mapManager: RouteMapManager = {
 		RouteMapManager(mapView: routeMapView)
 	}()
@@ -22,10 +24,17 @@ class PlaceRouteViewController: UIViewController {
 		
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		// MARK - debug message
+		guard let dest = destination else {
+			assertionFailure("Destination not set before presenting PlaceRouteViewController")
+			return
+		}
+
 		setupUI()
 		setupMapViewGesture()
 		let pinch = UIPinchGestureRecognizer(target: self, action: #selector(debugZoom(_:)))
 		routeMapView.addGestureRecognizer(pinch)
+		setupNavBar(with: dest.title)
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -36,6 +45,27 @@ class PlaceRouteViewController: UIViewController {
 	private func setupUI() {
 		locationContainer.layer.cornerRadius = 10
 		locationContainer.clipsToBounds = true
+	}
+	
+	private func setupNavBar(with title: String) {
+		navigationItem.title = title
+		
+		navigationItem.hidesBackButton = true
+		let back = UIBarButtonItem(
+			image: UIImage(systemName: "chevron.backward"),
+			style: .plain,
+			target: self,
+			action: #selector(didTapBackButton)
+		)
+		navigationItem.leftBarButtonItem = back
+		
+		// 배경색
+		navigationController?.navigationBar.barTintColor = .systemBackground
+		navigationController?.navigationBar.isTranslucent = false
+	}
+	
+	@objc private func didTapBackButton() {
+		navigationController?.popViewController(animated: true)
 	}
 	
 	private func setupMapViewGesture() {
