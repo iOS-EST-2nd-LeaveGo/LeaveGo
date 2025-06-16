@@ -28,12 +28,13 @@ class MapViewController: UIViewController {
         return button
     }()
     let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
+	/*
     let bottomSheetView: BottomSheetView = {
         let btsView = BottomSheetView()
 
         return btsView
     }()
-
+	*/
     var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
     
     // MARK: LifeCycle
@@ -128,7 +129,7 @@ class MapViewController: UIViewController {
         mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
         
         let annotations = placeModelList.compactMap {
-            print("lat: \($0.latitude), lon: \($0.longitude)")
+            //print("lat: \($0.latitude), lon: \($0.longitude)")
             return $0.toAnnotationModel()
         }
         
@@ -235,7 +236,7 @@ extension MapViewController: LayoutSupport {
     func addSubviews() {
         self.view.addSubview(mapView)
         mapView.addSubview(userLocationButton)
-        mapView.addSubview(bottomSheetView)
+        //mapView.addSubview(bottomSheetView)
 
         userLocationButton.addSubview(userLocationImageView)
     }
@@ -256,7 +257,8 @@ extension MapViewController: LayoutSupport {
             userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
             userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
         ])
-
+		
+		/*
         bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bottomSheetView.topAnchor.constraint(equalTo: mapView.topAnchor),
@@ -264,6 +266,7 @@ extension MapViewController: LayoutSupport {
             bottomSheetView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
             bottomSheetView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
         ])
+		*/
     }
 
 }
