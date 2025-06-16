@@ -12,4 +12,12 @@ import CoreLocation
 struct RouteDestination {
 	let title: String
 	let coordinate: CLLocationCoordinate2D
+	
+	init(place: PlaceModel) {
+		self.title = place.title
+		self.coordinate = CLLocationCoordinate2D(
+			latitude: place.latitude,
+			longitude: place.longitude
+		)
+	}
 }
