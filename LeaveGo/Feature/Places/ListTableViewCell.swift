@@ -14,10 +14,7 @@ protocol ListTableViewCellDelegate: AnyObject {
 
 class ListTableViewCell: UITableViewCell {
     weak var delegate: ListTableViewCellDelegate?
-    var placeId: Int?
-    var placeTitle: String?
-    var distance: String?
-    var detailMode =  DetailMode.areaBased
+    var place: PlaceModel?
 
     @IBOutlet weak var checkmarkImaveView: UIImageView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -58,10 +55,9 @@ class ListTableViewCell: UITableViewCell {
             // 장소 기본 정보를 들고 상세 정보 모달 띄우기
             moreButton.addAction(UIAction(handler: { [weak self] _ in
                 guard let self = self,
-                      let placeId,
-                      let placeTitle
+                      let place
                 else { return }
-                PlaceActions.presentInfoModal(from: self, mode: detailMode, placeId: placeId, placeTitle: placeTitle, dist: distance)
+                PlaceActions.presentInfoModal(from: self, place: place)
             }), for: .touchUpInside)
         }
     }

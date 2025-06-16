@@ -185,25 +185,28 @@
                                 <rect key="frame" x="0.0" y="118" width="393" height="617"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="CMJ-KM-yxQ" userLabel="Root Stack View">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="219"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="271"/>
                                         <subviews>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZkM-oA-rdi">
+                                                <rect key="frame" x="16" y="16" width="361" height="20"/>
+                                            </activityIndicatorView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kUH-k9-3VJ">
-                                                <rect key="frame" x="16" y="16" width="361" height="107"/>
+                                                <rect key="frame" x="16" y="68" width="361" height="107"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twJ-EK-992" userLabel="Title &amp; Bookmark Stack View">
                                                         <rect key="frame" x="0.0" y="0.0" width="361" height="26.666666666666668"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="DcI-d5-azY">
-                                                                <rect key="frame" x="0.0" y="0.0" width="104" height="26.666666666666668"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Epr-Ad-N5F">
+                                                                <rect key="frame" x="0.0" y="0.0" width="102" height="26.666666666666668"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dL-8a-9gO">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0dL-8a-9gO">
                                                                         <rect key="frame" x="0.0" y="0.0" width="41" height="26.666666666666668"/>
                                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1KG-vG-4Io">
-                                                                        <rect key="frame" x="51" y="0.0" width="53" height="26.666666666666668"/>
+                                                                        <rect key="frame" x="49" y="0.0" width="53" height="26.666666666666668"/>
                                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                         <color key="textColor" name="SecandaryColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -211,7 +214,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qV4-qz-mXv">
-                                                                <rect key="frame" x="104" y="0.0" width="257" height="26.666666666666668"/>
+                                                                <rect key="frame" x="102" y="0.0" width="259" height="26.666666666666668"/>
                                                                 <buttonConfiguration key="configuration" style="plain" image="star" catalog="system" imagePadding="0.0">
                                                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                                                 </buttonConfiguration>
@@ -236,7 +239,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Number" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TfS-Do-0ET">
-                                                        <rect key="frame" x="0.0" y="86.666666666666657" width="126.33333333333333" height="20.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="86.666666666666686" width="126.33333333333333" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -252,7 +255,7 @@
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
-                                                <rect key="frame" x="16" y="155" width="361" height="48"/>
+                                                <rect key="frame" x="16" y="207" width="361" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
                                                 </constraints>
@@ -301,6 +304,7 @@
                         <outlet property="bookmarkButton" destination="qV4-qz-mXv" id="UVp-IE-Pou"/>
                         <outlet property="contactNumberLabel" destination="TfS-Do-0ET" id="VLq-S6-g2d"/>
                         <outlet property="distanceLabel" destination="1KG-vG-4Io" id="BAb-JH-c6t"/>
+                        <outlet property="loadingIndicator" destination="ZkM-oA-rdi" id="mHR-wA-uIg"/>
                         <outlet property="openTimeLabel" destination="RH4-jq-7KP" id="iF7-Hm-Nth"/>
                         <outlet property="titleLabel" destination="0dL-8a-9gO" id="9IT-In-A87"/>
                     </connections>

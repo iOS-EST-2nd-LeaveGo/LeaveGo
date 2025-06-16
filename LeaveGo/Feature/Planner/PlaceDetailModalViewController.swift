@@ -8,10 +8,8 @@
 import UIKit
 
 class PlaceDetailModalViewController: UIViewController {
-    var detailMode = DetailMode.areaBased
-    var placeId: Int?
-    var placeTitle: String?
-    var distance: String?
+    var place: PlaceModel?
+    var placeDetail: PlaceDetail?
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
@@ -19,40 +17,24 @@ class PlaceDetailModalViewController: UIViewController {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var contactNumberLabel: UILabel!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var addToBookmark: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let placeId,
-              let placeTitle else {
-            print("placeId: \(placeId), placetitle: \(placeTitle)")
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.startAnimating()
+        
+        guard let place else {
+            print("placeId: \(place?.contentId ?? ""), placetitle: \(place?.title ?? "")")
             return
         }
         
-        switch detailMode {
-        case .locationBased: break
-            
-        case .areaBased:
-            Task {
-                if let place = try await NetworkManager.shared.fetchPlaceDetail(contentId: placeId) {
-                    await MainActor.run {
-                        titleLabel.text = placeTitle
-                        if place.openDate != nil || place.openTime != nil || place.restDate != nil {
-                            openTimeLabel.text = "\(place.openDate ?? "") \(place.openTime ?? "") \(place.restDate ?? "")"
-                        }
-                        
-                        if let distance {
-                            distanceLabel.text = distance
-                        } else {
-                            distanceLabel.isHidden = true
-                        }
-                        
-                        contactNumberLabel.text = place.infoCenter
-                    }
-                }
-            }
+        // PlaceModel 모델을 가지고 placeDetail 을 호출
+        Task {
+            placeDetail = try await NetworkManager.shared.fetchPlaceDetail(contentId: Int(place.contentId)!)
         }
     }
 }

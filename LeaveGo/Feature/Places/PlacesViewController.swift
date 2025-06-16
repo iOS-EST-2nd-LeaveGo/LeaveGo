@@ -53,7 +53,7 @@ extension PlacesViewController: UITableViewDataSource {
             cell.distanceLabel.text = "\(Int(Double(distance) ?? 0))m 떨어짐"
         }
         // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
-        cell.timeLabel.text = place.detail?.openTime // PlaceDetail
+        // cell.timeLabel.text = place.detail?.openTime
         
         
         // 이미지 처리        

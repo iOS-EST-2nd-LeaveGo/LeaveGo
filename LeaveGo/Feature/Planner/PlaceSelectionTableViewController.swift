@@ -14,7 +14,7 @@ class PlaceSelectionTableViewController: UIViewController {
     @IBOutlet weak var placeSelectionTable: UITableView!
 
     var area: Area?
-    var placeList = [AreaBasedPlaceList]()
+    var placeList = [PlaceModel]()
     var imageCache: [String: UIImage] = [:]
     var selectedItems: [IndexPath] = []
     
@@ -31,13 +31,13 @@ class PlaceSelectionTableViewController: UIViewController {
         
         Task {
             if area != nil {
-                placeList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area!)!
+                // TODO: PlaceModel 분기처리해서 맞는 모델로 디코딩하기
+                // placeList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area!)!
                 placeSelectionTable.reloadData()
             }
         }
     }
 }
-
 
 extension PlaceSelectionTableViewController: UITableViewDataSource {
     /// 테이블 뷰의 셀 개수를 반환합니다.
@@ -63,8 +63,7 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
         let place = placeList[indexPath.row]
         cell.titleLabel.text = place.title
         cell.checkmarkImaveView.image = UIImage(systemName: "checkmark.circle")
-        cell.placeId = Int(place.contentId)
-        cell.placeTitle = place.title
+        cell.place = place as PlaceModel
         
         // 이미지 처리
         // cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
