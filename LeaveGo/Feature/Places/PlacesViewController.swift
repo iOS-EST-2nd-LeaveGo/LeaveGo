@@ -181,7 +181,7 @@ class PlacesViewController: UIViewController {
     }
 }
 
-extension PlacesViewController: UITableViewDataSource {
+extension PlacesViewController: UITableViewDataSource, ListTableViewCellDelegate {
     /// 테이블 뷰의 셀 개수를 반환합니다.
     /// - Returns: places 배열의 요소 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -248,4 +248,37 @@ extension PlacesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+	
+	
+	/// 경로 찾기 화면 이동
+	/// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
+	func didTapNavigation(cell: ListTableViewCell) {
+		guard let indexPath = tableView.indexPath(for: cell) else { return }
+		let place = placeModelList[indexPath.row]
+		
+		// 2) PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+		let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+		guard let routeVC = sb.instantiateViewController(
+			identifier: "PlaceRoute"
+		) as? PlaceRouteViewController else {
+			return
+		}
+		
+		print("▶︎ instantiated:", routeVC)
+		
+		routeVC.destination = RouteDestination(place: place)
+
+		print("▶︎ navCtrl:", navigationController as Any)
+		guard let nav = navigationController else {
+			print("navigationController is nil")
+			return
+		}
+		nav.pushViewController(routeVC, animated: true)
+	}
+
+	func didTapBookmark(cell: ListTableViewCell) {
+		// Bookmark 화면 이동 코드
+		print("tapped bookmark button")
+	}
+
 }

@@ -16,7 +16,8 @@ class ListTableViewCell: UITableViewCell {
     weak var delegate: ListTableViewCellDelegate?
     var place: PlaceModel?
 
-    @IBOutlet weak var checkmarkImaveView: UIImageView!
+    @IBOutlet weak var checkmarkImageView: UIImageView!
+    @IBOutlet weak var thumbnailImageContainerView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -33,7 +34,7 @@ class ListTableViewCell: UITableViewCell {
         switch mode {
         case .list:
             // 분기에 맞는 UI 처리
-            checkmarkImaveView.isHidden = true
+            checkmarkImageView.isHidden = true
             
             moreButton.menu = UIMenu(title: "", children: [
                 UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
@@ -61,5 +62,10 @@ class ListTableViewCell: UITableViewCell {
                 PlaceActions.presentInfoModal(from: self, place: place)
             }), for: .touchUpInside)
         }
+        
+        thumbnailImageContainerView.layer.cornerRadius = 8
+        thumbnailImageContainerView.clipsToBounds = true
+        thumbnailImageContainerView.layer.borderColor = UIColor.border.cgColor
+        thumbnailImageContainerView.layer.borderWidth = 1
     }
 }
