@@ -13,7 +13,7 @@ struct PlaceModel {
     let title: String // 장소명(use in PlacesVC)
     let thumbnailURL: String?
     var thumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
-    let distance: String // 거리(use in PlacesVC)
+    let distance: String? // 거리(use in PlacesVC)
     let latitude: Double // (use in PlacesVC)
     let longitude: Double // (use in PlacesVC)
     

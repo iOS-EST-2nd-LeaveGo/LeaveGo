@@ -47,8 +47,11 @@ extension PlacesViewController: UITableViewDataSource {
         let place = placeModelList[indexPath.row]
         // 제목
         cell.titleLabel.text = place.title
+        
         // 거리 (Int로 변환)
-        cell.distanceLabel.text = "\(Int(Double(place.distance) ?? 0))m 떨어짐"
+        if let distance = place.distance {
+            cell.distanceLabel.text = "\(Int(Double(distance) ?? 0))m 떨어짐"
+        }
         // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
         cell.timeLabel.text = place.detail?.openTime // PlaceDetail
         
