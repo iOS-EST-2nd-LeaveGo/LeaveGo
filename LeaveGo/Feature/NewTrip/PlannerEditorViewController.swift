@@ -13,7 +13,7 @@ class PlannerEditorViewController: UIViewController {
     var placeList = [PlaceModel]()
     var isImageSelected = false
 
-    @IBOutlet weak var tripName: UITextField!
+    @IBOutlet weak var tripName: PaddedTextField!
     @IBOutlet weak var tripThumbnail: UIImageView!
     @IBOutlet weak var thumbnailAdd: UIButton!
     @IBOutlet weak var tripListTableView: UITableView!
