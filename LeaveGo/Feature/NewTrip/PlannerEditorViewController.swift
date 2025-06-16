@@ -40,6 +40,8 @@ class PlannerEditorViewController: UIViewController {
         // ✅ 임시 데이터 추가
         placeList = [
             PlaceModel(
+                add1: "서울특별시 송파구",
+                add2: "신천동",
                 contentId: "1001",
                 title: "신천역",
                 thumbnailURL: nil,
@@ -50,6 +52,8 @@ class PlannerEditorViewController: UIViewController {
                 cat1: "A", cat2: "B", cat3: "C"
             ),
             PlaceModel(
+                add1: "서울특별시 송파구",
+                add2: "잠실동",
                 contentId: "1002",
                 title: "잠실 롯데타워",
                 thumbnailURL: nil,
@@ -60,6 +64,7 @@ class PlannerEditorViewController: UIViewController {
                 cat1: "A", cat2: "C", cat3: "D"
             )
         ]
+
     }
 
     // 썸네일 사진 선택 / 삭제 버튼 토글
@@ -125,7 +130,7 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
         let place = placeList[indexPath.row] // 현재 인덱스에 해당하는 장소(place) 데이터를 가져옴
         cell.setupMenu(mode: .draggable)
         cell.thumbnailImageView.image = UIImage(systemName: "photo.fill")
-        cell.checkmarkImaveView.image = UIImage(systemName: "line.3.horizontal")
+        cell.checkmarkImageView.image = UIImage(systemName: "line.3.horizontal")
         cell.titleLabel?.text = place.title
         cell.place = place // 셀 내부에서 사용할 place 데이터를 바인딩
         return cell
