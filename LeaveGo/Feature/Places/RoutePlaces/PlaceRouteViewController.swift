@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 /// 장소목록 탭바 메뉴 화면 구성 중 - 경로 찾기 버튼 누르면 나오는 경로 설정 화면
-class PlaceRouteViewController: UIViewController, RouteBottomSheetViewControllerDelegate {
+class PlaceRouteViewController: UIViewController {
 	
 	@IBOutlet weak var locationContainer: UIView!
 	@IBOutlet weak var routeMapView: MKMapView!
@@ -17,6 +17,8 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 	private lazy var mapManager: RouteMapManager = {
 		RouteMapManager(mapView: routeMapView)
 	}()
+	
+	private weak var sheetVC: RouteBottomSheetViewController?
 		
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -50,19 +52,20 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 	}
 	
 	@objc private func debugZoom(_ gesture: UIPinchGestureRecognizer) {
-		print("📌 Zoom detected: scale = \(gesture.scale)")
+		print("=== Zoom detected: scale = \(gesture.scale)")
 	}
 
 	
 	private func presentBottomSheet() {
-		let sheetVC = RouteBottomSheetViewController()
-		sheetVC.delegate = self
-		sheetVC.modalPresentationStyle = .pageSheet
-		sheetVC.isModalInPresentation = true
+		let vc = RouteBottomSheetViewController()
+		vc.delegate = self
+		self.sheetVC = vc
+		vc.modalPresentationStyle = .pageSheet
+		vc.isModalInPresentation = true
 
-		if let sheet = sheetVC.sheetPresentationController {
+		if let sheet = vc.sheetPresentationController {
 			let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("collapsed")) { context in
-				return 0.3 * context.maximumDetentValue
+				return 0.45 * context.maximumDetentValue
 			}
 
 			sheet.detents = [customDetent, .large()]
@@ -72,19 +75,54 @@ class PlaceRouteViewController: UIViewController, RouteBottomSheetViewController
 			sheet.prefersEdgeAttachedInCompactHeight = true
 		}
 
-		present(sheetVC, animated: true)
+		present(vc, animated: true)
 	}
-	
-	
-	func didTapCarButton() {
-		mapManager.drawRoute()
-	}
-	
 }
 
 
 extension PlaceRouteViewController: UIGestureRecognizerDelegate {
 	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 		return true
+	}
+}
+
+extension PlaceRouteViewController: RouteBottomSheetViewControllerDelegate {
+	func didTapCarButton() {
+		Task {
+			do {
+				let routes = try await mapManager.calculateRoutes()
+				guard !routes.isEmpty else { return }
+				
+				await MainActor.run {
+					mapManager.drawRoute(routes[0])
+	
+					let optionsModel = RouteOptions(
+						start: mapManager.startPlacemark,
+						dest:  mapManager.destPlacemark,
+						options: routes
+					)
+					self.sheetVC?.showRoutes(optionsModel)
+				}
+			} catch {
+				print("경로 계산 실패:", error)
+			}
+		}
+	}
+	
+	func didSelectRoute(_ route: MKRoute) {
+		print("=== didSelectRoute called for route === :", route.name)
+		DispatchQueue.main.async {
+			self.mapManager.drawRoute(route)
+		}
+	}
+	
+	func didTapBicycleButton() {
+		// 아직 자전거 경로 계산 안했으니 빈 배열로 표시
+		let emptyModel = RouteOptions(
+			start: mapManager.startPlacemark,
+			dest:  mapManager.destPlacemark,
+			options: []
+		)
+		sheetVC?.showRoutes(emptyModel)
 	}
 }

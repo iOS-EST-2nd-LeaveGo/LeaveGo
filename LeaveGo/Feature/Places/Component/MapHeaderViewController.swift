@@ -19,8 +19,13 @@ final class MapHeaderViewController: UIViewController {
         let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
         return vc
     }()
-    var mapVC = MapViewController()
-
+    var mapVC: MapViewController = {
+        let vc = MapViewController()
+        _=vc.view // viewDidLoad를 강제로 호출하기 위해 view에 접근
+        return vc
+    }()
+    
+//    var location = CLLocationCoordinate2D() // ?
     var placeModelList: [PlaceModel] = []
 
     @IBOutlet weak var searchTextField: UITextField!
@@ -99,7 +104,7 @@ final class MapHeaderViewController: UIViewController {
                                                                                   mapY: currentLocation.latitude,
                                                                                   radius: 2000) {
                 _ = APIplaceList.map {
-                    let place = PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, detail: nil)
+                    let place = PlaceModel(contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, /*detail: nil*/ areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
                     placeModelList.append(place)
                 }
 
@@ -108,6 +113,8 @@ final class MapHeaderViewController: UIViewController {
             }
         }
     }
+    
+    // MARK: Load Thumbnail Image
 
     /// image를 load해서 PlaceModel에 미리 저장해둠
     func loadThumbnailImage() {
@@ -121,8 +128,7 @@ final class MapHeaderViewController: UIViewController {
                     /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
                     /// placeListVC의 tableView를 다시 그려줍니다.
                     self.placeModelList[index].thumbnailImage = image
-                    self.transportPlaceList()
-                    placeListVC.tableView.reloadData()
+                    self.completedLoading()
                 }
             }
         }
@@ -142,6 +148,15 @@ final class MapHeaderViewController: UIViewController {
             }
         }.resume()
     }
+    
+    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
+    /// placeListVC의 tableView를 다시 그려줍니다.
+    private func completedLoading() {
+        transportPlaceList()
+        placeListVC.tableView.reloadData()
+        mapVC.addAnnotation() // 어노테이션 추가
+    }
+    
 
     /// placeModelList를 각 VC에 전달
     private func transportPlaceList() {
