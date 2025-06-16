@@ -35,7 +35,7 @@ class MapViewController: UIViewController {
     }()
 
     var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
-
+    
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +86,7 @@ class MapViewController: UIViewController {
         }
     }
 
+
     deinit {
         NotificationCenter.default.removeObserver(self)
         print("MapViewController, 옵저버 해제 완료")
@@ -120,14 +121,17 @@ class MapViewController: UIViewController {
         }
     }
 
-    func addAnnotation() {
+    public func addAnnotation() {
         guard let placeModelList = self.placeModelList else { return }
+        
+        // 기존 어노테이션 제거 (사용자 위치 어노테이션 제외)
+        mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
+        
         let annotations = placeModelList.compactMap {
-
             print("lat: \($0.latitude), lon: \($0.longitude)")
             return $0.toAnnotationModel()
         }
-
+        
         mapView.addAnnotations(annotations)
     }
 
@@ -165,6 +169,14 @@ extension MapViewController: MKMapViewDelegate {
 
         mapView.delegate = self
         mapView.showsUserLocation = true // 사용자 위치
+        
+        mapView.register(PlaceAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: String(
+                            describing: PlaceAnnotationModel.self))
+        
+//        mapView.register(PlaceClusterAnnotationView.self,
+//                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
+
     }
 
     // 척도 범위 설정
@@ -183,7 +195,7 @@ extension MapViewController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // 사용자 현재위치의 view setting
+        // 사용자 현재위치 annotation 설정
         if annotation is MKUserLocation {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userlocation")
             annotationView.image = UIImage(named: "img_userlocation")
@@ -195,54 +207,27 @@ extension MapViewController: MKMapViewDelegate {
             // ios 16 이상부터는 layer없이 바로 anchorpoint를 설정할 수 있음!
             return annotationView
         }
-
-        guard let annotation = annotation as? PlaceAnnotationModel else {
+        
+        // 장소 annotation 설정
+        guard let placeAnnotation = annotation as? PlaceAnnotationModel else {
             return nil
         }
-
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier:
-                                                                    PlaceAnnotationView.identifier)
-        as? PlaceAnnotationView
-
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PlaceAnnotationView.identifier) as? PlaceAnnotationView
+        
         if annotationView == nil {
-            annotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier:
-                                                    PlaceAnnotationView.identifier)
+            annotationView = PlaceAnnotationView(annotation: placeAnnotation, reuseIdentifier: PlaceAnnotationView.identifier)
+
             annotationView?.canShowCallout = false
             annotationView?.contentMode = .scaleAspectFit
         } else {
-            annotationView?.annotation = annotation
-
+            annotationView?.annotation = placeAnnotation
         }
-
-
-        let size = CGSize(width: 40, height: 40)
-        UIGraphicsBeginImageContext(size)
-
-        let annotationImage = UIImage(systemName: "pin.circle.fill")
-
-        annotationImage?.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        annotationView?.image = resizedImage
-
-        annotationView?.titleLabel.text = annotation.title
-
+        
+        annotationView?.configure(with: placeAnnotation)
         return annotationView
     }
-
-    /// 경로위에 표시되는 line UI를 정의
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKPolyline {
-            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
-            polylineRenderer.lineWidth = 5.0
-            polylineRenderer.strokeColor = .blue
-
-            return polylineRenderer
-        }
-
-        return MKOverlayRenderer()
-    }
-
+    
 }
 
 extension MapViewController: LayoutSupport {
