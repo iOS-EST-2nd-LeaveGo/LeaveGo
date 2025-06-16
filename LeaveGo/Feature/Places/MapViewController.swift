@@ -62,13 +62,6 @@ class MapViewController: UIViewController {
         self.addTarget()
 
         self.configureSubviews()
-        
-        mapView.register(PlaceAnnotationView.self,
-                         forAnnotationViewWithReuseIdentifier: String(
-                            describing: PlaceAnnotationModel.self))
-        
-        mapView.register(PlaceClusterAnnotationView.self,
-                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -132,28 +125,14 @@ extension MapViewController: MKMapViewDelegate {
         
         mapView.delegate = self
         mapView.showsUserLocation = true // 사용자 위치
-    }
-    
-    func simpleClusterImage(emoji: String) -> UIImage {
-        let size = CGSize(width: 40, height: 40)
-        let renderer = UIGraphicsImageRenderer(size: size)
         
-        return renderer.image { _ in
-            // 배경 원
-            let rect = CGRect(origin: .zero, size: size)
-            UIColor.white.setFill()
-            UIBezierPath(ovalIn: rect).fill()
-            
-            // 이모지 중심 배치
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.alignment = .center
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 24),
-                .paragraphStyle: paragraphStyle
-            ]
-            let textRect = CGRect(x: 0, y: (size.height - 24) / 2, width: size.width, height: 24)
-            emoji.draw(in: textRect, withAttributes: attributes)
-        }
+        mapView.register(PlaceAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: String(
+                            describing: PlaceAnnotationModel.self))
+        
+//        mapView.register(PlaceClusterAnnotationView.self,
+//                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
+
     }
     
     // 척도 범위 설정
@@ -185,44 +164,23 @@ extension MapViewController: MKMapViewDelegate {
             return annotationView
         }
         
-        if let place = annotation as? PlaceAnnotationModel {
-            let annotationView = mapView.dequeueReusableAnnotationView(
-                withIdentifier: String(describing: PlaceAnnotationModel.self),
-                for: annotation
-            ) as! PlaceAnnotationView
-            
-            annotationView.configure(with: place)
-            annotationView.canShowCallout = true
-            annotationView.contentMode = .scaleAspectFill
-            
-            return annotationView
-            
-        } else if let cluster = annotation as? MKClusterAnnotation,
-                  let first = cluster.memberAnnotations.first as? PlaceAnnotationModel {
-            // 클러스터 어노테이션은 확대, 축소할 때 맵뷰가 자동으로 추가
-            let annotationView = mapView
-                .dequeueReusableAnnotationView(
-                    withIdentifier: PlaceClusterAnnotationView.identifier,
-                    for: annotation
-                ) as! PlaceClusterAnnotationView
-            
-            let count = cluster.memberAnnotations.count
-            annotationView.configure(with: first.cat1, count: count)
-            annotationView.canShowCallout = false
-            
-            if count > 30 {
-                // 항상 표시
-                annotationView.displayPriority = .required
-            } else if count > 15 {
-                annotationView.displayPriority = .defaultHigh
-            } else {
-                annotationView.displayPriority = .defaultLow
-            }
-            
-            return annotationView
+        // 장소 annotation 설정
+        guard let annotation = annotation as? PlaceAnnotationModel else {
+            return nil
         }
         
-        return nil
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PlaceAnnotationView.identifier) as? PlaceAnnotationView
+        
+        if annotationView == nil {
+            annotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier: PlaceAnnotationView.identifier)
+            annotationView?.canShowCallout = false
+            annotationView?.contentMode = .scaleAspectFit
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        annotationView?.configure(with: annotation)
+        return annotationView
     }
     
 }

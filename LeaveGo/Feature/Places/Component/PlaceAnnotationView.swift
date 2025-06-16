@@ -11,21 +11,29 @@ final class PlaceAnnotationView: MKAnnotationView {
     
     static let identifier: String = "PlaceAnnotationView"
     
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.borderWidth = 2
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.backgroundColor = .white
+        return imageView
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .black)
-        label.textColor = .label // TODO: change accentColor
+        label.textColor = .label
         label.backgroundColor = .clear
         label.textAlignment = .center
         return label
     }()
     
-    let imageView = UIImageView()
-    
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         
-        setupUI()
+        frame = CGRect(x: 0, y: 0, width: 40, height: 60)
         configureSubviews()
     }
     
@@ -33,19 +41,33 @@ final class PlaceAnnotationView: MKAnnotationView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI() {
-        frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        imageView.frame = bounds
-        imageView.layer.cornerRadius = bounds.height / 2
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.layer.cornerRadius = imageView.frame.width / 2
     }
     
-    func configure(with place: PlaceAnnotationModel) {
-        imageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
-        self.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        self.layer.cornerRadius = 15
-        clusteringIdentifier = "\(String(describing: place.areaCode ?? "1"))-\(String(describing: place.cat1 ?? "A02"))"
+    func configure(with annotation: PlaceAnnotationModel) {
+        titleLabel.text = annotation.title
         
-        titleLabel.text = place.title
+        // 클러스터링 식별자 설정
+        // clusteringIdentifier = "\(annotation.areaCode ?? "1")-\(annotation.cat1 ?? "1")"
+        
+        if let thumbnailImage = annotation.thumbnailImage {
+            imageView.image = thumbnailImage
+        } else {
+            // 기본 이미지 설정
+            let size = CGSize(width: 40, height: 40)
+            UIGraphicsBeginImageContext(size)
+            
+            if let image = UIImage(systemName: "pin.circle.fill") {
+                image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+                if let resizedImage = UIGraphicsGetImageFromCurrentImageContext() {
+                    imageView.image = resizedImage
+                }
+            }
+            
+            UIGraphicsEndImageContext()
+        }
     }
 }
 
@@ -53,24 +75,24 @@ final class PlaceAnnotationView: MKAnnotationView {
 extension PlaceAnnotationView: LayoutSupport {
     
     func addSubviews() {
-        addSubview(titleLabel)
         addSubview(imageView)
+        addSubview(titleLabel)
     }
     
     func setupSubviewsConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
-            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 40),
-            titleLabel.heightAnchor.constraint(equalToConstant: 20)
-        ])
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 40),
+            imageView.heightAnchor.constraint(equalToConstant: 40),
+            
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
 }
