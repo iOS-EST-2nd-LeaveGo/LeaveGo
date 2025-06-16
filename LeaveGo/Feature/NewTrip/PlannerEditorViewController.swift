@@ -129,7 +129,6 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
         // 셀 설정
         let place = placeList[indexPath.row] // 현재 인덱스에 해당하는 장소(place) 데이터를 가져옴
         cell.setupMenu(mode: .draggable)
-        cell.thumbnailImageView.image = UIImage(systemName: "photo.fill")
         cell.checkmarkImageView.image = UIImage(systemName: "line.3.horizontal")
         cell.titleLabel?.text = place.title
         cell.place = place // 셀 내부에서 사용할 place 데이터를 바인딩
