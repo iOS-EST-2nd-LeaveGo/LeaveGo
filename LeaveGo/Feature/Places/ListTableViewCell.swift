@@ -46,6 +46,7 @@ class ListTableViewCell: UITableViewCell {
                 }
             ])
             moreButton.showsMenuAsPrimaryAction = true
+            checkmarkImaveView.isHidden = true
         default:
             // 분기에 맞는 UI 처리
             moreButton.setImage(UIImage(systemName: "info.circle"), for: .normal)

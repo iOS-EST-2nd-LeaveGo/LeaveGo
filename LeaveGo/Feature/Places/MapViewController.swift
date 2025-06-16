@@ -34,8 +34,12 @@ class MapViewController: UIViewController {
         return btsView
     }()
 
-    var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
-    
+    var placeModelList: [PlaceModel]? {
+        didSet {
+            addAnnotation()
+        }
+    } // NetworkManager로 부터 받아온 PlaceList
+
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
