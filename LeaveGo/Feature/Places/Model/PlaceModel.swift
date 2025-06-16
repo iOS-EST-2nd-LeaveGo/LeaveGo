@@ -13,7 +13,7 @@ struct PlaceModel {
     let title: String // 장소명(use in PlacesVC)
     let thumbnailURL: String?
     var thumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
-    let distance: String // 거리(use in PlacesVC)
+    let distance: String? // 거리(use in PlacesVC)
     let latitude: Double // (use in PlacesVC)
     let longitude: Double // (use in PlacesVC)
     let areaCode: String? // 지역코드
@@ -21,16 +21,16 @@ struct PlaceModel {
     let cat2: String? // 중분류코드
     let cat3: String? // 소분류코드
     
-    let detail: PlaceDetailModel?
+    // let detail: PlaceDetailModel?
     
-    init(contentId: String, title: String, thumbnailURL: String?, distance: String, latitude: String?, longitude: String?, detail: PlaceDetailModel?, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+    init(contentId: String, title: String, thumbnailURL: String?, distance: String, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
         self.contentId = contentId
         self.title = title
         self.thumbnailURL = thumbnailURL
         self.distance = distance
         self.latitude = Double(latitude ?? "") ?? 0.0
         self.longitude = Double(longitude ?? "") ?? 0.0
-        self.detail = detail
+        // self.detail = detail
         self.areaCode = areaCode
         self.cat1 = cat1
         self.cat2 = cat2
