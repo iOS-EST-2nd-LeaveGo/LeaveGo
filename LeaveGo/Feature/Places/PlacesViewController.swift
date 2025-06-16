@@ -90,8 +90,7 @@ extension PlacesViewController: UITableViewDataSource, ListTableViewCellDelegate
 		
 		let coord = CLLocationCoordinate2D(latitude: place.latitude,
 										   longitude: place.longitude)
-		routeVC.destination = RouteDestination(title: place.title,
-											   coordinate: coord)
+		routeVC.destination = RouteDestination(place: place)
 		
 		// 4) Push
 		print("▶︎ navCtrl:", navigationController as Any)

@@ -26,20 +26,13 @@ class RouteBottomSheetViewController: UIViewController {
 		sheetView.tableHeightConstraint
 	}
 	
+	var destination: RouteDestination!
+	
 	private var selectedMode: RouteBottomSheetView.TransportMode?
 	private let cellHeight: CGFloat = 45
 	private let spacing:   CGFloat = 20
 	
-	private var stops: [Stop] = [
-		.init(kind: .currentLocation,
-			  name: "나의 위치",
-			  iconName: "location.fill",
-			  color: .systemBlue),
-		.init(kind: .destination,
-			  name: "롯데월드",
-			  iconName: "flag.circle.fill",
-			  color: .systemPink)
-	]
+	private var stops: [Stop] = []
 	
 	private var routesData: RouteOptions?
 	private var showingRoutes = false
@@ -47,6 +40,23 @@ class RouteBottomSheetViewController: UIViewController {
 	
 	private var connectorLayer: CAShapeLayer?
 	weak var delegate: RouteBottomSheetViewControllerDelegate?
+	
+	func configureStops(
+		currentLocationName: String = "나의 위치",
+		destinationName: String
+	) {
+		self.stops = [
+			.init(kind: .currentLocation,
+				  name: currentLocationName,
+				  iconName: "location.fill",
+				  color: .systemBlue),
+			.init(kind: .destination,
+				  name: destinationName,
+				  iconName: "flag.circle.fill",
+				  color: .systemPink)
+		]
+	}
+	
 	
 	// MARK: – Lifecycle
 	override func loadView() {
@@ -68,6 +78,7 @@ class RouteBottomSheetViewController: UIViewController {
 	}
 	
 	// MARK: – Setup
+	
 	private func setupTableView() {
 		let tv = sheetView.startDestinationTableView
 		tv.backgroundColor     = sheetView.backgroundColor

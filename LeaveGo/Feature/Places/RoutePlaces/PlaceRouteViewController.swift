@@ -17,7 +17,13 @@ class PlaceRouteViewController: UIViewController {
 	var destination: RouteDestination?
 	
 	private lazy var mapManager: RouteMapManager = {
-		RouteMapManager(mapView: routeMapView)
+		guard let dest = destination else {
+			fatalError("destination이 설정되지 않아 RouteMapManager를 만들 수 없습니다.")
+		}
+		return RouteMapManager(
+			mapView: routeMapView,
+			destination: dest
+		)
 	}()
 	
 	private weak var sheetVC: RouteBottomSheetViewController?
@@ -87,15 +93,25 @@ class PlaceRouteViewController: UIViewController {
 
 	
 	private func presentBottomSheet() {
+		guard let dest = destination else {
+			assertionFailure("Destination이 설정되지 않은 상태로 시트를 띄우고 있습니다.")
+			return
+		}
 		let vc = RouteBottomSheetViewController()
 		vc.delegate = self
 		self.sheetVC = vc
+		
+		vc.configureStops(
+			currentLocationName: "나의 위치",
+			destinationName: dest.title
+		)
+		
 		vc.modalPresentationStyle = .pageSheet
 		vc.isModalInPresentation = true
 
 		if let sheet = vc.sheetPresentationController {
 			let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("collapsed")) { context in
-				return 0.45 * context.maximumDetentValue
+				return 0.3 * context.maximumDetentValue
 			}
 
 			sheet.detents = [customDetent, .large()]
@@ -121,14 +137,21 @@ extension PlaceRouteViewController: RouteBottomSheetViewControllerDelegate {
 		Task {
 			do {
 				let routes = try await mapManager.calculateRoutes()
-				guard !routes.isEmpty else { return }
+				guard let best = routes.first else { return }
 				
 				await MainActor.run {
-					mapManager.drawRoute(routes[0])
-	
+					let sheetHeight = self.sheetVC?.view.frame.height ?? 0
+					
+					// 2) 경로 그리기 (safeArea + bottomSheetHeight 자동 적용)
+					self.mapManager.drawRoute(
+						best,
+						bottomSheetHeight: sheetHeight
+					)
+					
+					// 3) 하단 시트에 경로 옵션 전달
 					let optionsModel = RouteOptions(
-						start: mapManager.startPlacemark,
-						dest:  mapManager.destPlacemark,
+						start: self.mapManager.startPlacemark,
+						dest:  self.mapManager.destPlacemark,
 						options: routes
 					)
 					self.sheetVC?.showRoutes(optionsModel)
