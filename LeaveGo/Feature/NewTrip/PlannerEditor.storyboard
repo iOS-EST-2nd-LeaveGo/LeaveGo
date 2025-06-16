@@ -99,6 +99,7 @@
                     <navigationItem key="navigationItem" title="세 여행지 추가하기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
                     <connections>
                         <outlet property="thumbnailAdd" destination="2pe-gF-pr6" id="eSS-xx-sb8"/>
+                        <outlet property="tripListTableView" destination="ew6-mm-3Pk" id="ZLK-Wh-1rC"/>
                         <outlet property="tripName" destination="DhF-mp-Uif" id="BlW-Nc-NZS"/>
                         <outlet property="tripThumbnail" destination="CMp-9i-qiJ" id="8Ls-by-YZr"/>
                     </connections>

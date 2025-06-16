@@ -31,6 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        }
 //        
 //        window?.makeKeyAndVisible()
+//        
+//    }
         
         //        효환 테스트용
                 guard let windowScene = (scene as? UIWindowScene) else { return }
