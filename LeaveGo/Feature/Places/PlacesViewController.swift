@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreLocation
-
+//import MapKit
 
 protocol PlacesViewControllerDelegate: AnyObject {
 	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel)
@@ -40,6 +40,7 @@ class PlacesViewController: UIViewController {
     var placeModelUpdated: (([PlaceModel]) -> Void)?
 
     @IBOutlet weak var tableView: UITableView!
+ 
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -275,13 +276,14 @@ extension PlacesViewController: UITableViewDataSource {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if isSearching {
-            return "'\(keyword)' 검색 결과"
-        } else {
-            return "현재 위치에서 가까운 순"
-        }
-    }
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		if isSearching {
+			return "'\(keyword)' 검색 결과"
+		} else {
+			return "현재 위치에서 가까운 순"
+		}
+	}
+    
 }
 
 extension PlacesViewController: UITableViewDelegate {
@@ -301,7 +303,8 @@ extension PlacesViewController: UITableViewDelegate {
 		
 		let place = currentPlaceModel[indexPath.row]
 		delegate?.placesViewController(self, didSelect: place)
-    }
+
+	}
 }
 
 extension PlacesViewController: ListTableViewCellDelegate {

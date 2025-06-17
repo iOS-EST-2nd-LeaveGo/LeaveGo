@@ -196,9 +196,11 @@ extension MapViewController: MKMapViewDelegate {
         mapView.register(PlaceAnnotationView.self,
                          forAnnotationViewWithReuseIdentifier: String(
                             describing: PlaceAnnotationModel.self))
-		// 클러스터링 코드 다시 주석 해제
-        mapView.register(PlaceClusterAnnotationView.self,
-                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
+
+        mapView.register(
+			PlaceClusterAnnotationView.self,
+			forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier
+		)
 
     }
 
