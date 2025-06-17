@@ -135,7 +135,8 @@ class PlacesViewController: UIViewController {
                     page: currentPage,
                     mapX: currentLocation.longitude,
                     mapY: currentLocation.latitude,
-                    radius: 2000
+                    radius: 2000,
+                    contentTypeId: nil
                 )
                 handleFetchedPlaces(places: places, count: count)
             } catch {
@@ -166,7 +167,8 @@ class PlacesViewController: UIViewController {
         }
     }
 
-    private func handleFetchedPlaces(places: [PlaceList], count: Int) {
+    private func
+    handleFetchedPlaces(places: [PlaceList], count: Int) {
         let filtered = places.filter(isAllowedPlace)
         let models = filtered.map { PlaceModel(from: $0) }
         totalCount = count
