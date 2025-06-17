@@ -8,6 +8,9 @@
 import UIKit
 import CoreLocation
 
+protocol PlacesViewControllerDelegate: AnyObject {
+	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel)
+}
 /// 관광지 리스트를 보여주는 화면을 담당하는 뷰 컨트롤러입니다.
 /// - UITableView를 이용해 관광지를 리스트 형식으로 표시합니다.
 /// - API를 호출하여 장소 정보를 불러오고 테이블 뷰에 반영합니다.
@@ -17,6 +20,8 @@ class PlacesViewController: UIViewController {
     private var hasLoadedPlaceList = false
     private var isSearching = false
     private var isFetching = false
+
+	weak var delegate: PlacesViewControllerDelegate?
 
     private var keyword: String = ""
     private var currentPage = 1
@@ -231,48 +236,52 @@ class PlacesViewController: UIViewController {
 }
 
 extension PlacesViewController: UITableViewDataSource {
-    /// 테이블 뷰의 셀 개수를 반환합니다.
-    /// - Returns: places 배열의 요소 개수
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentPlaceModel.count
-    }
+	/// 테이블 뷰의 셀 개수를 반환합니다.
+	/// - Returns: places 배열의 요소 개수
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return currentPlaceModel.count
+	}
 
-    /// 테이블 뷰 셀을 구성합니다.
-    /// - 각 셀에 장소 제목, 거리, 시간, 이미지 정보를 표시합니다.
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as? ListTableViewCell else {
-            return UITableViewCell()
-        }
+	/// 테이블 뷰 셀을 구성합니다.
+	/// - 각 셀에 장소 제목, 거리, 시간, 이미지 정보를 표시합니다.
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as? ListTableViewCell else {
+			return UITableViewCell()
+		}
 
-        let place = currentPlaceModel[indexPath.row]
+		let place = currentPlaceModel[indexPath.row]
+		
+		cell.place = place
+		cell.delegate = self
+		
+		// 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
+		cell.setupMenu(mode: .list)
 
-        // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
-        cell.setupMenu(mode: .list)
+		cell.titleLabel.text = place.title
 
-        cell.titleLabel.text = place.title
+		if let distStr = place.distance,
+		   let distDouble = Double(distStr) {
+			cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+		} else {
+			cell.distanceLabel.text = nil
+		}
+		cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
 
-        if let distStr = place.distance,
-           let distDouble = Double(distStr) {
-            cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
-        } else {
-            cell.distanceLabel.text = nil
-        }
-        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+		cell.thumbnailImageView.image = nil
+		cell.thumbnailImageView.image = place.thumbnailImage
 
-        cell.thumbnailImageView.image = nil
-        cell.thumbnailImageView.image = place.thumbnailImage
+		return cell
+	}
 
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if isSearching {
-            return "'\(keyword)' 검색 결과"
-        } else {
-            return "현재 위치에서 가까운 순"
-        }
-    }
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		if isSearching {
+			return "'\(keyword)' 검색 결과"
+		} else {
+			return "현재 위치에서 가까운 순"
+		}
+	}
 }
+
 
 extension PlacesViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -286,40 +295,42 @@ extension PlacesViewController: UITableViewDelegate {
     }
 
     // 이 코드는 사용자가 셀을 선택한 후 애니메이션과 함께 선택 효과(회색)를 제거해주는 역할을 합니다.
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            tableView.deselectRow(at: indexPath, animated: true)
-    }
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		
+		let place = currentPlaceModel[indexPath.row]
+		delegate?.placesViewController(self, didSelect: place)
+	}
 }
 
 extension PlacesViewController: ListTableViewCellDelegate {
     /// 경로 찾기 화면 이동
     /// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
-    func didTapNavigation(cell: ListTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let place = currentPlaceModel[indexPath.row]
+	/// 경로 찾기 화면 이동
+	/// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
+	func didTapNavigation(cell: ListTableViewCell) {
+		guard let indexPath = tableView.indexPath(for: cell) else { return }
+		let place = currentPlaceModel[indexPath.row]
+		
+		// PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+		let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+		guard let routeVC = sb.instantiateViewController(
+			identifier: "PlaceRoute"
+		) as? PlaceRouteViewController else {
+			return
+		}
 
-        // 2) PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
-        let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
-        guard let routeVC = sb.instantiateViewController(
-            identifier: "PlaceRoute"
-        ) as? PlaceRouteViewController else {
-            return
-        }
-
-        print("▶︎ instantiated:", routeVC)
-
-        routeVC.destination = RouteDestination(place: place)
-
-        print("▶︎ navCtrl:", navigationController as Any)
-        guard let nav = navigationController else {
-            print("navigationController is nil")
-            return
-        }
-        nav.pushViewController(routeVC, animated: true)
-    }
-
-    func didTapBookmark(cell: ListTableViewCell) {
-        // Bookmark 화면 이동 코드
-        print("tapped bookmark button")
-    }
+		routeVC.destination = RouteDestination(place: place)
+		
+		guard let nav = navigationController else {
+			print("navigationController is nil")
+			return
+		}
+		nav.pushViewController(routeVC, animated: true)
+	}
+	
+	func didTapBookmark(cell: ListTableViewCell) {
+		// Bookmark 화면 이동 코드
+		print("tapped bookmark button")
+	}
 }

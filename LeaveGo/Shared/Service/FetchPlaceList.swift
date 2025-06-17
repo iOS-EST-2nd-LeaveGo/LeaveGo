@@ -19,7 +19,6 @@ extension NetworkManager {
 
         // endpoint 에서 반환하는 url 을 가지고 request 생성
         let newRequest = try makeRequest(endpoint: endpoint)
-        print(newRequest)
 
         // request 와 디코딩 타입을 가지고 API 호출
         if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceList>.self){
