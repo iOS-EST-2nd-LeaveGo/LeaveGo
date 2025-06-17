@@ -12,16 +12,14 @@ import UIKit
 extension CoreDataManager {
 
     static func createBookmark(contentID: String,
-                        source: String, thumbnailImage: UIImage?) {
+                               title: String, uuid: UUID, thumbnailImageURL: String?) {
         let context = CoreDataManager.shared.context
         let bookmark = BookmarkEntity(context: context)
         bookmark.contentID = contentID
-        bookmark.source = source
+        bookmark.title = title
         bookmark.createdAt = Date()
-        bookmark.id = UUID()
-        if let thumbnailImage = thumbnailImage,  let thumnailIamge = thumbnailImage.jpegData(compressionQuality: 1.0) {
-            bookmark.thumbnailImage = thumnailIamge
-        }
+        bookmark.id = uuid
+        bookmark.thumbnailImageURL = thumbnailImageURL
         
         CoreDataManager.shared.saveContext()
     }
@@ -38,18 +36,31 @@ extension CoreDataManager {
         }
     }
     
-    static func updateBookmark(_ bookmark: BookmarkEntity, source: String, thumbnailImage: UIImage?) {
-        bookmark.source = source
-        if let thumbnailImage = thumbnailImage,  let thumnailIamge = thumbnailImage.jpegData(compressionQuality: 1.0) {
-            bookmark.thumbnailImage = thumnailIamge
-        }
-        
+    static func updateBookmark(_ bookmark: BookmarkEntity, title: String, thumbnailImageURL: String) {
+        bookmark.title = title
+        bookmark.thumbnailImageURL = thumbnailImageURL
+           
         CoreDataManager.shared.saveContext()
     }
     
-    func deleteBookmark(_ bookmark: BookmarkEntity) {
-        CoreDataManager.shared.context.delete(bookmark)
-        CoreDataManager.shared.saveContext()
+//    func deleteBookmark(_ bookmark: BookmarkEntity) {
+//        CoreDataManager.shared.context.delete(bookmark)
+//        CoreDataManager.shared.saveContext()
+//    }
+    
+    func deleteBookmark(by uuid: UUID) {
+        let request: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
+
+        do {
+            let results = try context.fetch(request)
+            if let bookmarkToDelete = results.first {
+                context.delete(bookmarkToDelete)
+                saveContext()
+            }
+        } catch {
+            print("삭제 실패: \(error.localizedDescription)")
+        }
     }
     
     // func isBookmarked

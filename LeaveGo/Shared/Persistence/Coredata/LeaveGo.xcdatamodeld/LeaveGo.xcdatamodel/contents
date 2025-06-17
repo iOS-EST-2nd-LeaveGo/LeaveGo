@@ -4,8 +4,8 @@
         <attribute name="contentID" attributeType="String"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="source" optional="YES" attributeType="String"/>
-        <attribute name="thumbnailImage" optional="YES" attributeType="Binary"/>
+        <attribute name="thumbnailImageURL" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Planner" representedClassName="PlannerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>

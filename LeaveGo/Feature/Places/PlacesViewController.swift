@@ -81,8 +81,9 @@ extension PlacesViewController: ListTableViewCellDelegate {
     func didTapBookmark(cell: ListTableViewCell) {
         if let placeModel = cell.place {
             CoreDataManager.createBookmark(contentID: placeModel.contentId,
-                                           source: placeModel.title,
-                                           thumbnailImage: placeModel.thumbnailImage)
+                                           title: placeModel.title,
+                                           uuid: placeModel.uuid,
+                                           thumbnailImageURL: placeModel.thumbnailURL)
         }
         
         let alert = UIAlertController(title: "저장 완료", message: "여행지가 북마크에 저장되었어요. 마이페이지-북마크 장소에서 확인해주세요.", preferredStyle: .alert)

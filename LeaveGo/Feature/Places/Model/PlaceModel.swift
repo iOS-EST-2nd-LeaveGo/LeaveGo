@@ -60,15 +60,9 @@ extension PlaceModel {
     
     init(from bookmark: BookmarkEntity) {
         self.contentId = bookmark.contentID ?? ""
-        self.title = bookmark.source ?? "제목 없음"
-        self.thumbnailURL = nil // URL은 없으므로 nil
-        self.thumbnailImage = {
-            if let data = bookmark.thumbnailImage {
-                return UIImage(data: data)
-            } else {
-                return nil
-            }
-        }()
+        self.title = bookmark.title ?? "제목 없음"
+        self.thumbnailURL = bookmark.thumbnailImageURL // URL은 없으므로 nil
+        self.thumbnailImage = nil
         self.distance = nil // 북마크는 거리와 무관하므로 nil
         self.latitude = 0.0
         self.longitude = 0.0
@@ -76,6 +70,7 @@ extension PlaceModel {
         self.cat1 = nil
         self.cat2 = nil
         self.cat3 = nil
+        self.uuid = bookmark.id ?? UUID()
         
     }
     
@@ -83,18 +78,45 @@ extension PlaceModel {
         let context = CoreDataManager.shared.context
         let entity = BookmarkEntity(context: context)
         
-        entity.id = UUID()
+        entity.id = uuid
         entity.createdAt = Date()
         entity.contentID = self.contentId
-        entity.source = self.title
-        
-        if let image = self.thumbnailImage,
-           let imageData = image.jpegData(compressionQuality: 1.0) {
-            entity.thumbnailImage = imageData
-        }
+        entity.title = self.title
+        entity.thumbnailImageURL = thumbnailURL
         
         return entity
     }
+    
+}
+
+extension PlaceModel {
+//    
+//    mutating func loadThumbnailImage(urlString: String?) {
+//            if let urlString = urlString, let url = URL(string: urlString) {
+//
+//                fetchThumbnailImage(for: url) { [weak self] image in
+//                    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
+//                    /// placeListVC의 tableView를 다시 그려줍니다.
+//                    self?.thumbnailImage = image
+//                }
+//            }
+//        
+//    }
+//
+//    func fetchThumbnailImage(for url: URL, completion: @escaping (UIImage?) -> Void) {
+//        URLSession.shared.dataTask(with: url) { data, _, error in
+//            if let data = data, let image = UIImage(data: data), error == nil {
+//                DispatchQueue.main.async {
+//                    completion(image)
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    completion(nil)
+//                }
+//                print(error ?? "image fetch error")
+//            }
+//        }.resume()
+//    }
     
 }
 

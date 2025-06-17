@@ -29,7 +29,42 @@ class BookMarkPlaceViewController: UIViewController {
         
         let bookmarkEntities = CoreDataManager.shared.fetchAllBookmarks()
         placeModelList = bookmarkEntities.map { PlaceModel(from: $0) }
+        loadThumbnailImage()
         tableView.reloadData()
+    }
+    
+    /// image를 load해서 PlaceModel에 미리 저장해둠
+    func loadThumbnailImage() {
+
+        _ = (0..<placeModelList.count).map { index in
+            if let urlString = placeModelList[index].thumbnailURL, let url = URL(string: urlString) {
+
+                fetchThumbnailImage(for: url) { [weak self] image in
+                    guard let self = self else { return }
+                    
+                    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
+                    /// placeListVC의 tableView를 다시 그려줍니다.
+                    self.placeModelList[index].thumbnailImage = image
+                    
+                    tableView.reloadData()
+                }
+            }
+        }
+    }
+
+    func fetchThumbnailImage(for url: URL, completion: @escaping (UIImage?) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let data = data, let image = UIImage(data: data), error == nil {
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                print(error ?? "image fetch error")
+            }
+        }.resume()
     }
     
 }
@@ -53,7 +88,7 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
         cell.titleLabel.text = place.title
         
         if let distance = place.distance {
-            cell.distanceLabel.text = "\(distance)m 떨어짐"
+            cell.distanceLabel.text = "\(distance)m 떨어짐" // MapKit으로 계산
         }
         
         cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
@@ -67,12 +102,20 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
                                               title: "삭제") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
             
-            CoreDataManager.shared.deleteBookmark()
+//            CoreDataManager.shared.deleteBookmark(placeModelList[indexPath.row].toBookmarkEntity())
+            
+            let uuid = placeModelList[indexPath.row].uuid
+            CoreDataManager.shared.deleteBookmark(by: uuid)
+            
+            placeModelList.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
             completionHandler(true)
         }
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = false
+        configuration.performsFirstActionWithFullSwipe = true
         return configuration
     }
    
