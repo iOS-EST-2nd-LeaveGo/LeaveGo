@@ -10,6 +10,7 @@ import UIKit
 class AreaSelectionViewController: UIViewController {
     @IBOutlet weak var areaSelectionCollectionView: UICollectionView!
     @IBOutlet weak var selectButtonView: UIButton!
+    @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
     @IBAction func navigateToPlaceList(_ sender: UIButton) {
         
@@ -21,6 +22,11 @@ class AreaSelectionViewController: UIViewController {
             
             vc.area = selectedArea!
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        blurEffectView.applyFeatherMask(to: blurEffectView, featherHeight: 20)
     }
     
     var selectedArea: Area?

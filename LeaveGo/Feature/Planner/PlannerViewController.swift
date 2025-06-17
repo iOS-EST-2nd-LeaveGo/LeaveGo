@@ -75,11 +75,11 @@ extension PlannerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let plannerCount = plannerList.count
         
-        if plannerCount > 0 {
+//        if plannerCount > 0 {
             return plannerList.count + 1
-        } else {
-            return 0
-        }
+//        } else {
+//            return 0
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -9,10 +9,16 @@ import UIKit
 
 class PlaceSelectionTableViewController: UIViewController {
     @IBOutlet weak var placeSelectionTable: UITableView!
+    @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
     var area: Area?
     var placeList = [PlaceModel]()
     var selectedItems: [IndexPath] = []
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        blurEffectView.applyFeatherMask(to: blurEffectView, featherHeight: 20)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

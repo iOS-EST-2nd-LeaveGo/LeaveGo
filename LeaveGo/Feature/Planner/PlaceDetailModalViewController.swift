@@ -21,6 +21,7 @@ class PlaceDetailModalViewController: UIViewController {
     @IBOutlet weak var contactNumberLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var findRouteButton: UIButton!
+    @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
     @IBOutlet weak var addToBookmark: UIButton!
     
@@ -36,6 +37,11 @@ class PlaceDetailModalViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        blurEffectView.applyFeatherMask(to: blurEffectView, featherHeight: 20)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

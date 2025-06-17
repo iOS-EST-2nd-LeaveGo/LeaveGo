@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUI
+import UIKit
 
 enum PlaceActions {
     // Cell 에서 모달을 생성하기 위해 부모 뷰를 찾기
