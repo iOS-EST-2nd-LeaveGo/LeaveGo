@@ -153,11 +153,11 @@ extension UISearchBar {
 extension MapHeaderViewController: PlacesViewControllerDelegate {
 	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
 		mapVC.selectedPlace = place
+		mapVC.currentPlaceModel = vc.currentPlaceModel
 		
 		displaySegmentedControl.selectedSegmentIndex = 1
 		switchToVC(mapVC)
 		
-		mapVC.focusMap(on: place)
 		mapVC.showDetailSheet(for: place)
 	}
 }

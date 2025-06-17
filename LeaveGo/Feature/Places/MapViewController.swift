@@ -101,16 +101,27 @@ class MapViewController: UIViewController {
     }
 	
 	// 선택한 PlaceListCell의 장소 좌표로 이동
-	func focusMap(on place: PlaceModel) {
+	func focusMap(on place: PlaceModel, verticalOffset: CGFloat = 150) {
 		let coord = CLLocationCoordinate2D(
 			latitude: place.latitude,
 			longitude: place.longitude
 		)
+		
+		let originalPoint = mapView.convert(coord, toPointTo: mapView)
+		
+		let adjustedPoint = CGPoint(
+			x: originalPoint.x,
+			y: originalPoint.y + verticalOffset
+		)
+		
+		let adjustedCoord = mapView.convert(adjustedPoint, toCoordinateFrom: mapView)
+		
 		let region = MKCoordinateRegion(
-			center: coord,
+			center: adjustedCoord,
 			latitudinalMeters: 450,
 			longitudinalMeters: 450
 		)
+		
 		mapView.setRegion(region, animated: true)
 	}
 
