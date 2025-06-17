@@ -43,7 +43,22 @@ struct PlaceModel {
 }
 
 extension PlaceModel {
-    
+    init(from place: PlaceList) {
+        self.add1 = place.addr1
+        self.add2 = place.addr2
+        self.contentId = place.contentId
+        self.title = place.title
+        self.thumbnailURL = place.thumbnailImage
+        self.thumbnailImage = nil
+        self.distance = place.dist
+        self.latitude = Double(place.mapY ?? "") ?? 0.0
+        self.longitude = Double(place.mapX ?? "") ?? 0.0
+        self.areaCode = place.areaCode
+        self.cat1 = place.cat1
+        self.cat2 = place.cat2
+        self.cat3 = place.cat3
+    }
+
     /// MapViewContoller에서 mapview에 전달 하기위해 annotaionModel형태로 전달해야 합니다.
     func toAnnotationModel() -> PlaceAnnotationModel {
         PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
@@ -53,6 +68,36 @@ extension PlaceModel {
                              cat1: cat1,
                              cat2: cat2,
                              cat3: cat3)
+    }
+}
+
+extension PlaceModel {
+    init(from bookmark: BookmarkEntity) {
+        self.contentId = bookmark.contentID ?? ""
+        self.title = bookmark.title ?? "제목 없음"
+        self.thumbnailURL = bookmark.thumbnailImageURL // URL은 없으므로 nil
+        self.thumbnailImage = nil
+        self.distance = nil // 북마크는 거리와 무관하므로 nil
+        self.latitude = 0.0
+        self.longitude = 0.0
+        self.areaCode = nil
+        self.cat1 = nil
+        self.cat2 = nil
+        self.cat3 = nil
+        self.add1 = ""
+        self.add2 = ""
+    }
+
+    func toBookmarkEntity() -> BookmarkEntity {
+        let context = CoreDataManager.shared.context
+        let entity = BookmarkEntity(context: context)
+        
+        entity.createdAt = Date()
+        entity.contentID = self.contentId
+        entity.title = self.title
+        entity.thumbnailImageURL = thumbnailURL
+        
+        return entity
     }
 }
 
