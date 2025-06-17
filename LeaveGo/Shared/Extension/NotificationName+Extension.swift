@@ -12,7 +12,10 @@ extension Notification.Name {
     static let nicknameDidChange = Notification.Name("nicknameDidChange")
     static let transportDidChange = Notification.Name("transportDidChange")
 
-    // 사용자 위치 업데이트 시 활용
+    // 장소 모댈 업데이트 시
+    static let placeModelUpdated = Notification.Name("placeModelUpdated")
+
+    // 사용자 위치 업데이트 시
     static let locationDidUpdate = Notification.Name("locationDidUpdate")
     static let headingDidUpdate = Notification.Name("headingDidUpdate")
     static let locationUpdateDidFail = Notification.Name("locationUpdateDidFail")
