@@ -54,7 +54,7 @@ class HomeViewController: UIViewController {
                 mapX: currentLocation.latitude,
                 mapY: currentLocation.longitude,
                 radius: 10000,
-                contentTypeId: nil
+                contentTypeId: ContentTypeID.touristAttraction.rawValue
             )
             
             await MainActor.run {
