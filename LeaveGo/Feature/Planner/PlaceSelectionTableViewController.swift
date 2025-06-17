@@ -21,8 +21,6 @@ class PlaceSelectionTableViewController: UIViewController {
             if selectedPlaceList.count > 0 {
                 self.navigationController?.pushViewController(composeVC, animated: true)
                 composeVC.placeList = selectedPlaceList
-                
-                print(selectedPlaceList)
             }
         }
     }
