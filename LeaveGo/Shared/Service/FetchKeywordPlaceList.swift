@@ -9,7 +9,7 @@ import Foundation
 
 extension NetworkManager {
 
-    func fetchKeywordPlaceList(page: Int = 1, numOfRows: Int = 100, keyword: String) async throws -> (places: [PlaceList], totalCount: Int) {
+    func fetchKeywordPlaceList(page: Int = 1, numOfRows: Int = 20, keyword: String) async throws -> (places: [PlaceList], totalCount: Int) {
         // 장소 목록을 담을 변수 선언
         var placeList = [PlaceList]()
 		var totalCount = 0
