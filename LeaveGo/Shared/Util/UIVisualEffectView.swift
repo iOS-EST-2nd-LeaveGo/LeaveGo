@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension UIVisualEffectView {
-    func applyFeatherMask(to view: UIView, featherHeight: CGFloat) {
+    func applyFeatherMask(to view: UIView, featherHeight: CGFloat = 50.0) {
         let maskLayer = CAGradientLayer()
         maskLayer.frame = view.bounds
 

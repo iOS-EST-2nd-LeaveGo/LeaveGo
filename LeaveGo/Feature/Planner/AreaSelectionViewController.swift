@@ -22,7 +22,7 @@ class AreaSelectionViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        blurEffectView.applyFeatherMask(to: blurEffectView, featherHeight: 20)
+        blurEffectView.applyFeatherMask(to: blurEffectView)
     }
     
     var selectedArea: Area?

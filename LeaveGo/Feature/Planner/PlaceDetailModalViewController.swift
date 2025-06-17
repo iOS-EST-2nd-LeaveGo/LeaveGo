@@ -40,7 +40,7 @@ class PlaceDetailModalViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        blurEffectView.applyFeatherMask(to: blurEffectView, featherHeight: 20)
+        blurEffectView.applyFeatherMask(to: blurEffectView)
     }
     
     override func viewDidLoad() {

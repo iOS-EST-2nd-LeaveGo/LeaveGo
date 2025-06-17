@@ -91,9 +91,9 @@
                                 </cells>
                             </collectionView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmU-qT-yH9">
-                                <rect key="frame" x="0.0" y="720" width="393" height="132"/>
+                                <rect key="frame" x="0.0" y="696" width="393" height="156"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="DJE-os-c49">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="132"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="156"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="regular"/>
@@ -110,7 +110,6 @@
                                     <color key="baseForegroundColor" name="CustomBackgroundColor"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="9QL-rt-bDP"/>
                                     <segue destination="q8i-jm-OT9" kind="show" id="E0E-4r-ofX"/>
                                 </connections>
                             </button>
@@ -128,7 +127,7 @@
                             <constraint firstItem="4nD-13-qLO" firstAttribute="top" secondItem="Ijz-yu-iEU" secondAttribute="top" id="dM1-4p-ZFN"/>
                             <constraint firstItem="Y5u-F2-TbE" firstAttribute="trailing" secondItem="llt-YT-T1e" secondAttribute="trailing" constant="16" id="nxu-jp-cDi"/>
                             <constraint firstAttribute="bottom" secondItem="dmU-qT-yH9" secondAttribute="bottom" id="vT2-lh-ZRu"/>
-                            <constraint firstItem="dmU-qT-yH9" firstAttribute="top" secondItem="llt-YT-T1e" secondAttribute="top" id="ztp-TK-6K8"/>
+                            <constraint firstItem="dmU-qT-yH9" firstAttribute="top" secondItem="llt-YT-T1e" secondAttribute="top" constant="-24" id="ztp-TK-6K8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="여행 지역 선택하기" id="I92-20-1lO"/>
@@ -155,9 +154,9 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4g8-WR-58J">
-                                <rect key="frame" x="0.0" y="720" width="393" height="132"/>
+                                <rect key="frame" x="0.0" y="696" width="393" height="156"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Vmk-Sy-ycm">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="132"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="156"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="regular"/>
@@ -174,7 +173,7 @@
                                     <color key="baseForegroundColor" name="CustomBackgroundColor"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="BOg-6w-2Do"/>
+                                    <action selector="navigateToComposeVC:" destination="q8i-jm-OT9" eventType="touchUpInside" id="W6a-kM-i62"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -182,7 +181,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="4g8-WR-58J" firstAttribute="leading" secondItem="hkg-3X-PwD" secondAttribute="leading" id="2xt-LM-ZAq"/>
-                            <constraint firstItem="yOQ-1b-Oug" firstAttribute="top" secondItem="4g8-WR-58J" secondAttribute="top" id="CVg-j8-2MN"/>
+                            <constraint firstItem="yOQ-1b-Oug" firstAttribute="top" secondItem="4g8-WR-58J" secondAttribute="top" constant="24" id="CVg-j8-2MN"/>
                             <constraint firstAttribute="bottom" secondItem="4g8-WR-58J" secondAttribute="bottom" id="WWe-zo-tdT"/>
                             <constraint firstItem="hkg-3X-PwD" firstAttribute="trailing" secondItem="yOQ-1b-Oug" secondAttribute="trailing" constant="16" id="Zc8-4X-BMC"/>
                             <constraint firstItem="yOQ-1b-Oug" firstAttribute="leading" secondItem="hkg-3X-PwD" secondAttribute="leading" constant="16" id="cyS-Ek-zJk"/>
@@ -196,6 +195,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="여행지 추가하기" id="UhZ-Gs-8Vl"/>
                     <connections>
+                        <outlet property="addToPlannerButton" destination="yOQ-1b-Oug" id="SlK-RG-dxR"/>
                         <outlet property="blurEffectView" destination="4g8-WR-58J" id="MZb-wj-U6k"/>
                         <outlet property="placeSelectionTable" destination="9Wn-wX-T0R" id="EB7-kA-xI3"/>
                     </connections>
@@ -307,9 +307,9 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="rfA-K2-8HL"/>
                             </scrollView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sA-eu-qxp">
-                                <rect key="frame" x="0.0" y="671" width="393" height="181"/>
+                                <rect key="frame" x="0.0" y="647" width="393" height="205"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="oaB-70-Bid">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="181"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="205"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="regular"/>
@@ -335,7 +335,7 @@
                         <constraints>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="bottom" secondItem="5xc-RA-TDp" secondAttribute="bottom" id="6FL-G6-dy7"/>
                             <constraint firstItem="0sA-eu-qxp" firstAttribute="trailing" secondItem="5xc-RA-TDp" secondAttribute="trailing" id="6jb-6n-XtN"/>
-                            <constraint firstItem="0sA-eu-qxp" firstAttribute="top" secondItem="Vs9-Jp-hrI" secondAttribute="top" id="HSO-3x-JwL"/>
+                            <constraint firstItem="0sA-eu-qxp" firstAttribute="top" secondItem="Vs9-Jp-hrI" secondAttribute="top" constant="-24" id="HSO-3x-JwL"/>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="top" secondItem="FWJ-ey-5aw" secondAttribute="top" id="MRW-9g-d0f"/>
                             <constraint firstItem="5xc-RA-TDp" firstAttribute="trailing" secondItem="Vs9-Jp-hrI" secondAttribute="trailing" constant="16" id="RFk-h6-uVe"/>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="leading" secondItem="5xc-RA-TDp" secondAttribute="leading" id="ZC2-fs-Cvg"/>
