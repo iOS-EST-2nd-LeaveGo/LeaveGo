@@ -38,9 +38,6 @@ final class LocationManager: NSObject {
     func startUpdating() {
         if manager.authorizationStatus == .notDetermined {
             manager.requestWhenInUseAuthorization()
-        } else {
-            manager.startUpdatingLocation()
-            manager.startUpdatingHeading()
         }
     }
 

@@ -16,7 +16,7 @@ struct PlaceList: Codable {
     let cat3: String? // 소분류코드
     let contentId: String // 장소 고유번호
     let contentTypeId: String // 장소 관광지 타입
-    let dist: String // 중심 좌표로부터의 거리
+    let dist: String? // 중심 좌표로부터의 거리
     let thumbnailImage: String? // 썸네일이미지
     // API 응답값이 (1) 정상적인 url, (2) null, (3) 빈 문자열("") 로 들어오기 때문에 URL? 이 아닌 String? 으로 지정
     let mapX: String? // 경도
