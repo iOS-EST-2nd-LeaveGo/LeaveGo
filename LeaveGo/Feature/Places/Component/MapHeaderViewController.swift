@@ -12,15 +12,16 @@ final class MapHeaderViewController: UIViewController {
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
 
-    var placeListVC: PlacesViewController = {
-        let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
-        return vc
-    }()
-
-    lazy var mapVC: MapViewController = {
-        let vc = MapViewController()
-        return vc
-    }()
+    lazy var placeListVC: PlacesViewController = {
+		let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
+		vc.delegate = self
+		return vc
+	}()
+	
+	lazy var mapVC: MapViewController = {
+		let vc = MapViewController()
+		return vc
+	}()
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var displaySegmentedControl: UISegmentedControl!
@@ -54,7 +55,7 @@ final class MapHeaderViewController: UIViewController {
         switchToVC(placeListVC)
 
         placeListVC.placeModelUpdated = { [weak self] updatedList in
-            self?.mapVC.placeModelList = updatedList
+            self?.mapVC.currentPlaceModel = updatedList
         }
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -97,7 +98,7 @@ final class MapHeaderViewController: UIViewController {
 
         } else {
             switchToVC(mapVC)
-            mapVC.placeModelList = placeListVC.currentPlaceModel
+            mapVC.currentPlaceModel = placeListVC.currentPlaceModel
         }
     }
 
@@ -118,33 +119,45 @@ final class MapHeaderViewController: UIViewController {
 }
 
 extension MapHeaderViewController: UISearchBarDelegate {
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = true
-    }
+	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+		searchBar.showsCancelButton = true
+	}
 
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.showsCancelButton = false
-    }
+	func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+		searchBar.showsCancelButton = false
+	}
 
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let keyword = searchBar.text ?? ""
-        placeListVC.updateKeyword(keyword)
-        searchBar.resignFirstResponder()
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		let keyword = searchBar.text ?? ""
+		placeListVC.updateKeyword(keyword)
+		searchBar.resignFirstResponder()
 
-    }
+	}
 
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-        searchBar.showsCancelButton = false
-        placeListVC.updateKeyword("") // 검색 결과 초기화
-    }
+	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+		searchBar.text = ""
+		searchBar.resignFirstResponder()
+		searchBar.showsCancelButton = false
+		placeListVC.updateKeyword("") // 검색 결과 초기화
+	}
 }
 
 extension UISearchBar {
-    func applyBodyTextStyle() {
-        if let textField = self.value(forKey: "searchField") as? UITextField {
-            textField.font = UIFont.preferredFont(forTextStyle: .body)
-        }
-    }
+	func applyBodyTextStyle() {
+		if let textField = self.value(forKey: "searchField") as? UITextField {
+			textField.font = UIFont.preferredFont(forTextStyle: .body)
+		}
+	}
+}
+
+extension MapHeaderViewController: PlacesViewControllerDelegate {
+	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
+		mapVC.selectedPlace = place
+		mapVC.currentPlaceModel = vc.currentPlaceModel
+		
+		displaySegmentedControl.selectedSegmentIndex = 1
+		switchToVC(mapVC)
+		
+		mapVC.showDetailSheet(for: place)
+	}
 }
