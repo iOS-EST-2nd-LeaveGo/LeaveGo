@@ -15,8 +15,14 @@ final class MapHeaderViewController: UIViewController {
 
     private var currentVC: UIViewController?
 
-    var placeListVC: PlacesViewController = {
+    lazy var placeListVC: PlacesViewController = {
         let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
+		vc.delegate = self
+		// ERROR Message
+		/* lazy var 로 바꾼 이유
+		 Cannot assign value of type '(MapHeaderViewController) -> () -> MapHeaderViewController' to type '(any PlacesViewControllerDelegate)?'
+		 일반 저장 프로퍼티의 초기화 클로저 안에서는 아직 self가 완전히 생성되지 않은 상태라서, self를 참조할 수 없음, 접근할 때 delegate에 할당하도록 하기 위함임
+		 */
         return vc
     }()
     var mapVC: MapViewController = {
@@ -188,4 +194,19 @@ final class MapHeaderViewController: UIViewController {
         newVC.didMove(toParent: self)
         currentVC = newVC
     }
+}
+
+extension MapHeaderViewController: PlacesViewControllerDelegate {
+	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
+		mapVC.placeModelList = placeModelList
+		mapVC.selectedPlace = place
+		
+		displaySegmentedControl.selectedSegmentIndex = 1
+		switchToVC(mapVC)
+		
+		mapVC.focusMap(on: place)
+		mapVC.showDetailSheet(for: place)
+	}
+
+	
 }
