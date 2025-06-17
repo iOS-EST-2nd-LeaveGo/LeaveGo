@@ -26,9 +26,9 @@ class PlacesViewController: UIViewController {
         cache.countLimit = 100
         return cache
     }()
-	
+
 	weak var delegate: PlacesViewControllerDelegate?
-	
+
     private var keyword: String = ""
     private var currentPage = 1
     private var totalCount = 0
@@ -40,7 +40,6 @@ class PlacesViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         /// ListTableViewCell.xib 재사용 가능한 셀을 Scene에 띄우기
@@ -284,6 +283,7 @@ extension PlacesViewController: UITableViewDataSource {
 	}
 }
 
+
 extension PlacesViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
@@ -301,7 +301,6 @@ extension PlacesViewController: UITableViewDelegate {
 		
 		let place = currentPlaceModel[indexPath.row]
 		delegate?.placesViewController(self, didSelect: place)
-
 	}
 }
 
@@ -312,13 +311,13 @@ extension PlacesViewController: ListTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let place = currentPlaceModel[indexPath.row]
 
+        // 2) PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
         let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
         guard let routeVC = sb.instantiateViewController(
             identifier: "PlaceRoute"
         ) as? PlaceRouteViewController else {
             return
         }
-
 		routeVC.destination = RouteDestination(place: place)
 
         guard let nav = navigationController else {

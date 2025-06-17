@@ -28,12 +28,12 @@ class MapViewController: UIViewController {
         return button
     }()
     let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
-
-    var placeModelList: [PlaceModel]? {
+	// NetworkManager로 부터 받아온 PlaceList
+    var currentPlaceModel: [PlaceModel]? {
         didSet {
             addAnnotation()
         }
-    } // NetworkManager로 부터 받아온 PlaceList
+    }
 
 	// PlacesVC에서 전달받은 선택된 하나의 데이터 타입형태
 	var selectedPlace: PlaceModel?
@@ -145,7 +145,7 @@ class MapViewController: UIViewController {
 
     public func addAnnotation() {
         guard let mapView = self.mapView else { return }
-        guard let placeModelList = self.placeModelList else { return }
+        guard let placeModelList = self.currentPlaceModel else { return }
         
         // 기존 어노테이션 제거 (사용자 위치 어노테이션 제외)
         mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
@@ -163,7 +163,6 @@ class MapViewController: UIViewController {
     }
 
     // MARK: - Action
-
     @objc func setMapRegion() {
         self.userLocationImageView.image = self.userLocationImageView.image?.withTintColor(.systemBlue)
 
@@ -173,10 +172,6 @@ class MapViewController: UIViewController {
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coordiCenterLa, longitude: coordiCenterLo),
                                         latitudinalMeters: 450, longitudinalMeters: 450)
         mapView.setRegion(region, animated: true)
-        //      bottomSheetView.mode = .tip // sheetview dismiss
-
-        // bottomSheetView.hiddenDetailView()
-        //      mapView.removeMapViewOverlayOfLast() // 화면에 나타난 경로 삭제
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { // 삭제하는게 좋겠음 아니면 completion 처리하든가
             self.userLocationImageView.image = self.userLocationImageView.image?.withTintColor(.black)
@@ -201,11 +196,6 @@ extension MapViewController: MKMapViewDelegate {
 			PlaceClusterAnnotationView.self,
 			forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier
 		)
-
-		// 클러스터링 코드 다시 주석 해제
-        mapView.register(PlaceClusterAnnotationView.self,
-                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
-
     }
 
     // 척도 범위 설정
