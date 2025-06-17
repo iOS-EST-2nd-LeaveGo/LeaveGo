@@ -19,7 +19,7 @@ class PlannerEditorViewController: UIViewController {
     @IBOutlet weak var tripListTableView: UITableView!
 
     @IBAction func addPlannerBtn(_ sender: Any) {
-//        navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
 

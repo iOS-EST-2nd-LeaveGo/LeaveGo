@@ -69,14 +69,38 @@ class PlannerViewController: UIViewController {
                 errorMessageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 errorMessageLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ])
+            reloadData()
+
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+    }
+    
+    private func reloadData() {
+        let fetchedListCount = CoreDataManager.shared.fetchPlannerCount()
+        
+        if fetchedListCount > 0 {
+            let entities = CoreDataManager.shared.fetchAllPlanners()
+            plannerList = entities.compactMap { Planner(entity: $0) }
+            errorMessageLabel.isHidden = true
+            addPlannerButton.isHidden = true
+        } else {
+            plannerList = []
+            errorMessageLabel.isHidden = false
+            addPlannerButton.isHidden = false
+        }
+        
+        plannerCollectionView.reloadData()
+    }
+
 
     
     @objc func reloadPlannerCollection() {
         self.plannerCollectionView.reloadData()
-    
+
     }
     
 }
