@@ -25,7 +25,7 @@ final class PlaceAnnotationView: MKAnnotationView {
 		let label = UILabel()
 		label.font = .systemFont(ofSize: 12, weight: .black)
 		label.textColor = .label
-
+        label.textAlignment = .center
 		label.adjustsFontSizeToFitWidth = true
 		label.minimumScaleFactor = 0.7
 		label.lineBreakMode = .byClipping
@@ -101,8 +101,7 @@ extension PlaceAnnotationView: LayoutSupport {
 			
 			titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
 			titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-			titleLabel.heightAnchor.constraint(equalToConstant: 20),
-			titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+			titleLabel.heightAnchor.constraint(equalToConstant: 20)
 		])
 	}
 }
