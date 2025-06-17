@@ -248,26 +248,29 @@ extension PlacesViewController: UITableViewDataSource {
 			return UITableViewCell()
 		}
 
-		let place = currentPlaceModel[indexPath.row]
-		
-		cell.place = place
+//		let place = currentPlaceModel[indexPath.row]
+//		
+//		cell.place = place
 		cell.delegate = self
+        
+        let saved = CoreDataManager.shared.isBookmarked(contentID: currentPlaceModel[indexPath.row].contentId)
+        cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list(isBookmarked: saved))
 		
 		// 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
-		cell.setupMenu(mode: .list)
+//		cell.setupMenu(mode: .list)
 
-		cell.titleLabel.text = place.title
-
-		if let distStr = place.distance,
-		   let distDouble = Double(distStr) {
-			cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
-		} else {
-			cell.distanceLabel.text = nil
-		}
-		cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
-
-		cell.thumbnailImageView.image = nil
-		cell.thumbnailImageView.image = place.thumbnailImage
+//		cell.titleLabel.text = place.title
+//
+//		if let distStr = place.distance,
+//		   let distDouble = Double(distStr) {
+//			cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+//		} else {
+//			cell.distanceLabel.text = nil
+//		}
+//		cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+//
+//		cell.thumbnailImageView.image = nil
+//		cell.thumbnailImageView.image = place.thumbnailImage
 
 		return cell
 	}
@@ -328,8 +331,31 @@ extension PlacesViewController: ListTableViewCellDelegate {
 		nav.pushViewController(routeVC, animated: true)
 	}
 	
-	func didTapBookmark(cell: ListTableViewCell) {
-		// Bookmark 화면 이동 코드
-		print("tapped bookmark button")
-	}
+    func didTapBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            CoreDataManager.createBookmark(contentID: placeModel.contentId,
+                                           title: placeModel.title,
+                                           thumbnailImageURL: placeModel.thumbnailURL)
+        }
+        
+        let alert = UIAlertController(title: "마크에 저장되었습니다!", message: "마이페이지 > 북마크 장소에서 저장한 여행지를 확인할 수 있어요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alert, animated: true)
+        tableView.reloadData()
+    }
+    
+    func didTapDeleteBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            let contentId = placeModel.contentId
+            
+            
+            if currentPlaceModel.firstIndex(where: { contentId == $0.contentId }) != nil {
+                
+                CoreDataManager.shared.deleteBookmark(by: contentId)
+                
+                tableView.reloadData()
+            }
+        }
+    }
+    
 }

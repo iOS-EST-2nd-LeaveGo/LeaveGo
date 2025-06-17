@@ -8,7 +8,7 @@
 import Foundation
 
 enum CellMode {
-    case list
+    case list(isBookmarked: Bool)
     case selectable
     case draggable
 }

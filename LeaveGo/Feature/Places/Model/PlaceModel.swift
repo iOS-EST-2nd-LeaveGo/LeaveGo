@@ -74,6 +74,37 @@ extension PlaceModel {
     }
 }
 
+extension PlaceModel {
+    init(from bookmark: BookmarkEntity) {
+        self.contentId = bookmark.contentID ?? ""
+        self.contentTypeId = ""
+        self.title = bookmark.title ?? "제목 없음"
+        self.thumbnailURL = bookmark.thumbnailImageURL // URL은 없으므로 nil
+        self.thumbnailImage = nil
+        self.distance = nil // 북마크는 거리와 무관하므로 nil
+        self.latitude = 0.0
+        self.longitude = 0.0
+        self.areaCode = nil
+        self.cat1 = nil
+        self.cat2 = nil
+        self.cat3 = nil
+        self.add1 = ""
+        self.add2 = ""
+    }
+
+    func toBookmarkEntity() -> BookmarkEntity {
+        let context = CoreDataManager.shared.context
+        let entity = BookmarkEntity(context: context)
+        
+        entity.createdAt = Date()
+        entity.contentID = self.contentId
+        entity.title = self.title
+        entity.thumbnailImageURL = thumbnailURL
+        
+        return entity
+    }
+}
+
 struct PlaceDetailModel {
     let contentId: String // 장소 고유번호
     let contentTypeId: String // 장소 관광지 타입
