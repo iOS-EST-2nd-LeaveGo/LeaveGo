@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // 여행 더미 데이터 주입
-        CoreDataManager.shared.insertDummyData()
+        // CoreDataManager.shared.insertDummyData()
         
         return true
     }
