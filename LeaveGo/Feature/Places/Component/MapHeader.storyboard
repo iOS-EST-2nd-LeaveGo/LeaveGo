@@ -12,43 +12,26 @@
         <!--Map Header View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="MapHeaderView" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapHeaderVC" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="247"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="263"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="87"/>
+                                        <rect key="frame" x="0.0" y="144" width="375" height="103"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fo6-eH-J1A" userLabel="TextFieldBackgroundView">
-                                                <rect key="frame" x="16" y="0.0" width="343" height="40"/>
-                                                <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="장소 이름으로 검색하세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3A7-VX-CfK">
-                                                        <rect key="frame" x="16" y="10.666666666666659" width="311" height="18.666666666666671"/>
-                                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                                <constraints>
-                                                    <constraint firstItem="3A7-VX-CfK" firstAttribute="leading" secondItem="Fo6-eH-J1A" secondAttribute="leading" constant="16" id="04B-dK-gge"/>
-                                                    <constraint firstItem="3A7-VX-CfK" firstAttribute="centerY" secondItem="Fo6-eH-J1A" secondAttribute="centerY" id="aSv-2T-Lkj"/>
-                                                    <constraint firstAttribute="height" constant="40" id="rwQ-oo-Cby"/>
-                                                    <constraint firstAttribute="trailing" secondItem="3A7-VX-CfK" secondAttribute="trailing" constant="16" id="t2k-jU-uv7"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
+                                            <searchBar contentMode="redraw" placeholder="장소 이름으로 검색하세요" translatesAutoresizingMaskIntoConstraints="NO" id="OPX-4P-qhr">
+                                                <rect key="frame" x="8" y="0.0" width="359" height="56"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="B1O-Dc-zV6"/>
+                                                </connections>
+                                            </searchBar>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
-                                                <rect key="frame" x="98" y="56" width="179" height="32"/>
+                                                <rect key="frame" x="98" y="72" width="179" height="32"/>
                                                 <segments>
                                                     <segment title="리스트로 보기"/>
                                                     <segment title="지도로 보기"/>
@@ -57,8 +40,8 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="Fo6-eH-J1A" secondAttribute="trailing" constant="16" id="UwT-O6-ae3"/>
-                                            <constraint firstItem="Fo6-eH-J1A" firstAttribute="leading" secondItem="O5G-hG-of0" secondAttribute="leading" constant="16" id="h08-pQ-JUz"/>
+                                            <constraint firstItem="OPX-4P-qhr" firstAttribute="leading" secondItem="O5G-hG-of0" secondAttribute="leading" constant="8" id="STq-UW-Kma"/>
+                                            <constraint firstAttribute="trailing" secondItem="OPX-4P-qhr" secondAttribute="trailing" constant="8" id="ZER-R9-zbr"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -70,7 +53,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
-                                <rect key="frame" x="0.0" y="247" width="375" height="565"/>
+                                <rect key="frame" x="0.0" y="263" width="375" height="549"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -91,7 +74,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>
-                        <outlet property="searchTextField" destination="3A7-VX-CfK" id="AWA-hj-VZM"/>
+                        <outlet property="searchBar" destination="OPX-4P-qhr" id="fAH-Ge-Sij"/>
                         <outlet property="segmentContentView" destination="6VK-hH-bGu" id="Kvm-hZ-f3x"/>
                     </connections>
                 </viewController>
@@ -124,9 +107,6 @@
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
