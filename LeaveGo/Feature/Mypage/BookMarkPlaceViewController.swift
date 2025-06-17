@@ -94,12 +94,20 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
                                               title: "삭제") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
             
-            let contentId = placeModelList[indexPath.row].contentId
-            CoreDataManager.shared.deleteBookmark(by: contentId)
+            let alert = UIAlertController(title: "북마크 삭제", message: "이 장소를 북마크에서 정말로 삭제하시겠습니까?", preferredStyle: .alert)
             
-            placeModelList.remove(at: indexPath.row)
+            let confirmAction = UIAlertAction(title: "삭제", style: .default) { _ in
+                let contentId = self.placeModelList[indexPath.row].contentId
+                CoreDataManager.shared.deleteBookmark(by: contentId)
+                
+                self.placeModelList.remove(at: indexPath.row)
+                
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
             
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            alert.addAction(confirmAction)
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+            self.present(alert, animated: true)
             
             completionHandler(true)
         }
@@ -124,22 +132,47 @@ extension BookMarkPlaceViewController: UITableViewDelegate {
 extension BookMarkPlaceViewController: ListTableViewCellDelegate {
     
     func didTapNavigation(cell: ListTableViewCell) {
-        // 예정
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let place = placeModelList[indexPath.row]
+        
+        // PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+        let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+        guard let routeVC = sb.instantiateViewController(
+            identifier: "PlaceRoute"
+        ) as? PlaceRouteViewController else {
+            return
+        }
+
+        routeVC.destination = RouteDestination(place: place)
+        
+        guard let nav = navigationController else {
+            print("navigationController is nil")
+            return
+        }
+        nav.pushViewController(routeVC, animated: true)
     }
     
     func didTapDeleteBookmark(cell: ListTableViewCell) {
-        if let placeModel = cell.place {
-            let contentId = placeModel.contentId
-            
-            if let index = placeModelList.firstIndex(where: { contentId == $0.contentId }) {
+        let alert = UIAlertController(title: "북마크 삭제", message: "이 장소를 북마크에서 정말로 삭제하시겠습니까?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "삭제", style: .default) { _ in
+            if let placeModel = cell.place {
+                let contentId = placeModel.contentId
                 
-                CoreDataManager.shared.deleteBookmark(by: contentId)
-                
-                placeModelList.remove(at: index)
-                
-                tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                if let index = self.placeModelList.firstIndex(where: { contentId == $0.contentId }) {
+                    
+                    CoreDataManager.shared.deleteBookmark(by: contentId)
+                    
+                    self.placeModelList.remove(at: index)
+                    
+                    self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                }
             }
         }
+        
+        alert.addAction(confirmAction)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        self.present(alert, animated: true)
     }
     
 }
