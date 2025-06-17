@@ -28,14 +28,11 @@ class MapViewController: UIViewController {
         return button
     }()
     let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
-	/*
-    let bottomSheetView: BottomSheetView = {
-        let btsView = BottomSheetView()
-
-        return btsView
-    }()
-	*/
+	
     var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
+	
+	// PlacesVC에서 전달받은 선택된 하나의 데이터 타입형태
+	var selectedPlace: PlaceModel?
     
     // MARK: LifeCycle
     override func viewDidLoad() {
