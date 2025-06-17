@@ -33,8 +33,11 @@ class RouteBottomSheetViewController: UIViewController {
 	private let spacing:   CGFloat = 20
 	
 	private var stops: [Stop] = []
+	// 원본 데이터
+	var routesData: RouteOptions?
+	// 가변 데이터 토글 - 렌더링 용
+	private var displayOptions: [MKRoute] = []
 	
-	private var routesData: RouteOptions?
 	private var showingRoutes = false
 	private var selectedIndex = 0
 	
@@ -65,7 +68,7 @@ class RouteBottomSheetViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupTableView()
-		setupButtons()
+		setupTargetActions()
 		setupPassthroughArea()
 		updateTableHeight()
 	}
@@ -117,7 +120,7 @@ class RouteBottomSheetViewController: UIViewController {
 		])
 	}
 	
-	private func setupButtons() {
+	private func setupTargetActions() {
 		sheetView.carButton.addTarget(self,
 									  action: #selector(carTapped),
 									  for: .touchUpInside)
@@ -139,21 +142,21 @@ class RouteBottomSheetViewController: UIViewController {
 	
 	@objc private func carTapped() {
 		sheetView.select(mode: .car)
-		if selectedMode != .car {
-			selectedMode   = .car
-			showingRoutes  = true
-			selectedIndex  = 0
-			sheetView.emptyStateLabel.isHidden = true
-			
-			delegate?.didTapCarButton()
-			
-			tableView.reloadData()
-			updateTableHeight()
-		} else {
-			showingRoutes.toggle()
-			tableView.reloadData()
-			updateTableHeight()
-		}
+				if selectedMode != .car {
+					selectedMode   = .car
+					showingRoutes  = true
+					selectedIndex  = 0
+					sheetView.emptyStateLabel.isHidden = true
+					
+					delegate?.didTapCarButton()
+					
+					tableView.reloadData()
+					updateTableHeight()
+				} else {
+					showingRoutes.toggle()
+					tableView.reloadData()
+					updateTableHeight()
+				}
 	}
 	
 	@objc private func walkTapped() {
@@ -179,25 +182,28 @@ class RouteBottomSheetViewController: UIViewController {
 		}
 	}
 	
+	private func reloadOptionsUI() {
+		sheetView.emptyStateLabel.isHidden = !displayOptions.isEmpty
+
+		tableView.reloadData()
+		updateTableHeight()
+	}
+	
 	@objc private func navigateOptionTapped(_ sender: UIButton) {
 		guard let data = routesData,
 			  sender.tag < data.options.count
 		else { return }
-		
-		// 1) 선택된 RouteOptions
+
 		let selectedRoute = data.options[sender.tag]
 		delegate?.didSelectRoute(selectedRoute)
-		
-		// 2) 출발지/도착지 CLPlacemark 확보
+
 		guard let startCL = data.start,
 			  let destCL = data.dest
 		else { return }
-		
-		// 3) CLPlacemark → MKPlacemark 래핑
+
 		let srcPM = MKPlacemark(placemark: startCL)
 		let dstPM = MKPlacemark(placemark: destCL)
-		
-		// 4) MKMapItem 생성
+
 		let srcItem = MKMapItem(placemark: srcPM)
 		let dstItem = MKMapItem(placemark: dstPM)
 		
@@ -213,8 +219,10 @@ class RouteBottomSheetViewController: UIViewController {
 	
 	func showRoutes(_ data: RouteOptions) {
 		self.routesData = data
-		showingRoutes  = true
 		//selectedIndex  = 0
+		//displayOptions = data.options
+		
+		showingRoutes  = true
 		sheetView.emptyStateLabel.isHidden = !data.options.isEmpty
 		tableView.reloadData()
 		updateTableHeight()
@@ -345,7 +353,7 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 			cell.configure(
 				with: stop,
 				isFirst: indexPath.row == 0,
-				isLast:  indexPath.row == stops.count - 1
+				isLast: indexPath.row == stops.count - 1
 			)
 			cell.selectionStyle = .none
 			return cell
@@ -364,29 +372,29 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 			with: routeOpt,
 			at: idx,
 			target: self,
-			action: #selector(navigateOptionTapped(_:))
+			action: #selector(navigateOptionTapped)
 		)
 		cell.selectionStyle = .none
 		return cell
 	}
 	
 	
-	func tableView(_ tv: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+	func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
 		.none
 	}
 	
-	func tableView(_ tv: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+	func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
 		false
 	}
 	
-	func tableView(_ tv: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
 		return indexPath.row < stops.count
 	}
 	
-	func tableView(_ tv: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 		let moved = stops.remove(at: sourceIndexPath.row)
 		stops.insert(moved, at: destinationIndexPath.row)
-		tv.reloadData()
+		tableView.reloadData()
 		updateTableHeight()
 	}
 }
