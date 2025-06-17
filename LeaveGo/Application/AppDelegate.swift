@@ -16,7 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Bundle.main.apiKey != nil {
             //print("🔐 API_KEY: ", Bundle.main.apiKey!)
         }
-        // CoreDataManager.shared.insertDummyData() // 앱 런칭 시 딱 한 번만 실행
+        
+        // 여행 더미 데이터 주입
+        CoreDataManager.shared.insertDummyData()
         
         return true
     }

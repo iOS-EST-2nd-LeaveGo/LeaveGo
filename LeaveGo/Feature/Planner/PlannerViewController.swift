@@ -44,7 +44,7 @@ class PlannerViewController: UIViewController {
         
         plannerCollectionView.dataSource = self
         
-        plannerCollectionView.collectionViewLayout = CollectionViewLayout.grid(
+        plannerCollectionView.collectionViewLayout = CollectionViewLayout.threeByFourGrid(
             columns: 2,
             itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
@@ -75,6 +75,7 @@ extension PlannerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let plannerCount = plannerList.count
         
+        // 테스트하려면 여행 추가 화면으로 이동해야 하므로 버튼 남겨놓음 -> 추후 주석 해제해서 버튼 없애야 함
         //        if plannerCount > 0 {
         return plannerList.count + 1
         //        } else {
