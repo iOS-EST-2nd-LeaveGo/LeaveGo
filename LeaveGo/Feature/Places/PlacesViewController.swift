@@ -44,7 +44,7 @@ extension PlacesViewController: UITableViewDataSource {
         
         cell.delegate = self
         
-        let saved = CoreDataManager.shared.isBookmarked(uuid: placeModelList[indexPath.row].uuid)
+        let saved = CoreDataManager.shared.isBookmarked(contentID: placeModelList[indexPath.row].contentId)
         
         cell.setModel(model: placeModelList[indexPath.row], mode: .list(isBookmarked: saved))
         
@@ -67,7 +67,6 @@ extension PlacesViewController: ListTableViewCellDelegate {
         if let placeModel = cell.place {
             CoreDataManager.createBookmark(contentID: placeModel.contentId,
                                            title: placeModel.title,
-                                           uuid: placeModel.uuid,
                                            thumbnailImageURL: placeModel.thumbnailURL)
         }
         
@@ -79,11 +78,11 @@ extension PlacesViewController: ListTableViewCellDelegate {
     
     func didTapDeleteBookmark(cell: ListTableViewCell) {
         if let placeModel = cell.place {
-            let uuid = placeModel.uuid
+            let contentId = placeModel.contentId
             
-            if placeModelList.firstIndex(where: { uuid == $0.uuid }) != nil {
+            if placeModelList.firstIndex(where: { contentId == $0.contentId }) != nil {
                 
-                CoreDataManager.shared.deleteBookmark(by: uuid)
+                CoreDataManager.shared.deleteBookmark(by: contentId)
                 
                 tableView.reloadData()
             }

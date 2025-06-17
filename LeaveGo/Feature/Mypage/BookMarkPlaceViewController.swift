@@ -94,8 +94,8 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
                                               title: "삭제") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
             
-            let uuid = placeModelList[indexPath.row].uuid
-            CoreDataManager.shared.deleteBookmark(by: uuid)
+            let contentId = placeModelList[indexPath.row].contentId
+            CoreDataManager.shared.deleteBookmark(by: contentId)
             
             placeModelList.remove(at: indexPath.row)
             
@@ -129,11 +129,11 @@ extension BookMarkPlaceViewController: ListTableViewCellDelegate {
     
     func didTapDeleteBookmark(cell: ListTableViewCell) {
         if let placeModel = cell.place {
-            let uuid = placeModel.uuid
+            let contentId = placeModel.contentId
             
-            if let index = placeModelList.firstIndex(where: { uuid == $0.uuid }) {
+            if let index = placeModelList.firstIndex(where: { contentId == $0.contentId }) {
                 
-                CoreDataManager.shared.deleteBookmark(by: uuid)
+                CoreDataManager.shared.deleteBookmark(by: contentId)
                 
                 placeModelList.remove(at: index)
                 

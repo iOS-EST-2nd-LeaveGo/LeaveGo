@@ -12,13 +12,12 @@ import UIKit
 extension CoreDataManager {
 
     static func createBookmark(contentID: String,
-                               title: String, uuid: UUID, thumbnailImageURL: String?) {
+                               title: String, thumbnailImageURL: String?) {
         let context = CoreDataManager.shared.context
         let bookmark = BookmarkEntity(context: context)
         bookmark.contentID = contentID
         bookmark.title = title
         bookmark.createdAt = Date()
-        bookmark.id = uuid
         bookmark.thumbnailImageURL = thumbnailImageURL
         
         CoreDataManager.shared.saveContext()
@@ -43,9 +42,9 @@ extension CoreDataManager {
         CoreDataManager.shared.saveContext()
     }
     
-    func deleteBookmark(by uuid: UUID) {
+    func deleteBookmark(by contentID: String) {
         let request: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
+        request.predicate = NSPredicate(format: "contentID == %@", contentID as CVarArg)
 
         do {
             let results = try context.fetch(request)
@@ -58,9 +57,9 @@ extension CoreDataManager {
         }
     }
     
-    func isBookmarked(uuid: UUID) -> Bool {
+    func isBookmarked(contentID: String) -> Bool {
         let request: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
+        request.predicate = NSPredicate(format: "contentID == %@", contentID as CVarArg)
         request.fetchLimit = 1
         
         do {

@@ -20,7 +20,6 @@ struct PlaceModel {
     let cat1: String? // 대분류코드
     let cat2: String? // 중분류코드
     let cat3: String? // 소분류코드
-    let uuid: UUID
     
     // let detail: PlaceDetailModel?
     
@@ -36,7 +35,6 @@ struct PlaceModel {
         self.cat1 = cat1
         self.cat2 = cat2
         self.cat3 = cat3
-        self.uuid = UUID()
     }
     
 }
@@ -70,15 +68,12 @@ extension PlaceModel {
         self.cat1 = nil
         self.cat2 = nil
         self.cat3 = nil
-        self.uuid = bookmark.id ?? UUID()
-        
     }
     
     func toBookmarkEntity() -> BookmarkEntity {
         let context = CoreDataManager.shared.context
         let entity = BookmarkEntity(context: context)
         
-        entity.id = uuid
         entity.createdAt = Date()
         entity.contentID = self.contentId
         entity.title = self.title
@@ -86,37 +81,6 @@ extension PlaceModel {
         
         return entity
     }
-    
-}
-
-extension PlaceModel {
-//    
-//    mutating func loadThumbnailImage(urlString: String?) {
-//            if let urlString = urlString, let url = URL(string: urlString) {
-//
-//                fetchThumbnailImage(for: url) { [weak self] image in
-//                    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
-//                    /// placeListVC의 tableView를 다시 그려줍니다.
-//                    self?.thumbnailImage = image
-//                }
-//            }
-//        
-//    }
-//
-//    func fetchThumbnailImage(for url: URL, completion: @escaping (UIImage?) -> Void) {
-//        URLSession.shared.dataTask(with: url) { data, _, error in
-//            if let data = data, let image = UIImage(data: data), error == nil {
-//                DispatchQueue.main.async {
-//                    completion(image)
-//                }
-//            } else {
-//                DispatchQueue.main.async {
-//                    completion(nil)
-//                }
-//                print(error ?? "image fetch error")
-//            }
-//        }.resume()
-//    }
     
 }
 

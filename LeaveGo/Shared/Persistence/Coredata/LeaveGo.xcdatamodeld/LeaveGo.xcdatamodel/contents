@@ -3,7 +3,6 @@
     <entity name="Bookmark" representedClassName="BookmarkEntity" syncable="YES" codeGenerationType="class">
         <attribute name="contentID" attributeType="String"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="thumbnailImageURL" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
