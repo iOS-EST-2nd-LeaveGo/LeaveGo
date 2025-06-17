@@ -41,7 +41,7 @@
         <!--MapHeaderNav-->
         <scene sceneID="PdS-1f-8UJ">
             <objects>
-                <viewControllerPlaceholder storyboardName="MapHeaderView" referencedIdentifier="MapHeaderNav" id="AIW-Rj-ozE" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="MapHeader" referencedIdentifier="MapHeaderNav" id="AIW-Rj-ozE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="JHz-ar-lI7"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZEj-ci-DmL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

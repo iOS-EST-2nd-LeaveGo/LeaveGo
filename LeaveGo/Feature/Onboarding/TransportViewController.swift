@@ -43,14 +43,10 @@ class TransportViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //        //test
-        //        print(UserSetting.shared.nickname)
-        //        print(UserSetting.shared.preferredTransport?.rawValue)
-
         navigationItem.backButtonTitle = ""
         saveButton.isEnabled = false
         // 레이아웃 설정
-//        transportCollectionView.collectionViewLayout = gridLayout()
+
         transportCollectionView.collectionViewLayout = CollectionViewLayout.grid(
             columns: 3,
             itemInsets: NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),

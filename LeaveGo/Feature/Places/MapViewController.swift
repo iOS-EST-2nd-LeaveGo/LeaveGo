@@ -35,8 +35,12 @@ class MapViewController: UIViewController {
         return btsView
     }()
 	*/
-    var placeModelList: [PlaceModel]? // NetworkManager로 부터 받아온 PlaceList
-    
+    var placeModelList: [PlaceModel]? {
+        didSet {
+            addAnnotation()
+        }
+    } // NetworkManager로 부터 받아온 PlaceList
+
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,6 +127,7 @@ class MapViewController: UIViewController {
     }
 
     public func addAnnotation() {
+        guard let mapView = self.mapView else { return }
         guard let placeModelList = self.placeModelList else { return }
         
         // 기존 어노테이션 제거 (사용자 위치 어노테이션 제외)
