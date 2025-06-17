@@ -12,6 +12,7 @@ struct PlaceModel {
     let add1: String?
     let add2: String?
     let contentId: String // 장소 고유번호
+    let contentTypeId: String
     let title: String // 장소명(use in PlacesVC)
     let thumbnailURL: String?
     var thumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
@@ -25,10 +26,11 @@ struct PlaceModel {
     
     // let detail: PlaceDetailModel?
     
-    init(add1: String?, add2: String?, contentId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+    init(add1: String?, add2: String?, contentId: String, contentTypeId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
         self.add1 = add1
         self.add2 = add2
         self.contentId = contentId
+        self.contentTypeId = contentTypeId
         self.title = title
         self.thumbnailURL = thumbnailURL
         self.distance = distance
@@ -47,6 +49,7 @@ extension PlaceModel {
         self.add1 = place.addr1
         self.add2 = place.addr2
         self.contentId = place.contentId
+        self.contentTypeId = place.contentTypeId
         self.title = place.title
         self.thumbnailURL = place.thumbnailImage
         self.thumbnailImage = nil

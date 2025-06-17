@@ -8,27 +8,40 @@
 import Foundation
 
 extension NetworkManager {
-    func fetchPlaceDetail(contentId: String) async throws -> PlaceDetail? {
-        // 장소 목록을 담을 변수 선언
-        var placeDetail: PlaceDetail?
-        
+    func fetchPlaceDetail(contentTypeId: String, contentId: String) async throws -> PlaceDetailProtocol? {
         // endpoint 에 필수값들을 전달해 URL 생성
-        let endpoint = Endpoint.placeDetail(contentId: contentId)
-        
+        let endpoint = Endpoint.placeDetail(contentTypeId: contentTypeId, contentId: contentId)
+
         // endpoint 에서 반환하는 url 을 가지고 request 생성
         let newRequest = try makeRequest(endpoint: endpoint)
         
         // request 와 디코딩 타입을 가지고 API 호출
-        do {
-            if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail>.self) {
-                placeDetail = data.response.body.items.item.first
-                // print("🙆‍♀️ API 호출 성공: \n\(String(describing: placeDetail))")
-                return placeDetail
+        switch contentTypeId {
+         case "12":
+             if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail12>.self) {
+                 return result.response.body.items.item.first
+             }
+         case "14":
+             if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail14>.self) {
+                 return result.response.body.items.item.first
+             }
+         case "28":
+             if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail28>.self) {
+                 return result.response.body.items.item.first
+             }
+         case "38":
+             if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail38>.self) {
+                 return result.response.body.items.item.first
+             }
+        case "39":
+            if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail39>.self) {
+                return result.response.body.items.item.first
             }
-        } catch {
-            return nil
-        }
-        
+         default:
+             print("처리되지 않은 contentTypeId: \(contentTypeId)")
+             return nil
+         }
+
         return nil
     }
 }

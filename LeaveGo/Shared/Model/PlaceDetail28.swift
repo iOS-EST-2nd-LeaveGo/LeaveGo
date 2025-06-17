@@ -8,7 +8,7 @@
 import Foundation
 
 /// 레포츠
-struct PlaceDetail28: Codable {
+struct PlaceDetail28: Codable, PlaceDetailProtocol {
     let contentId: String // 장소 고유번호
     let contentTypeId: String // 장소 관광지 타입
     let parking: String? // 주차 가능여부
