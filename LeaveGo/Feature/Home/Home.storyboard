@@ -19,8 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="EZi-Oy-aNJ">
-                                <rect key="frame" x="0.0" y="162" width="393" height="453.66666666666674"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="EZi-Oy-aNJ">
+                                <rect key="frame" x="0.0" y="162.00000000000003" width="393" height="471.66666666666674"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="웰컴 메시지" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1op-d3-qiT">
                                         <rect key="frame" x="16" y="15.999999999999996" width="361" height="33.666666666666657"/>
@@ -28,44 +28,99 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g7G-xV-M4e">
-                                        <rect key="frame" x="16" y="65.666666666666657" width="361" height="308"/>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g7G-xV-M4e">
+                                        <rect key="frame" x="16" y="81.666666666666657" width="361" height="300"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="kRX-dv-Ss3"/>
+                                        </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Q1y-FX-N93">
-                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="itemSize" width="180" height="240"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RecommendedPlaceCardCell" id="L14-mh-Ahf">
-                                                <rect key="frame" x="0.0" y="34" width="180" height="240"/>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RecommendedPlaceCardCollectionViewCell" id="L14-mh-Ahf" customClass="RecommendedPlaceCardCollectionViewCell" customModule="LeaveGo" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="JG1-At-IyN">
-                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="240"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5LZ-P7-IL0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                                                            <color key="backgroundColor" name="BorderColor"/>
+                                                        </imageView>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lpZ-cs-Q2m" userLabel="Place Info + Bookmark">
+                                                            <rect key="frame" x="16" y="240" width="168" height="44"/>
+                                                            <subviews>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yLw-UU-eIy" userLabel="Place Info">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="44"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-6P-WJJ">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="33" height="15.666666666666666"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JhV-1P-pgA">
+                                                                            <rect key="frame" x="0.0" y="23.666666666666686" width="43.333333333333336" height="20.333333333333329"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tjb-DM-lHL">
+                                                                    <rect key="frame" x="140" y="8.666666666666659" width="28" height="26.666666666666671"/>
+                                                                    <state key="normal" title="Button"/>
+                                                                    <buttonConfiguration key="configuration" style="plain" image="star" catalog="system">
+                                                                        <backgroundConfiguration key="background" cornerRadius="15" strokeWidth="6"/>
+                                                                        <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
+                                                                    </buttonConfiguration>
+                                                                </button>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="5LZ-P7-IL0" firstAttribute="leading" secondItem="JG1-At-IyN" secondAttribute="leading" id="31D-hX-rrt"/>
+                                                        <constraint firstItem="5LZ-P7-IL0" firstAttribute="top" secondItem="JG1-At-IyN" secondAttribute="top" id="4TW-1Q-UnJ"/>
+                                                        <constraint firstItem="lpZ-cs-Q2m" firstAttribute="leading" secondItem="JG1-At-IyN" secondAttribute="leading" constant="16" id="LO4-2j-b8q"/>
+                                                        <constraint firstAttribute="bottom" secondItem="lpZ-cs-Q2m" secondAttribute="bottom" constant="16" id="VEa-QE-gfY"/>
+                                                        <constraint firstAttribute="bottom" secondItem="5LZ-P7-IL0" secondAttribute="bottom" id="YXm-t1-PZX"/>
+                                                        <constraint firstAttribute="trailing" secondItem="5LZ-P7-IL0" secondAttribute="trailing" id="jb7-3P-CCz"/>
+                                                        <constraint firstAttribute="trailing" secondItem="lpZ-cs-Q2m" secondAttribute="trailing" constant="16" id="lyw-gp-epT"/>
+                                                    </constraints>
                                                 </collectionViewCellContentView>
-                                                <size key="customSize" width="180" height="240"/>
+                                                <size key="customSize" width="200" height="300"/>
+                                                <connections>
+                                                    <outlet property="bookmarkButton" destination="Tjb-DM-lHL" id="e1D-dk-kmD"/>
+                                                    <outlet property="placeBgImage" destination="5LZ-P7-IL0" id="Gkw-31-RBL"/>
+                                                    <outlet property="placeDistanceLabel" destination="cXj-6P-WJJ" id="QUP-2e-9Pp"/>
+                                                    <outlet property="placeTitleLabel" destination="JhV-1P-pgA" id="ExE-l5-lWi"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="X1m-0j-uKy">
-                                        <rect key="frame" x="16" y="389.66666666666663" width="361" height="48"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="X1m-0j-uKy">
+                                        <rect key="frame" x="16" y="413.66666666666663" width="361" height="42"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="rwO-jV-yoQ"/>
+                                            <constraint firstAttribute="height" constant="42" id="74s-Mh-OLu"/>
                                         </constraints>
-                                        <color key="tintColor" name="AccentColor"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="추천 장소 더보기">
-                                            <backgroundConfiguration key="background" cornerRadius="16"/>
-                                            <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                            <backgroundConfiguration key="background" cornerRadius="16">
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="strokeColor" name="AccentColor"/>
+                                            </backgroundConfiguration>
+                                            <color key="baseForegroundColor" name="AccentColor"/>
                                         </buttonConfiguration>
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="X1m-0j-uKy" firstAttribute="trailing" secondItem="EZi-Oy-aNJ" secondAttribute="trailing" constant="-16" id="Bbt-Ec-PCa"/>
-                                    <constraint firstItem="X1m-0j-uKy" firstAttribute="top" secondItem="g7G-xV-M4e" secondAttribute="bottom" constant="16" id="TCN-v4-UZQ"/>
-                                    <constraint firstItem="X1m-0j-uKy" firstAttribute="leading" secondItem="EZi-Oy-aNJ" secondAttribute="leading" constant="16" id="rnQ-aq-Sec"/>
+                                    <constraint firstAttribute="trailing" secondItem="X1m-0j-uKy" secondAttribute="trailing" constant="16" id="5PT-Ss-pz8"/>
+                                    <constraint firstItem="X1m-0j-uKy" firstAttribute="leading" secondItem="EZi-Oy-aNJ" secondAttribute="leading" constant="16" id="eNA-qE-JBP"/>
                                 </constraints>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="16" leading="16" bottom="16" trailing="16"/>
                             </stackView>
@@ -74,16 +129,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EZi-Oy-aNJ" firstAttribute="top" secondItem="HTH-3Y-9Iw" secondAttribute="top" id="0Je-5t-yg7"/>
-                            <constraint firstItem="EZi-Oy-aNJ" firstAttribute="leading" secondItem="HTH-3Y-9Iw" secondAttribute="leading" id="2qs-jZ-nbh"/>
                             <constraint firstItem="EZi-Oy-aNJ" firstAttribute="leading" secondItem="HTH-3Y-9Iw" secondAttribute="leading" id="fJk-bG-TgY"/>
-                            <constraint firstItem="EZi-Oy-aNJ" firstAttribute="trailing" secondItem="HTH-3Y-9Iw" secondAttribute="trailing" id="h3a-sZ-Bny"/>
                             <constraint firstItem="EZi-Oy-aNJ" firstAttribute="trailing" secondItem="HTH-3Y-9Iw" secondAttribute="trailing" id="uAj-Yh-eYl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="g5g-9m-I5c"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="placeCollectionView" destination="g7G-xV-M4e" id="zar-bK-ief"/>
+                        <outlet property="recommendedPlaceCardCollectionView" destination="g7G-xV-M4e" id="zar-bK-ief"/>
                         <outlet property="welcomMessageLabel" destination="1op-d3-qiT" id="JiR-k3-bPl"/>
                     </connections>
                 </viewController>
@@ -114,11 +167,12 @@
     </scenes>
     <resources>
         <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="CustomBackgroundColor">
-            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="BorderColor">
+            <color red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
