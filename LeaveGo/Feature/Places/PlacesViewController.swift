@@ -18,12 +18,6 @@ class PlacesViewController: UIViewController {
     private var isSearching = false
     private var isFetching = false
 
-    private let imageCache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
-        cache.countLimit = 100
-        return cache
-    }()
-
     private var keyword: String = ""
     private var currentPage = 1
     private var totalCount = 0

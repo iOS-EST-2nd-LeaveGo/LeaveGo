@@ -23,7 +23,7 @@ struct PlaceModel {
     let cat1: String? // 대분류코드
     let cat2: String? // 중분류코드
     let cat3: String? // 소분류코드
-    
+
     // let detail: PlaceDetailModel?
     
     init(add1: String?, add2: String?, contentId: String, contentTypeId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
