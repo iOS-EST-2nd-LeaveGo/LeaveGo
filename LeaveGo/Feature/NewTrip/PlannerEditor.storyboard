@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--세 여행지 추가하기-->
+        <!--새로운 여행지 만들기-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="PlannerEditorVC" id="Y6W-OH-hqX" customClass="PlannerEditorViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -87,7 +87,7 @@
                                 </constraints>
                                 <color key="tintColor" name="AccentColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Button">
+                                <buttonConfiguration key="configuration" style="filled" title="여행 만들기">
                                     <backgroundConfiguration key="background" cornerRadius="16"/>
                                     <color key="baseForegroundColor" name="CustomBackgroundColor"/>
                                 </buttonConfiguration>
@@ -116,7 +116,7 @@
                             <constraint firstItem="yyE-Qz-bmp" firstAttribute="top" secondItem="CMp-9i-qiJ" secondAttribute="bottom" constant="26" id="y0a-rv-j9P"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="세 여행지 추가하기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
+                    <navigationItem key="navigationItem" title="새로운 여행지 만들기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
                     <connections>
                         <outlet property="thumbnailAdd" destination="2pe-gF-pr6" id="eSS-xx-sb8"/>
                         <outlet property="tripListTableView" destination="ew6-mm-3Pk" id="ZLK-Wh-1rC"/>
