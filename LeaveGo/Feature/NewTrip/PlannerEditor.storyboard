@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-mp-Uif" customClass="PaddedTextField" customModule="LeaveGo" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-mp-Uif">
                                 <rect key="frame" x="16" y="128.33333333333334" width="361" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -76,6 +77,18 @@
                                     <constraint firstAttribute="width" constant="120" id="J1p-Lw-KKi"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JU5-Cn-2yZ">
+                                <rect key="frame" x="16" y="775" width="361" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="iFL-Bm-QNo"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Button">
+                                    <backgroundConfiguration key="background" cornerRadius="16"/>
+                                    <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                </buttonConfiguration>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -88,8 +101,11 @@
                             <constraint firstItem="DhF-mp-Uif" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Gqo-Bz-my9"/>
                             <constraint firstItem="llg-An-mds" firstAttribute="top" secondItem="DhF-mp-Uif" secondAttribute="bottom" constant="18" id="LEh-Y7-bxQ"/>
                             <constraint firstItem="DhF-mp-Uif" firstAttribute="top" secondItem="n9x-Qf-Hnf" secondAttribute="bottom" constant="8" symbolic="YES" id="PlK-y7-t5I"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="JU5-Cn-2yZ" secondAttribute="trailing" constant="16" id="Y6U-Cj-Pxe"/>
+                            <constraint firstItem="JU5-Cn-2yZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="cuT-3p-rWp"/>
                             <constraint firstItem="n9x-Qf-Hnf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="100" id="dro-b3-p2N"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="yyE-Qz-bmp" secondAttribute="trailing" constant="16" id="e8D-7k-ZHg"/>
+                            <constraint firstItem="JU5-Cn-2yZ" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="5" id="hNC-2n-Pdm"/>
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="k0V-v8-hgg"/>
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="k0u-pj-uow"/>
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="rFT-GG-lXw"/>
@@ -130,6 +146,12 @@
     </scenes>
     <resources>
         <image name="plus.app" catalog="system" width="128" height="114"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomBackgroundColor">
+            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
