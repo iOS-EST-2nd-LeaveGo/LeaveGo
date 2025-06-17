@@ -38,18 +38,7 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dropDelegate = self
 
         // ✅ 임시 데이터 추가
-        placeList = [PlaceModel(
-                add1: "서울특별시 송파구",
-                add2: "신천동",
-                contentId: "1001",
-                title: "신천역",
-                thumbnailURL: nil,
-                distance: "1.2km",
-                latitude: "37.511",
-                longitude: "127.100",
-                areaCode: "1",
-                cat1: "A", cat2: "B", cat3: "C"
-            )]
+
     }
 
     // 썸네일 사진 선택 / 삭제 버튼 토글
@@ -106,9 +95,11 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
+            
             withIdentifier: String(describing: ListTableViewCell.self),
             for: indexPath) as? ListTableViewCell else {
             return UITableViewCell()
+            
         }
 
         // 셀 설정
@@ -117,6 +108,7 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
         cell.checkmarkImageView.image = UIImage(systemName: "line.3.horizontal")
         cell.titleLabel?.text = place.title
         cell.place = place // 셀 내부에서 사용할 place 데이터를 바인딩
+        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo")
         return cell
     }
 
