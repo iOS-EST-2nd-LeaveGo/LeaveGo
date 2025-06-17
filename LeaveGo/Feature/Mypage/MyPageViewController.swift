@@ -75,8 +75,9 @@ extension MyPageViewController: UITableViewDelegate {
             transportVC.mode = .editing
             navigationController?.pushViewController(transportVC, animated: true)
         case .bookmarks:
-            print("북마크 페이지 여기서 연결하시면 됩니다.")
-
+            let vc = UIStoryboard(name: "BookMarkPlaceView", bundle: nil).instantiateViewController(withIdentifier: "BookMarkPlaceView")
+//            vc.mode = .editing
+            navigationController?.pushViewController(vc, animated: true)
         }
 
 
