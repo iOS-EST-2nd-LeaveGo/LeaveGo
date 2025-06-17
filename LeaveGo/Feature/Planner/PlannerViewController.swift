@@ -39,6 +39,8 @@ class PlannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadPlannerCollection), name: .didCreateNewPlanner, object: nil)
+        
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerCollectionViewCell.self)))
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerAddButtonCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerAddButtonCollectionViewCell.self)))
         
@@ -69,6 +71,14 @@ class PlannerViewController: UIViewController {
             ])
         }
     }
+    
+
+    
+    @objc func reloadPlannerCollection() {
+        self.plannerCollectionView.reloadData()
+    
+    }
+    
 }
 
 extension PlannerViewController: UICollectionViewDataSource {

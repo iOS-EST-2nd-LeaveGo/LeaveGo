@@ -19,9 +19,27 @@ class PlannerEditorViewController: UIViewController {
     @IBOutlet weak var tripListTableView: UITableView!
 
     @IBAction func addPlannerBtn(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-
+//        navigationController?.popViewController(animated: true)
     }
+    
+
+    
+    @IBAction func createPlannerBtn(_ sender: Any) {
+        savePlannerData()
+        
+        NotificationCenter.default.post(name: .didCreateNewPlanner, object: nil)
+        
+        if let plannerVC = navigationController?.viewControllers.first(where: { $0 is PlannerViewController }) {
+            navigationController?.popToViewController(plannerVC, animated: true)
+            
+        } else {
+            print("⚠️ PlannerViewController가 네비게이션 스택에 없습니다.")
+        }
+        
+        
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,6 +61,11 @@ class PlannerEditorViewController: UIViewController {
 
         // ✅ 임시 데이터 추가
 
+    }
+    
+    
+    deinit{
+        print("PlannerEditter 해지 완료")
     }
 
     // 썸네일 사진 선택 / 삭제 버튼 토글
@@ -157,6 +180,43 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
             }
         }
     }
+    
+    
+    func savePlannerData() {
+        guard let title = tripName.text, !title.isEmpty else {
+            let alert = UIAlertController(
+                title: "여행 이름을 입력해주세요",
+                message: "여행 제목은 필수 항목입니다.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            present(alert, animated: true)
+            return
+        }
+
+        let startDate = Date()
+        let endDate = Calendar.current.date(byAdding: .day, value: 1, to: startDate)!
+
+        var thumbnailPath: String? = nil
+        if let image = tripThumbnail.image, isImageSelected {
+            if let data = image.jpegData(compressionQuality: 0.8) {
+                let fileName = "\(UUID().uuidString).jpg"
+                let url = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+                try? data.write(to: url)
+                thumbnailPath = url.path
+            }
+        }
+
+        let newPlanner = CoreDataManager.shared.createPlanner(
+            title: title,
+            startDate: startDate,
+            endDate: endDate,
+            thumbnailPath: thumbnailPath
+        )
+
+        print("✅ 저장 완료: \(newPlanner.title ?? "")")
+    }
+
     
     
 }

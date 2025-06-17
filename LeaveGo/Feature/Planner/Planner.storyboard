@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -91,15 +91,15 @@
                                 </cells>
                             </collectionView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmU-qT-yH9">
-                                <rect key="frame" x="0.0" y="696" width="393" height="156"/>
+                                <rect key="frame" x="0.0" y="730" width="393" height="122"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="DJE-os-c49">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="156"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="122"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="llt-YT-T1e">
-                                <rect key="frame" x="16" y="720" width="361" height="48"/>
+                                <rect key="frame" x="16" y="754" width="361" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="lZC-th-d0x"/>
                                 </constraints>
@@ -154,15 +154,15 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4g8-WR-58J">
-                                <rect key="frame" x="0.0" y="696" width="393" height="156"/>
+                                <rect key="frame" x="0.0" y="730" width="393" height="122"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Vmk-Sy-ycm">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="156"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="122"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="yOQ-1b-Oug">
-                                <rect key="frame" x="16" y="720" width="361" height="48"/>
+                                <rect key="frame" x="16" y="754" width="361" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Xlq-cY-Uau"/>
                                 </constraints>
@@ -213,7 +213,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JCG-uk-zSW">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="735"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="CMJ-KM-yxQ" userLabel="Root Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="214.66666666666666"/>
@@ -307,15 +307,15 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="rfA-K2-8HL"/>
                             </scrollView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sA-eu-qxp">
-                                <rect key="frame" x="0.0" y="647" width="393" height="205"/>
+                                <rect key="frame" x="0.0" y="681" width="393" height="171"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="oaB-70-Bid">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="205"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="171"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
-                                <rect key="frame" x="16" y="671" width="361" height="48"/>
+                                <rect key="frame" x="16" y="705" width="361" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
                                 </constraints>
@@ -375,7 +375,7 @@
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hkd-jK-49B">
-                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
