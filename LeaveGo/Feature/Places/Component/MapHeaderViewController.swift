@@ -22,7 +22,7 @@ final class MapHeaderViewController: UIViewController {
         return vc
     }()
 
-    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var displaySegmentedControl: UISegmentedControl!
     @IBOutlet weak var segmentContentView: UIView!
 
@@ -50,7 +50,6 @@ final class MapHeaderViewController: UIViewController {
         displaySegmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         switchToVC(placeListVC)
 
-        searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
 
     // 해제
@@ -59,10 +58,6 @@ final class MapHeaderViewController: UIViewController {
         print("MapHeaderViewController, 옵저버 해제 완료")
     }
 
-    @objc func textFieldDidChange() {
-        let keyword = searchTextField.text ?? ""
-        placeListVC.updateKeyword(keyword)
-    }
 
     // 위치 변경 될 때
     @objc private func locationUpdate(_ notification: Notification) {
@@ -180,5 +175,28 @@ final class MapHeaderViewController: UIViewController {
         newVC.view.frame = segmentContentView.bounds
         segmentContentView.addSubview(newVC.view)
         newVC.didMove(toParent: self)
+    }
+}
+
+extension MapHeaderViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let keyword = searchBar.text ?? ""
+        placeListVC.updateKeyword(keyword)
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        placeListVC.updateKeyword("") // 검색 결과 초기화
     }
 }

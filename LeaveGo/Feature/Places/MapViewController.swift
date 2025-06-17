@@ -132,7 +132,7 @@ class MapViewController: UIViewController {
         mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
         
         let annotations = placeModelList.compactMap {
-            print("lat: \($0.latitude), lon: \($0.longitude)")
+//            print("lat: \($0.latitude), lon: \($0.longitude)")
             return $0.toAnnotationModel()
         }
         

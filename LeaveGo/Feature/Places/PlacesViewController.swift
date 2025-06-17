@@ -87,8 +87,13 @@ class PlacesViewController: UIViewController {
     func updateKeyword(_ keyword: String) {
         self.keyword = keyword
 
-        isSearching = !keyword.isEmpty
-
+        isSearching = !self.keyword.isEmpty
+        guard isSearching else {
+            currentPlaceModel.removeAll()
+            tableView.reloadData()
+            return
+        }
+        
         currentPage = 1
         totalCount = 0
 
@@ -111,15 +116,15 @@ class PlacesViewController: UIViewController {
 
     private func fetchNearbyPlaces() {
         guard let currentLocation = currentLocation else {
-            print("현재 위치 없음11")
             return
         }
 
         guard (currentPage - 1) * numOfRows < totalCount || totalCount == 0 else { return }
 
         isFetching = true
-		print("@12312321")
         Task {
+            print("asdf")
+
             defer { isFetching = false }
             do {
                 let (places, count) = try await NetworkManager.shared.fetchPlaceList(
@@ -148,6 +153,9 @@ class PlacesViewController: UIViewController {
                     keyword: keyword
                 )
                 handleFetchedPlaces(places: places, count: count)
+
+                    await loadThumbnailImage()
+
             } catch {
                 print("네트워크 에러: \(error.localizedDescription)")
             }
@@ -169,6 +177,49 @@ class PlacesViewController: UIViewController {
 
             self.currentPage += 1
 
+            Task {
+                await self.loadThumbnailImage()
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: indexPaths, with: .fade) // 이미지 표시
+                }
+            }
+        }
+    }
+
+    func loadThumbnailImage() async {
+        let snapshot = currentPlaceModel
+
+        for (index, model) in snapshot.enumerated() {
+            guard let urlString = model.thumbnailURL,
+                  let url = URL(string: urlString) else { continue }
+
+            let image = await fetchThumbnailImage(for: url)
+
+            // UI 및 모델 업데이트는 메인 스레드에서 수행
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+
+                // 배열이 변경됐을 수 있으니 index 안전 검사
+                if index < self.currentPlaceModel.count {
+                    self.currentPlaceModel[index].thumbnailImage = image
+
+                    // 셀도 보이는 중이면 바로 반영
+                    let indexPath = IndexPath(row: index, section: 0)
+                    if let cell = self.tableView.cellForRow(at: indexPath) as? ListTableViewCell {
+                        cell.thumbnailImageView.image = image
+                    }
+                }
+            }
+        }
+    }
+
+    func fetchThumbnailImage(for url: URL) async -> UIImage? {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return UIImage(data: data)
+        } catch {
+            print(error.localizedDescription)
+            return nil
         }
     }
 
@@ -210,42 +261,26 @@ extension PlacesViewController: UITableViewDataSource {
         }
         cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
 
-
-        // 이미지 처리
-        if let urlStr = place.thumbnailURL,
-           let url = URL(string: urlStr) {
-            if let cachedImage = imageCache.object(forKey: urlStr as NSString) {
-                cell.thumbnailImageView.image = cachedImage
-            } else {
-                URLSession.shared.dataTask(with: url) { data, response, error in
-                    guard let data = data, let image = UIImage(data: data) else {
-                        return
-                    }
-
-                    DispatchQueue.main.async {
-                        if tableView.indexPath(for: cell) == indexPath {
-                            self.imageCache.setObject(image, forKey: urlStr as NSString)
-                            cell.thumbnailImageView.image = image
-                        }
-                    }
-                }.resume()
-            }
-        }
+        cell.thumbnailImageView.image = nil
+        cell.thumbnailImageView.image = place.thumbnailImage
 
         return cell
     }
+}
 
+extension PlacesViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
 
         guard offsetY > contentHeight - height * 1.5 else { return }
+
         fetchPlaces()
     }
 
     // 이 코드는 사용자가 셀을 선택한 후 애니메이션과 함께 선택 효과(회색)를 제거해주는 역할을 합니다.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
     }
 }

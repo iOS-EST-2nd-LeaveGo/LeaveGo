@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,37 +18,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="203"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="219"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="87"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="103"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fo6-eH-J1A" userLabel="TextFieldBackgroundView">
-                                                <rect key="frame" x="16" y="0.0" width="343" height="40"/>
-                                                <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="장소 이름, 태그로 검색하세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3A7-VX-CfK">
-                                                        <rect key="frame" x="16" y="10.666666666666673" width="311" height="18.666666666666671"/>
-                                                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
-                                                </subviews>
-                                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                                <constraints>
-                                                    <constraint firstItem="3A7-VX-CfK" firstAttribute="leading" secondItem="Fo6-eH-J1A" secondAttribute="leading" constant="16" id="04B-dK-gge"/>
-                                                    <constraint firstItem="3A7-VX-CfK" firstAttribute="centerY" secondItem="Fo6-eH-J1A" secondAttribute="centerY" id="aSv-2T-Lkj"/>
-                                                    <constraint firstAttribute="height" constant="40" id="rwQ-oo-Cby"/>
-                                                    <constraint firstAttribute="trailing" secondItem="3A7-VX-CfK" secondAttribute="trailing" constant="16" id="t2k-jU-uv7"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </view>
+                                            <searchBar contentMode="redraw" text="" placeholder="장소 이름, 태그로 검색하세요" translatesAutoresizingMaskIntoConstraints="NO" id="hpV-nn-yMY">
+                                                <rect key="frame" x="16" y="0.0" width="343" height="56"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search" textContentType="location"/>
+                                                <scopeButtonTitles>
+                                                    <string>Title</string>
+                                                    <string>Title</string>
+                                                </scopeButtonTitles>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="4ty-m9-JB3"/>
+                                                </connections>
+                                            </searchBar>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
-                                                <rect key="frame" x="98" y="56" width="179" height="32"/>
+                                                <rect key="frame" x="98" y="72" width="179" height="32"/>
                                                 <segments>
                                                     <segment title="리스트로 보기"/>
                                                     <segment title="지도로 보기"/>
@@ -56,8 +44,8 @@
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="Fo6-eH-J1A" secondAttribute="trailing" constant="16" id="UwT-O6-ae3"/>
-                                            <constraint firstItem="Fo6-eH-J1A" firstAttribute="leading" secondItem="O5G-hG-of0" secondAttribute="leading" constant="16" id="h08-pQ-JUz"/>
+                                            <constraint firstAttribute="trailing" secondItem="hpV-nn-yMY" secondAttribute="trailing" constant="16" id="1jV-yz-VbH"/>
+                                            <constraint firstItem="hpV-nn-yMY" firstAttribute="leading" secondItem="O5G-hG-of0" secondAttribute="leading" constant="16" id="vQF-aJ-yZB"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -69,7 +57,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
-                                <rect key="frame" x="0.0" y="203" width="375" height="609"/>
+                                <rect key="frame" x="0.0" y="219" width="375" height="593"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -90,7 +78,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>
-                        <outlet property="searchTextField" destination="3A7-VX-CfK" id="AWA-hj-VZM"/>
+                        <outlet property="searchBar" destination="hpV-nn-yMY" id="WNy-d7-MVz"/>
                         <outlet property="segmentContentView" destination="6VK-hH-bGu" id="Kvm-hZ-f3x"/>
                     </connections>
                 </viewController>
@@ -103,9 +91,6 @@
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
