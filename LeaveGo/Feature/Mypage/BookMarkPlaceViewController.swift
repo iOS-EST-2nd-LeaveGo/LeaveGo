@@ -81,17 +81,9 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.setupMenu(mode: .list) // 임시로 .list설정
-        
-        let place = placeModelList[indexPath.row]
-        
-        cell.titleLabel.text = place.title
-        
-        if let distance = place.distance {
-            cell.distanceLabel.text = "\(distance)m 떨어짐" // MapKit으로 계산
-        }
-        
-        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
+        cell.delegate = self
+        cell.setModel(model: placeModelList[indexPath.row], mode: .list(isBookmarked: true))
+        // 항상 isBookmarked true
         
         return cell
     }
@@ -101,8 +93,6 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "삭제") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
-            
-//            CoreDataManager.shared.deleteBookmark(placeModelList[indexPath.row].toBookmarkEntity())
             
             let uuid = placeModelList[indexPath.row].uuid
             CoreDataManager.shared.deleteBookmark(by: uuid)
@@ -126,6 +116,30 @@ extension BookMarkPlaceViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
+// MARK: ListTableViewCellDelegate
+extension BookMarkPlaceViewController: ListTableViewCellDelegate {
+    
+    func didTapNavigation(cell: ListTableViewCell) {
+        // 예정
+    }
+    
+    func didTapDeleteBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            let uuid = placeModel.uuid
+            
+            if let index = placeModelList.firstIndex(where: { uuid == $0.uuid }) {
+                
+                CoreDataManager.shared.deleteBookmark(by: uuid)
+                
+                placeModelList.remove(at: index)
+                
+                tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            }
+        }
     }
     
 }

@@ -43,25 +43,10 @@ extension PlacesViewController: UITableViewDataSource {
         }
         
         cell.delegate = self
-        cell.place = placeModelList[indexPath.row]
         
-        // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
-        cell.setupMenu(mode: .list)
+        let saved = CoreDataManager.shared.isBookmarked(uuid: placeModelList[indexPath.row].uuid)
         
-        let place = placeModelList[indexPath.row]
-        // 제목
-        cell.titleLabel.text = place.title
-        
-        // 거리 (Int로 변환)
-        if let distance = place.distance {
-            cell.distanceLabel.text = "\(Int(Double(distance) ?? 0))m 떨어짐"
-        }
-        // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
-        // cell.timeLabel.text = place.detail?.openTime
-        
-        
-        // 이미지 처리        
-        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo.fill")
+        cell.setModel(model: placeModelList[indexPath.row], mode: .list(isBookmarked: saved))
         
         return cell
     }
@@ -89,8 +74,20 @@ extension PlacesViewController: ListTableViewCellDelegate {
         let alert = UIAlertController(title: "저장 완료", message: "여행지가 북마크에 저장되었어요. 마이페이지-북마크 장소에서 확인해주세요.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         self.present(alert, animated: true)
-        
-        
+        tableView.reloadData()
+    }
+    
+    func didTapDeleteBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            let uuid = placeModel.uuid
+            
+            if placeModelList.firstIndex(where: { uuid == $0.uuid }) != nil {
+                
+                CoreDataManager.shared.deleteBookmark(by: uuid)
+                
+                tableView.reloadData()
+            }
+        }
     }
     
 }

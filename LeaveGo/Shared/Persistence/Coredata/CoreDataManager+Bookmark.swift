@@ -43,11 +43,6 @@ extension CoreDataManager {
         CoreDataManager.shared.saveContext()
     }
     
-//    func deleteBookmark(_ bookmark: BookmarkEntity) {
-//        CoreDataManager.shared.context.delete(bookmark)
-//        CoreDataManager.shared.saveContext()
-//    }
-    
     func deleteBookmark(by uuid: UUID) {
         let request: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
@@ -63,6 +58,18 @@ extension CoreDataManager {
         }
     }
     
-    // func isBookmarked
+    func isBookmarked(uuid: UUID) -> Bool {
+        let request: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", uuid as CVarArg)
+        request.fetchLimit = 1
+        
+        do {
+            let count = try context.count(for: request)
+            return count > 0
+        } catch {
+            print("isBookmarked fetch 실패: \(error.localizedDescription)")
+            return false
+        }
+    }
 
 }
