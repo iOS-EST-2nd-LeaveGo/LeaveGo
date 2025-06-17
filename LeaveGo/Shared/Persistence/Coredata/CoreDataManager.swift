@@ -7,6 +7,7 @@
 
 // MARK: - Core Data stack
 import CoreData
+import UIKit
 
 final class CoreDataManager {
     static let shared = CoreDataManager()
@@ -40,5 +41,3 @@ final class CoreDataManager {
         }
     }
 }
-
-

@@ -9,12 +9,12 @@ import Foundation
 
 class Planner {
     let title: String
-    let thumnailPath: String?
+    let thumbnailPath: String?
     let placeList: [PlannerPlaceListModel]?
     
     init(title: String, thumnailPath: String?, placeList: [PlannerPlaceListModel]?) {
         self.title = title
-        self.thumnailPath = thumnailPath
+        self.thumbnailPath = thumnailPath
         self.placeList = placeList
     }
 }
@@ -25,3 +25,14 @@ let mockPlanners = [
     Planner(title: "🌊 부산 여행", thumnailPath: nil, placeList: nil),
     Planner(title: "🚀 우주 여행 ✨", thumnailPath: nil, placeList: nil)
 ]
+
+extension Planner {
+    convenience init?(entity: PlannerEntity) {
+        guard let title = entity.title else { return nil }
+        
+        // 관계형 데이터(placeList)는 일단 nil 처리하거나 나중에 매핑 추가
+        let placeModels: [PlannerPlaceListModel]? = nil
+
+        self.init(title: title, thumnailPath: entity.thumbnailPath, placeList: placeModels)
+    }
+}
