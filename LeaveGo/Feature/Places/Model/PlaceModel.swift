@@ -13,6 +13,8 @@ struct PlaceModel {
     let add2: String?
     let contentId: String // 장소 고유번호
     let title: String // 장소명(use in PlacesVC)
+    let bigThumbnailURL: String?
+    var bigThumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
     let thumbnailURL: String?
     var thumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
     let distance: String? // 거리(use in PlacesVC)
@@ -25,16 +27,16 @@ struct PlaceModel {
     
     // let detail: PlaceDetailModel?
     
-    init(add1: String?, add2: String?, contentId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+    init(add1: String?, add2: String?, contentId: String, title: String, bigThumbnailURL: String?, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
         self.add1 = add1
         self.add2 = add2
         self.contentId = contentId
         self.title = title
+        self.bigThumbnailURL = bigThumbnailURL
         self.thumbnailURL = thumbnailURL
         self.distance = distance
         self.latitude = Double(latitude ?? "") ?? 0.0
         self.longitude = Double(longitude ?? "") ?? 0.0
-        // self.detail = detail
         self.areaCode = areaCode
         self.cat1 = cat1
         self.cat2 = cat2
@@ -48,6 +50,8 @@ extension PlaceModel {
         self.add2 = place.addr2
         self.contentId = place.contentId
         self.title = place.title
+        self.bigThumbnailURL = place.bigThumbnailImage
+        self.bigThumbnailImage = nil
         self.thumbnailURL = place.thumbnailImage
         self.thumbnailImage = nil
         self.distance = place.dist
