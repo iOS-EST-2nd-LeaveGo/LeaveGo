@@ -19,13 +19,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="EZi-Oy-aNJ">
-                                <rect key="frame" x="0.0" y="162" width="167.33333333333334" height="526"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="EZi-Oy-aNJ" userLabel="Root Stack View">
+                                <rect key="frame" x="0.0" y="162" width="393" height="488"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lmw-8L-Ahn">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lmw-8L-Ahn" userLabel="Welcom Message Stack View">
                                         <rect key="frame" x="0.0" y="16" width="143.33333333333334" height="50"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-47-GL7">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-47-GL7" userLabel="Empty View">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="50"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -44,10 +44,9 @@
                                         </constraints>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g7G-xV-M4e">
-                                        <rect key="frame" x="0.0" y="98" width="151.33333333333334" height="332"/>
+                                        <rect key="frame" x="0.0" y="82" width="393" height="332"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="600" id="3dq-Zw-JyS"/>
                                             <constraint firstAttribute="height" constant="332" id="kRX-dv-Ss3"/>
                                         </constraints>
                                         <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
@@ -122,20 +121,20 @@
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pK9-el-A2C">
-                                        <rect key="frame" x="0.0" y="462" width="151.33333333333334" height="48"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pK9-el-A2C" userLabel="Button Stack View">
+                                        <rect key="frame" x="0.0" y="430" width="377" height="42"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4O-WU-mcY">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="48"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4O-WU-mcY" userLabel="Empty View">
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="42"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="UYV-yG-Mfv"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="X1m-0j-uKy">
-                                                <rect key="frame" x="16" y="0.0" width="135.33333333333334" height="48"/>
+                                                <rect key="frame" x="16" y="0.0" width="361" height="42"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="74s-Mh-OLu"/>
+                                                    <constraint firstAttribute="height" constant="42" id="74s-Mh-OLu"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="추천 장소 더보기">
@@ -158,6 +157,7 @@
                                 <constraints>
                                     <constraint firstItem="pK9-el-A2C" firstAttribute="leading" secondItem="EZi-Oy-aNJ" secondAttribute="leading" id="Cy3-yk-vUr"/>
                                     <constraint firstAttribute="trailing" secondItem="pK9-el-A2C" secondAttribute="trailing" constant="16" id="QeX-NT-2ya"/>
+                                    <constraint firstItem="g7G-xV-M4e" firstAttribute="trailing" secondItem="EZi-Oy-aNJ" secondAttribute="trailing" id="RCF-wa-ZFn"/>
                                 </constraints>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="16" leading="0.0" bottom="16" trailing="0.0"/>
                             </stackView>
@@ -166,8 +166,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EZi-Oy-aNJ" firstAttribute="top" secondItem="HTH-3Y-9Iw" secondAttribute="top" id="0Je-5t-yg7"/>
-                            <constraint firstItem="EZi-Oy-aNJ" firstAttribute="leading" secondItem="HTH-3Y-9Iw" secondAttribute="leading" id="fJk-bG-TgY"/>
-                            <constraint firstItem="EZi-Oy-aNJ" firstAttribute="trailing" secondItem="HTH-3Y-9Iw" secondAttribute="trailing" id="uAj-Yh-eYl"/>
+                            <constraint firstItem="EZi-Oy-aNJ" firstAttribute="leading" secondItem="HTH-3Y-9Iw" secondAttribute="leading" id="lV7-xG-awj"/>
+                            <constraint firstItem="HTH-3Y-9Iw" firstAttribute="trailing" secondItem="EZi-Oy-aNJ" secondAttribute="trailing" id="sVo-wL-UO4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="g5g-9m-I5c"/>
