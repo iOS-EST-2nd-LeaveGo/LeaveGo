@@ -28,18 +28,15 @@ class MapViewController: UIViewController {
         return button
     }()
     let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
-	/*
-    let bottomSheetView: BottomSheetView = {
-        let btsView = BottomSheetView()
 
-        return btsView
-    }()
-	*/
     var placeModelList: [PlaceModel]? {
         didSet {
             addAnnotation()
         }
     } // NetworkManager로 부터 받아온 PlaceList
+
+	// PlacesVC에서 전달받은 선택된 하나의 데이터 타입형태
+	var selectedPlace: PlaceModel?
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -79,23 +76,44 @@ class MapViewController: UIViewController {
         addTarget()
         configureSubviews()
         addAnnotation()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if var center = LocationManager.shared.currentLocation {
-            center.latitude -= 0.001
-            let region = MKCoordinateRegion(center: center, latitudinalMeters: 450, longitudinalMeters: 450)
-            mapView.setRegion(region, animated: false)
-            didSetInitialRegion = true
-        }
-    }
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		if var center = LocationManager.shared.currentLocation {
+			center.latitude -= 0.001
+			let region = MKCoordinateRegion(center: center, latitudinalMeters: 450, longitudinalMeters: 450)
+			mapView.setRegion(region, animated: false)
+			didSetInitialRegion = true
+		}
+		
+		// 상위 뷰가 준 selectedPlace 처리
+		if let place = selectedPlace {
+			focusMap(on: place)
+			showDetailSheet(for: place)
+			selectedPlace = nil
+		}
+	}
 
 
     deinit {
         NotificationCenter.default.removeObserver(self)
         print("MapViewController, 옵저버 해제 완료")
     }
+	
+	// 선택한 PlaceListCell의 장소 좌표로 이동
+	func focusMap(on place: PlaceModel) {
+		let coord = CLLocationCoordinate2D(
+			latitude: place.latitude,
+			longitude: place.longitude
+		)
+		let region = MKCoordinateRegion(
+			center: coord,
+			latitudinalMeters: 450,
+			longitudinalMeters: 450
+		)
+		mapView.setRegion(region, animated: true)
+	}
 
     // 위치 변경 될 때
     @objc private func locationUpdate(_ notification: Notification) {
@@ -251,80 +269,43 @@ extension MapViewController: MKMapViewDelegate {
 		// clusteringIdentifier는 PlaceAnnotationView 내부의 configure에서 이미 지정됨 :contentReference[oaicite:0]{index=0}
 		annotationView?.configure(with: placeAnnotation)
 		return annotationView
-		// 테스트 위한 임시 주석
-		/*
-        // 사용자 현재위치 annotation 설정
-        if annotation is MKUserLocation {
-            let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userlocation")
-            annotationView.image = UIImage(named: "img_userlocation")
-            annotationView.layer.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            annotationView.layer.shadowColor = UIColor.orange.cgColor
-            annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
-            annotationView.layer.shadowOpacity = 0.5
-            annotationView.layer.shadowRadius = 5
-            // ios 16 이상부터는 layer없이 바로 anchorpoint를 설정할 수 있음!
-            return annotationView
-        }
-        
-        // 장소 annotation 설정
-        guard let placeAnnotation = annotation as? PlaceAnnotationModel else {
-            return nil
-        }
-        
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PlaceAnnotationView.identifier) as? PlaceAnnotationView
-        
-        if annotationView == nil {
-            annotationView = PlaceAnnotationView(annotation: placeAnnotation, reuseIdentifier: PlaceAnnotationView.identifier)
-
-            annotationView?.canShowCallout = false
-            annotationView?.contentMode = .scaleAspectFit
-        } else {
-            annotationView?.annotation = placeAnnotation
-        }
-        
-        annotationView?.configure(with: placeAnnotation)
-        return annotationView
-		*/
     }
     
 }
 
 extension MapViewController: LayoutSupport {
-
-    func addSubviews() {
-        self.view.addSubview(mapView)
-        mapView.addSubview(userLocationButton)
-        //mapView.addSubview(bottomSheetView)
-
-        userLocationButton.addSubview(userLocationImageView)
-    }
-
-    func setupSubviewsConstraints() {
-        userLocationButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
-            userLocationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            userLocationButton.heightAnchor.constraint(equalToConstant: 40),
-            userLocationButton.widthAnchor.constraint(equalToConstant: 40)
-        ])
-
-        userLocationImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            userLocationImageView.topAnchor.constraint(equalTo: userLocationButton.topAnchor, constant: 8),
-            userLocationImageView.bottomAnchor.constraint(equalTo: userLocationButton.bottomAnchor, constant: -8),
-            userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
-            userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
-        ])
+	
+	func addSubviews() {
+		self.view.addSubview(mapView)
+		mapView.addSubview(userLocationButton)
+		//mapView.addSubview(bottomSheetView)
 		
-		/*
-        bottomSheetView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            bottomSheetView.topAnchor.constraint(equalTo: mapView.topAnchor),
-            bottomSheetView.bottomAnchor.constraint(equalTo: mapView.bottomAnchor),
-            bottomSheetView.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
-            bottomSheetView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
-        ])
-		*/
-    }
+		userLocationButton.addSubview(userLocationImageView)
+	}
+	
+	func setupSubviewsConstraints() {
+		userLocationButton.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+			userLocationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+			userLocationButton.heightAnchor.constraint(equalToConstant: 40),
+			userLocationButton.widthAnchor.constraint(equalToConstant: 40)
+		])
+		
+		userLocationImageView.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			userLocationImageView.topAnchor.constraint(equalTo: userLocationButton.topAnchor, constant: 8),
+			userLocationImageView.bottomAnchor.constraint(equalTo: userLocationButton.bottomAnchor, constant: -8),
+			userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
+			userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
+		])
+		
+	}
+}
 
+
+extension MapViewController: ModalPresentable {
+	func showDetailSheet(for place: PlaceModel) {
+		presentPlaceDetail(for: place)
+	}
 }

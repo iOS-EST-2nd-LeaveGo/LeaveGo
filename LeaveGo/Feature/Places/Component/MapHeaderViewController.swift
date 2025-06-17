@@ -12,15 +12,18 @@ final class MapHeaderViewController: UIViewController {
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
 
-    var placeListVC: PlacesViewController = {
-        let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
-        return vc
-    }()
+    lazy var placeListVC: PlacesViewController = {
+		let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
+		vc.delegate = self
+		return vc
+	}()
 
     lazy var mapVC: MapViewController = {
         let vc = MapViewController()
         return vc
     }()
+	
+	var placeModelList: [PlaceModel] = []
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var displaySegmentedControl: UISegmentedControl!
@@ -147,4 +150,17 @@ extension UISearchBar {
             textField.font = UIFont.preferredFont(forTextStyle: .body)
         }
     }
+}
+
+extension MapHeaderViewController: PlacesViewControllerDelegate {
+	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
+		mapVC.placeModelList = placeModelList
+		mapVC.selectedPlace = place
+		
+		displaySegmentedControl.selectedSegmentIndex = 1
+		switchToVC(mapVC)
+		
+		mapVC.focusMap(on: place)
+		mapVC.showDetailSheet(for: place)
+	}
 }

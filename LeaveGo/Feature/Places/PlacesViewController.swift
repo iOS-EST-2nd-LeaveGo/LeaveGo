@@ -8,6 +8,10 @@
 import UIKit
 import CoreLocation
 
+
+protocol PlacesViewControllerDelegate: AnyObject {
+	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel)
+}
 /// 관광지 리스트를 보여주는 화면을 담당하는 뷰 컨트롤러입니다.
 /// - UITableView를 이용해 관광지를 리스트 형식으로 표시합니다.
 /// - API를 호출하여 장소 정보를 불러오고 테이블 뷰에 반영합니다.
@@ -23,7 +27,9 @@ class PlacesViewController: UIViewController {
         cache.countLimit = 100
         return cache
     }()
-
+	
+	weak var delegate: PlacesViewControllerDelegate?
+	
     private var keyword: String = ""
     private var currentPage = 1
     private var totalCount = 0
@@ -290,8 +296,11 @@ extension PlacesViewController: UITableViewDelegate {
     }
 
     // 이 코드는 사용자가 셀을 선택한 후 애니메이션과 함께 선택 효과(회색)를 제거해주는 역할을 합니다.
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            tableView.deselectRow(at: indexPath, animated: true)
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		
+		let place = currentPlaceModel[indexPath.row]
+		delegate?.placesViewController(self, didSelect: place)
     }
 }
 
@@ -310,11 +319,8 @@ extension PlacesViewController: ListTableViewCellDelegate {
             return
         }
 
-        print("▶︎ instantiated:", routeVC)
+		routeVC.destination = RouteDestination(place: place)
 
-        routeVC.destination = RouteDestination(place: place)
-
-        print("▶︎ navCtrl:", navigationController as Any)
         guard let nav = navigationController else {
             print("navigationController is nil")
             return
