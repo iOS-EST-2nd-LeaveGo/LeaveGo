@@ -61,5 +61,37 @@ extension CoreDataManager {
         context.delete(planner)
         saveContext()
     }
+}
 
+extension CoreDataManager {
+    func insertDummyData() {
+#if DEBUG // 디버그 모드에서만 작동하도록 설정
+        let dataList: [[String: Any]] = mockPlanners.map { planner in
+            return [
+                "id": UUID(),
+                "title": planner.title,
+                "thumbnailPath": planner.thumbnailPath as Any,
+                "createdAt": Date.now,
+                "startDate": Date.now,
+                "endDate": Date(timeIntervalSinceNow: +1)
+                // placeList는 아직 매핑 안 함 (별도 관계 필요)
+            ]
+        }
+
+        let insertRequest = NSBatchInsertRequest(entityName: "Planner", objects: dataList)
+
+        do {
+            if let result = try context.execute(insertRequest) as? NSBatchInsertResult,
+               let succeeded = result.result as? Bool {
+                if succeeded {
+                    print("✅ Batch Insert 성공")
+                } else {
+                    print("❌ Batch Insert 실패")
+                }
+            }
+        } catch {
+            print("🔥 Batch Insert 에러: \(error.localizedDescription)")
+        }
+#endif
+    }
 }

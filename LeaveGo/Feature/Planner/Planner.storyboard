@@ -71,7 +71,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4nD-13-qLO">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="744"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="r5B-JS-OwB">
@@ -124,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LAX-aH-IfI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1976" y="18"/>
+            <point key="canvasLocation" x="1974.8091603053435" y="17.605633802816904"/>
         </scene>
         <!--여행지 추가하기-->
         <scene sceneID="EeN-rL-KC8">
@@ -264,27 +264,9 @@
                                         </subviews>
                                         <directionalEdgeInsets key="directionalLayoutMargins" top="16" leading="16" bottom="16" trailing="16"/>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
-                                        <rect key="frame" x="16" y="569" width="361" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
-                                        </constraints>
-                                        <color key="tintColor" name="AccentColor"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" image="arrow.trianglehead.turn.up.right.circle.fill" catalog="system" title="경로 찾기" imagePadding="5">
-                                            <backgroundConfiguration key="background" cornerRadius="16"/>
-                                            <color key="baseForegroundColor" name="CustomBackgroundColor"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="HBK-Wl-ayK"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Vs9-Jp-hrI" firstAttribute="leading" secondItem="rfA-K2-8HL" secondAttribute="leading" constant="16" id="2aU-9c-8cW"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="leading" secondItem="aW9-H0-nUi" secondAttribute="leading" id="3ZR-3J-Yat"/>
-                                    <constraint firstItem="rfA-K2-8HL" firstAttribute="bottom" secondItem="Vs9-Jp-hrI" secondAttribute="bottom" id="7P3-Ho-dkS"/>
-                                    <constraint firstItem="rfA-K2-8HL" firstAttribute="trailing" secondItem="Vs9-Jp-hrI" secondAttribute="trailing" constant="16" id="8fL-ko-LpH"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="trailing" secondItem="aW9-H0-nUi" secondAttribute="trailing" id="aQx-6P-hz6"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="width" secondItem="rfA-K2-8HL" secondAttribute="width" id="rYt-QB-wsf"/>
                                     <constraint firstItem="CMJ-KM-yxQ" firstAttribute="bottom" secondItem="aW9-H0-nUi" secondAttribute="bottom" id="xJV-u2-bgU"/>
@@ -293,12 +275,30 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="aW9-H0-nUi"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="rfA-K2-8HL"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Jp-hrI">
+                                <rect key="frame" x="16" y="671" width="361" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="awx-iH-SEt"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="arrow.trianglehead.turn.up.right.circle.fill" catalog="system" title="경로 찾기" imagePadding="5">
+                                    <backgroundConfiguration key="background" cornerRadius="16"/>
+                                    <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="HBK-Wl-ayK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5xc-RA-TDp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="top" secondItem="5xc-RA-TDp" secondAttribute="top" id="2W7-4n-eGf"/>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="leading" secondItem="5xc-RA-TDp" secondAttribute="leading" id="ZC2-fs-Cvg"/>
+                            <constraint firstItem="Vs9-Jp-hrI" firstAttribute="leading" secondItem="5xc-RA-TDp" secondAttribute="leading" constant="16" id="nbb-F9-JDd"/>
+                            <constraint firstItem="5xc-RA-TDp" firstAttribute="trailing" secondItem="Vs9-Jp-hrI" secondAttribute="trailing" constant="16" id="q3D-EE-mRl"/>
+                            <constraint firstItem="5xc-RA-TDp" firstAttribute="bottom" secondItem="Vs9-Jp-hrI" secondAttribute="bottom" constant="16" id="uWX-ug-6HH"/>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="trailing" secondItem="5xc-RA-TDp" secondAttribute="trailing" id="vGg-Pu-9qF"/>
                             <constraint firstItem="JCG-uk-zSW" firstAttribute="bottom" secondItem="5xc-RA-TDp" secondAttribute="bottom" id="yCk-HR-Lw3"/>
                         </constraints>
