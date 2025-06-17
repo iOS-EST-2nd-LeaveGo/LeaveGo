@@ -17,11 +17,11 @@ final class MapHeaderViewController: UIViewController {
 		vc.delegate = self
 		return vc
 	}()
-
-    lazy var mapVC: MapViewController = {
-        let vc = MapViewController()
-        return vc
-    }()
+	
+	lazy var mapVC: MapViewController = {
+		let vc = MapViewController()
+		return vc
+	}()
 	
 	var placeModelList: [PlaceModel] = []
 

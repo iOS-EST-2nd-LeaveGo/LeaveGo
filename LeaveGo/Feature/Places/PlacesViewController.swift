@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreLocation
-//import MapKit
 
 protocol PlacesViewControllerDelegate: AnyObject {
 	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel)
@@ -40,8 +39,8 @@ class PlacesViewController: UIViewController {
     var placeModelUpdated: (([PlaceModel]) -> Void)?
 
     @IBOutlet weak var tableView: UITableView!
- 
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         /// ListTableViewCell.xib 재사용 가능한 셀을 Scene에 띄우기
@@ -242,39 +241,39 @@ class PlacesViewController: UIViewController {
 }
 
 extension PlacesViewController: UITableViewDataSource {
-    /// 테이블 뷰의 셀 개수를 반환합니다.
-    /// - Returns: places 배열의 요소 개수
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentPlaceModel.count
-    }
+	/// 테이블 뷰의 셀 개수를 반환합니다.
+	/// - Returns: places 배열의 요소 개수
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return currentPlaceModel.count
+	}
 
-    /// 테이블 뷰 셀을 구성합니다.
-    /// - 각 셀에 장소 제목, 거리, 시간, 이미지 정보를 표시합니다.
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as? ListTableViewCell else {
-            return UITableViewCell()
-        }
+	/// 테이블 뷰 셀을 구성합니다.
+	/// - 각 셀에 장소 제목, 거리, 시간, 이미지 정보를 표시합니다.
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as? ListTableViewCell else {
+			return UITableViewCell()
+		}
 
-        let place = currentPlaceModel[indexPath.row]
+		let place = currentPlaceModel[indexPath.row]
 
-        // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
-        cell.setupMenu(mode: .list)
+		// 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
+		cell.setupMenu(mode: .list)
 
-        cell.titleLabel.text = place.title
+		cell.titleLabel.text = place.title
 
-        if let distStr = place.distance,
-           let distDouble = Double(distStr) {
-            cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
-        } else {
-            cell.distanceLabel.text = nil
-        }
-        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+		if let distStr = place.distance,
+		   let distDouble = Double(distStr) {
+			cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+		} else {
+			cell.distanceLabel.text = nil
+		}
+		cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
 
-        cell.thumbnailImageView.image = nil
-        cell.thumbnailImageView.image = place.thumbnailImage
+		cell.thumbnailImageView.image = nil
+		cell.thumbnailImageView.image = place.thumbnailImage
 
-        return cell
-    }
+		return cell
+	}
 
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if isSearching {
@@ -283,7 +282,6 @@ extension PlacesViewController: UITableViewDataSource {
 			return "현재 위치에서 가까운 순"
 		}
 	}
-    
 }
 
 extension PlacesViewController: UITableViewDelegate {
@@ -314,7 +312,6 @@ extension PlacesViewController: ListTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let place = currentPlaceModel[indexPath.row]
 
-        // 2) PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
         let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
         guard let routeVC = sb.instantiateViewController(
             identifier: "PlaceRoute"

@@ -202,6 +202,10 @@ extension MapViewController: MKMapViewDelegate {
 			forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier
 		)
 
+		// 클러스터링 코드 다시 주석 해제
+        mapView.register(PlaceClusterAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
+
     }
 
     // 척도 범위 설정
