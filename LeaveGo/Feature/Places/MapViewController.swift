@@ -82,6 +82,13 @@ class MapViewController: UIViewController {
             mapView.setRegion(region, animated: false)
             didSetInitialRegion = true
         }
+		
+		// 상위 뷰가 준 selectedPlace 처리
+		if let place = selectedPlace {
+			focusMap(on: place)
+			showDetailSheet(for: place)
+			selectedPlace = nil
+		}
     }
 
 
@@ -89,7 +96,21 @@ class MapViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         print("MapViewController, 옵저버 해제 완료")
     }
-
+	
+	// 선택한 PlaceListCell의 장소 좌표로 이동
+	func focusMap(on place: PlaceModel) {
+		let coord = CLLocationCoordinate2D(
+			latitude: place.latitude,
+			longitude: place.longitude
+		)
+		let region = MKCoordinateRegion(
+			center: coord,
+			latitudinalMeters: 450,
+			longitudinalMeters: 450
+		)
+		mapView.setRegion(region, animated: true)
+	}
+	
     // 위치 변경 될 때
     @objc private func locationUpdate(_ notification: Notification) {
         guard let coordinate = notification.object as? CLLocationCoordinate2D else { return }
@@ -318,5 +339,12 @@ extension MapViewController: LayoutSupport {
         ])
 		*/
     }
+
+}
+
+extension MapViewController: ModalPresentable {
+	func showDetailSheet(for place: PlaceModel) {
+		presentPlaceDetail(for: place)
+	}
 
 }
