@@ -37,34 +37,6 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dragDelegate = self
         tripListTableView.dropDelegate = self
 
-        // ✅ 임시 데이터 추가
-        placeList = [
-            PlaceModel(
-                add1: "서울특별시 송파구",
-                add2: "신천동",
-                contentId: "1001",
-                title: "신천역",
-                thumbnailURL: nil,
-                distance: "1.2km",
-                latitude: "37.511",
-                longitude: "127.100",
-                areaCode: "1",
-                cat1: "A", cat2: "B", cat3: "C"
-            ),
-            PlaceModel(
-                add1: "서울특별시 송파구",
-                add2: "잠실동",
-                contentId: "1002",
-                title: "잠실 롯데타워",
-                thumbnailURL: nil,
-                distance: "2.5km",
-                latitude: "37.513",
-                longitude: "127.102",
-                areaCode: "2",
-                cat1: "A", cat2: "C", cat3: "D"
-            )
-        ]
-
     }
 
     // 썸네일 사진 선택 / 삭제 버튼 토글

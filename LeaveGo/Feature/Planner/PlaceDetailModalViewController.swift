@@ -9,8 +9,8 @@ import UIKit
 
 class PlaceDetailModalViewController: UIViewController {
     var place: PlaceModel?
-    var placeDetail: PlaceDetail?
-    
+    var placeDetail: PlaceDetailProtocol?
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
     @IBOutlet weak var workingHourStackView: UIStackView!
@@ -64,7 +64,8 @@ class PlaceDetailModalViewController: UIViewController {
             activityIndicator.stopAnimating()
             return
         }
-        
+
+
         view.addSubview(errorMessageLabel)
         
         NSLayoutConstraint.activate([
@@ -80,13 +81,15 @@ class PlaceDetailModalViewController: UIViewController {
                 }
             }
             
-            guard let placeDetail = try await NetworkManager.shared.fetchPlaceDetail(contentId: place.contentId) else {
+            guard let placeDetail = try await NetworkManager.shared.fetchPlaceDetail(contentTypeId: place.contentTypeId, contentId: place.contentId) else {
                 await MainActor.run {
                     self.errorMessageLabel.isHidden = false
                 }
                 return
             }
-            
+
+            self.placeDetail = placeDetail
+
             await MainActor.run {
                 self.errorMessageLabel.isHidden = true
                 self.titleLabel.isHidden = false
@@ -101,11 +104,11 @@ class PlaceDetailModalViewController: UIViewController {
                 
                 self.titleLabel.text = place.title
                 
-                if placeDetail.restDate == nil && placeDetail.openTime == nil {
+                if self.placeDetail?.restDate == nil && self.placeDetail?.openTime == nil {
                     self.workingHourStackView.isHidden = true
                 } else {
-                    if let restDate = placeDetail.restDate,
-                       let openTime = placeDetail.openTime
+                    if let restDate = self.placeDetail?.restDate,
+                       let openTime = self.placeDetail?.openTime
                     {
                         if restDate == "" {
                             self.restDateLabel.isHidden = true
@@ -120,7 +123,7 @@ class PlaceDetailModalViewController: UIViewController {
                         if openTime == "" {
                             self.openTimeLabel.isHidden = true
                         } else {
-                            self.openTimeLabel.text = placeDetail.openTime
+                            self.openTimeLabel.text = self.placeDetail?.openTime
                         }
                     }
                 }
@@ -137,10 +140,10 @@ class PlaceDetailModalViewController: UIViewController {
                     self.addressLabel.text = "\(place.add1 ?? "") \(place.add2 ?? "")"
                 }
                 
-                if placeDetail.infoCenter == nil {
+                if self.placeDetail?.infoCenter == nil {
                     self.contactNumberLabel.isHidden = true
                 } else {
-                    self.contactNumberLabel.text = placeDetail.infoCenter
+                    self.contactNumberLabel.text = self.placeDetail?.infoCenter
                 }
             }
         }

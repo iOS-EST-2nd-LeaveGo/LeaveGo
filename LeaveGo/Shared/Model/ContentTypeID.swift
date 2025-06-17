@@ -14,7 +14,7 @@ enum ContentTypeID: Int, CaseIterable {
     // case travelCourse = 25
     case leisureSports = 28
     // case accommodation = 32
-    case shopping = 38
+//    case shopping = 38
     case restaurant = 39
 
     static func from(_ int: Int) -> ContentTypeID? {

@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
             
             if count > 0 {
                 self.placeList = fetchedList.map {
-                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, contentTypeId: $0.contentTypeId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
                 }
                 await loadThumbnailImage()
                 
