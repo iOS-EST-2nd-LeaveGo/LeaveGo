@@ -33,25 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
     }
-        
-        //        효환 테스트용
-//                guard let windowScene = (scene as? UIWindowScene) else { return }
-//        
-//                       window = UIWindow(windowScene: windowScene)
-//        
-//                       let targetSB = UIStoryboard(name: "PlannerEditor", bundle: nil)
-//        
-//                        // 앱 실행시 먼저 보이는 스토리보드 뷰 - 임시로 설정한 작업 화면
-//                            if let targetVC = targetSB.instantiateViewController(withIdentifier: "PlannerEditorVC") as? PlannerEditorViewController {
-//                                window?.rootViewController = targetVC
-//                                window?.makeKeyAndVisible()
-//                            } else {
-//                                print("❗️ targetVC 못 찾음. Storyboard ID 다시 확인!")
-//                            }
-//        
-//            }
-        
-        
+
         func sceneDidDisconnect(_ scene: UIScene) {
             // Called as the scene is being released by the system.
             // This occurs shortly after the scene enters the background, or when its session is discarded.
