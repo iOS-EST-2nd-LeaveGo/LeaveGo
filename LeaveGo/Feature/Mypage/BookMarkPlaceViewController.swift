@@ -23,6 +23,14 @@ class BookMarkPlaceViewController: UIViewController {
         
         navigationItem.title = "북마크 장소 목록"
     }
+ 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let bookmarkEntities = CoreDataManager.shared.fetchAllBookmarks()
+        placeModelList = bookmarkEntities.map { PlaceModel(from: $0) }
+        tableView.reloadData()
+    }
     
 }
 

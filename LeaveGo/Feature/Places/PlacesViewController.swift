@@ -24,6 +24,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
         tableView.register(nib, forCellReuseIdentifier: "ListTableViewCell")
         tableView.dataSource = self
         tableView.delegate = self
+        
     }
 }
 
@@ -40,6 +41,9 @@ extension PlacesViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as? ListTableViewCell else {
             return UITableViewCell()
         }
+        
+        cell.delegate = self
+        cell.place = placeModelList[indexPath.row]
         
         // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
         cell.setupMenu(mode: .list)
@@ -66,4 +70,26 @@ extension PlacesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+}
+
+extension PlacesViewController: ListTableViewCellDelegate {
+    
+    func didTapNavigation(cell: ListTableViewCell) {
+        print("")
+    }
+    
+    func didTapBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            CoreDataManager.createBookmark(contentID: placeModel.contentId,
+                                           source: placeModel.title,
+                                           thumbnailImage: placeModel.thumbnailImage)
+        }
+        
+        let alert = UIAlertController(title: "저장 완료", message: "여행지가 북마크에 저장되었어요. 마이페이지-북마크 장소에서 확인해주세요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alert, animated: true)
+        
+        
+    }
+    
 }
