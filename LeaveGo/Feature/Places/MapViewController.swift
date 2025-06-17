@@ -174,9 +174,9 @@ extension MapViewController: MKMapViewDelegate {
         mapView.register(PlaceAnnotationView.self,
                          forAnnotationViewWithReuseIdentifier: String(
                             describing: PlaceAnnotationModel.self))
-        
-//        mapView.register(PlaceClusterAnnotationView.self,
-//                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
+		// 클러스터링 코드 다시 주석 해제
+        mapView.register(PlaceClusterAnnotationView.self,
+                         forAnnotationViewWithReuseIdentifier: PlaceClusterAnnotationView.identifier)
 
     }
 
@@ -196,6 +196,58 @@ extension MapViewController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+		if annotation is MKUserLocation {
+			let annotationView = MKAnnotationView(
+				annotation: annotation,
+				reuseIdentifier: "userlocation"
+			)
+			annotationView.image = UIImage(named: "img_userlocation")
+			annotationView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+			annotationView.layer.shadowColor = UIColor.orange.cgColor
+			annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
+			annotationView.layer.shadowOpacity = 0.5
+			annotationView.layer.shadowRadius = 5
+			return annotationView
+		}
+		
+		// 클러스터 어노테이션 처리
+		if let cluster = annotation as? MKClusterAnnotation {
+			let cv = mapView.dequeueReusableAnnotationView(
+				withIdentifier: PlaceClusterAnnotationView.identifier,
+				for: cluster
+			) as! PlaceClusterAnnotationView
+			let firstCat1 = cluster.memberAnnotations
+				.compactMap { ($0 as? PlaceAnnotationModel)?.cat1 }
+				.first
+			cv.configure(with: firstCat1, count: cluster.memberAnnotations.count)
+			return cv
+		}
+		
+		// 장소 annotation 설정
+		guard let placeAnnotation = annotation as? PlaceAnnotationModel else {
+			return nil
+		}
+		
+		var annotationView = mapView.dequeueReusableAnnotationView(
+			withIdentifier: PlaceAnnotationView.identifier
+		) as? PlaceAnnotationView
+		
+		if annotationView == nil {
+			annotationView = PlaceAnnotationView(
+				annotation: placeAnnotation,
+				reuseIdentifier: PlaceAnnotationView.identifier
+			)
+			annotationView?.canShowCallout = false
+			annotationView?.contentMode = .scaleAspectFit
+		} else {
+			annotationView?.annotation = placeAnnotation
+		}
+		
+		// clusteringIdentifier는 PlaceAnnotationView 내부의 configure에서 이미 지정됨 :contentReference[oaicite:0]{index=0}
+		annotationView?.configure(with: placeAnnotation)
+		return annotationView
+		// 테스트 위한 임시 주석
+		/*
         // 사용자 현재위치 annotation 설정
         if annotation is MKUserLocation {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "userlocation")
@@ -227,6 +279,7 @@ extension MapViewController: MKMapViewDelegate {
         
         annotationView?.configure(with: placeAnnotation)
         return annotationView
+		*/
     }
     
 }
