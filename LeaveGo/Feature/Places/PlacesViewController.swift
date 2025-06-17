@@ -254,7 +254,10 @@ extension PlacesViewController: UITableViewDataSource {
 		}
 
 		let place = currentPlaceModel[indexPath.row]
-
+		
+		cell.place = place
+		cell.delegate = self
+		
 		// 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
 		cell.setupMenu(mode: .list)
 
@@ -307,28 +310,31 @@ extension PlacesViewController: UITableViewDelegate {
 extension PlacesViewController: ListTableViewCellDelegate {
     /// 경로 찾기 화면 이동
     /// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
-    func didTapNavigation(cell: ListTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let place = currentPlaceModel[indexPath.row]
+	/// 경로 찾기 화면 이동
+	/// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
+	func didTapNavigation(cell: ListTableViewCell) {
+		guard let indexPath = tableView.indexPath(for: cell) else { return }
+		let place = currentPlaceModel[indexPath.row]
+		
+		// PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+		let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+		guard let routeVC = sb.instantiateViewController(
+			identifier: "PlaceRoute"
+		) as? PlaceRouteViewController else {
+			return
+		}
 
-        // 2) PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
-        let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
-        guard let routeVC = sb.instantiateViewController(
-            identifier: "PlaceRoute"
-        ) as? PlaceRouteViewController else {
-            return
-        }
 		routeVC.destination = RouteDestination(place: place)
-
-        guard let nav = navigationController else {
-            print("navigationController is nil")
-            return
-        }
-        nav.pushViewController(routeVC, animated: true)
-    }
-
-    func didTapBookmark(cell: ListTableViewCell) {
-        // Bookmark 화면 이동 코드
-        print("tapped bookmark button")
-    }
+		
+		guard let nav = navigationController else {
+			print("navigationController is nil")
+			return
+		}
+		nav.pushViewController(routeVC, animated: true)
+	}
+	
+	func didTapBookmark(cell: ListTableViewCell) {
+		// Bookmark 화면 이동 코드
+		print("tapped bookmark button")
+	}
 }
