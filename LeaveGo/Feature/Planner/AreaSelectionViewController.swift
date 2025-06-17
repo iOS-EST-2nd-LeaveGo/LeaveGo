@@ -10,10 +10,7 @@ import UIKit
 class AreaSelectionViewController: UIViewController {
     @IBOutlet weak var areaSelectionCollectionView: UICollectionView!
     @IBOutlet weak var selectButtonView: UIButton!
-    
-    @IBAction func navigateToPlaceList(_ sender: UIButton) {
-        
-    }
+    @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PlaceSelectionTableViewController {
@@ -21,6 +18,11 @@ class AreaSelectionViewController: UIViewController {
             
             vc.area = selectedArea!
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        blurEffectView.applyFeatherMask(to: blurEffectView)
     }
     
     var selectedArea: Area?

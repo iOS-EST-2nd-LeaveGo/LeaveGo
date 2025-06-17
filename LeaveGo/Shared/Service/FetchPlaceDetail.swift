@@ -8,7 +8,7 @@
 import Foundation
 
 extension NetworkManager {
-    func fetchPlaceDetail(contentId: Int) async throws -> PlaceDetail? {
+    func fetchPlaceDetail(contentId: String) async throws -> PlaceDetail? {
         // 장소 목록을 담을 변수 선언
         var placeDetail: PlaceDetail?
         
@@ -19,10 +19,14 @@ extension NetworkManager {
         let newRequest = try makeRequest(endpoint: endpoint)
         
         // request 와 디코딩 타입을 가지고 API 호출
-        if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail>.self) {
-            placeDetail = data.response.body.items.item.first
-//            print("🙆‍♀️ API 호출 성공: \n\(String(describing: placeDetail))")
-            return placeDetail
+        do {
+            if let data = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail>.self) {
+                placeDetail = data.response.body.items.item.first
+                // print("🙆‍♀️ API 호출 성공: \n\(String(describing: placeDetail))")
+                return placeDetail
+            }
+        } catch {
+            return nil
         }
         
         return nil

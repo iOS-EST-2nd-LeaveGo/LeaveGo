@@ -29,8 +29,7 @@ class RouteStopCell: UITableViewCell {
 		lbl.textColor = .label
 		return lbl
 	}()
-	
-	/// 아이콘 원형 배경
+
 	let iconBackgroundView: UIView = {
 		let v = UIView()
 		v.translatesAutoresizingMaskIntoConstraints = false
@@ -38,8 +37,7 @@ class RouteStopCell: UITableViewCell {
 		v.clipsToBounds = true
 		return v
 	}()
-	
-	/// 아이콘 이미지
+
 	let iconImageView: UIImageView = {
 		let iv = UIImageView()
 		iv.translatesAutoresizingMaskIntoConstraints = false
@@ -108,7 +106,6 @@ class RouteStopCell: UITableViewCell {
 	}
 	
 	// MARK: Configuration
-	
 	func configure(with stop: Stop, isFirst: Bool, isLast: Bool) {
 		iconImageView.image = UIImage(systemName: stop.iconName)
 		iconBackgroundView.backgroundColor = stop.color

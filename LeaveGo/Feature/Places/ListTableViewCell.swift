@@ -14,8 +14,10 @@ protocol ListTableViewCellDelegate: AnyObject {
 
 class ListTableViewCell: UITableViewCell {
     weak var delegate: ListTableViewCellDelegate?
+    var place: PlaceModel?
 
-    @IBOutlet weak var checkmarkImaveView: UIImageView!
+    @IBOutlet weak var checkmarkImageView: UIImageView!
+    @IBOutlet weak var thumbnailImageContainerView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -31,6 +33,9 @@ class ListTableViewCell: UITableViewCell {
     func setupMenu(mode: CellMode) {
         switch mode {
         case .list:
+            // 분기에 맞는 UI 처리
+            checkmarkImageView.isHidden = true
+            
             moreButton.menu = UIMenu(title: "", children: [
                 UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
                     guard let self else { return }
@@ -43,8 +48,23 @@ class ListTableViewCell: UITableViewCell {
             ])
             moreButton.showsMenuAsPrimaryAction = true
         default:
+            // 분기에 맞는 UI 처리
             moreButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
-            // 정보 보여주는 모달 띄우기
+            distanceLabel.isHidden = true
+            timeLabel.isHidden = true
+            
+            // 장소 기본 정보를 들고 상세 정보 모달 띄우기
+            moreButton.addAction(UIAction(handler: { [weak self] _ in
+                guard let self = self,
+                      let place
+                else { return }
+                PlaceActions.presentInfoModal(from: self, place: place)
+            }), for: .touchUpInside)
         }
+        
+        thumbnailImageContainerView.layer.cornerRadius = 8
+        thumbnailImageContainerView.clipsToBounds = true
+        thumbnailImageContainerView.layer.borderColor = UIColor.border.cgColor
+        thumbnailImageContainerView.layer.borderWidth = 1
     }
 }

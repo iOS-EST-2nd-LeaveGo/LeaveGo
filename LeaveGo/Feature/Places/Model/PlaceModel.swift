@@ -9,26 +9,37 @@ import CoreLocation
 import UIKit
 
 struct PlaceModel {
+    let add1: String?
+    let add2: String?
     let contentId: String // 장소 고유번호
     let title: String // 장소명(use in PlacesVC)
     let thumbnailURL: String?
     var thumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
-    let distance: String // 거리(use in PlacesVC)
+    let distance: String? // 거리(use in PlacesVC)
     let latitude: Double // (use in PlacesVC)
     let longitude: Double // (use in PlacesVC)
+    let areaCode: String? // 지역코드
+    let cat1: String? // 대분류코드
+    let cat2: String? // 중분류코드
+    let cat3: String? // 소분류코드
     
-    let detail: PlaceDetailModel?
+    // let detail: PlaceDetailModel?
     
-    init(contentId: String, title: String, thumbnailURL: String?, distance: String, latitude: String?, longitude: String?, detail: PlaceDetailModel?) {
+    init(add1: String?, add2: String?, contentId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+        self.add1 = add1
+        self.add2 = add2
         self.contentId = contentId
         self.title = title
         self.thumbnailURL = thumbnailURL
         self.distance = distance
         self.latitude = Double(latitude ?? "") ?? 0.0
         self.longitude = Double(longitude ?? "") ?? 0.0
-        self.detail = detail
+        // self.detail = detail
+        self.areaCode = areaCode
+        self.cat1 = cat1
+        self.cat2 = cat2
+        self.cat3 = cat3
     }
-    
 }
 
 extension PlaceModel {
@@ -36,9 +47,13 @@ extension PlaceModel {
     /// MapViewContoller에서 mapview에 전달 하기위해 annotaionModel형태로 전달해야 합니다.
     func toAnnotationModel() -> PlaceAnnotationModel {
         PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                             title: title)
+                             title: title,
+                             thumbnailImage: thumbnailImage,
+                             areaCode: areaCode,
+                             cat1: cat1,
+                             cat2: cat2,
+                             cat3: cat3)
     }
-    
 }
 
 struct PlaceDetailModel {

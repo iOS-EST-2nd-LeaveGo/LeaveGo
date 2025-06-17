@@ -6,11 +6,12 @@
 //
 
 import UIKit
-
+import MapKit
 /// 관광지 리스트를 보여주는 화면을 담당하는 뷰 컨트롤러입니다.
 /// - UITableView를 이용해 관광지를 리스트 형식으로 표시합니다.
 /// - API를 호출하여 장소 정보를 불러오고 테이블 뷰에 반영합니다.
 class PlacesViewController: UIViewController, UITableViewDelegate {
+
     @IBOutlet weak var tableView: UITableView!
  
     var placeModelList: [PlaceModel] = [] // NetworkManager로 부터 받아온 PlaceList
@@ -27,7 +28,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate {
     }
 }
 
-extension PlacesViewController: UITableViewDataSource {
+extension PlacesViewController: UITableViewDataSource, ListTableViewCellDelegate {
     /// 테이블 뷰의 셀 개수를 반환합니다.
     /// - Returns: places 배열의 요소 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,15 +44,18 @@ extension PlacesViewController: UITableViewDataSource {
         
         // 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
         cell.setupMenu(mode: .list)
-        cell.checkmarkImaveView.isHidden = true
-        
         let place = placeModelList[indexPath.row]
+		cell.place = place
+		cell.delegate = self
         // 제목
         cell.titleLabel.text = place.title
+        
         // 거리 (Int로 변환)
-        cell.distanceLabel.text = "\(Int(Double(place.distance) ?? 0))m 떨어짐"
+        if let distance = place.distance {
+            cell.distanceLabel.text = "\(Int(Double(distance) ?? 0))m 떨어짐"
+        }
         // 간단한 시간 정보 (추후 detailIntro2 API로 대체 가능)
-        cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+        // cell.timeLabel.text = place.detail?.openTime
         
         
         // 이미지 처리        
@@ -64,4 +68,37 @@ extension PlacesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+	
+	
+	/// 경로 찾기 화면 이동
+	/// - Parameter cell: 셀 선택이 아닌 버튼 클릭시 경로 찾기 화면 이동 - navigation
+	func didTapNavigation(cell: ListTableViewCell) {
+		guard let indexPath = tableView.indexPath(for: cell) else { return }
+		let place = placeModelList[indexPath.row]
+		
+		// 2) PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+		let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+		guard let routeVC = sb.instantiateViewController(
+			identifier: "PlaceRoute"
+		) as? PlaceRouteViewController else {
+			return
+		}
+		
+		print("▶︎ instantiated:", routeVC)
+		
+		routeVC.destination = RouteDestination(place: place)
+
+		print("▶︎ navCtrl:", navigationController as Any)
+		guard let nav = navigationController else {
+			print("navigationController is nil")
+			return
+		}
+		nav.pushViewController(routeVC, animated: true)
+	}
+
+	func didTapBookmark(cell: ListTableViewCell) {
+		// Bookmark 화면 이동 코드
+		print("tapped bookmark button")
+	}
+
 }
