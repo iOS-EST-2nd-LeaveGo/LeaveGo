@@ -19,23 +19,23 @@ extension NetworkManager {
         switch contentTypeId {
          case "12":
              if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail12>.self) {
-                 return result.response.body.items.item.first
+                 return result.response.body.items.item.first?.htmlCleaned()
              }
          case "14":
              if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail14>.self) {
-                 return result.response.body.items.item.first
+                 return result.response.body.items.item.first?.htmlCleaned()
              }
          case "28":
              if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail28>.self) {
-                 return result.response.body.items.item.first
+                 return result.response.body.items.item.first?.htmlCleaned()
              }
          case "38":
              if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail38>.self) {
-                 return result.response.body.items.item.first
+                 return result.response.body.items.item.first?.htmlCleaned()
              }
         case "39":
             if let result = try await performRequest(urlRequest: newRequest, type: ResponseRoot<PlaceDetail39>.self) {
-                return result.response.body.items.item.first
+                return result.response.body.items.item.first?.htmlCleaned()
             }
          default:
              print("처리되지 않은 contentTypeId: \(contentTypeId)")

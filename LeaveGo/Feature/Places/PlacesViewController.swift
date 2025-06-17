@@ -30,8 +30,6 @@ class PlacesViewController: UIViewController {
 
     private(set) var currentPlaceModel: [PlaceModel] = []
 
-    var placeModelUpdated: (([PlaceModel]) -> Void)?
-
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
@@ -52,6 +50,7 @@ class PlacesViewController: UIViewController {
             name: .locationUpdateDidFail,
             object: nil
         )
+
 
         // 위치 업데이트 추적 시작
         LocationManager.shared.startUpdating()
@@ -177,12 +176,12 @@ class PlacesViewController: UIViewController {
 
             self.currentPage += 1
 
-            self.placeModelUpdated?(self.currentPlaceModel)
+            NotificationCenter.default.post(name: .placeModelUpdated, object: self.currentPlaceModel)
 
             Task {
                 await self.loadThumbnailImage()
                 DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: indexPaths, with: .fade) // 이미지 표시
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
 
             }

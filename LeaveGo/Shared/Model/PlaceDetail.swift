@@ -15,4 +15,6 @@ protocol PlaceDetailProtocol {
     var openDate: String? { get }
     var openTime: String? { get }
     var restDate: String? { get }
+
+    func htmlCleaned() -> Self
 }
