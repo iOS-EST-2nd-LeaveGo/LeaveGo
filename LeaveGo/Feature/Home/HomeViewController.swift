@@ -11,6 +11,9 @@ import CoreLocation
 class HomeViewController: UIViewController {
     @IBOutlet weak var welcomMessageLabel: UILabel!
     @IBOutlet weak var placeCollectionView: UICollectionView!
+//    @IBOutlet weak var placeBgImage: UIImageView!
+//    @IBOutlet weak var placeDistanceLabel: UILabel!
+//    @IBOutlet weak var bookmarkButton: UIButton!
     
     var placeList: [PlaceList]?
     
@@ -46,11 +49,13 @@ class HomeViewController: UIViewController {
                 return
             }
             
-            placeList = try await NetworkManager.shared.fetchPlaceList(
+            let (placeList, count) = try await NetworkManager.shared.fetchPlaceList(
                 numOfRows: 5,
                 mapX: currentLocation.latitude,
                 mapY: currentLocation.longitude,
-                radius: 2000)
+                radius: 10000,
+                contentTypeId: nil
+            )
             
             await MainActor.run {
                 updateCollectionView()
