@@ -9,7 +9,7 @@ import Foundation
 
 /// Endpoint 별로 파라메터를 포함한 최종 URL 을 반환해주는 Enum
 enum Endpoint {
-    case placeList(page: Int, numOfRows: Int, mapX: Double, mapY: Double, radius: Int)
+    case placeList(page: Int, numOfRows: Int, mapX: Double, mapY: Double, radius: Int, contentTypeId: String?)
     case placeDetail(contentId: String)
     case areaBasedPlaceList(page: Int, numOfRows: Int, area: Area)
     case keywordPlaceList(page: Int, numOfRows: Int, keyword: String)
@@ -19,8 +19,8 @@ enum Endpoint {
         guard let apikey = Bundle.main.apiKey else { return nil }
         
         switch self {
-        case let .placeList(page, numOfRows, mapX, mapY, radius):
-            return URL(string: "https://apis.data.go.kr/B551011/KorService2/locationBasedList2?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=12&numOfRows=\(numOfRows)&pageNo=\(page)&mapX=\(mapX)&mapY=\(mapY)&radius=\(radius)&serviceKey=\(apikey)")
+        case let .placeList(page, numOfRows, mapX, mapY, radius, contentTypeId):
+            return URL(string: "https://apis.data.go.kr/B551011/KorService2/locationBasedList2?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=\(contentTypeId ?? "")&numOfRows=\(numOfRows)&pageNo=\(page)&mapX=\(mapX)&mapY=\(mapY)&radius=\(radius)&serviceKey=\(apikey)")
         case let .placeDetail(contentId):
             return URL(string: "https://apis.data.go.kr/B551011/KorService2/detailIntro2?MobileOS=IOS&MobileApp=LeaveGo&_type=json&contentTypeId=12&contentId=\(contentId)&serviceKey=\(apikey)")
         case let .areaBasedPlaceList(page, numOfRows, area):
