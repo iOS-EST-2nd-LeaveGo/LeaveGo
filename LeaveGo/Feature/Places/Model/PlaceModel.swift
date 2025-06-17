@@ -20,6 +20,7 @@ struct PlaceModel {
     let cat1: String? // 대분류코드
     let cat2: String? // 중분류코드
     let cat3: String? // 소분류코드
+    let uuid: UUID
     
     // let detail: PlaceDetailModel?
     
@@ -35,6 +36,7 @@ struct PlaceModel {
         self.cat1 = cat1
         self.cat2 = cat2
         self.cat3 = cat3
+        self.uuid = UUID()
     }
     
 }
@@ -55,6 +57,7 @@ extension PlaceModel {
 }
 
 extension PlaceModel {
+    
     init(from bookmark: BookmarkEntity) {
         self.contentId = bookmark.contentID ?? ""
         self.title = bookmark.source ?? "제목 없음"
@@ -73,7 +76,26 @@ extension PlaceModel {
         self.cat1 = nil
         self.cat2 = nil
         self.cat3 = nil
+        
     }
+    
+    func toBookmarkEntity() -> BookmarkEntity {
+        let context = CoreDataManager.shared.context
+        let entity = BookmarkEntity(context: context)
+        
+        entity.id = UUID()
+        entity.createdAt = Date()
+        entity.contentID = self.contentId
+        entity.source = self.title
+        
+        if let image = self.thumbnailImage,
+           let imageData = image.jpegData(compressionQuality: 1.0) {
+            entity.thumbnailImage = imageData
+        }
+        
+        return entity
+    }
+    
 }
 
 struct PlaceDetailModel {

@@ -38,8 +38,20 @@ extension CoreDataManager {
         }
     }
     
-    // func updateBookmark
-    // func deleteBookmark
+    static func updateBookmark(_ bookmark: BookmarkEntity, source: String, thumbnailImage: UIImage?) {
+        bookmark.source = source
+        if let thumbnailImage = thumbnailImage,  let thumnailIamge = thumbnailImage.jpegData(compressionQuality: 1.0) {
+            bookmark.thumbnailImage = thumnailIamge
+        }
+        
+        CoreDataManager.shared.saveContext()
+    }
+    
+    func deleteBookmark(_ bookmark: BookmarkEntity) {
+        CoreDataManager.shared.context.delete(bookmark)
+        CoreDataManager.shared.saveContext()
+    }
+    
     // func isBookmarked
 
 }

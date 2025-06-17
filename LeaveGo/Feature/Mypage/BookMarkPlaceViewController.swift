@@ -18,7 +18,7 @@ class BookMarkPlaceViewController: UIViewController {
         
         let cell = UINib(nibName: "ListTableViewCell", bundle: nil)
         tableView.register(cell, forCellReuseIdentifier: "ListTableViewCell")
-//        tableView.delegate = self
+        tableView.delegate = self
         tableView.dataSource = self
         
         navigationItem.title = "북마크 장소 목록"
@@ -34,7 +34,7 @@ class BookMarkPlaceViewController: UIViewController {
     
 }
 
-// MARK: UITableViewDelegate
+// MARK: UITableViewDataSource
 extension BookMarkPlaceViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,6 +60,26 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "삭제") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+            
+            CoreDataManager.shared.deleteBookmark()
+            completionHandler(true)
+        }
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
+    }
+   
+}
+
+// MARK: UITableViewDelegate
+extension BookMarkPlaceViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

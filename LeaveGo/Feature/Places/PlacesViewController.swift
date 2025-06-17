@@ -75,7 +75,7 @@ extension PlacesViewController: UITableViewDataSource {
 extension PlacesViewController: ListTableViewCellDelegate {
     
     func didTapNavigation(cell: ListTableViewCell) {
-        print("")
+        print("routePlace connect")
     }
     
     func didTapBookmark(cell: ListTableViewCell) {
