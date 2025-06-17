@@ -12,10 +12,6 @@ class AreaSelectionViewController: UIViewController {
     @IBOutlet weak var selectButtonView: UIButton!
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     
-    @IBAction func navigateToPlaceList(_ sender: UIButton) {
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PlaceSelectionTableViewController {
             guard selectedArea != nil else { return }

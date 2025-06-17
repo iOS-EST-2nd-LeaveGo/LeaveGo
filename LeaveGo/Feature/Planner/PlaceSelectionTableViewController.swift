@@ -10,14 +10,31 @@ import UIKit
 class PlaceSelectionTableViewController: UIViewController {
     @IBOutlet weak var placeSelectionTable: UITableView!
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
+    @IBOutlet weak var addToPlannerButton: UIButton!
+    
+    @IBAction func navigateToComposeVC(_ sender: UIButton) {
+        // 스토리보드 불러오기
+        let plannerEditorStoryboard = UIStoryboard(name: "PlannerEditor", bundle: nil)
+
+        // ID를 통해 ViewController 인스턴스화
+        if let composeVC = plannerEditorStoryboard.instantiateViewController(withIdentifier: "PlannerEditorVC") as? PlannerEditorViewController {
+            if selectedPlaceList.count > 0 {
+                self.navigationController?.pushViewController(composeVC, animated: true)
+                composeVC.placeList = selectedPlaceList
+                
+                print(selectedPlaceList)
+            }
+        }
+    }
     
     var area: Area?
     var placeList = [PlaceModel]()
     var selectedItems: [IndexPath] = []
+    var selectedPlaceList = [PlaceModel]()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        blurEffectView.applyFeatherMask(to: blurEffectView, featherHeight: 20)
+        blurEffectView.applyFeatherMask(to: blurEffectView)
     }
     
     override func viewDidLoad() {
@@ -29,6 +46,8 @@ class PlaceSelectionTableViewController: UIViewController {
         placeSelectionTable.delegate = self
         placeSelectionTable.allowsMultipleSelection = true
         placeSelectionTable.setEditing(false, animated: true)
+        
+        addToPlannerButton.isEnabled = false
         
         Task {
             if area != nil {
@@ -56,7 +75,6 @@ class PlaceSelectionTableViewController: UIViewController {
                     self.placeSelectionTable.reloadData()
                 }
             }
-            
         } catch {
             print("장소 리스트 불러오기 실패:", error.localizedDescription)
         }
@@ -118,6 +136,13 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !selectedItems.contains(indexPath) {
             selectedItems.append(indexPath)
+            
+            let selectedPlace = placeList[indexPath.row]
+            selectedPlaceList.append(selectedPlace)
+            
+            if addToPlannerButton.isEnabled == false {
+                addToPlannerButton.isEnabled.toggle()
+            }
         }
         
         if let cell = tableView.cellForRow(at: indexPath) as? ListTableViewCell {
@@ -128,6 +153,11 @@ extension PlaceSelectionTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let index = selectedItems.firstIndex(of: indexPath) {
             selectedItems.remove(at: index)
+            
+            selectedPlaceList.remove(at: index)
+            
+            print(selectedItems.count)
+            addToPlannerButton.isEnabled = selectedItems.count > 0
         }
         
         tableView.reloadRows(at: [indexPath], with: .none)
