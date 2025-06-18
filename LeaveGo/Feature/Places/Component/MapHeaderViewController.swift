@@ -62,6 +62,7 @@ final class MapHeaderViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         tap.delegate = self
+        view.addGestureRecognizer(tap)
     }
 
     // 해제

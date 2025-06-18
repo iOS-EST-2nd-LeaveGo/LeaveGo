@@ -39,6 +39,11 @@ class PlannerEditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        tap.delegate = self
+        view.addGestureRecognizer(tap)
+
         if let id = plannerID {
             createPlannerBtn.isHidden = true
 
@@ -136,6 +141,10 @@ class PlannerEditorViewController: UIViewController {
             picker.delegate = self
             present(picker, animated: true)
         }
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
@@ -284,5 +293,22 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
         }
 
         print("✅ 저장 완료: \(newPlanner.title ?? "")")
+    }
+}
+
+extension PlannerEditorViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.resignFirstResponder()
+    }
+}
+
+extension PlannerEditorViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIControl)
     }
 }
