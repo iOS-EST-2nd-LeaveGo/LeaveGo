@@ -5,7 +5,12 @@
   나만을 위한 여행지와 코스를 추천해주는 위치 기반 스마트 여행 가이드, <b>떠나Go</b>
 </p>
 
-![badge](https://img.shields.io/badge/platform-iOS-blue) ![badge](https://img.shields.io/badge/language-Swift-orange) ![badge](https://img.shields.io/badge/license-MIT-green)
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-iOS-blue" />
+  <img src="https://img.shields.io/badge/language-Swift-orange" />
+  <img src="https://img.shields.io/badge/license-MIT-green" />
+</p>
+
 
 <br/>
 
