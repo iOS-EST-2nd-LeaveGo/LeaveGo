@@ -2,7 +2,7 @@
 //  TimeInterval+Formatting.swift
 //  LeaveGo
 //
-//  Created by Nat Kim on 6/16/25.
+//  Created by Seohyun Kim on 6/16/25.
 //
 import Foundation
 

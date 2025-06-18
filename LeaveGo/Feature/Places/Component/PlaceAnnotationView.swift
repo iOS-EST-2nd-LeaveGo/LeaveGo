@@ -11,7 +11,7 @@ final class PlaceAnnotationView: MKAnnotationView {
 	static let identifier: String = "PlaceAnnotationView"
 	static let clusterIdentifier: String = "placeCluster"
 	
-	private let imageView: UIImageView = {
+    let imageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.contentMode = .scaleAspectFill
 		imageView.clipsToBounds = true
@@ -26,9 +26,10 @@ final class PlaceAnnotationView: MKAnnotationView {
 		label.font = .systemFont(ofSize: 12, weight: .black)
 		label.textColor = .label
         label.textAlignment = .center
+		label.numberOfLines = 2
 		label.adjustsFontSizeToFitWidth = true
 		label.minimumScaleFactor = 0.7
-		label.lineBreakMode = .byClipping
+		label.lineBreakMode = .byWordWrapping
 		return label
 	}()
 	

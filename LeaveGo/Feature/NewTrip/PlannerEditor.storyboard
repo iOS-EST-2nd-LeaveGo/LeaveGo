@@ -33,8 +33,11 @@
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="여행의 이름을 입력해주세요" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-mp-Uif" customClass="PaddedTextField" customModule="LeaveGo" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28.333333333333343" width="361" height="34"/>
                                                 <color key="backgroundColor" name="CustomBackgroundColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="q60-fr-sQy"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>

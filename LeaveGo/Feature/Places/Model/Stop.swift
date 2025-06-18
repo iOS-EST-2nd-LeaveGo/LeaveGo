@@ -2,7 +2,7 @@
 //  Stop.swift
 //  LeaveGo
 //
-//  Created by Nat Kim on 6/10/25.
+//  Created by Seohyun Kim on 6/10/25.
 //
 
 import UIKit

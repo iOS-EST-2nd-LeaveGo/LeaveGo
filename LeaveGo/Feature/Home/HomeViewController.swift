@@ -50,13 +50,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let userName = UserSetting.shared.nickname {
-            welcomMessageLabel.text = "\(userName)님이 좋아하실만한\n주변 관광지들을 골라봤어요."
-        } else {
-            welcomMessageLabel.text = "내 주변 추천 관광지"
-        }
-        
+
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
         navigateToPlaceListButton.layer.borderColor = UIColor.accent.cgColor
@@ -72,9 +66,14 @@ class HomeViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
+        if let userName = UserSetting.shared.nickname {
+            welcomMessageLabel.text = "\(userName)님이 좋아하실만한\n주변 관광지들을 골라봤어요."
+        } else {
+            welcomMessageLabel.text = "내 주변 추천 관광지"
+        }
     }
     
     private func loadPlaceList() async {
@@ -127,21 +126,28 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let place = placeList[indexPath.item]
         
-        // PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
-        let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
-        guard let routeVC = sb.instantiateViewController(
-            identifier: "PlaceRoute"
-        ) as? PlaceRouteViewController else {
+        guard let tabBarController = self.tabBarController,
+              let navVC = tabBarController.viewControllers?[1] as? UINavigationController,
+              let mapHeaderVC = navVC.viewControllers.first as? MapHeaderViewController else {
             return
         }
         
-        routeVC.destination = RouteDestination(place: place)
+        tabBarController.selectedIndex = 1
         
-        guard let nav = navigationController else {
-            print("navigationController is nil")
-            return
+        // 0.2~0.3초 딜레이를 줘서 뷰 전환이 완료되도록
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            mapHeaderVC.displaySegmentedControl.selectedSegmentIndex = 1
+            mapHeaderVC.mapVC.currentPlaceModel = self.placeList
+            mapHeaderVC.mapVC.selectedPlace = place
+            
+            mapHeaderVC.segmentChanged(mapHeaderVC.displaySegmentedControl)
+            
+            // 다시 한번 더 딜레이를 줘서 mapVC가 완전히 전환된 뒤 모달 띄우기
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                mapHeaderVC.mapVC.showDetailSheet(for: place)
+            }
         }
-        nav.pushViewController(routeVC, animated: true)
+        
     }
 }
 
