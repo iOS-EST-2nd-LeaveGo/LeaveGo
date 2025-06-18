@@ -2,7 +2,7 @@
 //  RouteOptionsCell.swift
 //  LeaveGo
 //
-//  Created by Nat Kim on 6/16/25.
+//  Created by Seohyun Kim on 6/16/25.
 //
 
 import Foundation
@@ -36,14 +36,19 @@ class RouteOptionsCell: UITableViewCell {
 	private let navigateButton: UIButton = {
 		var config = UIButton.Configuration.filled()
 		config.title = "길 안내"
+
+		config.image = UIImage(systemName: "apple.logo")
+		config.imagePlacement = .leading
+		config.imagePadding = 4
+
 		config.baseBackgroundColor = UIColor { tc in
 			tc.userInterfaceStyle == .dark ? .white : .black
 		}
-
 		config.baseForegroundColor = UIColor { tc in
 			tc.userInterfaceStyle == .dark ? .black : .white
 		}
 		config.cornerStyle = .dynamic
+		
 		let btn = UIButton(configuration: config)
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn

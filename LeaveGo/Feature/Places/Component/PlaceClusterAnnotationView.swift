@@ -24,16 +24,16 @@ final class PlaceClusterAnnotationView: MKAnnotationView {
 		iv.contentMode = .scaleAspectFit
 		return iv
 	}()
-	private let countLabel: UILabel = {
-		let lbl = UILabel()
-		lbl.font = .boldSystemFont(ofSize: 12)
+	
+	private let countLabel: StrokedLabel = {
+		let lbl = StrokedLabel()
+		lbl.font = .systemFont(ofSize: 13, weight: .medium)
 		lbl.textColor = .black
 		lbl.textAlignment = .center
-		// 흰색 stroke
-		lbl.attributedText = NSAttributedString(string: "0", attributes: [
-			.strokeColor: UIColor.white,
-			.strokeWidth: 1
-		])
+		lbl.strokeWidth = 3.0
+		lbl.strokeColor = .white
+	
+		lbl.textColor   = .black
 		return lbl
 	}()
 	
@@ -46,21 +46,34 @@ final class PlaceClusterAnnotationView: MKAnnotationView {
 	
 	// MARK: - Layout
 	private func setupUI() {
-		let diameter: CGFloat = 30
-		let labelHeight: CGFloat = 14
-		let spacing: CGFloat = 8
+		let diameter: CGFloat = 50
+		let labelHeight: CGFloat = 8
+		let spacing: CGFloat = 16
 		frame = CGRect(x: 0, y: 0, width: diameter, height: diameter + spacing + labelHeight)
 
-		circleView.frame = CGRect(x: 0, y: 0, width: diameter, height: diameter)
+		frame = CGRect(x: 0, y: 0,
+					   width: diameter,
+					   height: diameter + spacing + labelHeight)
+		
+		// 2) 배경 원
+		circleView.frame = CGRect(origin: .zero,
+								  size: CGSize(width: diameter,
+											   height: diameter))
 		circleView.layer.cornerRadius = diameter / 2
 		circleView.center.x = bounds.midX
 		addSubview(circleView)
-
-		symbolView.frame = circleView.bounds.insetBy(dx: diameter * 0.1,
-													 dy: diameter * 0.1)
-		symbolView.center = CGPoint(x: diameter/2, y: diameter/2)
+		
+		// 3) 심볼 아이콘 (32×32)
+		let symbolSize: CGFloat = 32
+		symbolView.frame = CGRect(
+			x: (diameter - symbolSize) / 2,
+			y: (diameter - symbolSize) / 2,
+			width: symbolSize,
+			height: symbolSize
+		)
 		circleView.addSubview(symbolView)
-
+		
+		// 4) 카운트 레이블
 		countLabel.frame = CGRect(
 			x: 0,
 			y: diameter + spacing,

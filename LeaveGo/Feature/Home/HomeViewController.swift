@@ -50,13 +50,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let userName = UserSetting.shared.nickname {
-            welcomMessageLabel.text = "\(userName)님이 좋아하실만한\n주변 관광지들을 골라봤어요."
-        } else {
-            welcomMessageLabel.text = "내 주변 추천 관광지"
-        }
-        
+
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
         navigateToPlaceListButton.layer.borderColor = UIColor.accent.cgColor
@@ -72,9 +66,14 @@ class HomeViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
+        if let userName = UserSetting.shared.nickname {
+            welcomMessageLabel.text = "\(userName)님이 좋아하실만한\n주변 관광지들을 골라봤어요."
+        } else {
+            welcomMessageLabel.text = "내 주변 추천 관광지"
+        }
     }
     
     private func loadPlaceList() async {

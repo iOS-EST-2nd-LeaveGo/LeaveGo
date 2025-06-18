@@ -14,7 +14,7 @@ enum Validation {
         let trimmedNickname = nickname.filter { !$0.isWhitespace }
 
         do {
-            let regex = try Regex("^[가-힣A-Za-z0-9]{2,6}$")
+            let regex = try Regex("^[가-힣A-Za-z0-9]{2,8}$")
             return trimmedNickname.wholeMatch(of: regex) != nil
         } catch {
             print(error)

@@ -402,6 +402,7 @@ extension MapViewController: LayoutSupport {
 }
 
 extension MapViewController: ModalPresentable {
+    
     func showDetailSheet(for place: PlaceModel) {
         presentPlaceDetail(for: place)
     }
