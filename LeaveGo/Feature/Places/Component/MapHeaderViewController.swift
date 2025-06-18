@@ -48,15 +48,14 @@ final class MapHeaderViewController: UIViewController {
             object: nil
         )
 
+        NotificationCenter.default.addObserver(self, selector: #selector(placeModelUpdated(_:)), name: .placeModelUpdated, object: nil)
+
+
         // 위치 업데이트 추적 시작
            LocationManager.shared.startUpdating()
         currentLocation = LocationManager.shared.currentLocation
         displaySegmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         switchToVC(placeListVC)
-
-        placeListVC.placeModelUpdated = { [weak self] updatedList in
-            self?.mapVC.currentPlaceModel = updatedList
-        }
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false  // 터치 이벤트 전달되게
@@ -99,6 +98,12 @@ final class MapHeaderViewController: UIViewController {
         } else {
             switchToVC(mapVC)
             mapVC.currentPlaceModel = placeListVC.currentPlaceModel
+        }
+    }
+
+    @objc func placeModelUpdated(_ notification: Notification) {
+        if let updatedList = notification.object as? [PlaceModel] {
+            self.mapVC.currentPlaceModel = updatedList
         }
     }
 
