@@ -78,7 +78,9 @@ class PlaceRouteViewController: UIViewController, UIAdaptivePresentationControll
 		super.viewDidAppear(animated)
 		presentBottomSheet()
 
-		calculateAndShowRoute(.automobile)
+        let preferredTransport = UserSetting.shared.preferredTransport ?? .automobile
+        sheetVC?.initialMode = preferredTransport
+        calculateAndShowRoute(preferredTransport.mapKitType)
 	}
 	
 	
@@ -272,7 +274,8 @@ class PlaceRouteViewController: UIViewController, UIAdaptivePresentationControll
 		let vc = RouteBottomSheetViewController()
 		vc.delegate = self
 		self.sheetVC = vc
-		
+
+        vc.initialMode = UserSetting.shared.preferredTransport ?? .automobile
 		vc.configureStops(
 			currentLocationName: "나의 위치",
 			destinationName: dest.title

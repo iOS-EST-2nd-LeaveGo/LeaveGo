@@ -25,7 +25,8 @@ class RouteBottomSheetViewController: UIViewController {
 	}
 	
 	var destination: RouteDestination!
-	
+    var initialMode: TransportType = .automobile
+
 	private var selectedMode: RouteBottomSheetView.TransportMode?
 	private let cellHeight: CGFloat = 45
 	private let spacing:   CGFloat = 20
@@ -118,21 +119,28 @@ class RouteBottomSheetViewController: UIViewController {
 		])
 	}
 	
-	private func setupTargetActions() {
-		sheetView.carButton.addTarget(self,
-									  action: #selector(carTapped),
-									  for: .touchUpInside)
-		sheetView.walkButton.addTarget(self,
-									   action: #selector(walkTapped),
-									   for: .touchUpInside)
-		
-		sheetView.transitButton.addTarget(self,
-										  action: #selector(transitTapped),
-										  for: .touchUpInside)
-		
-		sheetView.select(mode: .car)
-	}
-	
+    private func setupTargetActions() {
+        sheetView.carButton.addTarget(self,
+                                      action: #selector(carTapped),
+                                      for: .touchUpInside)
+        sheetView.walkButton.addTarget(self,
+                                       action: #selector(walkTapped),
+                                       for: .touchUpInside)
+
+        sheetView.transitButton.addTarget(self,
+                                          action: #selector(transitTapped),
+                                          for: .touchUpInside)
+
+        switch initialMode {
+        case .automobile:
+            carTapped()
+        case .walking:
+            walkTapped()
+        case .transit:
+            transitTapped()
+        }
+    }
+
 	// MARK: – Actions
 	@objc private func dismissSheet() {
 		dismiss(animated: true)

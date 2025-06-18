@@ -305,8 +305,12 @@ extension MapViewController: MKMapViewDelegate {
             // ===== iPhone: pageSheet로 모달 프레젠트 =====
             detailVC.modalPresentationStyle = .pageSheet
             if let sheet = detailVC.sheetPresentationController {
-                sheet.detents = [.medium(), .large()]
-                sheet.prefersGrabberVisible = false
+                sheet.detents = [
+                    .custom { _ in 320 },
+                    .medium(),
+                    .large()
+                ]
+                sheet.prefersGrabberVisible = true
             }
             present(detailVC, animated: true)
         }
@@ -382,7 +386,7 @@ extension MapViewController: LayoutSupport {
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+
         userLocationButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),

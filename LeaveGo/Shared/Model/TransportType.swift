@@ -6,18 +6,26 @@
 //
 
 import Foundation
-
+import MapKit
 // 이동수단 Type
 enum TransportType: String, CaseIterable {
-    case walk = "도보"
+    case walking = "도보"
     case transit = "대중교통"
-    case car = "차량"
+    case automobile = "차량"
 
     var iconName: String {
         switch self {
-        case .walk: return "figure.walk"
+        case .walking: return "figure.walk"
         case .transit: return "tram.fill"
-        case .car: return "car"
+        case .automobile: return "car"
+        }
+    }
+
+    var mapKitType: MKDirectionsTransportType {
+        switch self {
+        case .automobile: return .automobile
+        case .walking: return .walking
+        case .transit: return .transit
         }
     }
 }
