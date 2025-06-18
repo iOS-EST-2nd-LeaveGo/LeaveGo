@@ -41,15 +41,22 @@ class ListTableViewCell: UITableViewCell {
         
         self.titleLabel.text = model.title
         
-        if let distStr = self.place?.distance,
-           let distDouble = Double(distStr) {
-            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        if let distance = self.place?.distance {
+            self.distanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
         } else {
             self.distanceLabel.text = nil
             self.distanceLabel.isHidden = true
         }
+        
+        /*
+        if let distStr = self.place?.distance,
+           let distDouble = Double(distStr) {
+            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        }
+        */
 
         self.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+        self.timeLabel.isHidden = true
 
         self.thumbnailImageView.image = nil
         self.thumbnailImageView.image = self.place?.thumbnailImage

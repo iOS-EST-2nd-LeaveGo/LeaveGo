@@ -14,9 +14,7 @@ class AreaSelectionCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        areaNameContainer.layer.borderWidth = 1
-        areaNameContainer.layer.borderColor = UIColor.prominentBorder.cgColor
-        areaNameContainer.layer.backgroundColor = UIColor.accentLighter.cgColor
+        areaNameContainer.layer.backgroundColor = UIColor.customBackground.cgColor
         areaNameContainer.layer.cornerRadius = 16
         areaNameContainer.clipsToBounds = true
         
@@ -25,8 +23,10 @@ class AreaSelectionCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            areaNameContainer.backgroundColor = isSelected ? .accent : .accentLighter
-            areaNameLabel.textColor = isSelected ? .white : .accent
+            areaNameContainer.backgroundColor = isSelected ? .accentLighter : .customBackground
+            areaNameContainer.layer.borderColor = isSelected ? UIColor.accent.cgColor : UIColor.customLabel.cgColor
+            areaNameContainer.layer.borderWidth = isSelected ? 1 : 0
+            areaNameLabel.textColor = isSelected ? .accent : .customLabel
         }
     }
 }
