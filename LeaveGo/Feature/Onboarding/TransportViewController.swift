@@ -45,16 +45,14 @@ class TransportViewController: UIViewController {
 
         navigationItem.backButtonTitle = ""
         saveButton.isEnabled = false
+        
         // 레이아웃 설정
-
         transportCollectionView.collectionViewLayout = CollectionViewLayout.setGridLayoutWithRatio(
             columns: 3,
-            itemInsets: NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
+            itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
         )
-
-        //        transportCollectionView.allowsMultipleSelection = true
 
         // cell 등록
         transportCollectionView.register(UINib(nibName: "PreferenceItemCell", bundle: nil), forCellWithReuseIdentifier: "PreferenceItemCell")
