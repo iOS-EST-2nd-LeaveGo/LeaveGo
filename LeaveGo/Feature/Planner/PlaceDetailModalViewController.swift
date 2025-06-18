@@ -30,7 +30,7 @@ class PlaceDetailModalViewController: UIViewController {
         didSet {
             if didSelectBookmark {
                 bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-                bookmarkButton.tintColor = .systemYellow
+                bookmarkButton.tintColor = .accent
             } else {
                 bookmarkButton.setImage(UIImage(systemName: "star"), for: .normal)
                 bookmarkButton.tintColor = .label
