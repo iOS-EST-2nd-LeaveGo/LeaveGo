@@ -7,7 +7,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,7 +22,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Wl5-IH-Nec">
                         <rect key="frame" x="16" y="8" width="420" height="90"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cO5-Xk-gEa">
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="cO5-Xk-gEa">
                                 <rect key="frame" x="0.0" y="5" width="380.33333333333331" height="80"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="298-pp-Crx">
@@ -35,11 +34,11 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DT7-vM-cKO">
-                                        <rect key="frame" x="32" y="0.0" width="80" height="80"/>
+                                        <rect key="frame" x="36" y="0.0" width="80" height="80"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="O2G-Qn-gDu">
                                                 <rect key="frame" x="25" y="26.666666666666664" width="30" height="27.000000000000007"/>
-                                                <color key="tintColor" systemColor="opaqueSeparatorColor"/>
+                                                <color key="tintColor" name="SecandaryColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="OC4-XY-jqY"/>
                                                     <constraint firstAttribute="height" constant="30" id="rl6-Wq-8ey"/>
@@ -59,22 +58,22 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="9cl-uL-adY">
-                                        <rect key="frame" x="120" y="9.6666666666666679" width="260.33333333333331" height="60.666666666666657"/>
+                                        <rect key="frame" x="128" y="11.666666666666671" width="252.33333333333337" height="57"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3t-dT-fm7">
-                                                <rect key="frame" x="0.0" y="0.0" width="260.33333333333331" height="18"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="252.33333333333334" height="14.333333333333334"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                 <color key="textColor" name="SecandaryColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJG-7X-vbR">
-                                                <rect key="frame" x="0.0" y="22" width="260.33333333333331" height="20.333333333333329"/>
+                                                <rect key="frame" x="0.0" y="18.333333333333336" width="252.33333333333334" height="20.333333333333336"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <color key="textColor" name="CustomLabelColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsf-8m-xvm">
-                                                <rect key="frame" x="0.0" y="46.333333333333329" width="260.33333333333331" height="14.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="42.666666666666657" width="252.33333333333334" height="14.333333333333336"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                 <color key="textColor" name="SecandaryColor"/>
                                                 <nil key="highlightedColor"/>
@@ -127,8 +126,5 @@
         <namedColor name="SecandaryColor">
             <color red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>
