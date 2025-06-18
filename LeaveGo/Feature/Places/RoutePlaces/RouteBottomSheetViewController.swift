@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 protocol RouteBottomSheetViewControllerDelegate: AnyObject {
 	func didTapCarButton()
@@ -219,7 +221,7 @@ class RouteBottomSheetViewController: UIViewController {
 		]
 		
 		let alert = CustomAlertView(
-			message: "애플 지도 길 안내로 이동합니다",
+			message: "애플 지도\n길 안내로 이동합니다",
 			confirmTitle: "이동",
 			cancelTitle: "취소",
 			confirmAction: {
@@ -288,8 +290,8 @@ class RouteBottomSheetViewController: UIViewController {
 		var iconCenters: [CGPoint] = []
 		
 		for i in 0..<stops.count {
-			let ip = IndexPath(row: i, section: 0)
-			guard let cell = sheetView.startDestinationTableView.cellForRow(at: ip) as? RouteStopCell else { continue }
+			let indexPath = IndexPath(row: i, section: 0)
+			guard let cell = sheetView.startDestinationTableView.cellForRow(at: indexPath) as? RouteStopCell else { continue }
 			
 			let iconCenter = cell.iconBackgroundView.center
 			let iconCenterInTable = sheetView.startDestinationTableView.convert(iconCenter, from: cell.iconBackgroundView.superview)
@@ -331,10 +333,16 @@ class RouteBottomSheetViewController: UIViewController {
 		
 		if stops.count == 1 {
 			stops.append(dest)
-			sheetView.startDestinationTableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+			sheetView.startDestinationTableView.insertRows(
+				at: [IndexPath(row: 1, section: 0)],
+				with: .automatic
+			)
 		} else {
 			stops[1] = dest
-			sheetView.startDestinationTableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+			sheetView.startDestinationTableView.reloadRows(
+				at: [IndexPath(row: 1, section: 0)],
+				with: .automatic
+			)
 		}
 		updateTableHeight()
 	}
@@ -386,19 +394,32 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 	}
 	
 	
-	func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+	func tableView(
+		_ tableView: UITableView,
+		editingStyleForRowAt indexPath: IndexPath
+	) -> UITableViewCell.EditingStyle {
 		.none
 	}
 	
-	func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+	func tableView(
+		_ tableView: UITableView,
+		shouldIndentWhileEditingRowAt indexPath: IndexPath
+	) -> Bool {
 		false
 	}
 	
-	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+	func tableView(
+		_ tableView: UITableView,
+		canMoveRowAt indexPath: IndexPath
+	) -> Bool {
 		return indexPath.row < stops.count
 	}
 	
-	func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+	func tableView(
+		_ tableView: UITableView,
+		moveRowAt sourceIndexPath: IndexPath,
+		to destinationIndexPath: IndexPath
+	) {
 		let moved = stops.remove(at: sourceIndexPath.row)
 		stops.insert(moved, at: destinationIndexPath.row)
 		tableView.reloadData()
@@ -407,11 +428,17 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 }
 
 extension RouteBottomSheetViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+	func tableView(
+		_ tableView: UITableView,
+		willSelectRowAt indexPath: IndexPath
+	) -> IndexPath? {
 		return indexPath.row < stops.count ? nil : indexPath
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView(
+		_ tableView: UITableView,
+		didSelectRowAt indexPath: IndexPath
+	) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		guard let data = routesData,
