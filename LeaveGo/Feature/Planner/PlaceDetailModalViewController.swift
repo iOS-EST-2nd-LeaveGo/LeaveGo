@@ -195,7 +195,7 @@ class PlaceDetailModalViewController: UIViewController {
         
         didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
     }
-    
+  
     @IBAction func addBookmark(_ sender: Any) {
         guard let place = place else { return }
         
