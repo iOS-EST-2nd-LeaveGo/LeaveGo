@@ -33,13 +33,13 @@ extension CoreDataManager {
         place.contentID = contentID
         place.thumbnailURL = thumbnailURL
         place.order = order
-
         place.planner = planner
         planner.addToPlaces(place)
 
         saveContext()
         return place
     }
+    
 
     func fetchPlannerPlaces(for planner: PlannerEntity) -> [PlannerPlaceEntity] {
         let request: NSFetchRequest<PlannerPlaceEntity> = PlannerPlaceEntity.fetchRequest()
