@@ -63,7 +63,7 @@ class PlacesViewController: UIViewController {
         )
 
         // 위치 업데이트 추적 시작
-//        LocationManager.shared.startUpdating()
+        //        LocationManager.shared.startUpdating()
         currentLocation = LocationManager.shared.currentLocation
     }
 
@@ -76,7 +76,7 @@ class PlacesViewController: UIViewController {
             fetchPlaces()
         }
     }
-    
+
     // 해제
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -149,14 +149,14 @@ class PlacesViewController: UIViewController {
     }
 
     func fetchPlaces() {
-         guard !isFetching else { return }
+        guard !isFetching else { return }
 
-         if isSearching {
-             fetchKeywordPlaces()
-         } else {
-             fetchNearbyPlaces()
-         }
-     }
+        if isSearching {
+            fetchKeywordPlaces()
+        } else {
+            fetchNearbyPlaces()
+        }
+    }
 
     private func fetchNearbyPlaces() {
 
@@ -239,33 +239,20 @@ class PlacesViewController: UIViewController {
             guard let urlString = model.thumbnailURL,
                   let url = URL(string: urlString) else { continue }
 
-            let image = await fetchThumbnailImage(for: url)
+            let image = await ImageCacheManager.shared.fetchImage(from: url)
 
             // UI 및 모델 업데이트는 메인 스레드에서 수행
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+            await MainActor.run {
+                guard index < self.currentPlaceModel.count else { return }
+                self.currentPlaceModel[index].thumbnailImage = image
 
-                // 배열이 변경됐을 수 있으니 index 안전 검사
-                if index < self.currentPlaceModel.count {
-                    self.currentPlaceModel[index].thumbnailImage = image
-
-                    // 셀도 보이는 중이면 바로 반영
-                    let indexPath = IndexPath(row: index, section: 0)
-                    if let cell = self.tableView.cellForRow(at: indexPath) as? ListTableViewCell {
+                let indexPath = IndexPath(row: index, section: 0)
+                if let cell = self.tableView.cellForRow(at: indexPath) as? ListTableViewCell {
+                    if cell.thumbnailImageView.image == nil {
                         cell.thumbnailImageView.image = image
                     }
                 }
             }
-        }
-    }
-
-    func fetchThumbnailImage(for url: URL) async -> UIImage? {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            return UIImage(data: data)
-        } catch {
-            print(error.localizedDescription)
-            return nil
         }
     }
 
@@ -292,7 +279,7 @@ extension PlacesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-		cell.delegate = self
+        cell.delegate = self
         cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list)
 
         return cell
