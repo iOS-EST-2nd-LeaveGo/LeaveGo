@@ -19,12 +19,29 @@ enum PlaceActions {
         let storyboard = UIStoryboard(name: String(describing: Planner.self), bundle: nil)
         let modalVC = storyboard.instantiateViewController(withIdentifier: String(describing: PlaceDetailModalViewController.self)) as! PlaceDetailModalViewController
         modalVC.place = place
-        modalVC.sheetPresentationController?.detents = [
-            .custom { context in return 300 },
-            .medium()
-        ]
-        modalVC.sheetPresentationController?.prefersGrabberVisible = true
         
-        vc.present(modalVC, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // iPad: 왼쪽 사이드뷰에 표시
+            vc.addChild(modalVC)
+            vc.view.addSubview(modalVC.view)
+            modalVC.didMove(toParent: vc)
+            
+            modalVC.view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                modalVC.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
+                modalVC.view.topAnchor.constraint(equalTo: vc.view.topAnchor),
+                modalVC.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor),
+                modalVC.view.widthAnchor.constraint(equalToConstant: 400)
+            ])
+        } else {
+            
+            modalVC.sheetPresentationController?.detents = [
+                .custom { context in return 300 },
+                .medium()
+            ]
+            modalVC.sheetPresentationController?.prefersGrabberVisible = true
+            
+            vc.present(modalVC, animated: true)
+        }
     }
 }

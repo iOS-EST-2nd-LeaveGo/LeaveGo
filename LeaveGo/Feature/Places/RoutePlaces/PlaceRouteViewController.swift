@@ -145,22 +145,38 @@ class PlaceRouteViewController: UIViewController {
 		
 		vc.routesData = nil
 		
-		vc.modalPresentationStyle = .pageSheet
-		vc.isModalInPresentation = true
-		
-		if let sheet = vc.sheetPresentationController {
-			let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("collapsed")) { context in
-				return 0.3 * context.maximumDetentValue
-			}
-			
-			sheet.detents = [customDetent, .large()]
-			sheet.largestUndimmedDetentIdentifier = .large
-			sheet.prefersGrabberVisible = true
-			sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-			sheet.prefersEdgeAttachedInCompactHeight = true
-		}
-		
-		present(vc, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // iPad: 왼쪽 사이드뷰에 표시
+            addChild(vc)
+            view.addSubview(vc.view)
+            vc.didMove(toParent: self)
+            
+            // 오토레이아웃으로 왼쪽에 고정
+            vc.view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                vc.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                vc.view.topAnchor.constraint(equalTo: view.topAnchor),
+                vc.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                vc.view.widthAnchor.constraint(equalToConstant: 400) // 너비는 필요에 따라 조정
+            ])
+        } else {
+            vc.modalPresentationStyle = .pageSheet
+            vc.isModalInPresentation = true
+            
+            if let sheet = vc.sheetPresentationController {
+                let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("collapsed")) { context in
+                    return 0.3 * context.maximumDetentValue
+                }
+                
+                sheet.detents = [customDetent, .large()]
+                sheet.largestUndimmedDetentIdentifier = .large
+                sheet.prefersGrabberVisible = true
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersEdgeAttachedInCompactHeight = true
+            }
+            
+            present(vc, animated: true)
+        }
 	}
 	
 	private func calculateAndShowCarRoute() {
