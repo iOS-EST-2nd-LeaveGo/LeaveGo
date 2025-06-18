@@ -59,7 +59,7 @@ class TransportViewController: UIViewController {
         // cell 등록
         transportCollectionView.register(UINib(nibName: "PreferenceItemCell", bundle: nil), forCellWithReuseIdentifier: "PreferenceItemCell")
 
-        saveButton.layer.cornerRadius = saveButton.frame.height / 2
+        saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true
         
         if mode == .editing {

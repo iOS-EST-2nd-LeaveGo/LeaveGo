@@ -38,15 +38,21 @@ class ListTableViewCell: UITableViewCell {
     /// cell이 재사용 되면서 cell의 모델, 데이터가 유실되는 현상이 있어서 tableView(_ tableView: , trailingSwipeActionsConfigurationForRowAt indexPath: ) -> UISwipeActionsConfiguration? 에서 매번 아래 함수를 호출합니다.
     func setCell(model: PlaceModel, mode: CellMode) {
         self.place = model
+        
         self.titleLabel.text = model.title
         
-        if let distance = model.distance {
-            self.distanceLabel.text = "\(Int(Double(distance) ?? 0))m 떨어짐"
+        if let distStr = self.place?.distance,
+           let distDouble = Double(distStr) {
+            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
         } else {
+            self.distanceLabel.text = nil
             self.distanceLabel.isHidden = true
         }
-        
-        self.thumbnailImageView.image = model.thumbnailImage ?? UIImage(systemName: "photo.fill")
+
+        self.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+
+        self.thumbnailImageView.image = nil
+        self.thumbnailImageView.image = self.place?.thumbnailImage
         
         setupMenu(mode: mode)
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 /* 축제
-struct PlaceDetail15: Codable {
+struct PlaceDetail15: Codable, PlaceDetailProtocol {
     let contentId: String // 장소 고유번호
     let contentTypeId: String // 장소 관광지 타입
     let kidsFacility: String? // 놀이방 여부

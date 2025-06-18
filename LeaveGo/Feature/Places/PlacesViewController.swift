@@ -21,22 +21,14 @@ class PlacesViewController: UIViewController {
     private var isSearching = false
     private var isFetching = false
 
-    private let imageCache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
-        cache.countLimit = 100
-        return cache
-    }()
-
 	weak var delegate: PlacesViewControllerDelegate?
 
     private var keyword: String = ""
     private var currentPage = 1
     private var totalCount = 0
-    private let numOfRows = 100
+    private let numOfRows = 20
 
     private(set) var currentPlaceModel: [PlaceModel] = []
-
-    var placeModelUpdated: (([PlaceModel]) -> Void)?
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -58,6 +50,7 @@ class PlacesViewController: UIViewController {
             name: .locationUpdateDidFail,
             object: nil
         )
+
 
         // 위치 업데이트 추적 시작
         LocationManager.shared.startUpdating()
@@ -127,15 +120,13 @@ class PlacesViewController: UIViewController {
 
         isFetching = true
         Task {
-            print("asdf")
-
             defer { isFetching = false }
             do {
                 let (places, count) = try await NetworkManager.shared.fetchPlaceList(
                     page: currentPage,
                     mapX: currentLocation.longitude,
                     mapY: currentLocation.latitude,
-                    radius: 2000,
+                    radius: 10000,
                     contentTypeId: nil
                 )
                 handleFetchedPlaces(places: places, count: count)
@@ -167,8 +158,7 @@ class PlacesViewController: UIViewController {
         }
     }
 
-    private func
-    handleFetchedPlaces(places: [PlaceList], count: Int) {
+    private func handleFetchedPlaces(places: [PlaceList], count: Int) {
         let filtered = places.filter(isAllowedPlace)
         let models = filtered.map { PlaceModel(from: $0) }
         totalCount = count
@@ -183,14 +173,13 @@ class PlacesViewController: UIViewController {
 
             self.currentPage += 1
 
-            self.placeModelUpdated?(self.currentPlaceModel)
+            NotificationCenter.default.post(name: .placeModelUpdated, object: self.currentPlaceModel)
 
             Task {
                 await self.loadThumbnailImage()
                 DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: indexPaths, with: .fade) // 이미지 표시
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
-
             }
         }
     }
@@ -255,29 +244,10 @@ extension PlacesViewController: UITableViewDataSource {
 			return UITableViewCell()
 		}
 
-//		let place = currentPlaceModel[indexPath.row]
-//		
-//		cell.place = place
 		cell.delegate = self
         
         let saved = CoreDataManager.shared.isBookmarked(contentID: currentPlaceModel[indexPath.row].contentId)
         cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list(isBookmarked: saved))
-		
-		// 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
-//		cell.setupMenu(mode: .list)
-
-//		cell.titleLabel.text = place.title
-//
-//		if let distStr = place.distance,
-//		   let distDouble = Double(distStr) {
-//			cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
-//		} else {
-//			cell.distanceLabel.text = nil
-//		}
-//		cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
-//
-//		cell.thumbnailImageView.image = nil
-//		cell.thumbnailImageView.image = place.thumbnailImage
 
 		return cell
 	}

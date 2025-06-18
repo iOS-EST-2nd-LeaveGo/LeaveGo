@@ -17,6 +17,8 @@ class PlannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadPlannerCollection), name: .didCreateNewPlanner, object: nil)
+        
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerCollectionViewCell.self)))
         plannerCollectionView.register(UINib(nibName: String(describing: PlannerAddButtonCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: String(describing: PlannerAddButtonCollectionViewCell.self)))
         
@@ -43,6 +45,42 @@ class PlannerViewController: UIViewController {
             navigateToPlannerButton.isHidden = false
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+    }
+    
+    private func reloadData() {
+        let fetchedListCount = CoreDataManager.shared.fetchPlannerCount()
+        
+        if fetchedListCount > 0 {
+            let entities = CoreDataManager.shared.fetchAllPlanners()
+            plannerList = entities.compactMap { Planner(entity: $0) }
+            errorMessageLabel.isHidden = true
+            addPlannerButton.isHidden = true
+        } else {
+            plannerList = []
+            errorMessageLabel.isHidden = false
+            addPlannerButton.isHidden = false
+        }
+        
+          print("=== 플래너 목록 ===")
+          for planner in plannerList {
+              print("제목: \(planner.title), 썸네일 경로: \(planner.thumbnailPath ?? "없음")")
+          }
+          
+        
+        plannerCollectionView.reloadData()
+    }
+
+
+    
+    @objc func reloadPlannerCollection() {
+        self.plannerCollectionView.reloadData()
+
+    }
+    
 }
 
 extension PlannerViewController: UICollectionViewDataSource {
@@ -70,7 +108,8 @@ extension PlannerViewController: UICollectionViewDataSource {
             let cell = plannerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PlannerCollectionViewCell.self), for: indexPath) as! PlannerCollectionViewCell
             
             let planner = plannerList[indexPath.item]
-            
+            cell.planner = planner
+
             if let thumnailPathExisting = planner.thumbnailPath {
                 cell.plannerThumbnailImageView.image = UIImage(named: thumnailPathExisting)
             }

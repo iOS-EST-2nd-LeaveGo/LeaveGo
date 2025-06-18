@@ -13,11 +13,31 @@ class PlannerEditorViewController: UIViewController {
     var placeList = [PlaceModel]()
     var isImageSelected = false
 
-    @IBOutlet weak var tripName: UITextField!
+    @IBOutlet weak var tripName: PaddedTextField!
     @IBOutlet weak var tripThumbnail: UIImageView!
     @IBOutlet weak var thumbnailAdd: UIButton!
     @IBOutlet weak var tripListTableView: UITableView!
 
+    @IBAction func addPlannerBtn(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+
+    
+    @IBAction func createPlannerBtn(_ sender: Any) {
+        savePlannerData()
+        NotificationCenter.default.post(name: .didCreateNewPlanner, object: nil)
+        
+        if let plannerVC = navigationController?.viewControllers.first(where: { $0 is PlannerViewController }) {
+            navigationController?.popToViewController(plannerVC, animated: true)
+        
+        } else {
+            print("⚠️ PlannerViewController가 네비게이션 스택에 없습니다.")
+        }
+        
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,35 +56,11 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dragInteractionEnabled = true
         tripListTableView.dragDelegate = self
         tripListTableView.dropDelegate = self
-
-        // ✅ 임시 데이터 추가
-        placeList = [
-            PlaceModel(
-                add1: "서울특별시 송파구",
-                add2: "신천동",
-                contentId: "1001",
-                title: "신천역",
-                thumbnailURL: nil,
-                distance: "1.2km",
-                latitude: "37.511",
-                longitude: "127.100",
-                areaCode: "1",
-                cat1: "A", cat2: "B", cat3: "C"
-            ),
-            PlaceModel(
-                add1: "서울특별시 송파구",
-                add2: "잠실동",
-                contentId: "1002",
-                title: "잠실 롯데타워",
-                thumbnailURL: nil,
-                distance: "2.5km",
-                latitude: "37.513",
-                longitude: "127.102",
-                areaCode: "2",
-                cat1: "A", cat2: "C", cat3: "D"
-            )
-        ]
-
+    }
+    
+    
+    deinit{
+        print("PlannerEditter 해지 완료")
     }
 
     // 썸네일 사진 선택 / 삭제 버튼 토글
@@ -121,9 +117,11 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
+            
             withIdentifier: String(describing: ListTableViewCell.self),
             for: indexPath) as? ListTableViewCell else {
             return UITableViewCell()
+            
         }
 
         // 셀 설정
@@ -132,6 +130,7 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
         cell.checkmarkImageView.image = UIImage(systemName: "line.3.horizontal")
         cell.titleLabel?.text = place.title
         cell.place = place // 셀 내부에서 사용할 place 데이터를 바인딩
+        cell.thumbnailImageView.image = place.thumbnailImage
         return cell
     }
 
@@ -176,4 +175,41 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
             }
         }
     }
+    
+    
+    func savePlannerData() {
+        guard let title = tripName.text, !title.isEmpty else {
+            let alert = UIAlertController(
+                title: "여행 이름을 입력해주세요",
+                message: "여행 제목은 필수 항목입니다.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            present(alert, animated: true)
+            return
+        }
+
+        let startDate = Date()
+        let endDate = Calendar.current.date(byAdding: .day, value: 1, to: startDate)!
+
+        var thumbnailPath: String? = nil
+        if let image = tripThumbnail.image, isImageSelected {
+            if let data = image.jpegData(compressionQuality: 0.8) {
+                let fileName = "\(UUID().uuidString).jpg"
+                let url = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+                try? data.write(to: url)
+                thumbnailPath = url.path
+            }
+        }
+
+        let newPlanner = CoreDataManager.shared.createPlanner(
+            title: title,
+            startDate: startDate,
+            endDate: endDate,
+            thumbnailPath: thumbnailPath
+        )
+
+        print("✅ 저장 완료: \(newPlanner.title ?? "")")
+    }
+
 }

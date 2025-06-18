@@ -29,10 +29,6 @@ class HomeViewController: UIViewController {
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
         
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 200, height: 300)
-        recommendedPlaceCardCollectionView.collectionViewLayout = layout
-        
         // LocationManager 작동 방식을 몰라서 현재 위치 강제 지정
         currentLocation = CLLocationCoordinate2D(latitude: 126.76857234333737, longitude: 37.51006358933778)
         
@@ -58,12 +54,13 @@ class HomeViewController: UIViewController {
                 mapX: currentLocation.latitude,
                 mapY: currentLocation.longitude,
                 radius: 10000,
-                contentTypeId: ContentTypeID.touristAttraction.rawValue
+                contentTypeId: ContentTypeID.touristAttraction.rawValue,
+                arrange: "S"
             )
             
             if count > 0 {
                 self.placeList = fetchedList.map {
-                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, contentTypeId: $0.contentTypeId, title: $0.title, bigThumbnailURL: $0.bigThumbnailImage, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
                 }
                 await loadThumbnailImage()
                 
@@ -78,13 +75,13 @@ class HomeViewController: UIViewController {
     
     func loadThumbnailImage() async {
         for index in 0 ..< placeList.count {
-            if let urlString = placeList[index].thumbnailURL,
+            if let urlString = placeList[index].bigThumbnailURL,
                let url = URL(string: urlString) {
                 let image = await fetchThumbnailImage(for: url)
                 
                 // 이미지 저장은 메인 스레드에서
                 DispatchQueue.main.async { [weak self] in
-                    self?.placeList[index].thumbnailImage = image
+                    self?.placeList[index].bigThumbnailImage = image
                 }
             }
         }
@@ -117,7 +114,7 @@ extension HomeViewController: UICollectionViewDataSource {
         
         let place = placeList[indexPath.item]
         
-        if let thumbnailImage = place.thumbnailImage {
+        if let thumbnailImage = place.bigThumbnailImage {
             cell.placeBgImage.image = thumbnailImage
         }
         
