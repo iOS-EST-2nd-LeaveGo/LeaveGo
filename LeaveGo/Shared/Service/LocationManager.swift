@@ -81,6 +81,7 @@ extension LocationManager: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치상태: 허용")
             manager.startUpdatingLocation()
+            manager.startUpdatingHeading()
 
         case .denied, .restricted:
             print("위치상태: 허용안됨")

@@ -225,19 +225,20 @@ extension MapViewController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-		if annotation is MKUserLocation {
-			let annotationView = MKAnnotationView(
-				annotation: annotation,
-				reuseIdentifier: "userlocation"
-			)
-			annotationView.image = UIImage(named: "img_userlocation")
-			annotationView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-			annotationView.layer.shadowColor = UIColor.orange.cgColor
-			annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
-			annotationView.layer.shadowOpacity = 0.5
-			annotationView.layer.shadowRadius = 5
-			return annotationView
-		}
+        if annotation is MKUserLocation {
+            let annotationView = MKAnnotationView(
+                annotation: annotation,
+                reuseIdentifier: "userlocation"
+            )
+            annotationView.image = UIImage(named: "img_userAnnotation")
+            annotationView.frame = CGRect(x: 0, y: 0, width: 25, height: 25*1.44)
+            annotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.63)
+//            annotationView.layer.shadowColor = UIColor.systemBlue.cgColor
+//            annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
+//            annotationView.layer.shadowOpacity = 0.5
+//            annotationView.layer.shadowRadius = 5
+            return annotationView
+        }
 		
 		// 클러스터 어노테이션 처리
 		if let cluster = annotation as? MKClusterAnnotation {
