@@ -2,7 +2,7 @@
 //  UIColor+Extension.swift
 //  LeaveGo
 //
-//  Created by Nat Kim on 6/18/25.
+//  Created by Seohyun Kim on 6/18/25.
 //
 import UIKit
 
