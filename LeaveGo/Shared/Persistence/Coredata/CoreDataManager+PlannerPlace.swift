@@ -14,7 +14,6 @@ extension CoreDataManager {
     // func updatePlannerPlace
     // func deletePlannerPlace
 
-
     // batchInsert 데이터 검증 필요
     // NSfetchedResultsController
 
@@ -23,6 +22,7 @@ extension CoreDataManager {
         to planner: PlannerEntity,
         date: Date,
         contentID: String,
+        title: String, // ✅ title 추가
         thumbnailURL: String?,
         order: Int16
     ) -> PlannerPlaceEntity {
@@ -31,6 +31,7 @@ extension CoreDataManager {
         place.createdAt = Date()
         place.date = date
         place.contentID = contentID
+        place.title = title // ✅ title 저장
         place.thumbnailURL = thumbnailURL
         place.order = order
         place.planner = planner
@@ -39,7 +40,6 @@ extension CoreDataManager {
         saveContext()
         return place
     }
-    
 
     func fetchPlannerPlaces(for planner: PlannerEntity) -> [PlannerPlaceEntity] {
         let request: NSFetchRequest<PlannerPlaceEntity> = PlannerPlaceEntity.fetchRequest()
@@ -58,11 +58,13 @@ extension CoreDataManager {
         _ place: PlannerPlaceEntity,
         date: Date,
         contentID: String,
+        title: String, // ✅ title 추가
         thumbnailURL: String?,
         order: Int16
     ) {
         place.date = date
         place.contentID = contentID
+        place.title = title // ✅ title 수정
         place.thumbnailURL = thumbnailURL
         place.order = order
         saveContext()

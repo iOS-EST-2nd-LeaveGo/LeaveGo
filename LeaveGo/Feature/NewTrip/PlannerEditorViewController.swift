@@ -13,6 +13,7 @@ class PlannerEditorViewController: UIViewController {
     var plannerID: UUID?
     var placeList = [PlaceModel]()
     var isImageSelected = false
+    var savedImageName: String?
 
     @IBOutlet weak var tripName: PaddedTextField!
     @IBOutlet weak var tripThumbnail: UIImageView!
@@ -40,14 +41,12 @@ class PlannerEditorViewController: UIViewController {
 
         if let id = plannerID {
             createPlannerBtn.isHidden = true
-            print("🄐 전달받은 planner ID: \(id)")
 
             if let fetchedPlanner = CoreDataManager.shared.fetchOnePlanner(id: id) {
-                print("fetchedPlanner: ", fetchedPlanner)
-
                 tripName.text = fetchedPlanner.title
 
                 if let imageName = fetchedPlanner.thumbnailPath {
+                    savedImageName = imageName
                     let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
                     let fileURL = documentsURL.appendingPathComponent(imageName)
 
@@ -61,10 +60,26 @@ class PlannerEditorViewController: UIViewController {
                 }
 
                 let places = CoreDataManager.shared.fetchPlannerPlaces(for: fetchedPlanner)
-                print("📍 저장된 장소 목록 (\(places))")
 
-    
-
+                self.placeList = places.map { entity in
+                    print("🆔 contentID: \(entity.contentID ?? "nil")")
+                    return PlaceModel(
+                        add1: nil,
+                        add2: nil,
+                        contentId: entity.contentID ?? "unknown-id",
+                        contentTypeId: "12",
+                        title: entity.title ?? "제목 없음",
+                        bigThumbnailURL: nil,
+                        thumbnailURL: entity.thumbnailURL,
+                        distance: nil,
+                        latitude: "0.0",
+                        longitude: "0.0",
+                        areaCode: nil,
+                        cat1: nil,
+                        cat2: nil,
+                        cat3: nil
+                    )
+                }
                 self.tripListTableView.reloadData()
 
             } else {
@@ -72,11 +87,10 @@ class PlannerEditorViewController: UIViewController {
             }
         } else {
             createPlannerBtn.isHidden = false
-            print("🌟 새로운 planner 생성 예정")
+            print("하이프 새 planner 생성 예정")
         }
 
         if tripThumbnail.image == nil {
-            tripThumbnail.image = UIImage(systemName: "photo")
             isImageSelected = false
             thumbnailAdd.setTitle("이미지 추가", for: .normal)
         }
@@ -88,7 +102,6 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.register(nib, forCellReuseIdentifier: String(describing: ListTableViewCell.self))
         tripListTableView.dataSource = self
         tripListTableView.delegate = self
-
         tripListTableView.dragInteractionEnabled = true
         tripListTableView.dragDelegate = self
         tripListTableView.dropDelegate = self
@@ -96,6 +109,21 @@ class PlannerEditorViewController: UIViewController {
 
     @IBAction func thumbnailAddAction(_ sender: UIButton) {
         if isImageSelected {
+            if let imageName = savedImageName {
+                let fileManager = FileManager.default
+                if let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+                    let fileURL = documentsURL.appendingPathComponent(imageName)
+                    if fileManager.fileExists(atPath: fileURL.path) {
+                        do {
+                            try fileManager.removeItem(at: fileURL)
+                            print("🗑️ 이미지 삭제됨: \(fileURL.lastPathComponent)")
+                        } catch {
+                            print("❌ 삭제 실패: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+
             tripThumbnail.image = UIImage(systemName: "photo")
             isImageSelected = false
             thumbnailAdd.setTitle("이미지 추가", for: .normal)
@@ -139,16 +167,36 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ListTableViewCell.self), for: indexPath) as? ListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: String(describing: ListTableViewCell.self),
+            for: indexPath
+        ) as? ListTableViewCell else {
             return UITableViewCell()
         }
 
         let place = placeList[indexPath.row]
+        
         cell.setupMenu(mode: .draggable)
         cell.checkmarkImageView.image = UIImage(systemName: "line.3.horizontal")
         cell.titleLabel?.text = place.title
         cell.place = place
-        cell.thumbnailImageView.image = place.thumbnailImage
+
+        if let image = place.thumbnailImage {
+            cell.thumbnailImageView.image = image
+        } else if let urlString = place.thumbnailURL, let url = URL(string: urlString) {
+            // URL로부터 이미지 다운로드
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                guard let data = data, let image = UIImage(data: data), error == nil else { return }
+
+                DispatchQueue.main.async {
+                    cell.thumbnailImageView.image = image
+                    self.placeList[indexPath.row].thumbnailImage = image
+                }
+            }.resume()
+        } else {
+            cell.thumbnailImageView.image = nil
+        }
+
         return cell
     }
 
@@ -210,9 +258,9 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
                 do {
                     try data.write(to: fileURL)
                     thumbnailPath = fileName
-                    print("✅ 써머내일 저장됨: \(fileName)")
+                    savedImageName = fileName
                 } catch {
-                    print("❌ 이미지 저장 실패: \(error.localizedDescription)")
+                    print("❌ 사진 저장 실패: \(error.localizedDescription)")
                 }
             }
         }
@@ -229,7 +277,8 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
                 to: newPlanner,
                 date: Date(),
                 contentID: place.contentId,
-                thumbnailURL: nil,
+                title: place.title,
+                thumbnailURL: place.thumbnailURL,
                 order: Int16(index)
             )
         }
