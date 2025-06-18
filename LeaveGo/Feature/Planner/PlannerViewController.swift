@@ -140,7 +140,7 @@ extension PlannerViewController: UICollectionViewDataSource {
             cell.planner = planner
 
             if let thumnailPathExisting = planner.thumbnailPath {
-                cell.plannerThumbnailImageView.image = UIImage(named: thumnailPathExisting)
+                cell.plannerThumbnailImageView.image = UIImage(contentsOfFile: thumnailPathExisting)
             }
             
             cell.plannerTitleLabelView.text = planner.title

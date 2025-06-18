@@ -195,12 +195,23 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
         var thumbnailPath: String? = nil
         if let image = tripThumbnail.image, isImageSelected {
             if let data = image.jpegData(compressionQuality: 0.8) {
+                let fileManager = FileManager.default
+                let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
                 let fileName = "\(UUID().uuidString).jpg"
-                let url = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-                try? data.write(to: url)
-                thumbnailPath = url.path
+                let fileURL = documentsURL.appendingPathComponent(fileName)
+
+                do {
+                    try data.write(to: fileURL)
+                    thumbnailPath = fileName 
+                    print("✅ 썸네일 저장됨: \(fileName)")
+                } catch {
+                    print("❌ 이미지 저장 실패: \(error.localizedDescription)")
+                }
             }
         }
+
+
+
 
         let newPlanner = CoreDataManager.shared.createPlanner(
             title: title,
