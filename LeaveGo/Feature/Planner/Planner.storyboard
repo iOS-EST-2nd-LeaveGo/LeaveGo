@@ -42,19 +42,48 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="아직 등록된 여행이 없어요." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="inl-di-JeL">
+                                <rect key="frame" x="0.0" y="415" width="393" height="20.333333333333314"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" name="SecandaryColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cl-1c-LQf">
+                                <rect key="frame" x="16" y="671" width="361" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="Evu-le-rTI"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system" title="새로운 여행 만들기">
+                                    <backgroundConfiguration key="background" cornerRadius="16">
+                                        <color key="backgroundColor" name="CustomBackgroundColor"/>
+                                        <color key="strokeColor" name="AccentColor"/>
+                                    </backgroundConfiguration>
+                                    <color key="baseForegroundColor" name="AccentColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="K6D-HB-F25" kind="show" id="Xr2-mK-iVq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vzD-w0-H3y" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="BXd-Wa-8BK"/>
+                            <constraint firstItem="0cl-1c-LQf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Flv-KH-cZ7"/>
+                            <constraint firstItem="vzD-w0-H3y" firstAttribute="bottom" secondItem="5EZ-qb-Rvc" secondAttribute="bottom" id="Kxa-fd-SmS"/>
+                            <constraint firstItem="vzD-w0-H3y" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="NJo-jg-7Oa"/>
                             <constraint firstItem="vzD-w0-H3y" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Pca-dE-9rh"/>
                             <constraint firstItem="vzD-w0-H3y" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="akU-yX-QfO"/>
-                            <constraint firstAttribute="bottom" secondItem="vzD-w0-H3y" secondAttribute="bottom" id="p84-DK-vQ1"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="0cl-1c-LQf" secondAttribute="trailing" constant="16" id="lOe-nQ-C3D"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="0cl-1c-LQf" secondAttribute="bottom" constant="16" id="qnT-u8-xa2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="나의 여행" id="UrU-PR-vUG"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="errorMessageLabel" destination="inl-di-JeL" id="L2R-Nb-OxR"/>
+                        <outlet property="navigateToPlannerButton" destination="0cl-1c-LQf" id="zy2-pg-efO"/>
                         <outlet property="plannerCollectionView" destination="vzD-w0-H3y" id="1WC-pX-d07"/>
                     </connections>
                 </viewController>
@@ -149,7 +178,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-wX-T0R">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9Wn-wX-T0R">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
@@ -393,9 +422,13 @@
             <point key="canvasLocation" x="138.1679389312977" y="18.30985915492958"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Xr2-mK-iVq"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.trianglehead.turn.up.right.circle.fill" catalog="system" width="128" height="123"/>
         <image name="hat.widebrim.fill" catalog="system" width="128" height="79"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

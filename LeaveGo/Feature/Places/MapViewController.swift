@@ -13,7 +13,9 @@ class MapViewController: UIViewController {
 
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
-    var didSetInitialRegion = false
+    
+    private var didSetInitialRegion = false
+    var isSearching = false
 
     // UI
     var mapView: MKMapView!
@@ -212,7 +214,9 @@ extension MapViewController: MKMapViewDelegate {
     // 척도 범위 설정
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // scale of map
-        let center = mapView.userLocation.coordinate
+//        let center = mapView.userLocation.coordinate
+        let center = mapView.region.center
+
         let zoomLevel = log2(360 *
                              (Double(mapView.frame.size.width/256) /
                               mapView.region.span.longitudeDelta))
@@ -222,7 +226,48 @@ extension MapViewController: MKMapViewDelegate {
             let region = MKCoordinateRegion(center: center, span: limitSpan)
             mapView.setRegion(region, animated: true)
         }
+
+        guard !isSearching else { return }
+
+        // 지도 이동 Notification
+        NotificationCenter.default.post(name: .mapDidMove, object: center)
     }
+	
+	/// 어노테이션 탭했을 때 호출
+	/// - Parameters:
+	///   - mapView: 어노테이션 뷰가 선택된 MKMapView 인스턴스
+	///   - view: 선택된 어노테이션 인스턴스
+	///   뷰의 `annotation`이 `PlaceAnnotationModel`인 경우에만 처리
+	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+		guard let annotation = view.annotation as? PlaceAnnotationModel else { return }
+		mapView.deselectAnnotation(annotation, animated: false)
+
+		if let presented = presentedViewController {
+			presented.dismiss(animated: false) { [weak self] in
+				self?.presentDetail(for: annotation)
+			}
+		} else {
+			presentDetail(for: annotation)
+		}
+	}
+	
+	private func presentDetail(for annotation: PlaceAnnotationModel) {
+		let sb = UIStoryboard(name: String(describing: Planner.self), bundle: nil)
+		guard let detailVC = sb.instantiateViewController(
+			withIdentifier: String(describing: PlaceDetailModalViewController.self)
+		) as? PlaceDetailModalViewController else {
+			return
+		}
+
+		detailVC.place = annotation.placeModel
+
+		detailVC.modalPresentationStyle = .pageSheet
+		if let sheet = detailVC.sheetPresentationController {
+			sheet.detents = [.medium(), .large()]
+		}
+		
+		present(detailVC, animated: true)
+	}
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {

@@ -108,7 +108,7 @@ class ListTableViewCell: UITableViewCell {
         
         thumbnailImageContainerView.layer.cornerRadius = 8
         thumbnailImageContainerView.clipsToBounds = true
-        thumbnailImageContainerView.layer.borderColor = UIColor.border.cgColor
+        thumbnailImageContainerView.layer.borderColor = UIColor.prominentBorder.cgColor
         thumbnailImageContainerView.layer.borderWidth = 1
     }
 }
