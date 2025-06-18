@@ -71,12 +71,7 @@ class PlannerViewController: UIViewController {
             errorMessageLabel.isHidden = false
             navigateToPlannerButton.isHidden = false
         }
-        
-          print("=== 플래너 목록 ===")
-          for planner in plannerList {
-              print("제목: \(planner.title), 썸네일 경로: \(planner.thumbnailPath ?? "없음")")
-          }
-        
+                
         plannerCollectionView.reloadData()
     }
     

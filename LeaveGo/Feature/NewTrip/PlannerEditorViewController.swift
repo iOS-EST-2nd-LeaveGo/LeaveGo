@@ -52,10 +52,6 @@ class PlannerEditorViewController: UIViewController {
             print("🆔 전달받은 planner ID: \(id)")
             
             if let fetchedPlanner = CoreDataManager.shared.fetchOnePlanner(id: id) {
-                print("✅ fetch 성공: \(fetchedPlanner)")
-                print("✅ fetch 썸네일 이미지: \(fetchedPlanner.thumbnailPath)")
-
-                // 🔽 여행 이름 반영
                 tripName.text = fetchedPlanner.title
 
                 // 🔽 썸네일 이미지 로드
@@ -101,10 +97,6 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dropDelegate = self
     }
 
-    
-    deinit{
-        print("PlannerEditter 해지 완료")
-    }
 
     // 썸네일 사진 선택 / 삭제 버튼 토글
     @IBAction func thumbnailAddAction(_ sender: UIButton) {
@@ -246,7 +238,6 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
                 do {
                     try data.write(to: fileURL)
                     thumbnailPath = fileName
-                    print("✅ 썸네일 저장됨: \(fileName)")
                 } catch {
                     print("❌ 이미지 저장 실패: \(error.localizedDescription)")
                 }
