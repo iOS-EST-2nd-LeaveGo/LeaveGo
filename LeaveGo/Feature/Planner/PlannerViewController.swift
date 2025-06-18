@@ -92,12 +92,14 @@ class PlannerViewController: UIViewController {
     private func navigateToDetailView(id: UUID) {
         let plannerEditorStoryboard = UIStoryboard(name: "PlannerEditor", bundle: nil)
         
+        print("🆔 전달된 planner id: \(id)")
+        
         if let detailVC = plannerEditorStoryboard.instantiateViewController(withIdentifier: "PlannerEditorVC") as? PlannerEditorViewController {
-            
+            detailVC.plannerID = id
             self.navigationController?.pushViewController(detailVC, animated: true)
             
             // TODO: PlannerEditorVC에 분기를 처리하는 코드 작업 완료 시 id 값 넘기기
-            // detailVC.id = id
+//             detailVC.id = id
         }
     }
     
@@ -177,8 +179,8 @@ extension PlannerViewController: UICollectionViewDataSource {
                     let image = UIImage(contentsOfFile: imageURL.path)
                     cell.plannerThumbnailImageView.image = image
                 } else {
-                    print("현재 임시 폴더 주소: \(FileManager.default.temporaryDirectory)")
-                    print("파일 주소        : file://\(imageURL.path)")
+//                    print("현재 임시 폴더 주소: \(FileManager.default.temporaryDirectory)")
+//                    print("파일 주소        : file://\(imageURL.path)")
                 }
             }
             
