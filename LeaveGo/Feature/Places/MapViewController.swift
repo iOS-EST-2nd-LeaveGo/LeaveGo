@@ -18,6 +18,7 @@ class MapViewController: UIViewController {
     var isSearching = false
 	private var initialCenterLocation = false
     private var centerPosition: CLLocationCoordinate2D? = LocationManager.shared.currentLocation
+    static var isSelectedAnnotation: Bool = false
 
     // UI
     var mapView: MKMapView!
@@ -253,6 +254,13 @@ extension MapViewController: MKMapViewDelegate {
         guard let annotation = view.annotation as? PlaceAnnotationModel else { return }
         mapView.deselectAnnotation(annotation, animated: false)
         
+        MapViewController.isSelectedAnnotation = true
+        
+        if let view = view as? PlaceAnnotationView {
+            view.imageView.layer.borderColor = UIColor.red.cgColor
+        }
+        
+        /// map 포커싱
         var coordiCenterLa = annotation.coordinate.latitude
         let coordiCenterLo = annotation.coordinate.longitude
         coordiCenterLa -= 0.0015
@@ -262,6 +270,7 @@ extension MapViewController: MKMapViewDelegate {
                                         latitudinalMeters: 450, longitudinalMeters: 450)
         mapView.setRegion(region, animated: true)
         
+        /// DetailView present
         if let presented = presentedViewController {
             presented.dismiss(animated: false) { [weak self] in
                 self?.presentDetail(for: annotation)
@@ -338,6 +347,7 @@ extension MapViewController: MKMapViewDelegate {
 			annotationView?.contentMode = .scaleAspectFit
 		} else {
 			annotationView?.annotation = placeAnnotation
+//            annotationView?.imageView.
 		}
 		
 		// clusteringIdentifier는 PlaceAnnotationView 내부의 configure에서 이미 지정됨 :contentReference[oaicite:0]{index=0}
