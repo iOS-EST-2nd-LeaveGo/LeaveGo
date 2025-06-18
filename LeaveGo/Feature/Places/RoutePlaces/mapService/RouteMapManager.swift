@@ -110,7 +110,7 @@ final class RouteMapManager: NSObject {
 extension RouteMapManager: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
 		let r = MKPolylineRenderer(overlay: overlay)
-		r.strokeColor = .systemOrange
+		r.strokeColor = .myAccent
 		r.lineWidth = 8
 		return r
 	}
@@ -132,7 +132,7 @@ extension RouteMapManager: MKMapViewDelegate {
 		}
 		
 		// 핀 색상, glyph 등 커스터마이즈
-		markerView.markerTintColor = .systemBlue
+		markerView.markerTintColor = .myAccent
 		markerView.glyphImage = nil            // 기본 핀 헤드
 		markerView.glyphTintColor = .white    // (필요 시)
 		markerView.animatesWhenAdded = true

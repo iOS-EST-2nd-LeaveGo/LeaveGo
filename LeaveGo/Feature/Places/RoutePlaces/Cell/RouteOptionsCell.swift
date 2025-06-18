@@ -36,14 +36,21 @@ class RouteOptionsCell: UITableViewCell {
 	private let navigateButton: UIButton = {
 		var config = UIButton.Configuration.filled()
 		config.title = "길 안내"
+		
+		// 1) 애플 로고 추가
+		config.image = UIImage(systemName: "apple.logo")
+		config.imagePlacement = .leading
+		config.imagePadding = 4
+		
+		// 2) 기존 색상 & 스타일 유지
 		config.baseBackgroundColor = UIColor { tc in
 			tc.userInterfaceStyle == .dark ? .white : .black
 		}
-
 		config.baseForegroundColor = UIColor { tc in
 			tc.userInterfaceStyle == .dark ? .black : .white
 		}
 		config.cornerStyle = .dynamic
+		
 		let btn = UIButton(configuration: config)
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
