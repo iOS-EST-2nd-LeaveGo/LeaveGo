@@ -38,9 +38,7 @@ class AreaSelectionViewController: UIViewController {
             columns: 3,
             itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 60, trailing: 8),
-            ratioX: 3.0,
-            ratioY: 2.5
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 60, trailing: 8)
         )
         
         selectButtonView.isEnabled = false
@@ -70,7 +68,6 @@ extension AreaSelectionViewController: UICollectionViewDataSource {
         
         let area = Area.allCases[indexPath.item]
         cell.areaNameLabel.text = area.name
-        cell.areaNameContainer.backgroundColor = .customBackground
         
         return cell
     }

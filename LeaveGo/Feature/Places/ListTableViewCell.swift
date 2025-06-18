@@ -41,15 +41,22 @@ class ListTableViewCell: UITableViewCell {
         
         self.titleLabel.text = model.title
         
-        if let distStr = self.place?.distance,
-           let distDouble = Double(distStr) {
-            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        if let distance = self.place?.distance {
+            self.distanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
         } else {
             self.distanceLabel.text = nil
             self.distanceLabel.isHidden = true
         }
+        
+        /*
+        if let distStr = self.place?.distance,
+           let distDouble = Double(distStr) {
+            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        }
+        */
 
         self.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+        self.timeLabel.isHidden = true
 
         self.thumbnailImageView.image = nil
         self.thumbnailImageView.image = self.place?.thumbnailImage
@@ -60,12 +67,14 @@ class ListTableViewCell: UITableViewCell {
     // 셀 모드를 넘겨받아 more 버튼 처리에 대한 분기를 실행
     func setupMenu(mode: CellMode) {
         switch mode {
-        case .list(let bookmarked):
+        case .list:
             // 분기에 맞는 UI 처리
             checkmarkImageView.isHidden = true
             moreButton.showsMenuAsPrimaryAction = true
+            guard let place = place else { return }
+            let saved = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
             
-            if bookmarked { // bookmark 삭제버튼 보여주기
+            if saved { // bookmark 삭제버튼 보여주기
                 moreButton.menu = UIMenu(title: "", children: [
                     UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
                         guard let self else { return }

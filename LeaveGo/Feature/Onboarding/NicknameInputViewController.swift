@@ -35,9 +35,9 @@ class NicknameInputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        nicknameTextField.layer.cornerRadius = 10
-        nicknameTextField.layer.borderWidth = 1
-        nicknameTextField.layer.borderColor = UIColor.accent.cgColor
+        nicknameTextField.layer.cornerRadius = 16
+//        nicknameTextField.layer.borderWidth = 1
+//        nicknameTextField.layer.borderColor = UIColor.accent.cgColor
 
         saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true

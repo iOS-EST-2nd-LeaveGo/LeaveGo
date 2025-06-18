@@ -45,6 +45,16 @@ final class LocationManager: NSObject {
         manager.stopUpdatingLocation()
     }
 
+    func requestSingleLocation() {
+        let status = manager.authorizationStatus
+
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            manager.requestLocation()
+        } else if status == .notDetermined {
+            manager.requestWhenInUseAuthorization()
+        }
+    }
+
 }
 
 extension UIApplication {
@@ -81,6 +91,7 @@ extension LocationManager: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치상태: 허용")
             manager.startUpdatingLocation()
+            manager.startUpdatingHeading()
 
         case .denied, .restricted:
             print("위치상태: 허용안됨")
