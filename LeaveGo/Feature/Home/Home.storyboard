@@ -95,8 +95,10 @@
                                                                     <buttonConfiguration key="configuration" style="plain" image="star" catalog="system">
                                                                         <backgroundConfiguration key="background" cornerRadius="15" strokeWidth="6"/>
                                                                         <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                                                        <color key="baseForegroundColor" name="CustomBackgroundColor"/>
                                                                     </buttonConfiguration>
+                                                                    <connections>
+                                                                        <action selector="addBookmark:" destination="L14-mh-Ahf" eventType="touchUpInside" id="Syo-KR-Zdr"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                         </stackView>

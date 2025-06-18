@@ -114,15 +114,19 @@ extension HomeViewController: UICollectionViewDataSource {
         
         let place = placeList[indexPath.item]
         
-        if let thumbnailImage = place.bigThumbnailImage {
-            cell.placeBgImage.image = thumbnailImage
-        }
-        
-        if let distance = place.distance {
-            cell.placeDistanceLabel.text = "\(distance.formattedDistance())km 떨어짐"
-        }
-        
-        cell.placeTitleLabel.text = place.title
+        cell.configure(with: place)
+        // cell 내부의 configure(with:)로 해당 코드를 옮겼습니다. cell이 load되는 시점에 연산을 추가하기 위해 이를 분리했습니다.
+//        cell.place = place
+//        
+//        if let thumbnailImage = place.bigThumbnailImage {
+//            cell.placeBgImage.image = thumbnailImage
+//        }
+//        
+//        if let distance = place.distance {
+//            cell.placeDistanceLabel.text = "\(distance.formattedDistance())km 떨어짐"
+//        }
+//        
+//        cell.placeTitleLabel.text = place.title
         
         return cell
     }
