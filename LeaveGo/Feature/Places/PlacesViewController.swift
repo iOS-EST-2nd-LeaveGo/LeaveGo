@@ -36,6 +36,7 @@ class PlacesViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         /// ListTableViewCell.xib 재사용 가능한 셀을 Scene에 띄우기
@@ -63,8 +64,11 @@ class PlacesViewController: UIViewController {
         )
 
         // 위치 업데이트 추적 시작
-//        LocationManager.shared.startUpdating()
+        //        LocationManager.shared.startUpdating()
         currentLocation = LocationManager.shared.currentLocation
+
+        self.loadingIndicator.startAnimating()
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -76,7 +80,7 @@ class PlacesViewController: UIViewController {
             fetchPlaces()
         }
     }
-    
+
     // 해제
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -149,14 +153,14 @@ class PlacesViewController: UIViewController {
     }
 
     func fetchPlaces() {
-         guard !isFetching else { return }
+        guard !isFetching else { return }
 
-         if isSearching {
-             fetchKeywordPlaces()
-         } else {
-             fetchNearbyPlaces()
-         }
-     }
+        if isSearching {
+            fetchKeywordPlaces()
+        } else {
+            fetchNearbyPlaces()
+        }
+    }
 
     private func fetchNearbyPlaces() {
 
@@ -210,6 +214,7 @@ class PlacesViewController: UIViewController {
         totalCount = count
 
         DispatchQueue.main.async {
+
             let startIndex = self.currentPlaceModel.count
             self.currentPlaceModel.append(contentsOf: models)
             let endIndex = self.currentPlaceModel.count
@@ -221,12 +226,15 @@ class PlacesViewController: UIViewController {
 
 
             Task {
+                self.loadingIndicator.stopAnimating()
+
                 await self.loadThumbnailImage()
 
                 // 이미지 다 로드한 후 갱신
                 await MainActor.run {
                     self.tableView.reloadRows(at: indexPaths, with: .fade)
                     NotificationCenter.default.post(name: .placeModelUpdated, object: self.currentPlaceModel)
+
                 }
             }
         }
@@ -292,7 +300,7 @@ extension PlacesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-		cell.delegate = self
+        cell.delegate = self
         cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list)
 
         return cell
