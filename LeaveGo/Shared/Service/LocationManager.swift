@@ -45,6 +45,16 @@ final class LocationManager: NSObject {
         manager.stopUpdatingLocation()
     }
 
+    func requestSingleLocation() {
+        let status = manager.authorizationStatus
+
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            manager.requestLocation()
+        } else if status == .notDetermined {
+            manager.requestWhenInUseAuthorization()
+        }
+    }
+
 }
 
 extension UIApplication {

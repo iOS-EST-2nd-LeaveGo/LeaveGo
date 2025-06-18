@@ -51,7 +51,6 @@ class PlacesViewController: UIViewController {
             object: nil
         )
 
-
         // 위치 업데이트 추적 시작
         LocationManager.shared.startUpdating()
         currentLocation = LocationManager.shared.currentLocation
@@ -169,7 +168,6 @@ class PlacesViewController: UIViewController {
             let endIndex = self.currentPlaceModel.count
 
             let indexPaths = (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
-            self.tableView.insertRows(at: indexPaths, with: .fade)
 
             self.currentPage += 1
 
