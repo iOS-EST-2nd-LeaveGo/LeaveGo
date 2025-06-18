@@ -26,7 +26,7 @@ class PlacesViewController: UIViewController {
     private var keyword: String = ""
     private var currentPage = 1
     private var totalCount = 0
-    private let numOfRows = 100
+    private let numOfRows = 20
 
     private(set) var currentPlaceModel: [PlaceModel] = []
 
@@ -120,15 +120,13 @@ class PlacesViewController: UIViewController {
 
         isFetching = true
         Task {
-            print("asdf")
-
             defer { isFetching = false }
             do {
                 let (places, count) = try await NetworkManager.shared.fetchPlaceList(
                     page: currentPage,
                     mapX: currentLocation.longitude,
                     mapY: currentLocation.latitude,
-                    radius: 2000,
+                    radius: 10000,
                     contentTypeId: nil
                 )
                 handleFetchedPlaces(places: places, count: count)

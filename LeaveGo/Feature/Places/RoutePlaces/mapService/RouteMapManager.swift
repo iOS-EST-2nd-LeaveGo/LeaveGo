@@ -105,26 +105,6 @@ final class RouteMapManager: NSObject {
 		)
 		mapView.setVisibleMapRect(rect, edgePadding: insets, animated: true)
 	}
-
-	   // 예시로 padding을 뷰 컨트롤러에서 구해야할때
-	/*
-	   func drawRoute(_ route: MKRoute? = nil,
-					  edgePadding pad: UIEdgeInsets) {
-		   // 동일하게 1–3)번 수행 후:
-		   let poly: MKPolyline = {
-			   if let r = route { return r.polyline }
-			   guard let start = startPlacemark else { fatalError() }
-			   let c = [start.coordinate, destination.coordinate]
-			   return MKPolyline(coordinates: c, count: c.count)
-		   }()
-
-		   mapView.removeOverlays(mapView.overlays)
-		   mapView.addOverlay(poly)
-		   mapView.setVisibleMapRect(poly.boundingMapRect,
-									 edgePadding: pad,
-									 animated: true)
-	   }
-	*/
 }
 
 extension RouteMapManager: MKMapViewDelegate {
