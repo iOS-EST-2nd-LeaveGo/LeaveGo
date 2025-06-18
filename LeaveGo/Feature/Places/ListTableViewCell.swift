@@ -109,6 +109,7 @@ class ListTableViewCell: UITableViewCell {
                 guard let self = self,
                       let place
                 else { return }
+                print("place : ",place)
                 PlaceActions.presentInfoModal(from: self, place: place)
             }), for: .touchUpInside)
         }
