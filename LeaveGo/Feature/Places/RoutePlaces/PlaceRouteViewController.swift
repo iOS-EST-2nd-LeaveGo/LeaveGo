@@ -18,7 +18,7 @@ class PlaceRouteViewController: UIViewController {
 	private var cachedRoutes: [MKRoute] = []
 	private var routesData: RouteOptions?
 	
-	let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
+	let userLocationImageView = UIImageView(image: UIImage(named: "btn_focus"))
 	
 	private lazy var mapManager: RouteMapManager = {
 		guard let dest = destination else {
@@ -52,7 +52,7 @@ class PlaceRouteViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// MARK - debug message
+		
 		guard let dest = destination else {
 			assertionFailure("Destination not set before presenting PlaceRouteViewController")
 			return
@@ -73,7 +73,8 @@ class PlaceRouteViewController: UIViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		presentBottomSheet()
-		calculateAndShowCarRoute()
+		// 초기 접근시 자동차 경로로 표시
+		calculateAndShowRoute(.automobile)
 	}
 	
 	private func setupUserLocationControl() {
@@ -95,7 +96,7 @@ class PlaceRouteViewController: UIViewController {
 			currentLocationButton.widthAnchor.constraint(equalToConstant: 50),
 			currentLocationButton.heightAnchor.constraint(equalToConstant: 50)
 		])
-
+		
 		NSLayoutConstraint.activate([
 			currentLocationImage.topAnchor.constraint(
 				equalTo: currentLocationButton.topAnchor,
@@ -114,7 +115,7 @@ class PlaceRouteViewController: UIViewController {
 				constant: -10
 			)
 		])
-
+		
 		currentLocationButton.addTarget(self,
 										action: #selector(findUserLocation(_:)),
 										for: .touchUpInside)
@@ -156,7 +157,7 @@ class PlaceRouteViewController: UIViewController {
 		routeMapView.setRegion(offsetRegion, animated: true)
 		CATransaction.commit()
 	}
-
+	
 	private func setupNavBar(with title: String) {
 		navigationItem.title = title
 		
@@ -256,39 +257,59 @@ class PlaceRouteViewController: UIViewController {
 			sheet.prefersScrollingExpandsWhenScrolledToEdge = false
 			sheet.prefersEdgeAttachedInCompactHeight = true
 		}
-		
 		present(vc, animated: true)
 	}
 	
-	private func calculateAndShowCarRoute() {
-		Task {
+	private func calculateAndShowRoute(_ transportType: MKDirectionsTransportType) {
+		Task { @MainActor in
+			routeMapView.removeOverlays(routeMapView.overlays)
+			
 			do {
-				let routes = try await mapManager.calculateRoutes()
-				guard let best = routes.first else { return }
+				let routes: [MKRoute]
+				switch transportType {
+				case .walking:
+					routes = try await mapManager.calculateWalkingRoutes()
+				case .transit:
+					routes = try await mapManager.calculateTransitRoutes()
+				case .automobile:
+					routes = try await mapManager.calculateDrivingRoutes()
+
+				default:
+					throw RouteError.noRoutes
+				}
 				
+				if routes.isEmpty {
+					throw RouteError.noRoutes
+				}
+
+				guard let best = routes.first else { print("====경로 없음=== "); return }
+
 				let opts = RouteOptions(
 					start: mapManager.startPlacemark,
 					dest:  mapManager.destPlacemark,
 					options: routes
 				)
-				
-				await MainActor.run {
-					
-					let sheetHeight = sheetVC?.view.frame.height ?? 0
-					// 경로 길이만큼 포커싱 줌 아웃 조절
-					showRouteWithDynamicZoom(best, bottomSheetHeight: sheetHeight)
-					
-					self.cachedRoutes = routes
-					self.routesData = opts
-					self.sheetVC?.routesData = opts
-				}
-			} catch {
-				print("경로 계산 실패:", error)
+				cachedRoutes = routes
+				routesData   = opts
+				sheetVC?.routesData = opts
+
+				let sheetHeight = sheetVC?.view.frame.height ?? 0
+				showRouteWithDynamicZoom(best, bottomSheetHeight: sheetHeight)
+
+				sheetVC?.showRoutes(opts)
+			} catch RouteError.noRoutes {
+				print("RouteError.noRoutes 발생")
+				let empty = RouteOptions(
+					start: mapManager.startPlacemark,
+					dest:  mapManager.destPlacemark,
+					options: []
+				)
+				sheetVC?.routesData = empty
+				sheetVC?.showRoutes(empty)
 			}
 		}
 	}
 }
-
 
 extension PlaceRouteViewController: UIGestureRecognizerDelegate {
 	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -297,40 +318,21 @@ extension PlaceRouteViewController: UIGestureRecognizerDelegate {
 }
 
 extension PlaceRouteViewController: RouteBottomSheetViewControllerDelegate {
+	func didTapWalkButton() {
+		calculateAndShowRoute(.walking)
+	}
+	
 	func didTapCarButton() {
-		if routesData == nil {
-			calculateAndShowCarRoute()
-			return
-		}
-		
-		if let opts = routesData {
-			sheetVC?.showRoutes(opts)
-		}
-		
-		// (선택) polyline도 재초점
-		/*
-		 if let best = opts.options.first {
-		 let sheetH = sheetVC?.view.frame.height ?? 0
-		 showRouteWithDynamicZoom(best, bottomSheetHeight: sheetH)
-		 }
-		 */
+		calculateAndShowRoute(.automobile)
 	}
 	
 	func didSelectRoute(_ route: MKRoute) {
-		print("=== didSelectRoute called for route === :", route.name)
-		let sheetH = sheetVC?.view.frame.height ?? 0
-		showRouteWithDynamicZoom(route, bottomSheetHeight: sheetH)
+		//print("=== didSelectRoute called for route === :", route.name)
+		let sheetHeight = sheetVC?.view.frame.height ?? 0
+		showRouteWithDynamicZoom(route, bottomSheetHeight: sheetHeight)
 	}
 	
-	func didTapBicycleButton() {
-		// 아직 자전거 경로 계산 안했으니 빈 배열로 표시
-		routeMapView.removeOverlays(routeMapView.overlays)
-		// 하단 시트엔 빈 옵션만 표시
-		let emptyModel = RouteOptions(
-			start: mapManager.startPlacemark,
-			dest:  mapManager.destPlacemark,
-			options: []
-		)
-		sheetVC?.showRoutes(emptyModel)
+	func didTapTransitButton() {
+		calculateAndShowRoute(.transit)
 	}
 }

@@ -2,7 +2,7 @@
 //  RouteMapManager.swift
 //  LeaveGo
 //
-//  Created by Nat Kim on 6/12/25.
+//  Created by Seohyun Kim on 6/12/25.
 //
 
 import Foundation
@@ -48,7 +48,44 @@ final class RouteMapManager: NSObject {
 	/// 교통수단 이동경로 계산
 	/// - Parameter transportType: 자동차 타입
 	/// - Returns: 경로 정보
-	func calculateRoutes(transportType: MKDirectionsTransportType = .automobile) async throws -> [MKRoute] {
+	func calculateRoutes(
+		transportType: MKDirectionsTransportType = .any
+		) async throws -> [MKRoute] {
+			guard let start = startPlacemark else {
+				throw RouteError.locationUnavailable
+			}
+
+			let request = MKDirections.Request()
+			request.source = MKMapItem(placemark: start)
+			request.destination = MKMapItem(placemark: destPlacemark)
+			request.transportType = transportType
+			request.requestsAlternateRoutes = true
+
+			let response = try await MKDirections(request: request).calculate()
+			guard !response.routes.isEmpty else {
+				throw RouteError.noRoutes
+			}
+			return response.routes
+		}
+
+		// MARK: – Convenience Wrappers
+
+		/// 자동차 전용 경로
+		func calculateDrivingRoutes() async throws -> [MKRoute] {
+			try await calculateRoutes(transportType: .automobile)
+		}
+
+		/// 도보 전용 경로
+		func calculateWalkingRoutes() async throws -> [MKRoute] {
+			try await calculateRoutes(transportType: .walking)
+		}
+
+		/// 대중교통 전용 경로
+		func calculateTransitRoutes() async throws -> [MKRoute] {
+			try await calculateRoutes(transportType: .transit)
+		}
+	/*
+	func calculateRoutes(transportType: MKDirectionsTransportType = .any) async throws -> [MKRoute] {
 		guard let start = startPlacemark else {
 			throw RouteError.locationUnavailable
 		}
@@ -65,6 +102,7 @@ final class RouteMapManager: NSObject {
 		}
 		return response.routes
 	}
+	*/
 
 	/// MKRoute 또는 직선 폴리라인을 그리고, safeAreaInsets + bottomSheet 높이 기반으로 padding 적용
 	/// - Parameters:
