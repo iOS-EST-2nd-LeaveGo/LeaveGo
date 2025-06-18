@@ -14,7 +14,8 @@ extension Notification.Name {
 
     // 장소 모댈 업데이트 시
     static let placeModelUpdated = Notification.Name("placeModelUpdated")
-
+    static let mapDidMove = Notification.Name("mapDidMove")
+    
     // 사용자 위치 업데이트 시
     static let locationDidUpdate = Notification.Name("locationDidUpdate")
     static let headingDidUpdate = Notification.Name("headingDidUpdate")
