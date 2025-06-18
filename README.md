@@ -7,7 +7,8 @@
 
 ![badge](https://img.shields.io/badge/platform-iOS-blue) ![badge](https://img.shields.io/badge/language-Swift-orange) ![badge](https://img.shields.io/badge/license-MIT-green)
 
----
+<br/>
+
 
 ## 📷 스크린샷
 
@@ -16,6 +17,9 @@
 |<img src="https://github.com/user-attachments/assets/81dc28d5-94f2-4ef2-bb7d-d14a2cb296ea" width="190"/>  | <img src="https://github.com/user-attachments/assets/c3b6c8c2-def5-4307-85ca-9e5dd8721876" width="190"/> | <img src="https://github.com/user-attachments/assets/835eb99c-b480-4609-9bb9-c2ca5672842f" width="190"/> | <img src="https://github.com/user-attachments/assets/525a1317-933b-426e-ad20-6acb43d6fe2c" width="190"/> | <img src="https://github.com/user-attachments/assets/175465c5-ddc9-41b3-91a1-32f6aa6bf49d" width="190"/>
 
 ---
+<br/>
+<br/>
+
 
 ## 📖 소개
 
@@ -25,21 +29,30 @@
 
 > “지금 이 자리에서 시작하는 나만의 여행”
 
----
+<br/>
 
 ## 🚀 주요 기능
 
-- ✅ **기능 1: 위치 기반 여행지 추천**  
-사용자의 현재 위치와 관심사를 바탕으로
-근처의 여행지를 실시간으로 추천합니다.
-- ✅ **기능 2: 경로 기반 여행 코스 안내**  
-  선택한 장소들을 지도에서 확인하고,  
-  효율적인 동선과 예상 소요 시간을 함께 안내받을 수 있습니다.
-- ✅ **기능 3: 쉬운 여행 계획과 저장**  
-  여행 코스를 간편하게 구성하고 저장할 수 있으며,  
-  언제든지 다시 열람하거나 수정할 수 있습니다.
+### ✅ 위치 기반 여행지 추천
+사용자의 **현재 위치**와 **관심사**를 바탕으로  
+가까운 여행지를 **실시간으로 추천**해줍니다.
 
 ---
+
+### ✅ 경로 기반 여행 코스 안내
+선택한 장소들을 **지도 상에서 시각화**하고,  
+**효율적인 동선**과 **예상 소요 시간**까지 함께 안내받을 수 있습니다.
+
+---
+
+### ✅ 쉬운 여행 계획과 저장
+여행 코스를 **드래그 앤 드롭**으로 간편하게 구성하고 저장할 수 있으며,  
+언제든지 **다시 열람하거나 수정**할 수 있습니다.
+
+
+---
+<br/>
+<br/>
 
 ## 🔗 API 출처
 
@@ -50,6 +63,9 @@
 - 📍 **Apple MapKit (CoreLocation 포함)**  
   → 사용자 위치 추적 및 지도 렌더링에 사용
 ---
+<br/>
+<br/>
+
 ## 🧾 Git 커밋 컨벤션
 
 | 타입 | 설명 |
@@ -70,6 +86,9 @@
 
 > 커밋 메시지 작성 시 위 컨벤션을 따라 일관성을 유지해 주세요.
 
+<br/>
+<br/>
+
 
 ## 🛠️ 기술 스택
 
@@ -82,8 +101,6 @@
 ---
 
 ## ⚙️ 설치 및 실행 방법
-
-
 ### ⚡️ 1. 프로젝트 설치 방법
 
 ```bash
