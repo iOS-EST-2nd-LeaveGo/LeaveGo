@@ -39,7 +39,7 @@ class NicknameInputViewController: UIViewController {
         nicknameTextField.layer.borderWidth = 1
         nicknameTextField.layer.borderColor = UIColor.accent.cgColor
 
-        saveButton.layer.cornerRadius = saveButton.frame.height / 2
+        saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

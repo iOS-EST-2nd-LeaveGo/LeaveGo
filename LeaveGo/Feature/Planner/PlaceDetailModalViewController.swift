@@ -37,7 +37,24 @@ class PlaceDetailModalViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-    
+	
+	
+	/// 경로 찾기 버튼 액션 - 경로 탐색 뷰로 이동
+	/// - Parameter sender: UIButton 클릭시 목적지 데이터를 담아 showRouteScreen에 전달
+	@IBAction func findRouteTapped(_ sender: UIButton) {
+		guard let place = place else { return }
+		let dest = RouteDestination(place: place)
+		
+		guard let presenter = presentingViewController else {
+			print("⚠️ presentingViewController가 없습니다")
+			return
+		}
+		
+		dismiss(animated: true) {
+			presenter.showRouteScreen(destination: dest)
+		}
+	}
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         blurEffectView.applyFeatherMask(to: blurEffectView)
@@ -45,7 +62,7 @@ class PlaceDetailModalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
         

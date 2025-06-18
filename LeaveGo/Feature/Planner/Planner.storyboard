@@ -329,6 +329,7 @@
                                     <color key="baseForegroundColor" name="CustomBackgroundColor"/>
                                 </buttonConfiguration>
                                 <connections>
+                                    <action selector="findRouteTapped:" destination="5eA-BR-KNV" eventType="touchUpInside" id="yuE-9L-mOj"/>
                                     <action selector="navigateToPlaceList:" destination="K6D-HB-F25" eventType="touchUpInside" id="HBK-Wl-ayK"/>
                                 </connections>
                             </button>
