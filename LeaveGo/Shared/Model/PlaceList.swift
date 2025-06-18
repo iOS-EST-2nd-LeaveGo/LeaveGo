@@ -17,6 +17,7 @@ struct PlaceList: Codable {
     let contentId: String // 장소 고유번호
     let contentTypeId: String // 장소 관광지 타입
     let dist: String? // 중심 좌표로부터의 거리
+    let bigThumbnailImage: String? // 썸네일이미지
     let thumbnailImage: String? // 썸네일이미지
     // API 응답값이 (1) 정상적인 url, (2) null, (3) 빈 문자열("") 로 들어오기 때문에 URL? 이 아닌 String? 으로 지정
     let mapX: String? // 경도
@@ -34,6 +35,7 @@ struct PlaceList: Codable {
         case contentId = "contentid"
         case contentTypeId = "contenttypeid"
         case dist
+        case bigThumbnailImage = "firstimage" // 카드 UI 에 사용할 큰 썸네일 이미지
         case thumbnailImage = "firstimage2" // 썸네일용 이미지는 firstimage2 에 담겨오는데 이름이 직관적이지 않아서 변경
         case mapX = "mapx"
         case mapY = "mapy"
