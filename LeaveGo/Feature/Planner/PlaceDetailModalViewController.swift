@@ -180,12 +180,6 @@ class PlaceDetailModalViewController: UIViewController {
         
         didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        MapViewController.isSelectedAnnotation = false
-    }
   
     @IBAction func addBookmark(_ sender: Any) {
         guard let place = place else { return }

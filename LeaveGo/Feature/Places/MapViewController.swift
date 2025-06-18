@@ -18,8 +18,7 @@ class MapViewController: UIViewController {
     var isSearching = false
 	private var initialCenterLocation = false
     private var centerPosition: CLLocationCoordinate2D? = LocationManager.shared.currentLocation
-    static var isSelectedAnnotation: Bool = false
-
+    
     // UI
     var mapView: MKMapView!
     var userLocationButton: UIButton = {
@@ -254,12 +253,6 @@ extension MapViewController: MKMapViewDelegate {
         guard let annotation = view.annotation as? PlaceAnnotationModel else { return }
         mapView.deselectAnnotation(annotation, animated: false)
         
-        MapViewController.isSelectedAnnotation = true
-        
-        if let view = view as? PlaceAnnotationView {
-            view.imageView.layer.borderColor = UIColor.red.cgColor
-        }
-        
         /// map 포커싱
         var coordiCenterLa = annotation.coordinate.latitude
         let coordiCenterLo = annotation.coordinate.longitude
@@ -309,10 +302,6 @@ extension MapViewController: MKMapViewDelegate {
             annotationView.image = UIImage(named: "img_userAnnotation")
             annotationView.frame = CGRect(x: 0, y: 0, width: 25, height: 25*1.44)
             annotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.63)
-//            annotationView.layer.shadowColor = UIColor.systemBlue.cgColor
-//            annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
-//            annotationView.layer.shadowOpacity = 0.5
-//            annotationView.layer.shadowRadius = 5
             return annotationView
         }
 		
@@ -347,7 +336,6 @@ extension MapViewController: MKMapViewDelegate {
 			annotationView?.contentMode = .scaleAspectFit
 		} else {
 			annotationView?.annotation = placeAnnotation
-//            annotationView?.imageView.
 		}
 		
 		// clusteringIdentifier는 PlaceAnnotationView 내부의 configure에서 이미 지정됨 :contentReference[oaicite:0]{index=0}
