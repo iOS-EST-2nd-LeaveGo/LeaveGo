@@ -1,5 +1,12 @@
 <h1 align="center">📌 떠나Go</h1>
 
+
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-iOS-blue" />
+  <img src="https://img.shields.io/badge/language-Swift-orange" />
+  <img src="https://img.shields.io/badge/license-MIT-green" />
+</p>
+
 <p align="center">
   <b>당신의 현재 위치에서 출발하는, 단 하나뿐인 여행 플랜</b><br>
   나만을 위한 여행지와 코스를 추천해주는 위치 기반 스마트 여행 가이드, <b>떠나Go</b>
@@ -10,11 +17,6 @@
 </p>
 
 
-<p align="center">
-  <img src="https://img.shields.io/badge/platform-iOS-blue" />
-  <img src="https://img.shields.io/badge/language-Swift-orange" />
-  <img src="https://img.shields.io/badge/license-MIT-green" />
-</p>
 
 
 <br/>
