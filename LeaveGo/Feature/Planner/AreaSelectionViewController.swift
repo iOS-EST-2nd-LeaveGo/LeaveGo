@@ -34,11 +34,13 @@ class AreaSelectionViewController: UIViewController {
         
         areaSelectionCollectionView.delegate = self
         areaSelectionCollectionView.dataSource = self
-        areaSelectionCollectionView.collectionViewLayout = CollectionViewLayout.grid(
+        areaSelectionCollectionView.collectionViewLayout = CollectionViewLayout.setGridLayoutWithRatio(
             columns: 3,
             itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 60, trailing: 8),
+            ratioX: 3.0,
+            ratioY: 2.5
         )
         
         selectButtonView.isEnabled = false

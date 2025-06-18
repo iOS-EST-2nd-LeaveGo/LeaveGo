@@ -10,6 +10,7 @@ import PhotosUI
 
 class PlannerEditorViewController: UIViewController {
 
+    var plannerID: UUID?
     var placeList = [PlaceModel]()
     var isImageSelected = false
 
@@ -40,6 +41,14 @@ class PlannerEditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        if let id = plannerID {
+            print("🆔 전달받은 planner ID: \(id)")
+        } else {
+            print("🆕 새로운 planner 생성 예정 (id 없음)")
+        }
+        
 
         tripThumbnail.image = UIImage(systemName: "photo")
         tripThumbnail.layer.cornerRadius = 12
@@ -202,7 +211,7 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
 
                 do {
                     try data.write(to: fileURL)
-                    thumbnailPath = fileName 
+                    thumbnailPath = fileName
                     print("✅ 썸네일 저장됨: \(fileName)")
                 } catch {
                     print("❌ 이미지 저장 실패: \(error.localizedDescription)")
