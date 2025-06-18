@@ -40,6 +40,7 @@ class NetworkManager {
                     return decodedData
                 } catch {
                     print("😵 Decode 에러: \(error), \(error.localizedDescription)")
+                    print("🐞 디버그용 URL: \(urlRequest)")
                     throw NetworkError.decodingError
                 }
             } else {

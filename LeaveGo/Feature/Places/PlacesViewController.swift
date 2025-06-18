@@ -21,12 +21,6 @@ class PlacesViewController: UIViewController {
     private var isSearching = false
     private var isFetching = false
 
-    private let imageCache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
-        cache.countLimit = 100
-        return cache
-    }()
-
 	weak var delegate: PlacesViewControllerDelegate?
 
     private var keyword: String = ""
@@ -35,8 +29,6 @@ class PlacesViewController: UIViewController {
     private let numOfRows = 100
 
     private(set) var currentPlaceModel: [PlaceModel] = []
-
-    var placeModelUpdated: (([PlaceModel]) -> Void)?
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -58,6 +50,7 @@ class PlacesViewController: UIViewController {
             name: .locationUpdateDidFail,
             object: nil
         )
+
 
         // 위치 업데이트 추적 시작
         LocationManager.shared.startUpdating()
@@ -135,7 +128,8 @@ class PlacesViewController: UIViewController {
                     page: currentPage,
                     mapX: currentLocation.longitude,
                     mapY: currentLocation.latitude,
-                    radius: 2000
+                    radius: 2000,
+                    contentTypeId: nil
                 )
                 handleFetchedPlaces(places: places, count: count)
             } catch {
@@ -181,14 +175,13 @@ class PlacesViewController: UIViewController {
 
             self.currentPage += 1
 
-            self.placeModelUpdated?(self.currentPlaceModel)
+            NotificationCenter.default.post(name: .placeModelUpdated, object: self.currentPlaceModel)
 
             Task {
                 await self.loadThumbnailImage()
                 DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: indexPaths, with: .fade) // 이미지 표시
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
-
             }
         }
     }
@@ -253,26 +246,10 @@ extension PlacesViewController: UITableViewDataSource {
 			return UITableViewCell()
 		}
 
-		let place = currentPlaceModel[indexPath.row]
-		
-		cell.place = place
 		cell.delegate = self
-		
-		// 분기 처리를 위해 cell에게 모드 넘겨주고 필요 없는 뷰들 숨기기
-		cell.setupMenu(mode: .list)
-
-		cell.titleLabel.text = place.title
-
-		if let distStr = place.distance,
-		   let distDouble = Double(distStr) {
-			cell.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
-		} else {
-			cell.distanceLabel.text = nil
-		}
-		cell.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
-
-		cell.thumbnailImageView.image = nil
-		cell.thumbnailImageView.image = place.thumbnailImage
+        
+        let saved = CoreDataManager.shared.isBookmarked(contentID: currentPlaceModel[indexPath.row].contentId)
+        cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list(isBookmarked: saved))
 
 		return cell
 	}
@@ -333,8 +310,31 @@ extension PlacesViewController: ListTableViewCellDelegate {
 		nav.pushViewController(routeVC, animated: true)
 	}
 	
-	func didTapBookmark(cell: ListTableViewCell) {
-		// Bookmark 화면 이동 코드
-		print("tapped bookmark button")
-	}
+    func didTapBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            CoreDataManager.createBookmark(contentID: placeModel.contentId,
+                                           title: placeModel.title,
+                                           thumbnailImageURL: placeModel.thumbnailURL)
+        }
+        
+        let alert = UIAlertController(title: "마크에 저장되었습니다!", message: "마이페이지 > 북마크 장소에서 저장한 여행지를 확인할 수 있어요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alert, animated: true)
+        tableView.reloadData()
+    }
+    
+    func didTapDeleteBookmark(cell: ListTableViewCell) {
+        if let placeModel = cell.place {
+            let contentId = placeModel.contentId
+            
+            
+            if currentPlaceModel.firstIndex(where: { contentId == $0.contentId }) != nil {
+                
+                CoreDataManager.shared.deleteBookmark(by: contentId)
+                
+                tableView.reloadData()
+            }
+        }
+    }
+    
 }

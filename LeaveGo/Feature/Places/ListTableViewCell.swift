@@ -10,6 +10,12 @@ import UIKit
 protocol ListTableViewCellDelegate: AnyObject {
     func didTapNavigation(cell: ListTableViewCell)
     func didTapBookmark(cell: ListTableViewCell)
+    func didTapDeleteBookmark(cell: ListTableViewCell)
+}
+
+extension ListTableViewCellDelegate {
+    func didTapBookmark(cell: ListTableViewCell) { }
+    func didTapDeleteBookmark(cell: ListTableViewCell) { }
 }
 
 class ListTableViewCell: UITableViewCell {
@@ -28,25 +34,61 @@ class ListTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    /// cell이 재사용 되면서 cell의 모델, 데이터가 유실되는 현상이 있어서 tableView(_ tableView: , trailingSwipeActionsConfigurationForRowAt indexPath: ) -> UISwipeActionsConfiguration? 에서 매번 아래 함수를 호출합니다.
+    func setCell(model: PlaceModel, mode: CellMode) {
+        self.place = model
+        
+        self.titleLabel.text = model.title
+        
+        if let distStr = self.place?.distance,
+           let distDouble = Double(distStr) {
+            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        } else {
+            self.distanceLabel.text = nil
+            self.distanceLabel.isHidden = true
+        }
+
+        self.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+
+        self.thumbnailImageView.image = nil
+        self.thumbnailImageView.image = self.place?.thumbnailImage
+        
+        setupMenu(mode: mode)
+    }
 
     // 셀 모드를 넘겨받아 more 버튼 처리에 대한 분기를 실행
     func setupMenu(mode: CellMode) {
         switch mode {
-        case .list:
+        case .list(let bookmarked):
             // 분기에 맞는 UI 처리
             checkmarkImageView.isHidden = true
-            
-            moreButton.menu = UIMenu(title: "", children: [
-                UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
-                    guard let self else { return }
-                    delegate?.didTapNavigation(cell: self)
-                },
-                UIAction(title: "북마크 저장", image: UIImage(systemName: "bookmark")) { [weak self] _ in
-                    guard let self else { return }
-                    delegate?.didTapBookmark(cell: self)
-                }
-            ])
             moreButton.showsMenuAsPrimaryAction = true
+            
+            if bookmarked { // bookmark 삭제버튼 보여주기
+                moreButton.menu = UIMenu(title: "", children: [
+                    UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
+                        guard let self else { return }
+                        delegate?.didTapNavigation(cell: self)
+                    },
+                    UIAction(title: "북마크 삭제", image: UIImage(systemName: "bookmark.slash")) { [weak self] _ in
+                        guard let self else { return }
+                        delegate?.didTapDeleteBookmark(cell: self)
+                    }
+                ])
+            } else { // bookmark 추가 버튼 보여주기
+                moreButton.menu = UIMenu(title: "", children: [
+                    UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
+                        guard let self else { return }
+                        delegate?.didTapNavigation(cell: self)
+                    },
+                    UIAction(title: "북마크 저장", image: UIImage(systemName: "bookmark")) { [weak self] _ in
+                        guard let self else { return }
+                        delegate?.didTapBookmark(cell: self)
+                    }
+                ])
+            }
+            
         default:
             // 분기에 맞는 UI 처리
             moreButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
