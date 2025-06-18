@@ -43,7 +43,7 @@ class RecommendedPlaceCardCollectionViewCell: UICollectionViewCell {
         }
         
         if let distance = place.distance {
-            self.placeDistanceLabel.text = "\(distance.formattedDistance())km 떨어짐"
+            self.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
         }
         
         self.placeTitleLabel.text = place.title
