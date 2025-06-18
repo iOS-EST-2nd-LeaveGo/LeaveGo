@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,41 +25,34 @@
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mrs-9q-cer">
-                                <rect key="frame" x="317" y="150" width="56" height="100"/>
+                                <rect key="frame" x="317" y="150" width="56" height="50"/>
                                 <subviews>
-                                    <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fZ2-V3-Ax3">
-                                        <rect key="frame" x="0.0" y="0.0" width="56" height="100"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZ2-V3-Ax3">
+                                        <rect key="frame" x="0.0" y="0.0" width="56" height="50"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="p1D-Db-kt4">
-                                            <rect key="frame" x="0.0" y="0.0" width="56" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="56" height="50"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                         <blurEffect style="regular"/>
                                     </visualEffectView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="P3S-Ln-eTd">
-                                        <rect key="frame" x="8" y="8" width="40" height="84"/>
+                                        <rect key="frame" x="8" y="8" width="40" height="34"/>
                                         <subviews>
-                                            <button opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DzE-P9-AMz">
-                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                                <color key="tintColor" systemColor="secondaryLabelColor"/>
+                                            <button opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpT-gZ-oMm">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="34"/>
+                                                <color key="backgroundColor" name="AccentColor"/>
+                                                <color key="tintColor" name="CustomBackgroundColor"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain">
-                                                    <imageReference key="image" image="car.fill" catalog="system" symbolScale="default"/>
-                                                    <backgroundConfiguration key="background">
-                                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                                                    </backgroundConfiguration>
+                                                <buttonConfiguration key="configuration" style="plain" cornerStyle="dynamic">
+                                                    <imageReference key="image" image="location.fill" catalog="system" symbolScale="default"/>
+                                                    <backgroundConfiguration key="background" cornerRadius="16"/>
                                                 </buttonConfiguration>
-                                            </button>
-                                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpT-gZ-oMm">
-                                                <rect key="frame" x="0.0" y="44" width="40" height="40"/>
-                                                <color key="tintColor" systemColor="secondaryLabelColor"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain">
-                                                    <imageReference key="image" image="location" catalog="system" symbolScale="default"/>
-                                                    <backgroundConfiguration key="background">
-                                                        <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
-                                                    </backgroundConfiguration>
-                                                </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="button.layer.maskToBounds" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="findUserLocation:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="CgX-1b-r3N"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -68,7 +62,11 @@
                                     <constraint firstAttribute="width" constant="56" id="2pY-yh-Gph"/>
                                     <constraint firstItem="P3S-Ln-eTd" firstAttribute="leading" secondItem="Mrs-9q-cer" secondAttribute="leading" constant="8" id="FWG-9q-eFj"/>
                                     <constraint firstAttribute="bottom" secondItem="P3S-Ln-eTd" secondAttribute="bottom" constant="8" id="Fbw-J0-LIj"/>
-                                    <constraint firstAttribute="height" constant="100" id="mZ6-6f-TnM"/>
+                                    <constraint firstAttribute="bottom" secondItem="fZ2-V3-Ax3" secondAttribute="bottom" id="byj-hL-7Uj"/>
+                                    <constraint firstAttribute="trailing" secondItem="fZ2-V3-Ax3" secondAttribute="trailing" id="h7e-Et-YcZ"/>
+                                    <constraint firstItem="fZ2-V3-Ax3" firstAttribute="top" secondItem="Mrs-9q-cer" secondAttribute="top" id="jWo-iD-t4c"/>
+                                    <constraint firstAttribute="height" constant="50" id="mZ6-6f-TnM"/>
+                                    <constraint firstItem="fZ2-V3-Ax3" firstAttribute="leading" secondItem="Mrs-9q-cer" secondAttribute="leading" id="mcg-ER-Clv"/>
                                     <constraint firstItem="P3S-Ln-eTd" firstAttribute="top" secondItem="Mrs-9q-cer" secondAttribute="top" constant="8" id="y8k-nn-Ehl"/>
                                 </constraints>
                             </view>
@@ -88,6 +86,7 @@
                     <connections>
                         <outlet property="locationContainer" destination="Mrs-9q-cer" id="ruR-K2-rWz"/>
                         <outlet property="routeMapView" destination="Br1-lT-QNB" id="ZSP-gq-Dgu"/>
+                        <outlet property="userLocationButton" destination="tpT-gZ-oMm" id="YiD-bW-Exo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -96,17 +95,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="car.fill" catalog="system" width="128" height="95"/>
-        <image name="location" catalog="system" width="128" height="119"/>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="secondarySystemGroupedBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="location.fill" catalog="system" width="128" height="119"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomBackgroundColor">
+            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

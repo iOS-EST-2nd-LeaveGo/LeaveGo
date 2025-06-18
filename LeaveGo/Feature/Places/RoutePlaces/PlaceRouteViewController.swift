@@ -12,6 +12,7 @@ import MapKit
 class PlaceRouteViewController: UIViewController {
 	@IBOutlet weak var locationContainer: UIView!
 	@IBOutlet weak var routeMapView: MKMapView!
+	@IBOutlet weak var userLocationButton: UIButton!
 	
 	var destination: RouteDestination?
 	private weak var sheetVC: RouteBottomSheetViewController?
@@ -41,7 +42,12 @@ class PlaceRouteViewController: UIViewController {
 		setupUI()
 		setupMapViewGesture()
 		
+		routeMapView.showsUserLocation = true
+		routeMapView.userLocation.title = "내 위치"
 		routeMapView.delegate = mapManager
+		
+		userLocationButton.layer.cornerRadius = 8
+		userLocationButton.layer.masksToBounds = true
 		
 		let pinch = UIPinchGestureRecognizer(target: self, action: #selector(debugZoom(_:)))
 		routeMapView.addGestureRecognizer(pinch)
@@ -53,6 +59,45 @@ class PlaceRouteViewController: UIViewController {
 		presentBottomSheet()
 		calculateAndShowCarRoute()
 	}
+	
+	@IBAction func findUserLocation(_ sender: UIButton) {
+		guard let userCoord = mapManager.startPlacemark?.location?.coordinate else {
+			print("사용자 위치를 얻을 수 없습니다.")
+			return
+		}
+		
+		// 중복 탭 방지
+		sender.isEnabled = false
+		
+		// CATransaction으로 애니메이션 완료 시점 잡기
+		CATransaction.begin()
+		CATransaction.setAnimationDuration(0.6)
+		CATransaction.setCompletionBlock {
+			// 원위치 복귀
+			let returnRegion = MKCoordinateRegion(
+				center: userCoord,
+				latitudinalMeters: 450,
+				longitudinalMeters: 450
+			)
+			self.routeMapView.setRegion(returnRegion, animated: true)
+			sender.isEnabled = true
+		}
+		
+		// 살짝 아래로 오프셋된 좌표로 먼저 이동
+		let offsetCoord = CLLocationCoordinate2D(
+			latitude: userCoord.latitude - 0.001,
+			longitude: userCoord.longitude
+		)
+		let offsetRegion = MKCoordinateRegion(
+			center: offsetCoord,
+			latitudinalMeters: 450,
+			longitudinalMeters: 450
+		)
+		routeMapView.setRegion(offsetRegion, animated: true)
+		
+		CATransaction.commit()
+	}
+	
 	
 	private func setupUI() {
 		locationContainer.layer.cornerRadius = 10

@@ -114,6 +114,32 @@ extension RouteMapManager: MKMapViewDelegate {
 		r.lineWidth = 8
 		return r
 	}
+	
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+		// ‘사용자 위치’ 어노테이션인 경우
+		guard annotation is MKUserLocation else {
+			return nil  // 나머지 어노테이션은 별도 처리 없으면 기본
+		}
+		
+		let reuseID = "userLocationMarker"
+		let markerView: MKMarkerAnnotationView
+		if let dequeued = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+			as? MKMarkerAnnotationView {
+			markerView = dequeued
+			markerView.annotation = annotation
+		} else {
+			markerView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+		}
+		
+		// 핀 색상, glyph 등 커스터마이즈
+		markerView.markerTintColor = .systemBlue
+		markerView.glyphImage = nil            // 기본 핀 헤드
+		markerView.glyphTintColor = .white    // (필요 시)
+		markerView.animatesWhenAdded = true
+		markerView.canShowCallout = false
+		
+		return markerView
+	}
 }
 
 extension RouteMapManager: CLLocationManagerDelegate {
