@@ -83,6 +83,8 @@ extension PlaceModel {
         self.contentId = bookmark.contentID ?? ""
         self.contentTypeId = ""
         self.title = bookmark.title ?? "제목 없음"
+        self.bigThumbnailURL = nil
+        self.bigThumbnailImage = nil
         self.thumbnailURL = bookmark.thumbnailImageURL // URL은 없으므로 nil
         self.thumbnailImage = nil
         self.distance = nil // 북마크는 거리와 무관하므로 nil
