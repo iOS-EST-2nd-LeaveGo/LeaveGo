@@ -292,10 +292,8 @@ extension PlacesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.delegate = self
-
-        let saved = CoreDataManager.shared.isBookmarked(contentID: currentPlaceModel[indexPath.row].contentId)
-        cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list(isBookmarked: saved))
+		cell.delegate = self
+        cell.setCell(model: currentPlaceModel[indexPath.row], mode: .list)
 
         return cell
     }

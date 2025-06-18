@@ -51,6 +51,8 @@ extension CoreDataManager {
             return nil
         }
     }
+    
+    
 
     // 여행의 갯수를 반환하는 메서드
     func fetchPlannerCount() -> Int {

@@ -166,15 +166,17 @@ extension HomeViewController: UICollectionViewDataSource {
         
         let place = placeList[indexPath.item]
         
-        if let thumbnailImage = place.bigThumbnailImage {
-            cell.placeBgImage.image = thumbnailImage
-        }
+        cell.configure(with: place)
         
-        if let distance = place.distance {
-            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
-        }
+//        if let thumbnailImage = place.bigThumbnailImage {
+//            cell.placeBgImage.image = thumbnailImage
+//        }
         
-        cell.placeTitleLabel.text = place.title
+//        if let distance = place.distance {
+//            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
+//        }
+        
+//        cell.placeTitleLabel.text = place.title
         
         return cell
     }
