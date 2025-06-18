@@ -26,16 +26,14 @@ class PlannerEditorViewController: UIViewController {
     
     @IBAction func createPlannerBtn(_ sender: Any) {
         savePlannerData()
-        
         NotificationCenter.default.post(name: .didCreateNewPlanner, object: nil)
         
         if let plannerVC = navigationController?.viewControllers.first(where: { $0 is PlannerViewController }) {
             navigationController?.popToViewController(plannerVC, animated: true)
-            
+        
         } else {
             print("⚠️ PlannerViewController가 네비게이션 스택에 없습니다.")
         }
-        
         
     }
 
@@ -58,9 +56,6 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dragInteractionEnabled = true
         tripListTableView.dragDelegate = self
         tripListTableView.dropDelegate = self
-
-        // ✅ 임시 데이터 추가
-
     }
     
     
@@ -217,6 +212,4 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
         print("✅ 저장 완료: \(newPlanner.title ?? "")")
     }
 
-    
-    
 }

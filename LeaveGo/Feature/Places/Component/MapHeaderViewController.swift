@@ -11,32 +11,28 @@ import UIKit
 final class MapHeaderViewController: UIViewController {
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
-    private var hasLoadedPlaceList = false
 
-    private var currentVC: UIViewController?
+    lazy var placeListVC: PlacesViewController = {
+		let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
+		vc.delegate = self
+		return vc
+	}()
+	
+	lazy var mapVC: MapViewController = {
+		let vc = MapViewController()
+		return vc
+	}()
 
-    var placeListVC: PlacesViewController = {
-        let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
-        return vc
-    }()
-    var mapVC: MapViewController = {
-        let vc = MapViewController()
-        _=vc.view // viewDidLoad를 강제로 호출하기 위해 view에 접근
-        return vc
-    }()
-    
-//    var location = CLLocationCoordinate2D() // ?
-    var placeModelList: [PlaceModel] = []
-
-    @IBOutlet weak var searchTextField: UITextField!
-
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var displaySegmentedControl: UISegmentedControl!
-
     @IBOutlet weak var segmentContentView: UIView!
 
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.backgroundImage = UIImage()
+        searchBar.applyBodyTextStyle()
 
         NotificationCenter.default.addObserver(
             self,
@@ -52,18 +48,18 @@ final class MapHeaderViewController: UIViewController {
             object: nil
         )
 
+        NotificationCenter.default.addObserver(self, selector: #selector(placeModelUpdated(_:)), name: .placeModelUpdated, object: nil)
+
+
         // 위치 업데이트 추적 시작
-       	LocationManager.shared.startUpdating()
-
-        currentVC = placeListVC
-
+           LocationManager.shared.startUpdating()
+        currentLocation = LocationManager.shared.currentLocation
         displaySegmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         switchToVC(placeListVC)
-    }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        loadPlaceList()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false  // 터치 이벤트 전달되게
+        view.addGestureRecognizer(tap)
     }
 
     // 해제
@@ -77,10 +73,6 @@ final class MapHeaderViewController: UIViewController {
         guard let coordinate = notification.object as? CLLocationCoordinate2D else { return }
         currentLocation = coordinate
 
-        if !hasLoadedPlaceList {
-            hasLoadedPlaceList = true
-            loadPlaceList()
-        }
     }
 
     // 위치 추적 실패
@@ -90,92 +82,34 @@ final class MapHeaderViewController: UIViewController {
         }
     }
 
-    /// PlaceList들을 load합니다.
-    private func loadPlaceList() {
-        Task {
-            guard let currentLocation else {
-                print("위치 없음")
-                return
-            }
-
-            if let APIplaceList = try? await NetworkManager.shared.fetchPlaceList(page: 1,
-                                                                                  numOfRows: 20,
-                                                                                  mapX: currentLocation.longitude,
-                                                                                  mapY: currentLocation.latitude,
-                                                                                  radius: 2000) {
-                _ = APIplaceList.map {
-                    let place = PlaceModel(add1: nil, add2: nil, contentId: $0.contentId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: $0.dist, latitude: $0.mapY, longitude: $0.mapX, /*detail: nil*/ areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
-                    placeModelList.append(place)
-                }
-
-                /// PlaceList API Load 후 ThumbnailImage Load
-                self.loadThumbnailImage()
-            }
-        }
-    }
-    
-    // MARK: Load Thumbnail Image
-
-    /// image를 load해서 PlaceModel에 미리 저장해둠
-    func loadThumbnailImage() {
-
-        _ = (0..<placeModelList.count).map { index in
-            if let urlString = placeModelList[index].thumbnailURL, let url = URL(string: urlString) {
-
-                fetchThumbnailImage(for: url) { [weak self] image in
-                    guard let self = self else { return }
-
-                    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
-                    /// placeListVC의 tableView를 다시 그려줍니다.
-                    self.placeModelList[index].thumbnailImage = image
-                    self.completedLoading()
-                }
-            }
-        }
-    }
-
-    func fetchThumbnailImage(for url: URL, completion: @escaping (UIImage?) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let data = data, let image = UIImage(data: data), error == nil {
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                print(error ?? "image fetch error")
-            }
-        }.resume()
-    }
-    
-    /// image까지 완전히 load된 이후 완전체 Model을 VC들에게 전달합니다.
-    /// placeListVC의 tableView를 다시 그려줍니다.
-    private func completedLoading() {
-        transportPlaceList()
-        placeListVC.tableView.reloadData()
-        mapVC.addAnnotation() // 어노테이션 추가
-    }
-    
-
-    /// placeModelList를 각 VC에 전달
-    private func transportPlaceList() {
-        placeListVC.placeModelList = placeModelList
-        mapVC.placeModelList = placeModelList
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     // MARK: Action
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             switchToVC(placeListVC)
+
+            if placeListVC.currentPlaceModel.isEmpty {
+                placeListVC.fetchPlaces()
+            }
+
         } else {
             switchToVC(mapVC)
+            mapVC.currentPlaceModel = placeListVC.currentPlaceModel
+        }
+    }
+
+    @objc func placeModelUpdated(_ notification: Notification) {
+        if let updatedList = notification.object as? [PlaceModel] {
+            self.mapVC.currentPlaceModel = updatedList
         }
     }
 
     private func switchToVC(_ newVC: UIViewController) {
         // 현재 VC 제거
-        if let current = currentVC {
+        if let current = children.first {
             current.willMove(toParent: nil)
             current.view.removeFromSuperview()
             current.removeFromParent()
@@ -186,6 +120,49 @@ final class MapHeaderViewController: UIViewController {
         newVC.view.frame = segmentContentView.bounds
         segmentContentView.addSubview(newVC.view)
         newVC.didMove(toParent: self)
-        currentVC = newVC
     }
+}
+
+extension MapHeaderViewController: UISearchBarDelegate {
+	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+		searchBar.showsCancelButton = true
+	}
+
+	func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+		searchBar.showsCancelButton = false
+	}
+
+	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+		let keyword = searchBar.text ?? ""
+		placeListVC.updateKeyword(keyword)
+		searchBar.resignFirstResponder()
+
+	}
+
+	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+		searchBar.text = ""
+		searchBar.resignFirstResponder()
+		searchBar.showsCancelButton = false
+		placeListVC.updateKeyword("") // 검색 결과 초기화
+	}
+}
+
+extension UISearchBar {
+	func applyBodyTextStyle() {
+		if let textField = self.value(forKey: "searchField") as? UITextField {
+			textField.font = UIFont.preferredFont(forTextStyle: .body)
+		}
+	}
+}
+
+extension MapHeaderViewController: PlacesViewControllerDelegate {
+	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
+		mapVC.selectedPlace = place
+		mapVC.currentPlaceModel = vc.currentPlaceModel
+		
+		displaySegmentedControl.selectedSegmentIndex = 1
+		switchToVC(mapVC)
+		
+		mapVC.showDetailSheet(for: place)
+	}
 }
