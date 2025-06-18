@@ -83,7 +83,7 @@ class MapViewController: UIViewController {
         addAnnotation()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if var center = centerPosition {
 
@@ -91,8 +91,7 @@ class MapViewController: UIViewController {
                 center.latitude -= 0.001
                 initialCenterLocation = true
             }
-
-//            center.latitude -= 0.001
+            
             let region = MKCoordinateRegion(center: center, latitudinalMeters: 450, longitudinalMeters: 450)
             mapView.setRegion(region, animated: false)
             didSetInitialRegion = true
@@ -350,6 +349,14 @@ extension MapViewController: LayoutSupport {
     }
 
     func setupSubviewsConstraints() {
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
         userLocationButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
