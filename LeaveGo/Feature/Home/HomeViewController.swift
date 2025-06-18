@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 
 class HomeViewController: UIViewController {
+
     @IBOutlet weak var welcomMessageLabel: UILabel!
     @IBOutlet weak var navigateToPlaceListButton: UIButton!
     @IBOutlet weak var recommendedPlaceCardCollectionView: UICollectionView!
@@ -50,7 +51,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let userName = UserDefaults().string(forKey: "nickname") {
+        if let userName = UserSetting.shared.nickname {
             welcomMessageLabel.text = "\(userName)님이 좋아하실만한\n주변 관광지들을 골라봤어요."
         } else {
             welcomMessageLabel.text = "내 주변 추천 관광지"
@@ -59,17 +60,18 @@ class HomeViewController: UIViewController {
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
         navigateToPlaceListButton.layer.borderColor = UIColor.accent.cgColor
+        navigateToPlaceListButton.backgroundColor = UIColor.accentLighter
         navigateToPlaceListButton.layer.borderWidth = 1
         navigateToPlaceListButton.layer.cornerRadius = 16
-        
-        // LocationManager 작동 방식을 몰라서 현재 위치 강제 지정
-        currentLocation = CLLocationCoordinate2D(latitude: 126.76857234333737, longitude: 37.51006358933778)
-        
+
+        // 위치 업데이트 추적 시작
+        currentLocation = LocationManager.shared.currentLocation
+
         Task {
             await loadPlaceList()
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -84,8 +86,8 @@ class HomeViewController: UIViewController {
         do {
             let (fetchedList, count) = try await NetworkManager.shared.fetchPlaceList(
                 numOfRows: 5,
-                mapX: currentLocation.latitude,
-                mapY: currentLocation.longitude,
+                mapX: currentLocation.longitude,
+                mapY: currentLocation.latitude,
                 radius: 10000,
                 contentTypeId: ContentTypeID.touristAttraction.rawValue,
                 arrange: "S"
@@ -110,23 +112,13 @@ class HomeViewController: UIViewController {
         for index in 0 ..< placeList.count {
             if let urlString = placeList[index].bigThumbnailURL,
                let url = URL(string: urlString) {
-                let image = await fetchThumbnailImage(for: url)
-                
+                let image = await ImageCacheManager.shared.fetchImage(from: url)
+
                 // 이미지 저장은 메인 스레드에서
                 DispatchQueue.main.async { [weak self] in
                     self?.placeList[index].bigThumbnailImage = image
                 }
             }
-        }
-    }
-    
-    func fetchThumbnailImage(for url: URL) async -> UIImage? {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            return UIImage(data: data)
-        } catch {
-            print(error.localizedDescription)
-            return nil
         }
     }
 }
@@ -166,16 +158,6 @@ extension HomeViewController: UICollectionViewDataSource {
         let place = placeList[indexPath.item]
         
         cell.configure(with: place)
-        
-//        if let thumbnailImage = place.bigThumbnailImage {
-//            cell.placeBgImage.image = thumbnailImage
-//        }
-        
-//        if let distance = place.distance {
-//            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
-//        }
-        
-//        cell.placeTitleLabel.text = place.title
         
         return cell
     }

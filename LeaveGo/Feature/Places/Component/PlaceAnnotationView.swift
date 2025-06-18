@@ -67,10 +67,9 @@ final class PlaceAnnotationView: MKAnnotationView {
 		if let thumbnailImage = annotation.thumbnailImage {
 			imageView.image = thumbnailImage
 		} else {
-			let size = CGSize(width: 40, height: 40)
+			let size = CGSize(width: 120, height: 120)
 			UIGraphicsBeginImageContext(size)
-			
-			if let image = UIImage(systemName: "pin.circle.fill") {
+            if let image = UIImage(named: "Image") {
 				image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 				if let resizedImage = UIGraphicsGetImageFromCurrentImageContext() {
 					imageView.image = resizedImage

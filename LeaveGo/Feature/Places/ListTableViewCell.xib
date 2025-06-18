@@ -27,7 +27,7 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="298-pp-Crx">
                                         <rect key="frame" x="0.0" y="28.666666666666664" width="24" height="22.666666666666664"/>
-                                        <color key="tintColor" name="CustomLabelColor"/>
+                                        <color key="tintColor" name="AccentColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="24" id="XQC-Ei-TW7"/>
                                             <constraint firstAttribute="height" constant="24" id="tEj-fo-iVI"/>
@@ -36,12 +36,12 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DT7-vM-cKO">
                                         <rect key="frame" x="36" y="0.0" width="80" height="80"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="O2G-Qn-gDu">
-                                                <rect key="frame" x="25" y="26.666666666666664" width="30" height="27.000000000000007"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PlaceholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="O2G-Qn-gDu">
+                                                <rect key="frame" x="10" y="10" width="60" height="60"/>
                                                 <color key="tintColor" name="SecandaryColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="OC4-XY-jqY"/>
-                                                    <constraint firstAttribute="height" constant="30" id="rl6-Wq-8ey"/>
+                                                    <constraint firstAttribute="width" constant="60" id="OC4-XY-jqY"/>
+                                                    <constraint firstAttribute="height" constant="60" id="rl6-Wq-8ey"/>
                                                 </constraints>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6os-g9-Bwe">
@@ -49,7 +49,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                         </subviews>
-                                        <color key="backgroundColor" name="CustomBackgroundColor"/>
+                                        <color key="backgroundColor" name="BorderColor"/>
                                         <constraints>
                                             <constraint firstItem="O2G-Qn-gDu" firstAttribute="centerY" secondItem="DT7-vM-cKO" secondAttribute="centerY" id="Fle-mQ-EoL"/>
                                             <constraint firstAttribute="width" constant="80" id="Fz7-6Y-xbN"/>
@@ -60,16 +60,16 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="9cl-uL-adY">
                                         <rect key="frame" x="128" y="11.666666666666671" width="252.33333333333337" height="57"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3t-dT-fm7">
-                                                <rect key="frame" x="0.0" y="0.0" width="252.33333333333334" height="14.333333333333334"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                <color key="textColor" name="SecandaryColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJG-7X-vbR">
-                                                <rect key="frame" x="0.0" y="18.333333333333336" width="252.33333333333334" height="20.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="252.33333333333334" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <color key="textColor" name="CustomLabelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3t-dT-fm7">
+                                                <rect key="frame" x="0.0" y="24.333333333333332" width="252.33333333333334" height="14.333333333333332"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                <color key="textColor" name="SecandaryColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsf-8m-xvm">
@@ -87,7 +87,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="ellipsis" catalog="system" imagePadding="-1">
                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                    <color key="baseForegroundColor" name="CustomLabelColor"/>
+                                    <color key="baseForegroundColor" name="AccentColor"/>
                                 </buttonConfiguration>
                             </button>
                         </subviews>
@@ -114,11 +114,14 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="PlaceholderImage" width="1024" height="1024"/>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="photo" catalog="system" width="128" height="93"/>
-        <namedColor name="CustomBackgroundColor">
-            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="AccentColor">
+            <color red="0.43900001049041748" green="0.28600001335144043" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BorderColor">
+            <color red="0.94509803921568625" green="0.92941176470588238" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CustomLabelColor">
             <color red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

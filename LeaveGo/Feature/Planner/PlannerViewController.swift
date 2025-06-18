@@ -8,6 +8,7 @@
 import UIKit
 
 class PlannerViewController: UIViewController {
+    @IBOutlet weak var deleteTipMessageLabel: UILabel!
     @IBOutlet weak var plannerCollectionView: UICollectionView!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var navigateToPlannerButton: UIButton!
@@ -45,9 +46,13 @@ class PlannerViewController: UIViewController {
             let planners = entities.compactMap { Planner(entity: $0) }
             plannerList = planners
             
+            deleteTipMessageLabel.isHidden = false
+            
             errorMessageLabel.isHidden = true
             navigateToPlannerButton.isHidden = true
         } else {
+            deleteTipMessageLabel.isHidden = true
+            
             errorMessageLabel.isHidden = false
             navigateToPlannerButton.isHidden = false
         }
@@ -75,13 +80,7 @@ class PlannerViewController: UIViewController {
             errorMessageLabel.isHidden = false
             navigateToPlannerButton.isHidden = false
         }
-        
-          print("=== 플래너 목록 ===")
-          for planner in plannerList {
-              print("제목: \(planner.title), 썸네일 경로: \(planner.thumbnailPath ?? "없음")")
-          }
-        
-        plannerCollectionView.reloadData()
+
     }
     
     @objc func reloadPlannerCollection() {
@@ -93,11 +92,8 @@ class PlannerViewController: UIViewController {
         let plannerEditorStoryboard = UIStoryboard(name: "PlannerEditor", bundle: nil)
         
         if let detailVC = plannerEditorStoryboard.instantiateViewController(withIdentifier: "PlannerEditorVC") as? PlannerEditorViewController {
-            
+            detailVC.plannerID = id
             self.navigationController?.pushViewController(detailVC, animated: true)
-            
-            // TODO: PlannerEditorVC에 분기를 처리하는 코드 작업 완료 시 id 값 넘기기
-            // detailVC.id = id
         }
     }
     
@@ -106,16 +102,31 @@ class PlannerViewController: UIViewController {
         
         let point = gesture.location(in: plannerCollectionView)
         
+        // TODO: 길게 누르는 제스쳐 분기 - 여행 추가 버튼일 경우에는 제스쳐 액션을 실행하지 않도록
         if let indexPath = plannerCollectionView.indexPathForItem(at: point) {
-            let planner = plannerList[indexPath.item]
-            let alert = UIAlertController(title: "삭제", message: "\(planner.title) 여행을 정말 삭제하시겠어요?\n이 작업은 되돌릴 수 없어요.", preferredStyle: .alert)
             
-            alert.addAction(UIAlertAction(title: "확인", style: .default) {_ in
-                // TODO: 여행 삭제 기능 구현하기
-            })
-            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-            present(alert, animated: true)
+            // if let cell = collectionView.cellForItem(at: indexPath) {
+                // if let cell is PlannerAddButtonCollectionViewCell {
+                    let planner = plannerList[indexPath.item]
+                    let alert = UIAlertController(title: "삭제", message: "\(planner.title) 여행을 정말 삭제하시겠어요?\n이 작업은 되돌릴 수 없어요.", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "확인", style: .default) {_ in
+                        self.deletePlanner(planner: planner)
+                    })
+                    alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+                    present(alert, animated: true)
+                // }
+           // }
         }
+    }
+    
+    // 여행 삭제 기능 구현
+    func deletePlanner(planner: Planner) {
+        let fetchedListCount = CoreDataManager.shared.fetchPlannerCount()
+        if fetchedListCount > 0 {
+            CoreDataManager.shared.deletePlanner(id: planner.id)
+        }
+        reloadData()
     }
 }
 
@@ -126,15 +137,13 @@ extension PlannerViewController: UICollectionViewDelegate {
         let id = planner.id
         
         // 여행 카드 선택 시 CoreData를 조회, 여행이 존재할 경우 Detail 페이지로 이동
-        Task {
-            if let planner = CoreDataManager.shared.fetchOnePlanner(id: id) {
-                navigateToDetailView(id: planner.id!)
-            } else {
-                // 여행이 없을 시 alert 띄우기
-                let alert = UIAlertController(title: "여행 자세히 보기 실패", message: "선택하신 여행에 대한 정보를 찾을 수 없어요.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                self.present(alert, animated: true, completion: nil)
-            }
+        if let planner = CoreDataManager.shared.fetchOnePlanner(id: id) {
+            navigateToDetailView(id: planner.id!)
+        } else {
+            // 여행이 없을 시 alert 띄우기
+            let alert = UIAlertController(title: "여행 자세히 보기 실패", message: "선택하신 여행에 대한 정보를 찾을 수 없어요.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -172,13 +181,13 @@ extension PlannerViewController: UICollectionViewDataSource {
             cell.planner = planner
             
             if let imagePath = planner.thumbnailPath {
-                let imageURL = URL(fileURLWithPath: imagePath)
-                if FileManager.default.fileExists(atPath: imageURL.path) {
-                    let image = UIImage(contentsOfFile: imageURL.path)
+                let fileManager = FileManager.default
+                let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let imageURL = documentsURL.appendingPathComponent(imagePath)
+                
+                if FileManager.default.fileExists(atPath: imageURL.path(percentEncoded: true)) {
+                    let image = UIImage(contentsOfFile: imageURL.path(percentEncoded: true))
                     cell.plannerThumbnailImageView.image = image
-                } else {
-                    print("현재 임시 폴더 주소: \(FileManager.default.temporaryDirectory)")
-                    print("파일 주소        : file://\(imageURL.path)")
                 }
             }
             
