@@ -13,7 +13,9 @@ class MapViewController: UIViewController {
 
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
-    var didSetInitialRegion = false
+    
+    private var didSetInitialRegion = false
+    var isSearching = false
 
     // UI
     var mapView: MKMapView!
@@ -212,7 +214,9 @@ extension MapViewController: MKMapViewDelegate {
     // 척도 범위 설정
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // scale of map
-        let center = mapView.userLocation.coordinate
+//        let center = mapView.userLocation.coordinate
+        let center = mapView.region.center
+
         let zoomLevel = log2(360 *
                              (Double(mapView.frame.size.width/256) /
                               mapView.region.span.longitudeDelta))
@@ -222,6 +226,11 @@ extension MapViewController: MKMapViewDelegate {
             let region = MKCoordinateRegion(center: center, span: limitSpan)
             mapView.setRegion(region, animated: true)
         }
+
+        guard !isSearching else { return }
+
+        // 지도 이동 Notification
+        NotificationCenter.default.post(name: .mapDidMove, object: center)
     }
 	
 	/// 어노테이션 탭했을 때 호출
