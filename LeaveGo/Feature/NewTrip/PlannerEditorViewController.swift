@@ -124,7 +124,7 @@ class PlannerEditorViewController: UIViewController {
                 }
             }
 
-            tripThumbnail.image = UIImage(systemName: "photo")
+            tripThumbnail.image = nil
             isImageSelected = false
             thumbnailAdd.setTitle("이미지 추가", for: .normal)
         } else {
