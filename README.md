@@ -48,18 +48,33 @@
 
 ## ⚙️ 설치 및 실행 방법
 
+
+### ⚡️ 1. 프로젝트 설치 방법
+
 ```bash
 # 1. 레포지토리 클론
-git clone https://github.com/your-id/your-repo.git
+git clone https://github.com/iOS-EST-2nd-LeaveGo/LeaveGo.git
 ```
 
-```bash
-# 2. 의존성 설치 (필요 시)
-cd your-repo
-pod install / npm install / etc.
+
+### 🔐 2. API 키 설정
+
+공공데이터 포털에서 발급받은 **API 키**를 `Secrets.plist` 파일에 등록해주세요.
+
+```xml
+<!-- Secrets.plist -->
+<dict>
+    <key>API_KEY</key>
+    <string>여기에_본인의_API_KEY_를_입력하세요</string>
+</dict>
+
 ```
+### 🏃‍➡️ 3. 프로젝트 실행
+
+1. Xcode에서 `LeaveGo.xcodeproj` 파일을 엽니다.
+2. 시뮬레이터 또는 실제 디바이스에서 실행합니다.
 
 ```bash
-# 3. 프로젝트 열기
-open YourProject.xcworkspace / npm run dev
+# 실행 단축키 (macOS 기준)
+⌘ + R
 ```
