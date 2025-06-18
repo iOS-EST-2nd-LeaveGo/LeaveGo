@@ -31,6 +31,7 @@ final class MapHeaderViewController: UIViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
 
         searchBar.backgroundImage = UIImage()
         searchBar.applyBodyTextStyle()
@@ -59,8 +60,8 @@ final class MapHeaderViewController: UIViewController {
         switchToVC(placeListVC)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false  // 터치 이벤트 전달되게
-        view.addGestureRecognizer(tap)
+        tap.cancelsTouchesInView = false
+        tap.delegate = self
     }
 
     // 해제
@@ -144,7 +145,7 @@ extension MapHeaderViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
-        placeListVC.updateKeyword("") // 검색 결과 초기화
+        placeListVC.updateKeyword("")
     }
 }
 
@@ -165,5 +166,11 @@ extension MapHeaderViewController: PlacesViewControllerDelegate {
         switchToVC(mapVC)
 
         mapVC.showDetailSheet(for: place)
+    }
+}
+
+extension MapHeaderViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIControl)
     }
 }
