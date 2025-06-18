@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="EZi-Oy-aNJ" userLabel="Root Stack View">
-                                <rect key="frame" x="0.0" y="162" width="393" height="488"/>
+                                <rect key="frame" x="0.0" y="162" width="393" height="494"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lmw-8L-Ahn" userLabel="Welcom Message Stack View">
                                         <rect key="frame" x="0.0" y="16" width="143.33333333333334" height="50"/>
@@ -122,28 +122,28 @@
                                         </cells>
                                     </collectionView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pK9-el-A2C" userLabel="Button Stack View">
-                                        <rect key="frame" x="0.0" y="430" width="377" height="42"/>
+                                        <rect key="frame" x="0.0" y="430" width="377" height="48"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4O-WU-mcY" userLabel="Empty View">
-                                                <rect key="frame" x="0.0" y="0.0" width="16" height="42"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="48"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="UYV-yG-Mfv"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="primary" translatesAutoresizingMaskIntoConstraints="NO" id="X1m-0j-uKy">
-                                                <rect key="frame" x="16" y="0.0" width="361" height="42"/>
+                                                <rect key="frame" x="16" y="0.0" width="361" height="48"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="42" id="74s-Mh-OLu"/>
+                                                    <constraint firstAttribute="height" constant="48" id="74s-Mh-OLu"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="추천 장소 더보기">
-                                                    <backgroundConfiguration key="background" cornerRadius="16">
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <color key="strokeColor" name="AccentColor"/>
-                                                    </backgroundConfiguration>
                                                     <color key="baseForegroundColor" name="AccentColor"/>
+                                                    <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="navigateToPlaceList:" destination="0bf-8K-HAH" eventType="touchUpInside" id="q2V-oj-PEd"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -173,6 +173,7 @@
                     <navigationItem key="navigationItem" id="g5g-9m-I5c"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="navigateToPlaceListButton" destination="X1m-0j-uKy" id="k7a-eq-1v4"/>
                         <outlet property="recommendedPlaceCardCollectionView" destination="g7G-xV-M4e" id="zar-bK-ief"/>
                         <outlet property="welcomMessageLabel" destination="1op-d3-qiT" id="JiR-k3-bPl"/>
                     </connections>

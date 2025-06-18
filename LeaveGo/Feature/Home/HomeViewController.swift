@@ -28,6 +28,9 @@ class HomeViewController: UIViewController {
         
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
+        navigateToPlaceListButton.layer.borderColor = UIColor.accent.cgColor
+        navigateToPlaceListButton.layer.borderWidth = 1
+        navigateToPlaceListButton.layer.cornerRadius = 16
         
         // LocationManager 작동 방식을 몰라서 현재 위치 강제 지정
         currentLocation = CLLocationCoordinate2D(latitude: 126.76857234333737, longitude: 37.51006358933778)
@@ -99,7 +102,25 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let place = placeList[indexPath.item]
+        
+        // PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+        let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+        guard let routeVC = sb.instantiateViewController(
+            identifier: "PlaceRoute"
+        ) as? PlaceRouteViewController else {
+            return
+        }
+        
+        routeVC.destination = RouteDestination(place: place)
+        
+        guard let nav = navigationController else {
+            print("navigationController is nil")
+            return
+        }
+        nav.pushViewController(routeVC, animated: true)
+    }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
@@ -119,7 +140,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         
         if let distance = place.distance {
-            cell.placeDistanceLabel.text = "\(distance.formattedDistance())km 떨어짐"
+            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
         }
         
         cell.placeTitleLabel.text = place.title
