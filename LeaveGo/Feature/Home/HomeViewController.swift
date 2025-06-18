@@ -59,6 +59,7 @@ class HomeViewController: UIViewController {
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
         navigateToPlaceListButton.layer.borderColor = UIColor.accent.cgColor
+        navigateToPlaceListButton.backgroundColor = UIColor.accentLighter
         navigateToPlaceListButton.layer.borderWidth = 1
         navigateToPlaceListButton.layer.cornerRadius = 16
         

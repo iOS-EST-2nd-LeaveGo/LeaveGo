@@ -16,6 +16,7 @@ class AreaSelectionCollectionViewCell: UICollectionViewCell {
         
         areaNameContainer.layer.borderWidth = 1
         areaNameContainer.layer.borderColor = UIColor.prominentBorder.cgColor
+        areaNameContainer.layer.backgroundColor = UIColor.accentLighter.cgColor
         areaNameContainer.layer.cornerRadius = 16
         areaNameContainer.clipsToBounds = true
         
@@ -24,8 +25,8 @@ class AreaSelectionCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            areaNameContainer.backgroundColor = isSelected ? .customLabel : .customBackground
-            areaNameLabel.textColor = isSelected ? .customBackground : .customLabel
+            areaNameContainer.backgroundColor = isSelected ? .accent : .accentLighter
+            areaNameLabel.textColor = isSelected ? .white : .accent
         }
     }
 }

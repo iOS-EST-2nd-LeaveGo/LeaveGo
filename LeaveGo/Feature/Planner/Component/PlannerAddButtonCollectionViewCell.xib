@@ -20,10 +20,10 @@
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XfQ-o3-4hR">
                         <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
-                        <color key="backgroundColor" name="CustomBackgroundColor"/>
+                        <color key="backgroundColor" name="BorderColor"/>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system">
-                            <color key="baseForegroundColor" systemColor="systemGrayColor"/>
+                            <color key="baseForegroundColor" name="ProminentBorderColor"/>
                         </buttonConfiguration>
                         <connections>
                             <action selector="navigateToComposeView:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Jev-EY-3uH"/>
@@ -46,11 +46,11 @@
     </objects>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <namedColor name="CustomBackgroundColor">
-            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="BorderColor">
+            <color red="0.94509803921568625" green="0.92941176470588238" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <namedColor name="ProminentBorderColor">
+            <color red="0.83137254901960778" green="0.78431372549019607" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
     </resources>
 </document>
