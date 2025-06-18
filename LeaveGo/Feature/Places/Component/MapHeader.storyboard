@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map Header View Controller-->
+        <!--장소-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="MapHeaderVC" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="263"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="251"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="103"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
+                                        <rect key="frame" x="0.0" y="144" width="375" height="91"/>
                                         <subviews>
                                             <searchBar contentMode="redraw" placeholder="장소 이름으로 검색하세요" translatesAutoresizingMaskIntoConstraints="NO" id="OPX-4P-qhr">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="56"/>
@@ -31,7 +31,7 @@
                                                 </connections>
                                             </searchBar>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
-                                                <rect key="frame" x="98" y="72" width="179" height="32"/>
+                                                <rect key="frame" x="98" y="60" width="179" height="32"/>
                                                 <segments>
                                                     <segment title="리스트로 보기"/>
                                                     <segment title="지도로 보기"/>
@@ -49,11 +49,11 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="O5G-hG-of0" secondAttribute="trailing" id="2Lu-hf-B0M"/>
                                     <constraint firstItem="O5G-hG-of0" firstAttribute="leading" secondItem="OQh-5Y-cNb" secondAttribute="leading" id="asP-vC-5rc"/>
-                                    <constraint firstAttribute="bottom" secondItem="O5G-hG-of0" secondAttribute="bottom" constant="16" id="t0Y-So-SeR"/>
+                                    <constraint firstItem="O5G-hG-of0" firstAttribute="bottom" secondItem="OQh-5Y-cNb" secondAttribute="bottom" constant="-16" id="t0Y-So-SeR"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
-                                <rect key="frame" x="0.0" y="263" width="375" height="549"/>
+                                <rect key="frame" x="0.0" y="251" width="375" height="561"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -65,12 +65,12 @@
                             <constraint firstItem="OQh-5Y-cNb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="F0a-Ku-ALg"/>
                             <constraint firstItem="OQh-5Y-cNb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="H9Z-0p-JuL"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="top" secondItem="O5G-hG-of0" secondAttribute="top" id="IJV-wc-BlL"/>
-                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="Jfb-Yr-Rbu"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="-144" id="Jfb-Yr-Rbu"/>
                             <constraint firstAttribute="bottom" secondItem="6VK-hH-bGu" secondAttribute="bottom" id="MAG-du-rS4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6VK-hH-bGu" secondAttribute="trailing" id="x2p-ef-ZN1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="bb9-LQ-WkK"/>
+                    <navigationItem key="navigationItem" title="장소" id="bb9-LQ-WkK"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>

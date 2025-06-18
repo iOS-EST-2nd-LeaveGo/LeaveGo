@@ -169,16 +169,6 @@ extension HomeViewController: UICollectionViewDataSource {
         
         cell.configure(with: place)
         
-//        if let thumbnailImage = place.bigThumbnailImage {
-//            cell.placeBgImage.image = thumbnailImage
-//        }
-        
-//        if let distance = place.distance {
-//            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
-//        }
-        
-//        cell.placeTitleLabel.text = place.title
-        
         return cell
     }
 }
