@@ -10,15 +10,19 @@ import MapKit
 
 /// 장소목록 탭바 메뉴 화면 구성 중 - 경로 찾기 버튼 누르면 나오는 경로 설정 화면
 class PlaceRouteViewController: UIViewController {
-	
 	@IBOutlet weak var locationContainer: UIView!
 	@IBOutlet weak var routeMapView: MKMapView!
 	
 	var destination: RouteDestination?
+	private weak var sheetVC: RouteBottomSheetViewController?
+	
+	private var cachedRoutes: [MKRoute] = []
+	private var routesData: RouteOptions?
+	
 	
 	private lazy var mapManager: RouteMapManager = {
 		guard let dest = destination else {
-			fatalError("destination이 설정되지 않아 RouteMapManager를 만들 수 없습니다.")
+			fatalError("📍destination을 반드시 셋업해야 합니다!")
 		}
 		return RouteMapManager(
 			mapView: routeMapView,
@@ -26,8 +30,6 @@ class PlaceRouteViewController: UIViewController {
 		)
 	}()
 	
-	private weak var sheetVC: RouteBottomSheetViewController?
-		
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// MARK - debug message
@@ -35,9 +37,12 @@ class PlaceRouteViewController: UIViewController {
 			assertionFailure("Destination not set before presenting PlaceRouteViewController")
 			return
 		}
-
+		
 		setupUI()
 		setupMapViewGesture()
+		
+		routeMapView.delegate = mapManager
+		
 		let pinch = UIPinchGestureRecognizer(target: self, action: #selector(debugZoom(_:)))
 		routeMapView.addGestureRecognizer(pinch)
 		setupNavBar(with: dest.title)
@@ -46,6 +51,7 @@ class PlaceRouteViewController: UIViewController {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		presentBottomSheet()
+		calculateAndShowCarRoute()
 	}
 	
 	private func setupUI() {
@@ -65,9 +71,15 @@ class PlaceRouteViewController: UIViewController {
 		)
 		navigationItem.leftBarButtonItem = back
 		
-		// 배경색
-		navigationController?.navigationBar.barTintColor = .systemBackground
-		navigationController?.navigationBar.isTranslucent = false
+		let appearance = UINavigationBarAppearance()
+		appearance.configureWithOpaqueBackground()
+		appearance.backgroundColor = .systemBackground
+		appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+		
+		navigationController?.navigationBar.standardAppearance = appearance
+		navigationController?.navigationBar.scrollEdgeAppearance = appearance
+		navigationController?.navigationBar.compactAppearance = appearance
+		navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
 	}
 	
 	@objc private func didTapBackButton() {
@@ -90,7 +102,32 @@ class PlaceRouteViewController: UIViewController {
 	@objc private func debugZoom(_ gesture: UIPinchGestureRecognizer) {
 		print("=== Zoom detected: scale = \(gesture.scale)")
 	}
-
+	
+	func showRouteWithDynamicZoom(_ route: MKRoute, bottomSheetHeight: CGFloat) {
+		// 1) polyline 그리기
+		routeMapView.addOverlay(route.polyline)
+		
+		let boundingRect = route.polyline.boundingMapRect
+		
+		let distanceKm = route.distance / 1_000.0
+		let scale = min(max(1.2 + distanceKm * 0.5, 1.2), 3.0)
+		
+		let dx = boundingRect.width * (scale - 1) / 2
+		let dy = boundingRect.height * (scale - 1) / 2
+		let expandedRect = boundingRect.insetBy(dx: -dx, dy: -dy)
+		
+		let basePadding: CGFloat = 20
+		let padding = basePadding * scale
+		let insets = UIEdgeInsets(
+			top: padding,
+			left: padding,
+			bottom: bottomSheetHeight + padding,
+			right: padding
+		)
+		
+		let fitted = routeMapView.mapRectThatFits(expandedRect, edgePadding: insets)
+		routeMapView.setVisibleMapRect(fitted, animated: true)
+	}
 	
 	private func presentBottomSheet() {
 		guard let dest = destination else {
@@ -106,22 +143,52 @@ class PlaceRouteViewController: UIViewController {
 			destinationName: dest.title
 		)
 		
+		vc.routesData = nil
+		
 		vc.modalPresentationStyle = .pageSheet
 		vc.isModalInPresentation = true
-
+		
 		if let sheet = vc.sheetPresentationController {
 			let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("collapsed")) { context in
 				return 0.3 * context.maximumDetentValue
 			}
-
+			
 			sheet.detents = [customDetent, .large()]
 			sheet.largestUndimmedDetentIdentifier = .large
 			sheet.prefersGrabberVisible = true
 			sheet.prefersScrollingExpandsWhenScrolledToEdge = false
 			sheet.prefersEdgeAttachedInCompactHeight = true
 		}
-
+		
 		present(vc, animated: true)
+	}
+	
+	private func calculateAndShowCarRoute() {
+		Task {
+			do {
+				let routes = try await mapManager.calculateRoutes()
+				guard let best = routes.first else { return }
+				
+				let opts = RouteOptions(
+					start: mapManager.startPlacemark,
+					dest:  mapManager.destPlacemark,
+					options: routes
+				)
+				
+				await MainActor.run {
+					
+					let sheetHeight = sheetVC?.view.frame.height ?? 0
+					// 경로 길이만큼 포커싱 줌 아웃 조절
+					showRouteWithDynamicZoom(best, bottomSheetHeight: sheetHeight)
+					
+					self.cachedRoutes = routes
+					self.routesData = opts
+					self.sheetVC?.routesData = opts
+				}
+			} catch {
+				print("경로 계산 실패:", error)
+			}
+		}
 	}
 }
 
@@ -134,43 +201,34 @@ extension PlaceRouteViewController: UIGestureRecognizerDelegate {
 
 extension PlaceRouteViewController: RouteBottomSheetViewControllerDelegate {
 	func didTapCarButton() {
-		Task {
-			do {
-				let routes = try await mapManager.calculateRoutes()
-				guard let best = routes.first else { return }
-				
-				await MainActor.run {
-					let sheetHeight = self.sheetVC?.view.frame.height ?? 0
-					
-					// 2) 경로 그리기 (safeArea + bottomSheetHeight 자동 적용)
-					self.mapManager.drawRoute(
-						best,
-						bottomSheetHeight: sheetHeight
-					)
-					
-					// 3) 하단 시트에 경로 옵션 전달
-					let optionsModel = RouteOptions(
-						start: self.mapManager.startPlacemark,
-						dest:  self.mapManager.destPlacemark,
-						options: routes
-					)
-					self.sheetVC?.showRoutes(optionsModel)
-				}
-			} catch {
-				print("경로 계산 실패:", error)
-			}
+		if routesData == nil {
+			calculateAndShowCarRoute()
+			return
 		}
+		
+		if let opts = routesData {
+			sheetVC?.showRoutes(opts)
+		}
+		
+		// (선택) polyline도 재초점
+		/*
+		 if let best = opts.options.first {
+		 let sheetH = sheetVC?.view.frame.height ?? 0
+		 showRouteWithDynamicZoom(best, bottomSheetHeight: sheetH)
+		 }
+		 */
 	}
 	
 	func didSelectRoute(_ route: MKRoute) {
 		print("=== didSelectRoute called for route === :", route.name)
-		DispatchQueue.main.async {
-			self.mapManager.drawRoute(route)
-		}
+		let sheetH = sheetVC?.view.frame.height ?? 0
+		showRouteWithDynamicZoom(route, bottomSheetHeight: sheetH)
 	}
 	
 	func didTapBicycleButton() {
 		// 아직 자전거 경로 계산 안했으니 빈 배열로 표시
+		routeMapView.removeOverlays(routeMapView.overlays)
+		// 하단 시트엔 빈 옵션만 표시
 		let emptyModel = RouteOptions(
 			start: mapManager.startPlacemark,
 			dest:  mapManager.destPlacemark,
