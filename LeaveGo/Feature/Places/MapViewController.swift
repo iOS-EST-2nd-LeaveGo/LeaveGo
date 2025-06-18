@@ -252,7 +252,16 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation as? PlaceAnnotationModel else { return }
         mapView.deselectAnnotation(annotation, animated: false)
-
+        
+        var coordiCenterLa = annotation.coordinate.latitude
+        let coordiCenterLo = annotation.coordinate.longitude
+        coordiCenterLa -= 0.0015
+        
+        let coordinate = CLLocationCoordinate2D(latitude: coordiCenterLa, longitude: coordiCenterLo)
+        let region = MKCoordinateRegion(center: coordinate,
+                                        latitudinalMeters: 450, longitudinalMeters: 450)
+        mapView.setRegion(region, animated: true)
+        
         if let presented = presentedViewController {
             presented.dismiss(animated: false) { [weak self] in
                 self?.presentDetail(for: annotation)
