@@ -112,23 +112,13 @@ class HomeViewController: UIViewController {
         for index in 0 ..< placeList.count {
             if let urlString = placeList[index].bigThumbnailURL,
                let url = URL(string: urlString) {
-                let image = await fetchThumbnailImage(for: url)
-                
+                let image = await ImageCacheManager.shared.fetchImage(from: url)
+
                 // 이미지 저장은 메인 스레드에서
                 DispatchQueue.main.async { [weak self] in
                     self?.placeList[index].bigThumbnailImage = image
                 }
             }
-        }
-    }
-    
-    func fetchThumbnailImage(for url: URL) async -> UIImage? {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            return UIImage(data: data)
-        } catch {
-            print(error.localizedDescription)
-            return nil
         }
     }
 }

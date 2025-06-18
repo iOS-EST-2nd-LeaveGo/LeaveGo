@@ -239,7 +239,7 @@ class PlacesViewController: UIViewController {
             guard let urlString = model.thumbnailURL,
                   let url = URL(string: urlString) else { continue }
 
-            let image = await fetchThumbnailImage(for: url)
+            let image = await ImageCacheManager.shared.fetchImage(from: url)
 
             // UI 및 모델 업데이트는 메인 스레드에서 수행
             await MainActor.run {
@@ -255,27 +255,6 @@ class PlacesViewController: UIViewController {
             }
         }
     }
-    
-    func fetchThumbnailImage(for url: URL) async -> UIImage? {
-        let key = url.absoluteString
-
-        if let cachedImage = ImageCacheManager.shared.image(forKey: key) {
-            return cachedImage
-        }
-
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            if let image = UIImage(data: data) {
-                ImageCacheManager.shared.setImage(image, forKey: key)
-                return image
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-
-        return nil
-    }
-
 
     private func isAllowedPlace(_ place: PlaceList) -> Bool {
         guard let intID = Int(place.contentTypeId),
