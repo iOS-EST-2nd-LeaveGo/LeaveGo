@@ -10,7 +10,37 @@ import CoreLocation
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var welcomMessageLabel: UILabel!
+    @IBOutlet weak var navigateToPlaceListButton: UIButton!
     @IBOutlet weak var recommendedPlaceCardCollectionView: UICollectionView!
+    
+    // 추천 장소 더보기 버튼 클릭 시 탭 전환
+    @IBAction func navigateToPlaceList(_ sender: UIButton) {
+        // 현재 탭바 컨트롤러 접근
+        guard let tabBarController = self.tabBarController else { return }
+
+        // Sub.storyboard 로드
+        let storyboard = UIStoryboard(name: String(describing: "MapHeader"), bundle: nil)
+        
+        // SubVC 인스턴스 생성
+        guard let mapHeaderVC = storyboard.instantiateViewController(withIdentifier: "MapHeaderNav") as? UINavigationController else {
+            print("SubVC를 찾을 수 없습니다")
+            return
+        }
+
+        // 현재 탭 배열을 가져와 교체하거나 추가
+        var viewControllers = tabBarController.viewControllers ?? []
+        
+        // 원하는 탭 index로 삽입 (예: 1번 탭으로 설정)
+        if viewControllers.count > 1 {
+            viewControllers[1] = mapHeaderVC
+        } else {
+            viewControllers.append(mapHeaderVC)
+        }
+
+        // 탭 설정 및 이동
+        tabBarController.viewControllers = viewControllers
+        tabBarController.selectedIndex = 1
+    }
     
     var placeList = [PlaceModel]()
     
@@ -28,6 +58,9 @@ class HomeViewController: UIViewController {
         
         recommendedPlaceCardCollectionView.delegate = self
         recommendedPlaceCardCollectionView.dataSource = self
+        navigateToPlaceListButton.layer.borderColor = UIColor.accent.cgColor
+        navigateToPlaceListButton.layer.borderWidth = 1
+        navigateToPlaceListButton.layer.cornerRadius = 16
         
         // LocationManager 작동 방식을 몰라서 현재 위치 강제 지정
         currentLocation = CLLocationCoordinate2D(latitude: 126.76857234333737, longitude: 37.51006358933778)
@@ -99,7 +132,25 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let place = placeList[indexPath.item]
+        
+        // PlaceRoute.storyboard에서 뷰컨트롤러 인스턴스 생성
+        let sb = UIStoryboard(name: "PlaceRoute", bundle: nil)
+        guard let routeVC = sb.instantiateViewController(
+            identifier: "PlaceRoute"
+        ) as? PlaceRouteViewController else {
+            return
+        }
+        
+        routeVC.destination = RouteDestination(place: place)
+        
+        guard let nav = navigationController else {
+            print("navigationController is nil")
+            return
+        }
+        nav.pushViewController(routeVC, animated: true)
+    }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
@@ -119,7 +170,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         
         if let distance = place.distance {
-            cell.placeDistanceLabel.text = "\(distance.formattedDistance())km 떨어짐"
+            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
         }
         
         cell.placeTitleLabel.text = place.title
