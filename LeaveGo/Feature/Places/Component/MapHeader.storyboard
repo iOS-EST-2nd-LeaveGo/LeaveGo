@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wnC-kO-3Tp">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="iPad13_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -14,24 +14,24 @@
             <objects>
                 <viewController storyboardIdentifier="MapHeaderVC" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1032" height="1376"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="263"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1032" height="207"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="103"/>
+                                        <rect key="frame" x="0.0" y="88" width="1032" height="103"/>
                                         <subviews>
                                             <searchBar contentMode="redraw" placeholder="장소 이름으로 검색하세요" translatesAutoresizingMaskIntoConstraints="NO" id="OPX-4P-qhr">
-                                                <rect key="frame" x="8" y="0.0" width="359" height="56"/>
+                                                <rect key="frame" x="8" y="0.0" width="1016" height="56"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="B1O-Dc-zV6"/>
                                                 </connections>
                                             </searchBar>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
-                                                <rect key="frame" x="98" y="72" width="179" height="32"/>
+                                                <rect key="frame" x="426.5" y="72" width="179" height="32"/>
                                                 <segments>
                                                     <segment title="리스트로 보기"/>
                                                     <segment title="지도로 보기"/>
@@ -53,7 +53,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
-                                <rect key="frame" x="0.0" y="263" width="375" height="549"/>
+                                <rect key="frame" x="0.0" y="207" width="1032" height="1169"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -90,7 +90,7 @@
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xzc-Ss-771">
-                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="24" width="1032" height="64"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

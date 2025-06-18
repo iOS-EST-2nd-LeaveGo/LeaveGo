@@ -17,7 +17,7 @@ class MapViewController: UIViewController {
     private var didSetInitialRegion = false
     var isSearching = false
 	private var initialCenterLocation = false
-    private var centerPosition: CLLocationCoordinate2D? = LocationManager.shared.currentLocation
+    static private var centerPosition: CLLocationCoordinate2D? = LocationManager.shared.currentLocation
 
     // UI
     var mapView: MKMapView!
@@ -83,9 +83,9 @@ class MapViewController: UIViewController {
         addAnnotation()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if var center = centerPosition {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if var center = MapViewController.centerPosition {
 
             if !initialCenterLocation {
                 center.latitude -= 0.001
@@ -225,7 +225,7 @@ extension MapViewController: MKMapViewDelegate {
         // scale of map
 //        let center = mapView.userLocation.coordinate
 
-        centerPosition = mapView.region.center
+        MapViewController.centerPosition = mapView.region.center
 
         let zoomLevel = log2(360 *
                              (Double(mapView.frame.size.width/256) /
@@ -234,7 +234,7 @@ extension MapViewController: MKMapViewDelegate {
         if zoomLevel < 8 {
             let limitSpan = MKCoordinateSpan(latitudeDelta: 1.40625, longitudeDelta: 1.40625)
 
-            guard let movePosition = centerPosition else { return }
+            guard let movePosition = MapViewController.centerPosition else { return }
             let region = MKCoordinateRegion(center: movePosition, span: limitSpan)
             mapView.setRegion(region, animated: true)
         }
@@ -242,7 +242,7 @@ extension MapViewController: MKMapViewDelegate {
         guard !isSearching else { return }
 
         // 지도 이동 Notification
-        NotificationCenter.default.post(name: .mapDidMove, object: centerPosition)
+        NotificationCenter.default.post(name: .mapDidMove, object: MapViewController.centerPosition)
     }
 
     /// 어노테이션 탭했을 때 호출
@@ -367,6 +367,14 @@ extension MapViewController: LayoutSupport {
     }
 
     func setupSubviewsConstraints() {
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
         userLocationButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
@@ -374,7 +382,7 @@ extension MapViewController: LayoutSupport {
             userLocationButton.heightAnchor.constraint(equalToConstant: 40),
             userLocationButton.widthAnchor.constraint(equalToConstant: 40)
         ])
-
+        
         userLocationImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             userLocationImageView.topAnchor.constraint(equalTo: userLocationButton.topAnchor, constant: 8),

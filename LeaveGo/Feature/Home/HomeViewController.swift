@@ -71,10 +71,11 @@ class HomeViewController: UIViewController {
             await loadPlaceList()
         }
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        recommendedPlaceCardCollectionView.reloadData()
     }
     
     private func loadPlaceList() async {
@@ -167,18 +168,9 @@ extension HomeViewController: UICollectionViewDataSource {
         
         let place = placeList[indexPath.item]
         
+        cell.didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
         cell.configure(with: place)
-        
-//        if let thumbnailImage = place.bigThumbnailImage {
-//            cell.placeBgImage.image = thumbnailImage
-//        }
-        
-//        if let distance = place.distance {
-//            cell.placeDistanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
-//        }
-        
-//        cell.placeTitleLabel.text = place.title
-        
+
         return cell
     }
 }
