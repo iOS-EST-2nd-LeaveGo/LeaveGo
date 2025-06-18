@@ -44,7 +44,8 @@ class NicknameInputViewController: UIViewController {
         saveButton.clipsToBounds = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false  // 터치 이벤트 전달되게
+        tap.cancelsTouchesInView = false
+        tap.delegate = self
         view.addGestureRecognizer(tap)
 
         switch mode {
@@ -104,5 +105,11 @@ extension NicknameInputViewController: UITextFieldDelegate {
         }
 
         return true
+    }
+}
+
+extension NicknameInputViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIControl)
     }
 }

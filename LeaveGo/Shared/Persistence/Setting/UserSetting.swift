@@ -42,11 +42,18 @@ final class UserSetting {
 
     var preferredTransport: TransportType? {
         get {
-            guard let rawValue = UserDefaults.standard.string(forKey: Key.preferredTransport) else { return nil }
-            return TransportType(rawValue: rawValue)
+            guard let rawValue = UserDefaults.standard.string(forKey: Key.preferredTransport),
+                  let type = TransportType(rawValue: rawValue) else {
+                return .automobile
+            }
+            return type
         }
         set {
-            UserDefaults.standard.set(newValue?.rawValue, forKey: Key.preferredTransport)
+            if let value = newValue {
+                UserDefaults.standard.set(value.rawValue, forKey: Key.preferredTransport)
+            } else {
+                UserDefaults.standard.removeObject(forKey: Key.preferredTransport)
+            }
         }
     }
 }

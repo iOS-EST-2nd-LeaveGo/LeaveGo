@@ -163,8 +163,6 @@ class PlacesViewController: UIViewController {
     }
 
     private func fetchNearbyPlaces() {
-
-
         guard let targetLocation = lastMapMoveCenter ?? currentLocation else {
             return
         }

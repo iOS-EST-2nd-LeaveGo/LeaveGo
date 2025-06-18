@@ -80,7 +80,8 @@ class PlannerViewController: UIViewController {
             errorMessageLabel.isHidden = false
             navigateToPlannerButton.isHidden = false
         }
-
+        
+        plannerCollectionView.reloadData()
     }
     
     @objc func reloadPlannerCollection() {
