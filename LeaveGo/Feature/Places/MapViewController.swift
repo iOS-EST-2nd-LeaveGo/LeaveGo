@@ -13,7 +13,9 @@ class MapViewController: UIViewController {
 
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
-    var didSetInitialRegion = false
+    
+    private var didSetInitialRegion = false
+    var isSearching = false
 
     // UI
     var mapView: MKMapView!
@@ -212,7 +214,9 @@ extension MapViewController: MKMapViewDelegate {
     // 척도 범위 설정
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // scale of map
-        let center = mapView.userLocation.coordinate
+//        let center = mapView.userLocation.coordinate
+        let center = mapView.region.center
+
         let zoomLevel = log2(360 *
                              (Double(mapView.frame.size.width/256) /
                               mapView.region.span.longitudeDelta))
@@ -222,6 +226,11 @@ extension MapViewController: MKMapViewDelegate {
             let region = MKCoordinateRegion(center: center, span: limitSpan)
             mapView.setRegion(region, animated: true)
         }
+
+        guard !isSearching else { return }
+
+        // 지도 이동 Notification
+        NotificationCenter.default.post(name: .mapDidMove, object: center)
     }
 	
 	/// 어노테이션 탭했을 때 호출
@@ -261,19 +270,20 @@ extension MapViewController: MKMapViewDelegate {
 	}
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-		if annotation is MKUserLocation {
-			let annotationView = MKAnnotationView(
-				annotation: annotation,
-				reuseIdentifier: "userlocation"
-			)
-			annotationView.image = UIImage(named: "img_userlocation")
-			annotationView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-			annotationView.layer.shadowColor = UIColor.orange.cgColor
-			annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
-			annotationView.layer.shadowOpacity = 0.5
-			annotationView.layer.shadowRadius = 5
-			return annotationView
-		}
+        if annotation is MKUserLocation {
+            let annotationView = MKAnnotationView(
+                annotation: annotation,
+                reuseIdentifier: "userlocation"
+            )
+            annotationView.image = UIImage(named: "img_userAnnotation")
+            annotationView.frame = CGRect(x: 0, y: 0, width: 25, height: 25*1.44)
+            annotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.63)
+//            annotationView.layer.shadowColor = UIColor.systemBlue.cgColor
+//            annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
+//            annotationView.layer.shadowOpacity = 0.5
+//            annotationView.layer.shadowRadius = 5
+            return annotationView
+        }
 		
 		// 클러스터 어노테이션 처리
 		if let cluster = annotation as? MKClusterAnnotation {
