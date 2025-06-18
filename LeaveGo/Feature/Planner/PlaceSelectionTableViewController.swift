@@ -44,6 +44,7 @@ class PlaceSelectionTableViewController: UIViewController {
         placeSelectionTable.delegate = self
         placeSelectionTable.allowsMultipleSelection = true
         placeSelectionTable.setEditing(false, animated: true)
+        placeSelectionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 90, right: 0)
         
         addToPlannerButton.isEnabled = false
         

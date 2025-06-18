@@ -20,7 +20,7 @@ class PlannerCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         plannerCardStackView.layer.borderWidth = 1
-        plannerCardStackView.layer.borderColor = UIColor(named: "BorderColor")?.cgColor
+        plannerCardStackView.layer.borderColor = UIColor.prominentBorder.cgColor
         plannerCardStackView.layer.cornerRadius = 16
         plannerCardStackView.clipsToBounds = true
     }

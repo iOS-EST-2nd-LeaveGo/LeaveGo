@@ -47,7 +47,7 @@ class TransportViewController: UIViewController {
         saveButton.isEnabled = false
         // 레이아웃 설정
 
-        transportCollectionView.collectionViewLayout = CollectionViewLayout.grid(
+        transportCollectionView.collectionViewLayout = CollectionViewLayout.setGridLayoutWithRatio(
             columns: 3,
             itemInsets: NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),

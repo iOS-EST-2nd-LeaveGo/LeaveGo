@@ -9,32 +9,10 @@ import UIKit
 
 class PlannerViewController: UIViewController {
     @IBOutlet weak var plannerCollectionView: UICollectionView!
+    @IBOutlet weak var errorMessageLabel: UILabel!
+    @IBOutlet weak var navigateToPlannerButton: UIButton!
     
     var plannerList = [Planner]()
-    
-    // 등록된 여행이 하나도 없을 때 보여줄 Placeholder 텍스트
-    let errorMessageLabel: UILabel = {
-        let label = UILabel()
-        label.text = "아직 등록된 여행이 없어요."
-        label.textAlignment = .center
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.isHidden = true // 초기에는 숨김
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    let addPlannerButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("새로운 여행 등록하기", for: .normal)
-        button.layer.borderColor = UIColor.accent.cgColor
-        button.layer.borderWidth = 1
-        button.titleLabel?.textColor = UIColor.accent
-        button.isHidden = true // 초기에는 숨김
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,29 +22,25 @@ class PlannerViewController: UIViewController {
         
         plannerCollectionView.dataSource = self
         
-        plannerCollectionView.collectionViewLayout = CollectionViewLayout.threeByFourGrid(
+        plannerCollectionView.collectionViewLayout = CollectionViewLayout.setGridLayoutWithRatio(
             columns: 2,
             itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8),
+            ratioX: 3.0,
+            ratioY: 4.0
         )
         
         let fetchedListCount = CoreDataManager.shared.fetchPlannerCount()
         if fetchedListCount > 0 {
             let entities = CoreDataManager.shared.fetchAllPlanners()
             let planners = entities.compactMap { Planner(entity: $0) }
-            print(plannerList)
             plannerList = planners
+            errorMessageLabel.isHidden = true
+            errorMessageLabel.isHidden = true
         } else {
-            errorMessageLabel.isHidden = false
-            
-            view.addSubview(errorMessageLabel)
-            view.addSubview(addPlannerButton)
-            
-            NSLayoutConstraint.activate([
-                errorMessageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                errorMessageLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
+            navigateToPlannerButton.isHidden = false
+            navigateToPlannerButton.isHidden = false
         }
     }
 }
@@ -75,12 +49,11 @@ extension PlannerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let plannerCount = plannerList.count
         
-        // 테스트하려면 여행 추가 화면으로 이동해야 하므로 버튼 남겨놓음 -> 추후 주석 해제해서 버튼 없애야 함
-        //        if plannerCount > 0 {
-        return plannerList.count + 1
-        //        } else {
-        //            return 0
-        //        }
+        if plannerCount > 0 {
+            return plannerList.count + 1
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
