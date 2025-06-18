@@ -130,7 +130,7 @@ extension PlannerEditorViewController: UITableViewDataSource, UITableViewDelegat
         cell.checkmarkImageView.image = UIImage(systemName: "line.3.horizontal")
         cell.titleLabel?.text = place.title
         cell.place = place // 셀 내부에서 사용할 place 데이터를 바인딩
-        cell.thumbnailImageView.image = place.thumbnailImage ?? UIImage(systemName: "photo")
+        cell.thumbnailImageView.image = place.thumbnailImage
         return cell
     }
 
