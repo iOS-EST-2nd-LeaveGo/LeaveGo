@@ -361,7 +361,7 @@ extension PlacesViewController: ListTableViewCellDelegate {
                                            thumbnailImageURL: placeModel.thumbnailURL)
         }
 
-        let alert = UIAlertController(title: "마크에 저장되었습니다!", message: "마이페이지 > 북마크 장소에서 저장한 여행지를 확인할 수 있어요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "북마크에 저장되었습니다!", message: "마이페이지 > 북마크 장소에서 저장한 여행지를 확인할 수 있어요.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         self.present(alert, animated: true)
         tableView.reloadData()
