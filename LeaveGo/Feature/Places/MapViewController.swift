@@ -270,15 +270,32 @@ extension MapViewController: MKMapViewDelegate {
         ) as? PlaceDetailModalViewController else {
             return
         }
-
+        
         detailVC.place = annotation.placeModel
-
-        detailVC.modalPresentationStyle = .pageSheet
-        if let sheet = detailVC.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // iPad: 왼쪽 사이드뷰에 표시
+            addChild(detailVC)
+            view.addSubview(detailVC.view)
+            detailVC.didMove(toParent: self)
+            
+            // 오토레이아웃으로 왼쪽에 고정
+            detailVC.view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                detailVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                detailVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+                detailVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                detailVC.view.widthAnchor.constraint(equalToConstant: 400) // 너비는 필요에 따라 조정
+            ])
+        } else {
+            // iPhone: pageSheet로 표시
+            detailVC.modalPresentationStyle = .pageSheet
+            if let sheet = detailVC.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersGrabberVisible = false
+            }
+            present(detailVC, animated: true)
         }
-
-        present(detailVC, animated: true)
     }
 
 

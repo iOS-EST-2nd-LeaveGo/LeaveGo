@@ -57,7 +57,7 @@ class RecommendedPlaceCardCollectionViewCell: UICollectionViewCell {
         if didSelectBookmark { // 북마크 선택된 상태 (coreData에 값이 있는 상태)
             CoreDataManager.shared.deleteBookmark(by: place.contentId)
             didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
-        } else { // 북마크 선택안된 상태
+        } else { //ㅁ 북마크 선택안된 상태
             CoreDataManager.createBookmark(contentID: place.contentId, title: place.title, thumbnailImageURL: place.thumbnailURL)
             didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
         }
