@@ -17,6 +17,7 @@ class MapViewController: UIViewController {
 	private var didSetInitialRegion = false
 	var isSearching = false
 	private var initialCenterLocation = false
+
 	private var centerPosition: CLLocationCoordinate2D? = LocationManager.shared.currentLocation
 	
 	// UI
@@ -354,32 +355,39 @@ extension MapViewController: MKMapViewDelegate {
 }
 
 extension MapViewController: LayoutSupport {
-	
-	func addSubviews() {
-		self.view.addSubview(mapView)
-		mapView.addSubview(userLocationButton)
-		//mapView.addSubview(bottomSheetView)
-		
-		userLocationButton.addSubview(userLocationImageView)
-	}
-	
-	func setupSubviewsConstraints() {
-		userLocationButton.translatesAutoresizingMaskIntoConstraints = false
-		NSLayoutConstraint.activate([
-			userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
-			userLocationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-			userLocationButton.heightAnchor.constraint(equalToConstant: 40),
-			userLocationButton.widthAnchor.constraint(equalToConstant: 40)
-		])
-		
-		userLocationImageView.translatesAutoresizingMaskIntoConstraints = false
-		NSLayoutConstraint.activate([
-			userLocationImageView.topAnchor.constraint(equalTo: userLocationButton.topAnchor, constant: 8),
-			userLocationImageView.bottomAnchor.constraint(equalTo: userLocationButton.bottomAnchor, constant: -8),
-			userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
-			userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
-		])
-	}
+    func addSubviews() {
+        self.view.addSubview(mapView)
+        mapView.addSubview(userLocationButton)
+        //mapView.addSubview(bottomSheetView)
+
+        userLocationButton.addSubview(userLocationImageView)
+    }
+
+    func setupSubviewsConstraints() {
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        userLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            userLocationButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            userLocationButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            userLocationButton.heightAnchor.constraint(equalToConstant: 40),
+            userLocationButton.widthAnchor.constraint(equalToConstant: 40)
+        ])
+
+        userLocationImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            userLocationImageView.topAnchor.constraint(equalTo: userLocationButton.topAnchor, constant: 8),
+            userLocationImageView.bottomAnchor.constraint(equalTo: userLocationButton.bottomAnchor, constant: -8),
+            userLocationImageView.leadingAnchor.constraint(equalTo: userLocationButton.leadingAnchor, constant: 8),
+            userLocationImageView.trailingAnchor.constraint(equalTo: userLocationButton.trailingAnchor, constant: -8)
+        ])
+    }
 }
 
 extension MapViewController: ModalPresentable {

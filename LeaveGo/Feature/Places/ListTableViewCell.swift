@@ -27,7 +27,7 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
 
     @IBOutlet weak var moreButton: UIButton!
 
@@ -55,8 +55,9 @@ class ListTableViewCell: UITableViewCell {
         }
         */
 
-        self.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
-        self.timeLabel.isHidden = true
+        let categoryCode = self.place?.cat1
+        let text = CategoryCodeMapper.name(for: categoryCode ?? "기타")
+        self.categoryLabel.text = text // PlaceDetail
 
         self.thumbnailImageView.image = nil
         self.thumbnailImageView.image = self.place?.thumbnailImage
@@ -102,7 +103,7 @@ class ListTableViewCell: UITableViewCell {
             // 분기에 맞는 UI 처리
             moreButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
             distanceLabel.isHidden = true
-            timeLabel.isHidden = true
+            categoryLabel.isHidden = true
             
             // 장소 기본 정보를 들고 상세 정보 모달 띄우기
             moreButton.addAction(UIAction(handler: { [weak self] _ in
