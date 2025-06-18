@@ -8,9 +8,9 @@
 import UIKit
 
 class RouteBottomSheetView: UIView {
-	/// 차, 도보 모드
+	/// 차, 도보, 대중교통 모드
 	enum TransportMode: Int {
-		case car, walk, bicycle
+		case car, walk, transit
 	}
 
 	// MARK: – Subviews
@@ -26,21 +26,21 @@ class RouteBottomSheetView: UIView {
 		return btn
 	}()
 	
-	let bicycleButton: UIButton = {
+	let transitButton: UIButton = {
 		let btn = UIButton(type: .system)
 		var cfg = UIButton.Configuration.filled()
-		cfg.image = UIImage(systemName: "bicycle")
+		cfg.image = UIImage(systemName: "tram.fill")
 		cfg.baseBackgroundColor = .systemGray5
 		cfg.baseForegroundColor = .label
 		btn.configuration = cfg
-		btn.tag = TransportMode.bicycle.rawValue
+		btn.tag = TransportMode.transit.rawValue
 		btn.translatesAutoresizingMaskIntoConstraints = false
 		return btn
 	}()
 	
 	let emptyStateLabel: UILabel = {
 		let lbl = UILabel()
-		lbl.text = "자전거 경로를 사용할 수 없습니다"
+		lbl.text = ""
 		lbl.textColor = .secondaryLabel
 		lbl.font = .systemFont(ofSize: 14)
 		lbl.textAlignment = .center
@@ -99,7 +99,7 @@ class RouteBottomSheetView: UIView {
 		}
 		addSubview(topStack)
 		topStack.addArrangedSubview(carButton)
-		topStack.addArrangedSubview(bicycleButton)
+		topStack.addArrangedSubview(transitButton)
 		topStack.addArrangedSubview(walkButton)
 		addSubview(startDestinationTableView)
 		addSubview(emptyStateLabel)
@@ -131,7 +131,7 @@ class RouteBottomSheetView: UIView {
 	func addTransportTarget(_ target: Any?, action: Selector, for event: UIControl.Event) {
 		carButton.addTarget(target, action: action, for: event)
 		walkButton.addTarget(target, action: action, for: event)
-		bicycleButton.addTarget(target, action: action, for: event)
+		transitButton.addTarget(target, action: action, for: event)
 	}
 	
 	func select(mode: TransportMode) {
@@ -141,7 +141,7 @@ class RouteBottomSheetView: UIView {
 		let fg = UIColor.black
 		let border = UIColor.black
 		
-		for btn in [carButton, walkButton, bicycleButton] {
+		for btn in [carButton, walkButton, transitButton] {
 			guard var cfg = btn.configuration else { continue }
 			cfg.baseBackgroundColor = bg
 			cfg.baseForegroundColor = fg
