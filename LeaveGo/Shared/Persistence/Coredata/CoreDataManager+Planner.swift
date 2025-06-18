@@ -51,8 +51,6 @@ extension CoreDataManager {
             return nil
         }
     }
-    
-    
 
     // 여행의 갯수를 반환하는 메서드
     func fetchPlannerCount() -> Int {
@@ -74,8 +72,9 @@ extension CoreDataManager {
         planner.thumbnailPath = thumbnailPath
         saveContext()
     }
-
-    func deletePlanner(_ planner: PlannerEntity) {
+    
+    func deletePlanner(id: UUID) {
+        guard let planner = fetchOnePlanner(id: id) else { return }
         context.delete(planner)
         saveContext()
     }
