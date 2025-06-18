@@ -182,6 +182,7 @@
                         <outlet property="pageControl" destination="aKB-6X-YHZ" id="2or-8f-OX3"/>
                         <outlet property="saveButton" destination="dIJ-cA-pv7" id="ozK-FJ-o8p"/>
                         <outlet property="scrollView" destination="K6L-no-0yF" id="5bG-Ir-Qzt"/>
+                        <outlet property="stackView" destination="6mL-qI-gSI" id="Tae-HI-ERY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xyz-Eq-bIy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
