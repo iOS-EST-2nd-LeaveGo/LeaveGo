@@ -10,9 +10,7 @@ import MapKit
 
 /// 장소목록 탭바 메뉴 화면 구성 중 - 경로 찾기 버튼 누르면 나오는 경로 설정 화면
 class PlaceRouteViewController: UIViewController {
-	@IBOutlet weak var locationContainer: UIView!
 	@IBOutlet weak var routeMapView: MKMapView!
-	@IBOutlet weak var userLocationButton: UIButton!
 	
 	var destination: RouteDestination?
 	private weak var sheetVC: RouteBottomSheetViewController?
@@ -20,6 +18,7 @@ class PlaceRouteViewController: UIViewController {
 	private var cachedRoutes: [MKRoute] = []
 	private var routesData: RouteOptions?
 	
+	let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
 	
 	private lazy var mapManager: RouteMapManager = {
 		guard let dest = destination else {
@@ -31,6 +30,26 @@ class PlaceRouteViewController: UIViewController {
 		)
 	}()
 	
+	private let currentLocationButton: UIButton = {
+		let btn = UIButton()
+		btn.backgroundColor = .white
+		btn.layer.cornerRadius = 25
+		btn.layer.shadowColor = UIColor.black.cgColor
+		btn.layer.shadowOpacity = 0.1
+		btn.layer.shadowOffset = CGSize(width: 0, height: 2)
+		btn.layer.shadowRadius = 4
+		return btn
+	}()
+	
+	private let currentLocationImage: UIImageView = {
+		let raw = UIImage(named: "btn_focus")?
+			.withRenderingMode(.alwaysTemplate)
+		let iv = UIImageView(image: raw)
+		iv.contentMode = .scaleAspectFit
+		iv.tintColor = .black
+		return iv
+	}()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// MARK - debug message
@@ -39,15 +58,12 @@ class PlaceRouteViewController: UIViewController {
 			return
 		}
 		
-		setupUI()
 		setupMapViewGesture()
+		setupUserLocationControl()
 		
 		routeMapView.showsUserLocation = true
 		routeMapView.userLocation.title = "내 위치"
 		routeMapView.delegate = mapManager
-		
-		userLocationButton.layer.cornerRadius = 8
-		userLocationButton.layer.masksToBounds = true
 		
 		let pinch = UIPinchGestureRecognizer(target: self, action: #selector(debugZoom(_:)))
 		routeMapView.addGestureRecognizer(pinch)
@@ -60,50 +76,87 @@ class PlaceRouteViewController: UIViewController {
 		calculateAndShowCarRoute()
 	}
 	
-	@IBAction func findUserLocation(_ sender: UIButton) {
+	private func setupUserLocationControl() {
+		view.addSubview(currentLocationButton)
+		currentLocationButton.addSubview(currentLocationImage)
+		
+		currentLocationButton.translatesAutoresizingMaskIntoConstraints = false
+		currentLocationImage.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			currentLocationButton.leadingAnchor.constraint(
+				equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+				constant: 24
+			),
+			currentLocationButton.bottomAnchor.constraint(
+				equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+				constant: -200
+			),
+			currentLocationButton.widthAnchor.constraint(equalToConstant: 50),
+			currentLocationButton.heightAnchor.constraint(equalToConstant: 50)
+		])
+
+		NSLayoutConstraint.activate([
+			currentLocationImage.topAnchor.constraint(
+				equalTo: currentLocationButton.topAnchor,
+				constant: 10
+			),
+			currentLocationImage.bottomAnchor.constraint(
+				equalTo: currentLocationButton.bottomAnchor,
+				constant: -10
+			),
+			currentLocationImage.leadingAnchor.constraint(
+				equalTo: currentLocationButton.leadingAnchor,
+				constant: 10
+			),
+			currentLocationImage.trailingAnchor.constraint(
+				equalTo:currentLocationButton.trailingAnchor,
+				constant: -10
+			)
+		])
+
+		currentLocationButton.addTarget(self,
+										action: #selector(findUserLocation(_:)),
+										for: .touchUpInside)
+	}
+	
+	
+	
+	@objc func findUserLocation(_ sender: UIButton) {
 		guard let userCoord = mapManager.startPlacemark?.location?.coordinate else {
 			print("사용자 위치를 얻을 수 없습니다.")
 			return
 		}
 		
-		// 중복 탭 방지
 		sender.isEnabled = false
+		userLocationImageView.tintColor = .systemBlue
 		
-		// CATransaction으로 애니메이션 완료 시점 잡기
 		CATransaction.begin()
 		CATransaction.setAnimationDuration(0.6)
 		CATransaction.setCompletionBlock {
-			// 원위치 복귀
-			let returnRegion = MKCoordinateRegion(
+			let region = MKCoordinateRegion(
 				center: userCoord,
 				latitudinalMeters: 450,
 				longitudinalMeters: 450
 			)
-			self.routeMapView.setRegion(returnRegion, animated: true)
+			self.routeMapView.setRegion(region, animated: true)
 			sender.isEnabled = true
+			self.userLocationImageView.tintColor = nil
 		}
 		
-		// 살짝 아래로 오프셋된 좌표로 먼저 이동
-		let offsetCoord = CLLocationCoordinate2D(
+		let offset = CLLocationCoordinate2D(
 			latitude: userCoord.latitude - 0.001,
 			longitude: userCoord.longitude
 		)
 		let offsetRegion = MKCoordinateRegion(
-			center: offsetCoord,
+			center: offset,
 			latitudinalMeters: 450,
 			longitudinalMeters: 450
 		)
 		routeMapView.setRegion(offsetRegion, animated: true)
-		
 		CATransaction.commit()
 	}
-	
-	
-	private func setupUI() {
-		locationContainer.layer.cornerRadius = 10
-		locationContainer.clipsToBounds = true
-	}
-	
+
 	private func setupNavBar(with title: String) {
 		navigationItem.title = title
 		
@@ -149,7 +202,6 @@ class PlaceRouteViewController: UIViewController {
 	}
 	
 	func showRouteWithDynamicZoom(_ route: MKRoute, bottomSheetHeight: CGFloat) {
-		// 1) polyline 그리기
 		routeMapView.addOverlay(route.polyline)
 		
 		let boundingRect = route.polyline.boundingMapRect

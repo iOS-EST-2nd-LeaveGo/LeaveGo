@@ -29,7 +29,7 @@ class MapViewController: UIViewController {
         button.layer.shadowRadius = 3
         return button
     }()
-    let userLocationImageView = UIImageView(image: UIImage(named: "btn_ focus"))
+    let userLocationImageView = UIImageView(image: UIImage(named: "btn_focus"))
 	// NetworkManager로 부터 받아온 PlaceList
     var currentPlaceModel: [PlaceModel]? {
         didSet {
