@@ -70,10 +70,10 @@
                                                             <color key="backgroundColor" name="BorderColor"/>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="bottom" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lpZ-cs-Q2m" userLabel="Place Info + Bookmark">
-                                                            <rect key="frame" x="16" y="236.33333333333334" width="168" height="47.666666666666657"/>
+                                                            <rect key="frame" x="16" y="244" width="168" height="40"/>
                                                             <subviews>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yLw-UU-eIy" userLabel="Place Info">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="47.666666666666664"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="yLw-UU-eIy" userLabel="Place Info">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="40"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-6P-WJJ">
                                                                             <rect key="frame" x="0.0" y="0.0" width="33" height="15.666666666666666"/>
@@ -82,15 +82,15 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JhV-1P-pgA">
-                                                                            <rect key="frame" x="0.0" y="23.666666666666657" width="48" height="24"/>
-                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                                            <rect key="frame" x="0.0" y="19.666666666666686" width="43.333333333333336" height="20.333333333333329"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
                                                                 </stackView>
                                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tjb-DM-lHL">
-                                                                    <rect key="frame" x="140" y="20.999999999999972" width="28" height="26.666666666666671"/>
+                                                                    <rect key="frame" x="140" y="13.333333333333316" width="28" height="26.666666666666671"/>
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain" image="star" catalog="system">
                                                                         <backgroundConfiguration key="background" cornerRadius="15" strokeWidth="6"/>

@@ -10,7 +10,37 @@ import CoreLocation
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var welcomMessageLabel: UILabel!
+    @IBOutlet weak var navigateToPlaceListButton: UIButton!
     @IBOutlet weak var recommendedPlaceCardCollectionView: UICollectionView!
+    
+    // 추천 장소 더보기 버튼 클릭 시 탭 전환
+    @IBAction func navigateToPlaceList(_ sender: UIButton) {
+        // 현재 탭바 컨트롤러 접근
+        guard let tabBarController = self.tabBarController else { return }
+
+        // Sub.storyboard 로드
+        let storyboard = UIStoryboard(name: String(describing: "MapHeader"), bundle: nil)
+        
+        // SubVC 인스턴스 생성
+        guard let mapHeaderVC = storyboard.instantiateViewController(withIdentifier: "MapHeaderNav") as? UINavigationController else {
+            print("SubVC를 찾을 수 없습니다")
+            return
+        }
+
+        // 현재 탭 배열을 가져와 교체하거나 추가
+        var viewControllers = tabBarController.viewControllers ?? []
+        
+        // 원하는 탭 index로 삽입 (예: 1번 탭으로 설정)
+        if viewControllers.count > 1 {
+            viewControllers[1] = mapHeaderVC
+        } else {
+            viewControllers.append(mapHeaderVC)
+        }
+
+        // 탭 설정 및 이동
+        tabBarController.viewControllers = viewControllers
+        tabBarController.selectedIndex = 1
+    }
     
     var placeList = [PlaceModel]()
     
