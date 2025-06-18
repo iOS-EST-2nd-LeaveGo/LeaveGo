@@ -17,9 +17,12 @@ protocol PlacesViewControllerDelegate: AnyObject {
 class PlacesViewController: UIViewController {
     private var currentLocation: CLLocationCoordinate2D?
 
+    private var lastMapMoveCenter: CLLocationCoordinate2D?
+    private var lastMapMoveTime: Date?
+
     private var hasLoadedPlaceList = false
-    private var isSearching = false
     private var isFetching = false
+    var isSearching = false
 
 	weak var delegate: PlacesViewControllerDelegate?
 
@@ -28,6 +31,7 @@ class PlacesViewController: UIViewController {
     private var totalCount = 0
     private let numOfRows = 20
 
+    
     private(set) var currentPlaceModel: [PlaceModel] = []
 
     @IBOutlet weak var tableView: UITableView!
@@ -48,6 +52,13 @@ class PlacesViewController: UIViewController {
             self,
             selector: #selector(locationError(_:)),
             name: .locationUpdateDidFail,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(mapDidMove(_:)),
+            name: .mapDidMove,
             object: nil
         )
 
@@ -77,6 +88,34 @@ class PlacesViewController: UIViewController {
         if let error = notification.object as? Error {
             print("위치 추적 실패: \(error.localizedDescription)")
         }
+    }
+
+    @objc private func mapDidMove(_ notification: Notification) {
+        guard !self.isSearching else { return }
+        guard let newCenter = notification.object as? CLLocationCoordinate2D else { return }
+
+        print("좌표 \(newCenter)")
+        let now = Date()
+
+        if let lastCenter = lastMapMoveCenter, let lastTime = lastMapMoveTime {
+            let distance = CLLocation(latitude: lastCenter.latitude, longitude: lastCenter.longitude)
+                .distance(from: CLLocation(latitude: newCenter.latitude, longitude: newCenter.longitude))
+
+            let timeDiff = now.timeIntervalSince(lastTime)
+
+            if distance < 200 && timeDiff < 1 {
+                return
+            }
+        }
+
+		lastMapMoveCenter = newCenter
+        lastMapMoveTime = now
+
+        currentPage = 1
+        totalCount = 0
+        currentPlaceModel.removeAll()
+        tableView.reloadData()
+        fetchPlaces()
     }
 
     func configure(with keyword: String) {
@@ -111,20 +150,22 @@ class PlacesViewController: UIViewController {
      }
 
     private func fetchNearbyPlaces() {
-        guard let currentLocation = currentLocation else {
+
+
+        guard let targetLocation = lastMapMoveCenter ?? currentLocation else {
             return
         }
 
         guard (currentPage - 1) * numOfRows < totalCount || totalCount == 0 else { return }
-
+		print(targetLocation)
         isFetching = true
         Task {
             defer { isFetching = false }
             do {
                 let (places, count) = try await NetworkManager.shared.fetchPlaceList(
                     page: currentPage,
-                    mapX: currentLocation.longitude,
-                    mapY: currentLocation.latitude,
+                    mapX: targetLocation.longitude,
+                    mapY: targetLocation.latitude,
                     radius: 10000,
                     contentTypeId: nil
                 )
