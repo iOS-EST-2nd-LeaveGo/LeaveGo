@@ -51,6 +51,10 @@ class PlannerViewController: UIViewController {
             errorMessageLabel.isHidden = false
             navigateToPlannerButton.isHidden = false
         }
+        
+        // 길게 눌러 삭제하기 기능 구현을 위해 longPressGesture 선언
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        plannerCollectionView.addGestureRecognizer(longPressGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,6 +88,7 @@ class PlannerViewController: UIViewController {
         self.plannerCollectionView.reloadData()
     }
     
+    // 여행 상세 페이지로 이동
     private func navigateToDetailView(id: UUID) {
         let plannerEditorStoryboard = UIStoryboard(name: "PlannerEditor", bundle: nil)
         
@@ -93,6 +98,23 @@ class PlannerViewController: UIViewController {
             
             // TODO: PlannerEditorVC에 분기를 처리하는 코드 작업 완료 시 id 값 넘기기
             // detailVC.id = id
+        }
+    }
+    
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state != .began { return }
+        
+        let point = gesture.location(in: plannerCollectionView)
+        
+        if let indexPath = plannerCollectionView.indexPathForItem(at: point) {
+            let planner = plannerList[indexPath.item]
+            let alert = UIAlertController(title: "삭제", message: "\(planner.title) 여행을 정말 삭제하시겠어요?\n이 작업은 되돌릴 수 없어요.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "확인", style: .default) {_ in
+                // TODO: 여행 삭제 기능 구현하기
+            })
+            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+            present(alert, animated: true)
         }
     }
 }
