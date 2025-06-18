@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -25,19 +26,26 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="cci-ge-VGl"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="IXZ-JD-UKa">
+                                <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                                <color key="color" name="AccentColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="es1-qR-huv" firstAttribute="trailing" secondItem="5EZ-qb-Rvc" secondAttribute="trailing" id="2SM-4H-1Vo"/>
+                            <constraint firstItem="IXZ-JD-UKa" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="6jf-dI-sTO"/>
                             <constraint firstItem="es1-qR-huv" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="9nI-hz-KnS"/>
                             <constraint firstItem="es1-qR-huv" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="Fju-zv-OJk"/>
                             <constraint firstAttribute="bottom" secondItem="es1-qR-huv" secondAttribute="bottom" id="New-kP-Ta2"/>
+                            <constraint firstItem="IXZ-JD-UKa" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="WvN-eb-OTS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DjP-3q-tF5"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="loadingIndicator" destination="IXZ-JD-UKa" id="fcQ-T4-3Pl"/>
                         <outlet property="tableView" destination="es1-qR-huv" id="30p-Yd-BeR"/>
                     </connections>
                 </viewController>
@@ -66,6 +74,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="AccentColor">
+            <color red="0.43900001049041748" green="0.28600001335144043" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
