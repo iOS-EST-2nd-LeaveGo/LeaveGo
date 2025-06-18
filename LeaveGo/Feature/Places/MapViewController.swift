@@ -223,6 +223,42 @@ extension MapViewController: MKMapViewDelegate {
             mapView.setRegion(region, animated: true)
         }
     }
+	
+	/// 어노테이션 탭했을 때 호출
+	/// - Parameters:
+	///   - mapView: 어노테이션 뷰가 선택된 MKMapView 인스턴스
+	///   - view: 선택된 어노테이션 인스턴스
+	///   뷰의 `annotation`이 `PlaceAnnotationModel`인 경우에만 처리
+	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+		guard let annotation = view.annotation as? PlaceAnnotationModel else { return }
+		mapView.deselectAnnotation(annotation, animated: false)
+
+		if let presented = presentedViewController {
+			presented.dismiss(animated: false) { [weak self] in
+				self?.presentDetail(for: annotation)
+			}
+		} else {
+			presentDetail(for: annotation)
+		}
+	}
+	
+	private func presentDetail(for annotation: PlaceAnnotationModel) {
+		let sb = UIStoryboard(name: String(describing: Planner.self), bundle: nil)
+		guard let detailVC = sb.instantiateViewController(
+			withIdentifier: String(describing: PlaceDetailModalViewController.self)
+		) as? PlaceDetailModalViewController else {
+			return
+		}
+
+		detailVC.place = annotation.placeModel
+
+		detailVC.modalPresentationStyle = .pageSheet
+		if let sheet = detailVC.sheetPresentationController {
+			sheet.detents = [.medium(), .large()]
+		}
+		
+		present(detailVC, animated: true)
+	}
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		if annotation is MKUserLocation {
