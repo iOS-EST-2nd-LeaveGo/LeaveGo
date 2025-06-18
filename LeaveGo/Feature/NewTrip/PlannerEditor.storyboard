@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--세 여행지 추가하기-->
+        <!--새로운 여행지 만들기-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="PlannerEditorVC" id="Y6W-OH-hqX" customClass="PlannerEditorViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-mp-Uif">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DhF-mp-Uif" customClass="PaddedTextField" customModule="LeaveGo" customModuleProvider="target">
                                 <rect key="frame" x="16" y="128.33333333333334" width="361" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -64,6 +66,9 @@
                                         <rect key="frame" x="244.33333333333329" y="0.0" width="116.66666666666666" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="장소 추가하기"/>
+                                        <connections>
+                                            <action selector="addPlannerBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OVI-R0-Ezt"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -75,6 +80,21 @@
                                     <constraint firstAttribute="width" constant="120" id="J1p-Lw-KKi"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JU5-Cn-2yZ">
+                                <rect key="frame" x="16" y="775" width="361" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="iFL-Bm-QNo"/>
+                                </constraints>
+                                <color key="tintColor" name="AccentColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="여행 만들기">
+                                    <backgroundConfiguration key="background" cornerRadius="16"/>
+                                    <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="createPlannerBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="3Ra-wq-qwZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -87,8 +107,11 @@
                             <constraint firstItem="DhF-mp-Uif" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Gqo-Bz-my9"/>
                             <constraint firstItem="llg-An-mds" firstAttribute="top" secondItem="DhF-mp-Uif" secondAttribute="bottom" constant="18" id="LEh-Y7-bxQ"/>
                             <constraint firstItem="DhF-mp-Uif" firstAttribute="top" secondItem="n9x-Qf-Hnf" secondAttribute="bottom" constant="8" symbolic="YES" id="PlK-y7-t5I"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="JU5-Cn-2yZ" secondAttribute="trailing" constant="16" id="Y6U-Cj-Pxe"/>
+                            <constraint firstItem="JU5-Cn-2yZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="cuT-3p-rWp"/>
                             <constraint firstItem="n9x-Qf-Hnf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="100" id="dro-b3-p2N"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="yyE-Qz-bmp" secondAttribute="trailing" constant="16" id="e8D-7k-ZHg"/>
+                            <constraint firstItem="JU5-Cn-2yZ" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="5" id="hNC-2n-Pdm"/>
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="k0V-v8-hgg"/>
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="top" secondItem="llg-An-mds" secondAttribute="bottom" constant="12" id="k0u-pj-uow"/>
                             <constraint firstItem="CMp-9i-qiJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="rFT-GG-lXw"/>
@@ -96,7 +119,7 @@
                             <constraint firstItem="yyE-Qz-bmp" firstAttribute="top" secondItem="CMp-9i-qiJ" secondAttribute="bottom" constant="26" id="y0a-rv-j9P"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="세 여행지 추가하기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
+                    <navigationItem key="navigationItem" title="새로운 여행지 만들기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
                     <connections>
                         <outlet property="thumbnailAdd" destination="2pe-gF-pr6" id="eSS-xx-sb8"/>
                         <outlet property="tripListTableView" destination="ew6-mm-3Pk" id="ZLK-Wh-1rC"/>
@@ -108,27 +131,15 @@
             </objects>
             <point key="canvasLocation" x="2690.8396946564885" y="-75.352112676056336"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="cKt-Lv-0oJ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QiI-hf-mRZ" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hr0-8j-v9g">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="EKM-di-3is"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UtL-r0-he8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1764.1221374045801" y="-75.352112676056336"/>
-        </scene>
     </scenes>
     <resources>
         <image name="plus.app" catalog="system" width="128" height="114"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomBackgroundColor">
+            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
