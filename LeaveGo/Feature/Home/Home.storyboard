@@ -78,13 +78,13 @@
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-6P-WJJ">
                                                                             <rect key="frame" x="0.0" y="0.0" width="33" height="15.666666666666666"/>
                                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                            <color key="textColor" name="CustomBackgroundColor"/>
+                                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JhV-1P-pgA">
                                                                             <rect key="frame" x="0.0" y="23.666666666666657" width="48" height="24"/>
                                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                                                            <color key="textColor" name="CustomBackgroundColor"/>
+                                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
@@ -95,7 +95,7 @@
                                                                     <buttonConfiguration key="configuration" style="plain" image="star" catalog="system">
                                                                         <backgroundConfiguration key="background" cornerRadius="15" strokeWidth="6"/>
                                                                         <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
-                                                                        <color key="baseForegroundColor" name="CustomBackgroundColor"/>
+                                                                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </buttonConfiguration>
                                                                 </button>
                                                             </subviews>
@@ -211,9 +211,6 @@
         </namedColor>
         <namedColor name="BorderColor">
             <color red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="CustomBackgroundColor">
-            <color red="0.9882352941176471" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
