@@ -234,7 +234,6 @@ class PlacesViewController: UIViewController {
                 await MainActor.run {
                     self.tableView.reloadRows(at: indexPaths, with: .fade)
                     NotificationCenter.default.post(name: .placeModelUpdated, object: self.currentPlaceModel)
-
                 }
             }
         }
