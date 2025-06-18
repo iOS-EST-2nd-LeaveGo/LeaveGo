@@ -18,5 +18,6 @@ class RecommendedPlaceCardCollectionViewCell: UICollectionViewCell {
         
         placeBgImage.layer.cornerRadius = 16
         placeBgImage.clipsToBounds = true
+        placeBgImage.addGradientOverlay(to: self.placeBgImage)
     }
 }
