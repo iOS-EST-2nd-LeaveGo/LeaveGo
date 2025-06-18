@@ -260,13 +260,32 @@ extension MapViewController: MKMapViewDelegate {
 		}
 
 		detailVC.place = annotation.placeModel
-
-		detailVC.modalPresentationStyle = .pageSheet
-		if let sheet = detailVC.sheetPresentationController {
-			sheet.detents = [.medium(), .large()]
-		}
+		detailVC.delegate = self
 		
-		present(detailVC, animated: true)
+		
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			// ===== iPad: 사이드바처럼 child VC로 추가 =====
+			addChild(detailVC)
+			view.addSubview(detailVC.view)
+			detailVC.didMove(toParent: self)
+			
+			// 오토레이아웃으로 왼쪽에 고정
+			detailVC.view.translatesAutoresizingMaskIntoConstraints = false
+			NSLayoutConstraint.activate([
+				detailVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				detailVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+				detailVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+				detailVC.view.widthAnchor.constraint(equalToConstant: 400) // 너비는 필요에 따라 조정
+			])
+		} else {
+			// ===== iPhone: pageSheet로 모달 프레젠트 =====
+			detailVC.modalPresentationStyle = .pageSheet
+			if let sheet = detailVC.sheetPresentationController {
+				sheet.detents = [.medium(), .large()]
+				sheet.prefersGrabberVisible = false
+			}
+			present(detailVC, animated: true)
+		}
 	}
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -278,10 +297,7 @@ extension MapViewController: MKMapViewDelegate {
             annotationView.image = UIImage(named: "img_userAnnotation")
             annotationView.frame = CGRect(x: 0, y: 0, width: 25, height: 25*1.44)
             annotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.63)
-//            annotationView.layer.shadowColor = UIColor.systemBlue.cgColor
-//            annotationView.layer.shadowOffset = CGSize(width: 1, height: 1)
-//            annotationView.layer.shadowOpacity = 0.5
-//            annotationView.layer.shadowRadius = 5
+			
             return annotationView
         }
 		
@@ -358,5 +374,26 @@ extension MapViewController: LayoutSupport {
 extension MapViewController: ModalPresentable {
 	func showDetailSheet(for place: PlaceModel) {
 		presentPlaceDetail(for: place)
+	}
+	
+	func presentPlaceDetail(for place: PlaceModel) {
+		let annotation = PlaceAnnotationModel(place: place)
+		// iPad/iPhone 공통 분기 로직
+		presentDetail(for: annotation)
+	}
+}
+
+extension MapViewController: PlaceDetailModalDelegate {
+	func placeDetailModalDidTapFindRouteButton(
+		_ controller: PlaceDetailModalViewController,
+		didSelectRoute destination: RouteDestination
+	) {
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			controller.willMove(toParent: nil)
+			controller.view.removeFromSuperview()
+			controller.removeFromParent()
+		}
+		// 공통 경로 화면으로 이동
+		showRouteScreen(destination: destination)
 	}
 }
