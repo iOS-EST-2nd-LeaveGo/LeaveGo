@@ -246,6 +246,7 @@
                                                             </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qV4-qz-mXv">
                                                                 <rect key="frame" x="102" y="0.0" width="259" height="26.666666666666668"/>
+                                                                <color key="tintColor" systemColor="labelColor"/>
                                                                 <buttonConfiguration key="configuration" style="plain" image="star" catalog="system" imagePadding="0.0">
                                                                     <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                                                 </buttonConfiguration>
@@ -405,6 +406,9 @@
         <namedColor name="SecandaryColor">
             <color red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
