@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol PlaceDetailModalDelegate: AnyObject {
+	func placeDetailModalDidTapFindRouteButton(_ controller: PlaceDetailModalViewController,
+											   didSelectRoute destination: RouteDestination)
+}
+
 class PlaceDetailModalViewController: UIViewController {
     var place: PlaceModel?
     var placeDetail: PlaceDetailProtocol?
+	weak var delegate: (PlaceDetailModalDelegate)?
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
@@ -50,21 +56,30 @@ class PlaceDetailModalViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-	
-	
+
 	/// 경로 찾기 버튼 액션 - 경로 탐색 뷰로 이동
 	/// - Parameter sender: UIButton 클릭시 목적지 데이터를 담아 showRouteScreen에 전달
 	@IBAction func findRouteTapped(_ sender: UIButton) {
 		guard let place = place else { return }
 		let dest = RouteDestination(place: place)
-		
-		guard let presenter = presentingViewController else {
-			print("⚠️ presentingViewController가 없습니다")
-			return
-		}
-		
-		dismiss(animated: true) {
-			presenter.showRouteScreen(destination: dest)
+
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			// iPad: presentingViewController 검사 없이 바로 delegate
+			delegate?.placeDetailModalDidTapFindRouteButton(self,
+															didSelectRoute: dest)
+		} else {
+			guard presentingViewController != nil else {
+				print("⚠️presentingViewController가 없습니다")
+				return
+			}
+			
+			dismiss(animated: true) {
+				self.delegate?
+					.placeDetailModalDidTapFindRouteButton(
+						self,
+						didSelectRoute: dest
+					)
+			}
 		}
 	}
 	
