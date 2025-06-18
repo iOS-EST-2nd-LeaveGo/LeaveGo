@@ -20,7 +20,7 @@ class PlannerAddButtonCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         plannerAddButtonView.layer.borderWidth = 1
-        plannerAddButtonView.layer.borderColor = UIColor(named: "BorderColor")?.cgColor
+        plannerAddButtonView.layer.borderColor = UIColor.prominentBorder.cgColor
         plannerAddButtonView.layer.cornerRadius = 16
         plannerAddButtonView.clipsToBounds = true
     }

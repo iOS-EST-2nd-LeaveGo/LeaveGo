@@ -82,7 +82,7 @@ extension BookMarkPlaceViewController: UITableViewDataSource {
         }
         
         cell.delegate = self
-        cell.setCell(model: placeModelList[indexPath.row], mode: .list(isBookmarked: true))
+        cell.setCell(model: placeModelList[indexPath.row], mode: .list)
         // 항상 isBookmarked true
         
         return cell

@@ -8,6 +8,7 @@
 import UIKit
 
 enum CollectionViewLayout {
+    /*
     static func grid(
         columns: CGFloat,
         itemInsets: NSDirectionalEdgeInsets,
@@ -34,17 +35,20 @@ enum CollectionViewLayout {
 
         return UICollectionViewCompositionalLayout(section: section)
     }
+     */
     
-    static func threeByFourGrid(
+    static func setGridLayoutWithRatio(
         columns: CGFloat,
         itemInsets: NSDirectionalEdgeInsets,
         groupInsets: NSDirectionalEdgeInsets,
-        sectionInsets: NSDirectionalEdgeInsets
+        sectionInsets: NSDirectionalEdgeInsets,
+        ratioX: CGFloat = 1,
+        ratioY: CGFloat = 1
     ) -> UICollectionViewLayout {
         let itemWidthFraction = 1.0 / columns
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(itemWidthFraction),
-            heightDimension: .fractionalWidth(itemWidthFraction * 4.0 / 3.0) // ← 3:4 비율
+            heightDimension: .fractionalWidth(itemWidthFraction * ratioY / ratioX ) // ← 사용부에서 넘겨받을 비율
         )
 
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -52,7 +56,7 @@ enum CollectionViewLayout {
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(itemWidthFraction * 4.0 / 3.0) // ← group도 아이템 높이에 맞춤
+            heightDimension: .fractionalWidth(itemWidthFraction * ratioY / ratioX ) // ← group도 아이템 높이에 맞춤
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         group.contentInsets = groupInsets

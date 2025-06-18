@@ -15,7 +15,7 @@ class AreaSelectionCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         areaNameContainer.layer.borderWidth = 1
-        areaNameContainer.layer.borderColor = UIColor.border.cgColor
+        areaNameContainer.layer.borderColor = UIColor.prominentBorder.cgColor
         areaNameContainer.layer.cornerRadius = 16
         areaNameContainer.clipsToBounds = true
         
