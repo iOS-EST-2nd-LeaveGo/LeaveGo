@@ -148,4 +148,9 @@ class PlaceDetailModalViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func addBookmark(_ sender: Any) {
+        
+    }
+    
 }
