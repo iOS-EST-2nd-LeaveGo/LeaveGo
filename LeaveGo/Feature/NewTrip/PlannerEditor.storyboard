@@ -121,6 +121,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="새로운 여행지 만들기" largeTitleDisplayMode="never" id="SfV-Yf-Wog"/>
                     <connections>
+                        <outlet property="createPlannerBtn" destination="JU5-Cn-2yZ" id="tXT-t6-vaW"/>
                         <outlet property="thumbnailAdd" destination="2pe-gF-pr6" id="eSS-xx-sb8"/>
                         <outlet property="tripListTableView" destination="ew6-mm-3Pk" id="ZLK-Wh-1rC"/>
                         <outlet property="tripName" destination="DhF-mp-Uif" id="BlW-Nc-NZS"/>

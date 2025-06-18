@@ -18,13 +18,13 @@ class PlannerEditorViewController: UIViewController {
     @IBOutlet weak var tripThumbnail: UIImageView!
     @IBOutlet weak var thumbnailAdd: UIButton!
     @IBOutlet weak var tripListTableView: UITableView!
-
+    @IBOutlet weak var createPlannerBtn: UIButton!
+    
     @IBAction func addPlannerBtn(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
     
 
-    
     @IBAction func createPlannerBtn(_ sender: Any) {
         savePlannerData()
         NotificationCenter.default.post(name: .didCreateNewPlanner, object: nil)
@@ -41,6 +41,12 @@ class PlannerEditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if plannerID != nil {
+            createPlannerBtn.isHidden = true
+        } else {
+            createPlannerBtn.isHidden = false
+        }
         
         if let id = plannerID {
             print("🆔 전달받은 planner ID: \(id)")
@@ -66,12 +72,12 @@ class PlannerEditorViewController: UIViewController {
                     }
                 }
 
-
             } else {
                 print("❌ fetch 실패: 해당 ID의 planner를 찾을 수 없음")
             }
         } else {
             print("🆕 새로운 planner 생성 예정 (id 없음)")
+            
         }
 
         // ✅ 썸네일 기본 설정 (없을 경우 대비)
@@ -246,9 +252,6 @@ extension PlannerEditorViewController: UITableViewDragDelegate, UITableViewDropD
                 }
             }
         }
-
-
-
 
         let newPlanner = CoreDataManager.shared.createPlanner(
             title: title,
