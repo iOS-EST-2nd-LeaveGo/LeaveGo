@@ -42,21 +42,49 @@ class PlannerEditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         if let id = plannerID {
             print("🆔 전달받은 planner ID: \(id)")
+            
+            if let fetchedPlanner = CoreDataManager.shared.fetchOnePlanner(id: id) {
+                print("✅ fetch 성공: \(fetchedPlanner)")
+                print("✅ fetch 썸네일 이미지: \(fetchedPlanner.thumbnailPath)")
+
+                // 🔽 여행 이름 반영
+                tripName.text = fetchedPlanner.title
+
+                // 🔽 썸네일 이미지 로드
+                if let imageName = fetchedPlanner.thumbnailPath {
+                    let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                    let fileURL = documentsURL.appendingPathComponent(imageName)
+
+                    if let image = UIImage(contentsOfFile: fileURL.path) {
+                        tripThumbnail.image = image
+                        isImageSelected = true
+                        thumbnailAdd.setTitle("이미지 삭제", for: .normal)
+                    } else {
+                        print("❌ 썸네일 로딩 실패 (경로: \(fileURL.path))")
+                    }
+                }
+
+
+            } else {
+                print("❌ fetch 실패: 해당 ID의 planner를 찾을 수 없음")
+            }
         } else {
             print("🆕 새로운 planner 생성 예정 (id 없음)")
         }
-        
 
-        tripThumbnail.image = UIImage(systemName: "photo")
+        // ✅ 썸네일 기본 설정 (없을 경우 대비)
+        if tripThumbnail.image == nil {
+            tripThumbnail.image = UIImage(systemName: "photo")
+            isImageSelected = false
+            thumbnailAdd.setTitle("이미지 추가", for: .normal)
+        }
+
         tripThumbnail.layer.cornerRadius = 12
         tripThumbnail.clipsToBounds = true
-        isImageSelected = false
-        thumbnailAdd.setTitle("이미지 추가", for: .normal)
 
-        // ListTableViewCell XIB 등록
+        // ✅ 셀 등록 및 테이블 뷰 설정
         let nib = UINib(nibName: String(describing: ListTableViewCell.self), bundle: nil)
         tripListTableView.register(nib, forCellReuseIdentifier: String(describing: ListTableViewCell.self))
         tripListTableView.dataSource = self
@@ -66,7 +94,7 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dragDelegate = self
         tripListTableView.dropDelegate = self
     }
-    
+
     
     deinit{
         print("PlannerEditter 해지 완료")
