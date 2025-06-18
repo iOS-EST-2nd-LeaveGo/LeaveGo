@@ -73,15 +73,14 @@ class TransportViewController: UIViewController {
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        if mode == .editing,
-           let savedTransport = UserSetting.shared.preferredTransport,
-           let index = TransportType.allCases.firstIndex(of: savedTransport) {
+        if mode == .editing {
+            if let savedTransport = UserSetting.shared.preferredTransport,
+               let index = TransportType.allCases.firstIndex(of: savedTransport) {
 
-            let indexPath = IndexPath(item: index, section: 0)
-
-            transportCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-
-            saveButton.isEnabled = true
+                let indexPath = IndexPath(item: index, section: 0)
+                transportCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+                saveButton.isEnabled = true
+            }
         }
     }
 
