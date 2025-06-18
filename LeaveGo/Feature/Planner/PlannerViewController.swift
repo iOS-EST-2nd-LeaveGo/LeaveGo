@@ -93,6 +93,12 @@ class PlannerViewController: UIViewController {
             addPlannerButton.isHidden = false
         }
         
+          print("=== 플래너 목록 ===")
+          for planner in plannerList {
+              print("제목: \(planner.title), 썸네일 경로: \(planner.thumbnailPath ?? "없음")")
+          }
+          
+        
         plannerCollectionView.reloadData()
     }
 
@@ -131,7 +137,8 @@ extension PlannerViewController: UICollectionViewDataSource {
             let cell = plannerCollectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PlannerCollectionViewCell.self), for: indexPath) as! PlannerCollectionViewCell
             
             let planner = plannerList[indexPath.item]
-            
+            cell.planner = planner
+
             if let thumnailPathExisting = planner.thumbnailPath {
                 cell.plannerThumbnailImageView.image = UIImage(named: thumnailPathExisting)
             }
