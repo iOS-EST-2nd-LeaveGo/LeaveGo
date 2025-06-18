@@ -8,6 +8,7 @@
 import UIKit
 
 class PlannerViewController: UIViewController {
+    @IBOutlet weak var deleteTipMessageLabel: UILabel!
     @IBOutlet weak var plannerCollectionView: UICollectionView!
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var navigateToPlannerButton: UIButton!
@@ -45,9 +46,13 @@ class PlannerViewController: UIViewController {
             let planners = entities.compactMap { Planner(entity: $0) }
             plannerList = planners
             
+            deleteTipMessageLabel.isHidden = false
+            
             errorMessageLabel.isHidden = true
             navigateToPlannerButton.isHidden = true
         } else {
+            deleteTipMessageLabel.isHidden = true
+            
             errorMessageLabel.isHidden = false
             navigateToPlannerButton.isHidden = false
         }
@@ -108,15 +113,22 @@ class PlannerViewController: UIViewController {
         
         let point = gesture.location(in: plannerCollectionView)
         
+        // TODO: 길게 누르는 제스쳐 분기
+        
         if let indexPath = plannerCollectionView.indexPathForItem(at: point) {
-            let planner = plannerList[indexPath.item]
-            let alert = UIAlertController(title: "삭제", message: "\(planner.title) 여행을 정말 삭제하시겠어요?\n이 작업은 되돌릴 수 없어요.", preferredStyle: .alert)
             
-            alert.addAction(UIAlertAction(title: "확인", style: .default) {_ in
-                // TODO: 여행 삭제 기능 구현하기
-            })
-            alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-            present(alert, animated: true)
+            // if let cell = collectionView.cellForItem(at: indexPath) {
+                // if let cell is PlannerAddButtonCollectionViewCell {
+                    let planner = plannerList[indexPath.item]
+                    let alert = UIAlertController(title: "삭제", message: "\(planner.title) 여행을 정말 삭제하시겠어요?\n이 작업은 되돌릴 수 없어요.", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "확인", style: .default) {_ in
+                        // TODO: 여행 삭제 기능 구현하기
+                    })
+                    alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+                    present(alert, animated: true)
+                // }
+           // }
         }
     }
 }
