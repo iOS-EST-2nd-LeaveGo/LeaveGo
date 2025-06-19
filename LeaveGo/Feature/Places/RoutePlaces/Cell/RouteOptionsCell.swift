@@ -41,12 +41,8 @@ class RouteOptionsCell: UITableViewCell {
 		config.imagePlacement = .leading
 		config.imagePadding = 4
 
-		config.baseBackgroundColor = UIColor { tc in
-			tc.userInterfaceStyle == .dark ? .white : .black
-		}
-		config.baseForegroundColor = UIColor { tc in
-			tc.userInterfaceStyle == .dark ? .black : .white
-		}
+		config.baseBackgroundColor = UIColor.accent
+		config.baseForegroundColor = UIColor.white
 		config.cornerStyle = .dynamic
 		
 		let btn = UIButton(configuration: config)
