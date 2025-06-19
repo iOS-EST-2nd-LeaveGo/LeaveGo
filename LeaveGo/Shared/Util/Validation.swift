@@ -9,7 +9,7 @@ import Foundation
 
 enum Validation {
     // 닉네임 검증
-    // 공백 x, 알파벳/한글/숫자만 허용, 2~6글자 허용
+    // 공백 x, 알파벳/한글/숫자만 허용, 2~8글자 허용
     static func isValidNickname(_ nickname: String) -> Bool {
         let trimmedNickname = nickname.filter { !$0.isWhitespace }
 
