@@ -26,7 +26,7 @@
 
 | 메인 화면 | 장소 화면 | 상세 화면 | 경로 화면 | 일정 화면 |
 |-----------|------------|------------|------------|------------|
-|<img src="https://github.com/user-attachments/assets/81dc28d5-94f2-4ef2-bb7d-d14a2cb296ea" width="190"/>  | <img src="https://github.com/user-attachments/assets/c3b6c8c2-def5-4307-85ca-9e5dd8721876" width="190"/> | <img src="https://github.com/user-attachments/assets/835eb99c-b480-4609-9bb9-c2ca5672842f" width="190"/> | <img src="https://github.com/user-attachments/assets/8a954010-e15e-408b-9b08-f2e4390a7756" width="190"/> | <img src="https://github.com/user-attachments/assets/175465c5-ddc9-41b3-91a1-32f6aa6bf49d" width="190"/>
+|<img src="https://github.com/user-attachments/assets/81dc28d5-94f2-4ef2-bb7d-d14a2cb296ea" width="190"/>  | <img src="https://github.com/user-attachments/assets/c3b6c8c2-def5-4307-85ca-9e5dd8721876" width="190"/> | <img src="https://github.com/user-attachments/assets/835eb99c-b480-4609-9bb9-c2ca5672842f" width="190"/> | <img src="https://github.com/user-attachments/assets/8a954010-e15e-408b-9b08-f2e4390a7756" width="190"/> | <img src="https://github.com/user-attachments/assets/0e059cf4-5448-4ef6-8e7a-29215bb71831" width="190"/>
 
 
 ---
