@@ -11,16 +11,14 @@ class PlannerCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var plannerCardStackView: UIStackView!
     @IBOutlet weak var plannerThumbnailImageView: UIImageView!
     @IBOutlet weak var plannerTitleLabelView: UILabel!
-
-    @IBAction func navigateToDetailVC(_ sender: Any) {
-        print("🤖 Detail VC로 이동하는 코드를 작성해라 휴먼")
-    }
+    
+    var planner: Planner?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         plannerCardStackView.layer.borderWidth = 1
-        plannerCardStackView.layer.borderColor = UIColor(named: "BorderColor")?.cgColor
+        plannerCardStackView.layer.borderColor = UIColor.prominentBorder.cgColor
         plannerCardStackView.layer.cornerRadius = 16
         plannerCardStackView.clipsToBounds = true
     }

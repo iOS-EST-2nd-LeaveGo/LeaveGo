@@ -6,16 +6,14 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 protocol RouteBottomSheetViewControllerDelegate: AnyObject {
 	func didTapCarButton()
-	func didTapBicycleButton()
+	func didTapWalkButton()
+	func didTapTransitButton()
 	func didSelectRoute(_ route: MKRoute)
-}
-
-extension Notification.Name {
-	/// RouteBottomSheet에서 요약 셀을 탭했을 때
-	static let routeDidSelect = Notification.Name("routeDidSelect")
 }
 
 class RouteBottomSheetViewController: UIViewController {
@@ -27,14 +25,18 @@ class RouteBottomSheetViewController: UIViewController {
 	}
 	
 	var destination: RouteDestination!
-	
+    var initialMode: TransportType = .automobile
+
 	private var selectedMode: RouteBottomSheetView.TransportMode?
 	private let cellHeight: CGFloat = 45
 	private let spacing:   CGFloat = 20
 	
 	private var stops: [Stop] = []
+	// 원본 데이터
+	var routesData: RouteOptions?
+	// 가변 데이터 토글 - 렌더링 용
+	private var displayOptions: [MKRoute] = []
 	
-	private var routesData: RouteOptions?
 	private var showingRoutes = false
 	private var selectedIndex = 0
 	
@@ -56,7 +58,7 @@ class RouteBottomSheetViewController: UIViewController {
 				  color: .systemPink)
 		]
 	}
-
+	
 	// MARK: – Lifecycle
 	override func loadView() {
 		view = RouteBottomSheetView()
@@ -65,7 +67,7 @@ class RouteBottomSheetViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupTableView()
-		setupButtons()
+		setupTargetActions()
 		setupPassthroughArea()
 		updateTableHeight()
 	}
@@ -117,21 +119,28 @@ class RouteBottomSheetViewController: UIViewController {
 		])
 	}
 	
-	private func setupButtons() {
-		sheetView.carButton.addTarget(self,
-									  action: #selector(carTapped),
-									  for: .touchUpInside)
-		sheetView.walkButton.addTarget(self,
-									   action: #selector(walkTapped),
-									   for: .touchUpInside)
-		
-		sheetView.bicycleButton.addTarget(self,
-										  action: #selector(bicycleTapped),
-										  for: .touchUpInside)
-		
-		sheetView.select(mode: .car)
-	}
-	
+    private func setupTargetActions() {
+        sheetView.carButton.addTarget(self,
+                                      action: #selector(carTapped),
+                                      for: .touchUpInside)
+        sheetView.walkButton.addTarget(self,
+                                       action: #selector(walkTapped),
+                                       for: .touchUpInside)
+
+        sheetView.transitButton.addTarget(self,
+                                          action: #selector(transitTapped),
+                                          for: .touchUpInside)
+
+        switch initialMode {
+        case .automobile:
+            carTapped()
+        case .walking:
+            walkTapped()
+        case .transit:
+            transitTapped()
+        }
+    }
+
 	// MARK: – Actions
 	@objc private func dismissSheet() {
 		dismiss(animated: true)
@@ -139,107 +148,123 @@ class RouteBottomSheetViewController: UIViewController {
 	
 	@objc private func carTapped() {
 		sheetView.select(mode: .car)
-		if selectedMode != .car {
-			selectedMode   = .car
-			showingRoutes  = true
-			selectedIndex  = 0
-			sheetView.emptyStateLabel.isHidden = true
-			
-			delegate?.didTapCarButton()
-			
-			tableView.reloadData()
-			updateTableHeight()
-		} else {
-			showingRoutes.toggle()
-			tableView.reloadData()
-			updateTableHeight()
-		}
+		selectedMode = .car
+		
+		// 항상 경로 재요청
+		delegate?.didTapCarButton()
+		
+		// UI 갱신
+		showingRoutes = true
+		tableView.reloadData()
+		updateTableHeight()
 	}
 	
 	@objc private func walkTapped() {
 		sheetView.select(mode: .walk)
-		print("tapped walk button")
+		selectedMode = .walk
+		
+		delegate?.didTapWalkButton()
+		
+		showingRoutes = true
+		tableView.reloadData()
+		updateTableHeight()
 	}
 	
-	@objc private func bicycleTapped() {
-		sheetView.select(mode: .bicycle)
-		if selectedMode != .bicycle {
-			selectedMode  = .bicycle
-			showingRoutes = true
-			
-			sheetView.emptyStateLabel.isHidden = false
-			tableView.reloadData()
-			updateTableHeight()
-			
-			delegate?.didTapBicycleButton()
-		} else {
-			showingRoutes.toggle()
-			tableView.reloadData()
-			updateTableHeight()
-		}
+	@objc private func transitTapped() {
+		routesData = nil
+		displayOptions = []
+		
+		sheetView.select(mode: .transit)
+		selectedMode = .transit
+		
+		// 빈 상태일 때 메시지 표시
+		sheetView.emptyStateLabel.text = emptyMessage(for: .transit)
+		sheetView.emptyStateLabel.isHidden = false
+		
+		showingRoutes = true
+		
+		// UI 업데이트 추가
+		tableView.reloadData()
+		updateTableHeight()
+		
+		delegate?.didTapTransitButton()
 	}
+
 	
 	@objc private func navigateOptionTapped(_ sender: UIButton) {
 		guard let data = routesData,
 			  sender.tag < data.options.count
 		else { return }
 		
-		// 1) 선택된 RouteOptions
 		let selectedRoute = data.options[sender.tag]
 		delegate?.didSelectRoute(selectedRoute)
 		
-		// 2) 출발지/도착지 CLPlacemark 확보
 		guard let startCL = data.start,
 			  let destCL = data.dest
 		else { return }
 		
-		// 3) CLPlacemark → MKPlacemark 래핑
 		let srcPM = MKPlacemark(placemark: startCL)
 		let dstPM = MKPlacemark(placemark: destCL)
 		
-		// 4) MKMapItem 생성
 		let srcItem = MKMapItem(placemark: srcPM)
 		let dstItem = MKMapItem(placemark: dstPM)
 		
 		srcItem.name = startCL.name
 		dstItem.name = destCL.name
 		
-		// 5) 지도 앱 실행
+		let directionMode: String
+		switch selectedMode {
+		case .car:
+			directionMode = MKLaunchOptionsDirectionsModeDriving
+		case .walk:
+			directionMode = MKLaunchOptionsDirectionsModeWalking
+		case .transit:
+			directionMode = MKLaunchOptionsDirectionsModeTransit
+		default:
+			directionMode = MKLaunchOptionsDirectionsModeDriving
+		}
+		
 		let launchOpts: [String: Any] = [
-			MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+			MKLaunchOptionsDirectionsModeKey: directionMode
 		]
-		MKMapItem.openMaps(with: [srcItem, dstItem], launchOptions: launchOpts)
+		
+		let alert = CustomAlertView(
+			message: "애플 지도\n길 안내로 이동합니다",
+			confirmTitle: "이동",
+			cancelTitle: "취소",
+			confirmAction: {
+				MKMapItem.openMaps(with: [srcItem, dstItem], launchOptions: launchOpts)
+				self.delegate?.didSelectRoute(data.options[sender.tag])
+			},
+			cancelAction: nil
+		)
+		alert.show(on: self)
 	}
 	
 	func showRoutes(_ data: RouteOptions) {
 		self.routesData = data
-		showingRoutes  = true
-		//selectedIndex  = 0
-		sheetView.emptyStateLabel.isHidden = !data.options.isEmpty
+		self.displayOptions = data.options
+		self.showingRoutes  = true
+		
+		if data.options.isEmpty {
+			sheetView.emptyStateLabel.text = emptyMessage(for: selectedMode ?? .transit)
+				sheetView.emptyStateLabel.isHidden = false
+			} else {
+				sheetView.emptyStateLabel.isHidden = true
+			}
+
 		tableView.reloadData()
 		updateTableHeight()
 	}
 	
-	private func insertOptionRows(count: Int) {
-		let base = stops.count
-		let paths = (0..<count).map { IndexPath(row: base + $0, section: 0) }
-		
-		showingRoutes = true
-		
-		tableView.beginUpdates()
-		tableView.insertRows(at: paths, with: .automatic)
-		tableView.endUpdates()
+	private func emptyMessage(for mode: RouteBottomSheetView.TransportMode) -> String {
+		switch mode {
+		case .car:     return "자동차 경로를 사용할 수 없습니다"
+		case .walk:    return "도보 경로를 사용할 수 없습니다"
+		case .transit: return "대중교통 경로를 사용할 수 없습니다"
+		}
 	}
-	
-	private func deleteOptionRows() {
-		guard let opt = routesData?.options else { return }
-		let base = stops.count
-		let paths = (0..<opt.count).map { IndexPath(row: base + $0, section: 0) }
-		tableView.beginUpdates()
-		tableView.deleteRows(at: paths, with: .automatic)
-		tableView.endUpdates()
-		showingRoutes = false
-	}
+
 	
 	// MARK: – Table Height
 	private func updateTableHeight() {
@@ -273,8 +298,8 @@ class RouteBottomSheetViewController: UIViewController {
 		var iconCenters: [CGPoint] = []
 		
 		for i in 0..<stops.count {
-			let ip = IndexPath(row: i, section: 0)
-			guard let cell = sheetView.startDestinationTableView.cellForRow(at: ip) as? RouteStopCell else { continue }
+			let indexPath = IndexPath(row: i, section: 0)
+			guard let cell = sheetView.startDestinationTableView.cellForRow(at: indexPath) as? RouteStopCell else { continue }
 			
 			let iconCenter = cell.iconBackgroundView.center
 			let iconCenterInTable = sheetView.startDestinationTableView.convert(iconCenter, from: cell.iconBackgroundView.superview)
@@ -316,10 +341,16 @@ class RouteBottomSheetViewController: UIViewController {
 		
 		if stops.count == 1 {
 			stops.append(dest)
-			sheetView.startDestinationTableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+			sheetView.startDestinationTableView.insertRows(
+				at: [IndexPath(row: 1, section: 0)],
+				with: .automatic
+			)
 		} else {
 			stops[1] = dest
-			sheetView.startDestinationTableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+			sheetView.startDestinationTableView.reloadRows(
+				at: [IndexPath(row: 1, section: 0)],
+				with: .automatic
+			)
 		}
 		updateTableHeight()
 	}
@@ -345,7 +376,7 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 			cell.configure(
 				with: stop,
 				isFirst: indexPath.row == 0,
-				isLast:  indexPath.row == stops.count - 1
+				isLast: indexPath.row == stops.count - 1
 			)
 			cell.selectionStyle = .none
 			return cell
@@ -364,39 +395,58 @@ extension RouteBottomSheetViewController: UITableViewDataSource {
 			with: routeOpt,
 			at: idx,
 			target: self,
-			action: #selector(navigateOptionTapped(_:))
+			action: #selector(navigateOptionTapped)
 		)
 		cell.selectionStyle = .none
 		return cell
 	}
 	
 	
-	func tableView(_ tv: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+	func tableView(
+		_ tableView: UITableView,
+		editingStyleForRowAt indexPath: IndexPath
+	) -> UITableViewCell.EditingStyle {
 		.none
 	}
 	
-	func tableView(_ tv: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+	func tableView(
+		_ tableView: UITableView,
+		shouldIndentWhileEditingRowAt indexPath: IndexPath
+	) -> Bool {
 		false
 	}
 	
-	func tableView(_ tv: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+	func tableView(
+		_ tableView: UITableView,
+		canMoveRowAt indexPath: IndexPath
+	) -> Bool {
 		return indexPath.row < stops.count
 	}
 	
-	func tableView(_ tv: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+	func tableView(
+		_ tableView: UITableView,
+		moveRowAt sourceIndexPath: IndexPath,
+		to destinationIndexPath: IndexPath
+	) {
 		let moved = stops.remove(at: sourceIndexPath.row)
 		stops.insert(moved, at: destinationIndexPath.row)
-		tv.reloadData()
+		tableView.reloadData()
 		updateTableHeight()
 	}
 }
 
 extension RouteBottomSheetViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+	func tableView(
+		_ tableView: UITableView,
+		willSelectRowAt indexPath: IndexPath
+	) -> IndexPath? {
 		return indexPath.row < stops.count ? nil : indexPath
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView(
+		_ tableView: UITableView,
+		didSelectRowAt indexPath: IndexPath
+	) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		guard let data = routesData,

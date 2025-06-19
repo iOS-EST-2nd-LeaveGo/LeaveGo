@@ -2,7 +2,7 @@
 //  RouteMapManager.swift
 //  LeaveGo
 //
-//  Created by Nat Kim on 6/12/25.
+//  Created by Seohyun Kim on 6/12/25.
 //
 
 import Foundation
@@ -30,7 +30,7 @@ final class RouteMapManager: NSObject {
 	
 	/// 목적지 고정 좌표를 MKPlacemark로 변환
 	var destPlacemark: MKPlacemark {
-		MKPlacemark(coordinate: destination.coordinate)
+		return MKPlacemark(coordinate: destination.coordinate)
 	}
 	
 	init(mapView: MKMapView, destination: RouteDestination) {
@@ -46,25 +46,44 @@ final class RouteMapManager: NSObject {
 	
 	
 	/// 교통수단 이동경로 계산
-	/// - Parameter transportType: 자동차 타입
+	/// - Parameter transportType: any(가능한 교통수단 모두) 타입
 	/// - Returns: 경로 정보
-	func calculateRoutes(transportType: MKDirectionsTransportType = .automobile) async throws -> [MKRoute] {
-		guard let start = startPlacemark else {
-			throw RouteError.locationUnavailable
+	func calculateRoutes(
+		transportType: MKDirectionsTransportType = .any
+		) async throws -> [MKRoute] {
+			guard let start = startPlacemark else {
+				throw RouteError.locationUnavailable
+			}
+
+			let request = MKDirections.Request()
+			request.source = MKMapItem(placemark: start)
+			request.destination = MKMapItem(placemark: destPlacemark)
+			request.transportType = transportType
+			request.requestsAlternateRoutes = true
+
+			let response = try await MKDirections(request: request).calculate()
+			guard !response.routes.isEmpty else {
+				throw RouteError.noRoutes
+			}
+			return response.routes
 		}
-		
-		let request = MKDirections.Request()
-		request.source = MKMapItem(placemark: start)
-		request.destination = MKMapItem(placemark: destPlacemark)
-		request.transportType = transportType
-		request.requestsAlternateRoutes = true
-		
-		let response = try await MKDirections(request: request).calculate()
-		guard !response.routes.isEmpty else {
-			throw RouteError.noRoutes
+
+		// MARK: – Convenience Wrappers
+
+		/// 자동차 전용 경로
+		func calculateDrivingRoutes() async throws -> [MKRoute] {
+			try await calculateRoutes(transportType: .automobile)
 		}
-		return response.routes
-	}
+
+		/// 도보 전용 경로
+		func calculateWalkingRoutes() async throws -> [MKRoute] {
+			try await calculateRoutes(transportType: .walking)
+		}
+
+		/// 대중교통 전용 경로
+		func calculateTransitRoutes() async throws -> [MKRoute] {
+			try await calculateRoutes(transportType: .transit)
+		}
 
 	/// MKRoute 또는 직선 폴리라인을 그리고, safeAreaInsets + bottomSheet 높이 기반으로 padding 적용
 	/// - Parameters:
@@ -105,34 +124,39 @@ final class RouteMapManager: NSObject {
 		)
 		mapView.setVisibleMapRect(rect, edgePadding: insets, animated: true)
 	}
-
-	   // 예시로 padding을 뷰 컨트롤러에서 구해야할때
-	/*
-	   func drawRoute(_ route: MKRoute? = nil,
-					  edgePadding pad: UIEdgeInsets) {
-		   // 동일하게 1–3)번 수행 후:
-		   let poly: MKPolyline = {
-			   if let r = route { return r.polyline }
-			   guard let start = startPlacemark else { fatalError() }
-			   let c = [start.coordinate, destination.coordinate]
-			   return MKPolyline(coordinates: c, count: c.count)
-		   }()
-
-		   mapView.removeOverlays(mapView.overlays)
-		   mapView.addOverlay(poly)
-		   mapView.setVisibleMapRect(poly.boundingMapRect,
-									 edgePadding: pad,
-									 animated: true)
-	   }
-	*/
 }
 
 extension RouteMapManager: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
 		let r = MKPolylineRenderer(overlay: overlay)
-		r.strokeColor = .systemOrange
+		r.strokeColor = .myAccent
 		r.lineWidth = 8
 		return r
+	}
+	
+	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+		guard annotation is MKUserLocation else {
+			return nil
+		}
+		
+		let reuseID = "userLocationMarker"
+		let markerView: MKMarkerAnnotationView
+		if let dequeued = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+			as? MKMarkerAnnotationView {
+			markerView = dequeued
+			markerView.annotation = annotation
+		} else {
+			markerView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+		}
+		
+
+		markerView.markerTintColor = .myAccent
+		markerView.glyphImage = .none
+		markerView.glyphTintColor = .white
+		markerView.animatesWhenAdded = true
+		markerView.canShowCallout = false
+		
+		return markerView
 	}
 }
 
@@ -141,5 +165,65 @@ extension RouteMapManager: CLLocationManagerDelegate {
 		if manager.authorizationStatus == .authorizedWhenInUse {
 			mapView.showsUserLocation = true
 		}
+	}
+}
+
+extension RouteMapManager {
+	
+	/// 좌표를 실제 주소로 변환하여 MKPlacemark 생성
+	private func createPlacemarkWithAddress(coordinate: CLLocationCoordinate2D, name: String?) async -> MKPlacemark {
+		let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+		
+		do {
+			let placemarks = try await CLGeocoder().reverseGeocodeLocation(location)
+			if let placemark = placemarks.first {
+				// CLPlacemark를 MKPlacemark로 변환
+				let mkPlacemark = MKPlacemark(placemark: placemark)
+				return mkPlacemark
+			}
+		} catch {
+			print("Geocoding 실패: \(error)")
+		}
+		
+		// 실패 시 기본 MKPlacemark 반환
+		return MKPlacemark(coordinate: coordinate)
+	}
+	
+	/// 개선된 경로 계산 (실제 주소 포함)
+	func calculateRoutesWithAddresses(
+		transportType: MKDirectionsTransportType = .any
+	) async throws -> [MKRoute] {
+		guard let userCoord = locationManager.location?.coordinate else {
+			throw RouteError.locationUnavailable
+		}
+		
+		// 현재 위치와 목적지의 실제 주소 정보 가져오기
+		async let startPlacemark = createPlacemarkWithAddress(
+			coordinate: userCoord,
+			name: "나의 위치"
+		)
+		async let destPlacemark = createPlacemarkWithAddress(
+			coordinate: destination.coordinate,
+			name: destination.title
+		)
+		
+		let request = MKDirections.Request()
+		
+		let sourceItem = MKMapItem(placemark: await startPlacemark)
+		sourceItem.name = "나의 위치"
+		
+		let destItem = MKMapItem(placemark: await destPlacemark)
+		destItem.name = destination.title
+		
+		request.source = sourceItem
+		request.destination = destItem
+		request.transportType = transportType
+		request.requestsAlternateRoutes = true
+		
+		let response = try await MKDirections(request: request).calculate()
+		guard !response.routes.isEmpty else {
+			throw RouteError.noRoutes
+		}
+		return response.routes
 	}
 }

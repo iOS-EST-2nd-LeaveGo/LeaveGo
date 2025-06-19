@@ -45,21 +45,19 @@ class TransportViewController: UIViewController {
 
         navigationItem.backButtonTitle = ""
         saveButton.isEnabled = false
+        
         // 레이아웃 설정
-
-        transportCollectionView.collectionViewLayout = CollectionViewLayout.grid(
+        transportCollectionView.collectionViewLayout = CollectionViewLayout.setGridLayoutWithRatio(
             columns: 3,
-            itemInsets: NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
+            itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
         )
-
-        //        transportCollectionView.allowsMultipleSelection = true
 
         // cell 등록
         transportCollectionView.register(UINib(nibName: "PreferenceItemCell", bundle: nil), forCellWithReuseIdentifier: "PreferenceItemCell")
 
-        saveButton.layer.cornerRadius = saveButton.frame.height / 2
+        saveButton.layer.cornerRadius = 16
         saveButton.clipsToBounds = true
         
         if mode == .editing {
@@ -75,15 +73,14 @@ class TransportViewController: UIViewController {
 
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        if mode == .editing,
-           let savedTransport = UserSetting.shared.preferredTransport,
-           let index = TransportType.allCases.firstIndex(of: savedTransport) {
+        if mode == .editing {
+            if let savedTransport = UserSetting.shared.preferredTransport,
+               let index = TransportType.allCases.firstIndex(of: savedTransport) {
 
-            let indexPath = IndexPath(item: index, section: 0)
-
-            transportCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-
-            saveButton.isEnabled = true
+                let indexPath = IndexPath(item: index, section: 0)
+                transportCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+                saveButton.isEnabled = true
+            }
         }
     }
 

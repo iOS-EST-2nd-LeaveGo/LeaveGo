@@ -27,7 +27,7 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
 
     @IBOutlet weak var moreButton: UIButton!
 
@@ -41,15 +41,23 @@ class ListTableViewCell: UITableViewCell {
         
         self.titleLabel.text = model.title
         
-        if let distStr = self.place?.distance,
-           let distDouble = Double(distStr) {
-            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        if let distance = self.place?.distance {
+            self.distanceLabel.text = "\(distance.formattedDistance())m 떨어짐"
         } else {
             self.distanceLabel.text = nil
             self.distanceLabel.isHidden = true
         }
+        
+        /*
+        if let distStr = self.place?.distance,
+           let distDouble = Double(distStr) {
+            self.distanceLabel.text = "\(Int(round(distDouble)))m 떨어짐"
+        }
+        */
 
-        self.timeLabel.text = "09:00 ~ 18:00 • 1시간" // PlaceDetail
+        let categoryCode = self.place?.cat1
+        let text = CategoryCodeMapper.name(for: categoryCode ?? "기타")
+        self.categoryLabel.text = text // PlaceDetail
 
         self.thumbnailImageView.image = nil
         self.thumbnailImageView.image = self.place?.thumbnailImage
@@ -60,12 +68,14 @@ class ListTableViewCell: UITableViewCell {
     // 셀 모드를 넘겨받아 more 버튼 처리에 대한 분기를 실행
     func setupMenu(mode: CellMode) {
         switch mode {
-        case .list(let bookmarked):
+        case .list:
             // 분기에 맞는 UI 처리
             checkmarkImageView.isHidden = true
             moreButton.showsMenuAsPrimaryAction = true
+            guard let place = place else { return }
+            let saved = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
             
-            if bookmarked { // bookmark 삭제버튼 보여주기
+            if saved { // bookmark 삭제버튼 보여주기
                 moreButton.menu = UIMenu(title: "", children: [
                     UIAction(title: "경로 찾기", image: UIImage(systemName: "location")) { [weak self] _ in
                         guard let self else { return }
@@ -93,20 +103,21 @@ class ListTableViewCell: UITableViewCell {
             // 분기에 맞는 UI 처리
             moreButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
             distanceLabel.isHidden = true
-            timeLabel.isHidden = true
+            categoryLabel.isHidden = true
             
             // 장소 기본 정보를 들고 상세 정보 모달 띄우기
             moreButton.addAction(UIAction(handler: { [weak self] _ in
                 guard let self = self,
                       let place
                 else { return }
+                print("place : ",place)
                 PlaceActions.presentInfoModal(from: self, place: place)
             }), for: .touchUpInside)
         }
         
         thumbnailImageContainerView.layer.cornerRadius = 8
         thumbnailImageContainerView.clipsToBounds = true
-        thumbnailImageContainerView.layer.borderColor = UIColor.border.cgColor
+        thumbnailImageContainerView.layer.borderColor = UIColor.prominentBorder.cgColor
         thumbnailImageContainerView.layer.borderWidth = 1
     }
 }

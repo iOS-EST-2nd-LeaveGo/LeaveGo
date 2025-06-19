@@ -11,7 +11,8 @@ class PlaceSelectionTableViewController: UIViewController {
     @IBOutlet weak var placeSelectionTable: UITableView!
     @IBOutlet weak var blurEffectView: UIVisualEffectView!
     @IBOutlet weak var addToPlannerButton: UIButton!
-    
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+
     @IBAction func navigateToComposeVC(_ sender: UIButton) {
         // 스토리보드 불러오기
         let plannerEditorStoryboard = UIStoryboard(name: "PlannerEditor", bundle: nil)
@@ -44,9 +45,12 @@ class PlaceSelectionTableViewController: UIViewController {
         placeSelectionTable.delegate = self
         placeSelectionTable.allowsMultipleSelection = true
         placeSelectionTable.setEditing(false, animated: true)
+        placeSelectionTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 90, right: 0)
         
         addToPlannerButton.isEnabled = false
-        
+
+        loadingIndicator.startAnimating()
+
         Task {
             if area != nil {
                 await loadPlaceList()
@@ -62,15 +66,26 @@ class PlaceSelectionTableViewController: UIViewController {
         
         do {
             if let fetchedList = try await NetworkManager.shared.FetchAreaBasedPlaceList(area: area) {
-                
-                self.placeList = fetchedList.map {
-                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, contentTypeId: $0.contentTypeId, title: $0.title, thumbnailURL: $0.thumbnailImage, distance: nil, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
+                let models = fetchedList.map {
+                    PlaceModel(add1: $0.addr1, add2: $0.addr2, contentId: $0.contentId, contentTypeId: $0.contentTypeId, title: $0.title, bigThumbnailURL: $0.thumbnailImage, thumbnailURL: $0.thumbnailImage, distance: nil, latitude: $0.mapY, longitude: $0.mapX, areaCode: $0.areaCode, cat1: $0.cat1, cat2: $0.cat2, cat3: $0.cat3)
                 }
+
+                let startIndex = self.placeList.count
+                let endIndex = startIndex + models.count
+                let indexPaths = (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+
+                await MainActor.run {
+                    self.loadingIndicator.stopAnimating()
+                    
+                    self.placeList.append(contentsOf: models)
+                    self.placeSelectionTable.insertRows(at: indexPaths, with: .fade)
+                }
+
                 await loadThumbnailImage() // async로 변경된 버전 호출
-                
+
                 // 모든 썸네일까지 다 받은 후 table view 갱신
-                DispatchQueue.main.async {
-                    self.placeSelectionTable.reloadData()
+                await MainActor.run {
+                    self.placeSelectionTable.reloadRows(at: indexPaths, with: .fade)
                 }
             }
         } catch {
@@ -82,23 +97,13 @@ class PlaceSelectionTableViewController: UIViewController {
         for index in 0 ..< placeList.count {
             if let urlString = placeList[index].thumbnailURL,
                let url = URL(string: urlString) {
-                let image = await fetchThumbnailImage(for: url)
+                let image = await ImageCacheManager.shared.fetchImage(from: url)
 
                 // 이미지 저장은 메인 스레드에서
                 DispatchQueue.main.async { [weak self] in
                     self?.placeList[index].thumbnailImage = image
                 }
             }
-        }
-    }
-    
-    func fetchThumbnailImage(for url: URL) async -> UIImage? {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            return UIImage(data: data)
-        } catch {
-            print(error.localizedDescription)
-            return nil
         }
     }
 }

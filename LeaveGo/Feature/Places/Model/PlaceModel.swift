@@ -14,6 +14,8 @@ struct PlaceModel {
     let contentId: String // 장소 고유번호
     let contentTypeId: String
     let title: String // 장소명(use in PlacesVC)
+    let bigThumbnailURL: String?
+    var bigThumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
     let thumbnailURL: String?
     var thumbnailImage: UIImage? // 썸네일 이미지(use in PlacesVC)
     let distance: String? // 거리(use in PlacesVC)
@@ -26,17 +28,17 @@ struct PlaceModel {
 
     // let detail: PlaceDetailModel?
     
-    init(add1: String?, add2: String?, contentId: String, contentTypeId: String, title: String, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?/*, detail: PlaceDetailModel?*/, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
+    init(add1: String?, add2: String?, contentId: String, contentTypeId: String, title: String, bigThumbnailURL: String?, thumbnailURL: String?, distance: String?, latitude: String?, longitude: String?, areaCode: String?, cat1: String?, cat2: String?, cat3: String?) {
         self.add1 = add1
         self.add2 = add2
         self.contentId = contentId
         self.contentTypeId = contentTypeId
         self.title = title
+        self.bigThumbnailURL = bigThumbnailURL
         self.thumbnailURL = thumbnailURL
         self.distance = distance
         self.latitude = Double(latitude ?? "") ?? 0.0
         self.longitude = Double(longitude ?? "") ?? 0.0
-        // self.detail = detail
         self.areaCode = areaCode
         self.cat1 = cat1
         self.cat2 = cat2
@@ -51,6 +53,8 @@ extension PlaceModel {
         self.contentId = place.contentId
         self.contentTypeId = place.contentTypeId
         self.title = place.title
+        self.bigThumbnailURL = place.bigThumbnailImage
+        self.bigThumbnailImage = nil
         self.thumbnailURL = place.thumbnailImage
         self.thumbnailImage = nil
         self.distance = place.dist
@@ -64,13 +68,7 @@ extension PlaceModel {
 
     /// MapViewContoller에서 mapview에 전달 하기위해 annotaionModel형태로 전달해야 합니다.
     func toAnnotationModel() -> PlaceAnnotationModel {
-        PlaceAnnotationModel(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                             title: title,
-                             thumbnailImage: thumbnailImage,
-                             areaCode: areaCode,
-                             cat1: cat1,
-                             cat2: cat2,
-                             cat3: cat3)
+		return PlaceAnnotationModel(place: self)
     }
 }
 
@@ -79,6 +77,8 @@ extension PlaceModel {
         self.contentId = bookmark.contentID ?? ""
         self.contentTypeId = ""
         self.title = bookmark.title ?? "제목 없음"
+        self.bigThumbnailURL = nil
+        self.bigThumbnailImage = nil
         self.thumbnailURL = bookmark.thumbnailImageURL // URL은 없으므로 nil
         self.thumbnailImage = nil
         self.distance = nil // 북마크는 거리와 무관하므로 nil

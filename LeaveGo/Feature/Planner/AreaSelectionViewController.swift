@@ -34,11 +34,11 @@ class AreaSelectionViewController: UIViewController {
         
         areaSelectionCollectionView.delegate = self
         areaSelectionCollectionView.dataSource = self
-        areaSelectionCollectionView.collectionViewLayout = CollectionViewLayout.grid(
+        areaSelectionCollectionView.collectionViewLayout = CollectionViewLayout.setGridLayoutWithRatio(
             columns: 3,
             itemInsets: NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8),
             groupInsets: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0),
-            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+            sectionInsets: NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 60, trailing: 8)
         )
         
         selectButtonView.isEnabled = false
@@ -68,7 +68,6 @@ extension AreaSelectionViewController: UICollectionViewDataSource {
         
         let area = Area.allCases[indexPath.item]
         cell.areaNameLabel.text = area.name
-        cell.areaNameContainer.backgroundColor = .customBackground
         
         return cell
     }

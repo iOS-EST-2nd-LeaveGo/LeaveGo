@@ -13,15 +13,16 @@ final class MapHeaderViewController: UIViewController {
     private var currentLocation: CLLocationCoordinate2D?
 
     lazy var placeListVC: PlacesViewController = {
-		let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
-		vc.delegate = self
-		return vc
-	}()
-	
-	lazy var mapVC: MapViewController = {
-		let vc = MapViewController()
-		return vc
-	}()
+        let vc = UIStoryboard(name: "Places", bundle: nil).instantiateViewController(withIdentifier: "PlacesVC") as! PlacesViewController
+        vc.delegate = self
+        return vc
+    }()
+
+    lazy var mapVC: MapViewController = {
+        let vc = MapViewController()
+        return vc
+    }()
+
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var displaySegmentedControl: UISegmentedControl!
@@ -30,7 +31,8 @@ final class MapHeaderViewController: UIViewController {
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchBar.delegate = self
+
         searchBar.backgroundImage = UIImage()
         searchBar.applyBodyTextStyle()
 
@@ -52,13 +54,14 @@ final class MapHeaderViewController: UIViewController {
 
 
         // 위치 업데이트 추적 시작
-           LocationManager.shared.startUpdating()
+        LocationManager.shared.startUpdating()
         currentLocation = LocationManager.shared.currentLocation
         displaySegmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         switchToVC(placeListVC)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false  // 터치 이벤트 전달되게
+        tap.cancelsTouchesInView = false
+        tap.delegate = self
         view.addGestureRecognizer(tap)
     }
 
@@ -94,10 +97,10 @@ final class MapHeaderViewController: UIViewController {
             if placeListVC.currentPlaceModel.isEmpty {
                 placeListVC.fetchPlaces()
             }
-
         } else {
             switchToVC(mapVC)
             mapVC.currentPlaceModel = placeListVC.currentPlaceModel
+            mapVC.isSearching = placeListVC.isSearching
         }
     }
 
@@ -124,45 +127,51 @@ final class MapHeaderViewController: UIViewController {
 }
 
 extension MapHeaderViewController: UISearchBarDelegate {
-	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-		searchBar.showsCancelButton = true
-	}
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
 
-	func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-		searchBar.showsCancelButton = false
-	}
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
 
-	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-		let keyword = searchBar.text ?? ""
-		placeListVC.updateKeyword(keyword)
-		searchBar.resignFirstResponder()
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let keyword = searchBar.text ?? ""
+        placeListVC.updateKeyword(keyword)
+        searchBar.resignFirstResponder()
 
-	}
+    }
 
-	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-		searchBar.text = ""
-		searchBar.resignFirstResponder()
-		searchBar.showsCancelButton = false
-		placeListVC.updateKeyword("") // 검색 결과 초기화
-	}
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        placeListVC.updateKeyword("")
+    }
 }
 
 extension UISearchBar {
-	func applyBodyTextStyle() {
-		if let textField = self.value(forKey: "searchField") as? UITextField {
-			textField.font = UIFont.preferredFont(forTextStyle: .body)
-		}
-	}
+    func applyBodyTextStyle() {
+        if let textField = self.value(forKey: "searchField") as? UITextField {
+            textField.font = UIFont.preferredFont(forTextStyle: .body)
+        }
+    }
 }
 
 extension MapHeaderViewController: PlacesViewControllerDelegate {
-	func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
-		mapVC.selectedPlace = place
-		mapVC.currentPlaceModel = vc.currentPlaceModel
-		
-		displaySegmentedControl.selectedSegmentIndex = 1
-		switchToVC(mapVC)
-		
-		mapVC.showDetailSheet(for: place)
-	}
+    func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
+        mapVC.selectedPlace = place
+        mapVC.currentPlaceModel = vc.currentPlaceModel
+
+        displaySegmentedControl.selectedSegmentIndex = 1
+        switchToVC(mapVC)
+
+        mapVC.showDetailSheet(for: place)
+    }
+}
+
+extension MapHeaderViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIControl)
+    }
 }

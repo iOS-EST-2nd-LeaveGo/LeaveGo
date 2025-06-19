@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol PlaceDetailModalDelegate: AnyObject {
+	func placeDetailModalDidTapFindRouteButton(_ controller: PlaceDetailModalViewController,
+											   didSelectRoute destination: RouteDestination)
+}
+
 class PlaceDetailModalViewController: UIViewController {
     var place: PlaceModel?
     var placeDetail: PlaceDetailProtocol?
+	weak var delegate: (PlaceDetailModalDelegate)?
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
@@ -25,6 +31,19 @@ class PlaceDetailModalViewController: UIViewController {
     
     @IBOutlet weak var addToBookmark: UIButton!
     
+    /// 북마크 선택 상태에 따라 북마크 star ui 변경
+    var didSelectBookmark: Bool = false {
+        didSet {
+            if didSelectBookmark {
+                bookmarkButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                bookmarkButton.tintColor = .accent
+            } else {
+                bookmarkButton.setImage(UIImage(systemName: "star"), for: .normal)
+                bookmarkButton.tintColor = .label
+            }
+        }
+    }
+    
     // 상세 정보를 fetch 하지 못했을 때 보여줄 Placeholder 텍스트
     let errorMessageLabel: UILabel = {
         let label = UILabel()
@@ -37,7 +56,33 @@ class PlaceDetailModalViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-    
+
+	/// 경로 찾기 버튼 액션 - 경로 탐색 뷰로 이동
+	/// - Parameter sender: UIButton 클릭시 목적지 데이터를 담아 showRouteScreen에 전달
+	@IBAction func findRouteTapped(_ sender: UIButton) {
+		guard let place = place else { return }
+		let dest = RouteDestination(place: place)
+
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			// iPad: presentingViewController 검사 없이 바로 delegate
+			delegate?.placeDetailModalDidTapFindRouteButton(self,
+															didSelectRoute: dest)
+		} else {
+			guard presentingViewController != nil else {
+				print("⚠️presentingViewController가 없습니다")
+				return
+			}
+			
+			dismiss(animated: true) {
+				self.delegate?
+					.placeDetailModalDidTapFindRouteButton(
+						self,
+						didSelectRoute: dest
+					)
+			}
+		}
+	}
+	
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         blurEffectView.applyFeatherMask(to: blurEffectView)
@@ -45,7 +90,7 @@ class PlaceDetailModalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         activityIndicator.hidesWhenStopped = true
         activityIndicator.startAnimating()
         
@@ -147,5 +192,20 @@ class PlaceDetailModalViewController: UIViewController {
                 }
             }
         }
+        
+        didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
     }
+  
+    @IBAction func addBookmark(_ sender: Any) {
+        guard let place = place else { return }
+        
+        if didSelectBookmark { // 북마크 선택된 상태 (coreData에 값이 있는 상태)
+            CoreDataManager.shared.deleteBookmark(by: place.contentId)
+            didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
+        } else { // 북마크 선택안된 상태
+            CoreDataManager.createBookmark(contentID: place.contentId, title: place.title, thumbnailImageURL: place.thumbnailURL)
+            didSelectBookmark = CoreDataManager.shared.isBookmarked(contentID: place.contentId)
+        }
+    }
+    
 }

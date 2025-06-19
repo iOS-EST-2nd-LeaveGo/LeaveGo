@@ -11,7 +11,7 @@ final class PlaceAnnotationView: MKAnnotationView {
 	static let identifier: String = "PlaceAnnotationView"
 	static let clusterIdentifier: String = "placeCluster"
 	
-	private let imageView: UIImageView = {
+    let imageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.contentMode = .scaleAspectFill
 		imageView.clipsToBounds = true
@@ -26,9 +26,10 @@ final class PlaceAnnotationView: MKAnnotationView {
 		label.font = .systemFont(ofSize: 12, weight: .black)
 		label.textColor = .label
         label.textAlignment = .center
+		label.numberOfLines = 2
 		label.adjustsFontSizeToFitWidth = true
 		label.minimumScaleFactor = 0.7
-		label.lineBreakMode = .byClipping
+		label.lineBreakMode = .byWordWrapping
 		return label
 	}()
 	
@@ -66,10 +67,9 @@ final class PlaceAnnotationView: MKAnnotationView {
 		if let thumbnailImage = annotation.thumbnailImage {
 			imageView.image = thumbnailImage
 		} else {
-			let size = CGSize(width: 40, height: 40)
+			let size = CGSize(width: 120, height: 120)
 			UIGraphicsBeginImageContext(size)
-			
-			if let image = UIImage(systemName: "pin.circle.fill") {
+            if let image = UIImage(named: "Image") {
 				image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 				if let resizedImage = UIGraphicsGetImageFromCurrentImageContext() {
 					imageView.image = resizedImage

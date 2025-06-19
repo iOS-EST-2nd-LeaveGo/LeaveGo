@@ -37,6 +37,22 @@ extension CoreDataManager {
         }
     }
 
+    // id를 전달 받아 해당 여행이 존재하는지 조회하는 메서드
+    func fetchOnePlanner(id: UUID) -> PlannerEntity? {
+        let request: NSFetchRequest<PlannerEntity> = PlannerEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        request.fetchLimit = 1
+
+        do {
+            let result = try context.fetch(request)
+            return result.first
+        } catch {
+            print("fetch 실패: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    // 여행의 갯수를 반환하는 메서드
     func fetchPlannerCount() -> Int {
         let request: NSFetchRequest<PlannerEntity> = PlannerEntity.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
@@ -56,8 +72,9 @@ extension CoreDataManager {
         planner.thumbnailPath = thumbnailPath
         saveContext()
     }
-
-    func deletePlanner(_ planner: PlannerEntity) {
+    
+    func deletePlanner(id: UUID) {
+        guard let planner = fetchOnePlanner(id: id) else { return }
         context.delete(planner)
         saveContext()
     }
