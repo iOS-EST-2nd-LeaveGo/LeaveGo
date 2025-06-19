@@ -69,7 +69,7 @@ final class PlaceAnnotationView: MKAnnotationView {
 		} else {
 			let size = CGSize(width: 120, height: 120)
 			UIGraphicsBeginImageContext(size)
-            if let image = UIImage(named: "Image") {
+            if let image = UIImage(named: "img_userAnnotationPlaceholder") {
 				image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 				if let resizedImage = UIGraphicsGetImageFromCurrentImageContext() {
 					imageView.image = resizedImage
