@@ -8,6 +8,7 @@
 import CoreLocation
 import UIKit
 
+// MARK: - 메인 화면 상단에서 지도와 리스트 전환을 담당하는 컨트롤러
 final class MapHeaderViewController: UIViewController {
     // MARK: Properties
     private var currentLocation: CLLocationCoordinate2D?
@@ -36,6 +37,7 @@ final class MapHeaderViewController: UIViewController {
         searchBar.backgroundImage = UIImage()
         searchBar.applyBodyTextStyle()
 
+        // 위치 관련 노티 등록
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(locationUpdate(_:)),
@@ -59,6 +61,7 @@ final class MapHeaderViewController: UIViewController {
         displaySegmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         switchToVC(placeListVC)
 
+        // 세그먼트 컨트롤 액션 연결 및 기본 리스트 화면으로 설정
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         tap.delegate = self
@@ -71,14 +74,13 @@ final class MapHeaderViewController: UIViewController {
         print("MapHeaderViewController, 옵저버 해제 완료")
     }
 
-    // 위치 변경 될 때
+    // MARK: - 위치 응답 처리
     @objc private func locationUpdate(_ notification: Notification) {
         guard let coordinate = notification.object as? CLLocationCoordinate2D else { return }
         currentLocation = coordinate
 
     }
 
-    // 위치 추적 실패
     @objc private func locationError(_ notification: Notification) {
         if let error = notification.object as? Error {
             print("위치 추적 실패: \(error.localizedDescription)")
@@ -89,7 +91,7 @@ final class MapHeaderViewController: UIViewController {
         view.endEditing(true)
     }
 
-    // MARK: Action
+    // MARK: - 세그먼트 변경 시 뷰 전환
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             switchToVC(placeListVC)
@@ -104,12 +106,14 @@ final class MapHeaderViewController: UIViewController {
         }
     }
 
+    // MARK: - 리스트에서 업데이트된 장소 정보를 지도 뷰로 전달
     @objc func placeModelUpdated(_ notification: Notification) {
         if let updatedList = notification.object as? [PlaceModel] {
             self.mapVC.currentPlaceModel = updatedList
         }
     }
 
+    // MARK: - 자식 뷰컨트롤러 전환 처리
     private func switchToVC(_ newVC: UIViewController) {
         // 현재 VC 제거
         for child in children {
@@ -117,8 +121,6 @@ final class MapHeaderViewController: UIViewController {
             child.view.removeFromSuperview()
             child.removeFromParent()
         }
-
-
 
         // 새 VC 추가
         addChild(newVC)
@@ -128,6 +130,7 @@ final class MapHeaderViewController: UIViewController {
     }
 }
 
+// MARK: - 검색바 입력 처리
 extension MapHeaderViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
@@ -164,6 +167,7 @@ extension UISearchBar {
     }
 }
 
+// MARK: - 장소 셀 선택 시 지도화면으로 이동 및 디테일 시트 표시
 extension MapHeaderViewController: PlacesViewControllerDelegate {
     func placesViewController(_ vc: PlacesViewController, didSelect place: PlaceModel) {
         mapVC.selectedPlace = place
@@ -176,6 +180,7 @@ extension MapHeaderViewController: PlacesViewControllerDelegate {
     }
 }
 
+// MARK: - 탭 제스처가 UIControl에 영향 주지 않도록 설정
 extension MapHeaderViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return !(touch.view is UIControl)

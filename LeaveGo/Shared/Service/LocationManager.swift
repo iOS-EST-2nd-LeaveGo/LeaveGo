@@ -9,6 +9,7 @@ import Foundation
 import CoreLocation
 import UIKit
 
+// MARK: - CLLocationManager를 사용한 위치 업데이트 전용 클래스
 final class LocationManager: NSObject {
     // 싱글톤
     static let shared = LocationManager()
@@ -35,16 +36,19 @@ final class LocationManager: NSObject {
         configuration(manager)
     }
 
+    /// 위치 권한이 아직 결정되지 않았다면 요청
     func startUpdating() {
         if manager.authorizationStatus == .notDetermined {
             manager.requestWhenInUseAuthorization()
         }
     }
 
+    /// 위치 업데이트 중지
     func stopUpdating() {
         manager.stopUpdatingLocation()
     }
 
+    /// 1회성 위치 요청
     func requestSingleLocation() {
         let status = manager.authorizationStatus
 
@@ -57,6 +61,7 @@ final class LocationManager: NSObject {
 
 }
 
+// MARK: - 현재 키 윈도우의 루트 뷰컨트롤러 반환
 extension UIApplication {
     func getKeyWindowRootViewController() -> UIViewController? {
         return self.connectedScenes
@@ -67,7 +72,9 @@ extension UIApplication {
     }
 }
 
+// MARK: - CLLocationManagerDelegate 구현부
 extension LocationManager: CLLocationManagerDelegate {
+    // 위치 업데이트 시 호출됨
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // 사용자의 최신 위치 정보를 가져옵니다.
         guard let location = locations.last else { return }
@@ -75,17 +82,18 @@ extension LocationManager: CLLocationManagerDelegate {
         NotificationCenter.default.post(name: .locationDidUpdate, object: location.coordinate)
     }
 
+    // 방위각 정보 업데이트 시 호출됨
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         NotificationCenter.default.post(name: .headingDidUpdate, object: newHeading)
     }
 
-    // 잠재적인 오류에 응답하기 위해서 생성
+    // 위치 업데이트 실패 시 호출됨
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Unable to Fetch Location (\(error))")
         NotificationCenter.default.post(name: .locationUpdateDidFail, object: error)
     }
 
-    // 현재 인증 상태 확인
+    // 권한 변경 시 호출됨
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
