@@ -18,8 +18,8 @@ class RouteBottomSheetView: UIView {
 		let btn = UIButton(type: .system)
 		var cfg = UIButton.Configuration.filled()
 		cfg.image = UIImage(systemName: "car.fill")
-		cfg.baseBackgroundColor = .systemGray5
-		cfg.baseForegroundColor = .label
+		cfg.baseBackgroundColor = .accent
+		cfg.baseForegroundColor = .customBackground
 		btn.configuration = cfg
 		btn.tag = TransportMode.car.rawValue
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -30,8 +30,8 @@ class RouteBottomSheetView: UIView {
 		let btn = UIButton(type: .system)
 		var cfg = UIButton.Configuration.filled()
 		cfg.image = UIImage(systemName: "tram.fill")
-		cfg.baseBackgroundColor = .systemGray5
-		cfg.baseForegroundColor = .label
+		cfg.baseBackgroundColor = .accent
+		cfg.baseForegroundColor = .customBackground
 		btn.configuration = cfg
 		btn.tag = TransportMode.transit.rawValue
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -54,8 +54,8 @@ class RouteBottomSheetView: UIView {
 		let btn = UIButton(type: .system)
 		var cfg = UIButton.Configuration.filled()
 		cfg.image = UIImage(systemName: "figure.walk")
-		cfg.baseBackgroundColor = .systemGray5
-		cfg.baseForegroundColor = .label
+		cfg.baseBackgroundColor = .accent
+		cfg.baseForegroundColor = .customBackground
 		btn.configuration = cfg
 		btn.tag = TransportMode.walk.rawValue
 		btn.translatesAutoresizingMaskIntoConstraints = false
@@ -135,11 +135,9 @@ class RouteBottomSheetView: UIView {
 	}
 	
 	func select(mode: TransportMode) {
-		let bg = UIColor { tc in
-			tc.userInterfaceStyle == .dark ? .white : .systemGray5
-		}
-		let fg = UIColor.black
-		let border = UIColor.black
+		let bg = UIColor.accentLighter
+		let fg = UIColor.accent
+		let border = UIColor.accent
 		
 		for btn in [carButton, walkButton, transitButton] {
 			guard var cfg = btn.configuration else { continue }
