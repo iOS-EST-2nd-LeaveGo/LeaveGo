@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wnC-kO-3Tp">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--장소-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="MapHeaderVC" id="Y6W-OH-hqX" customClass="MapHeaderViewController" customModule="LeaveGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQh-5Y-cNb" userLabel="ContainerView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="251"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="O5G-hG-of0">
+                                        <rect key="frame" x="0.0" y="144" width="375" height="91"/>
+                                        <subviews>
+                                            <searchBar contentMode="redraw" placeholder="장소 이름으로 검색하세요" translatesAutoresizingMaskIntoConstraints="NO" id="OPX-4P-qhr">
+                                                <rect key="frame" x="8" y="0.0" width="359" height="56"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search" smartDashesType="no" textContentType="location"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="B1O-Dc-zV6"/>
+                                                </connections>
+                                            </searchBar>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffM-YD-c6f">
+                                                <rect key="frame" x="98" y="60" width="179" height="32"/>
+                                                <segments>
+                                                    <segment title="리스트로 보기"/>
+                                                    <segment title="지도로 보기"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="OPX-4P-qhr" firstAttribute="leading" secondItem="O5G-hG-of0" secondAttribute="leading" constant="8" id="STq-UW-Kma"/>
+                                            <constraint firstAttribute="trailing" secondItem="OPX-4P-qhr" secondAttribute="trailing" constant="8" id="ZER-R9-zbr"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="O5G-hG-of0" secondAttribute="trailing" id="2Lu-hf-B0M"/>
+                                    <constraint firstItem="O5G-hG-of0" firstAttribute="leading" secondItem="OQh-5Y-cNb" secondAttribute="leading" id="asP-vC-5rc"/>
+                                    <constraint firstItem="O5G-hG-of0" firstAttribute="bottom" secondItem="OQh-5Y-cNb" secondAttribute="bottom" constant="-16" id="t0Y-So-SeR"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VK-hH-bGu">
+                                <rect key="frame" x="0.0" y="251" width="375" height="561"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6VK-hH-bGu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="A5l-gJ-eUS"/>
+                            <constraint firstItem="6VK-hH-bGu" firstAttribute="top" secondItem="OQh-5Y-cNb" secondAttribute="bottom" id="BTq-C4-hZQ"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="F0a-Ku-ALg"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="H9Z-0p-JuL"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="top" secondItem="O5G-hG-of0" secondAttribute="top" id="IJV-wc-BlL"/>
+                            <constraint firstItem="OQh-5Y-cNb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="-144" id="Jfb-Yr-Rbu"/>
+                            <constraint firstAttribute="bottom" secondItem="6VK-hH-bGu" secondAttribute="bottom" id="MAG-du-rS4"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6VK-hH-bGu" secondAttribute="trailing" id="x2p-ef-ZN1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="장소" id="bb9-LQ-WkK"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="displaySegmentedControl" destination="ffM-YD-c6f" id="Tml-xP-3ZT"/>
+                        <outlet property="searchBar" destination="OPX-4P-qhr" id="fAH-Ge-Sij"/>
+                        <outlet property="segmentContentView" destination="6VK-hH-bGu" id="Kvm-hZ-f3x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1080.8" y="2.9556650246305418"/>
+        </scene>
+        <!--장소-->
+        <scene sceneID="rmp-Bp-i6u">
+            <objects>
+                <navigationController storyboardIdentifier="MapHeaderNav" automaticallyAdjustsScrollViewInsets="NO" id="wnC-kO-3Tp" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="장소" image="map.fill" catalog="system" id="Efz-sb-Wak"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xzc-Ss-771">
+                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="9Km-y3-z5f"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jkv-wU-JvQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138.40000000000001" y="2.9556650246305418"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
