@@ -138,7 +138,11 @@ extension MapHeaderViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let keyword = searchBar.text ?? ""
         placeListVC.updateKeyword(keyword)
+        switchToVC(placeListVC)
+        displaySegmentedControl.selectedSegmentIndex = 0
         searchBar.resignFirstResponder()
+
+
 
     }
 
