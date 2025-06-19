@@ -16,6 +16,7 @@ class PlannerEditorViewController: UIViewController {
     var savedImageName: String?
 
     @IBOutlet weak var tripName: PaddedTextField!
+    @IBOutlet weak var tripThumbnailContainerView: UIView!
     @IBOutlet weak var tripThumbnail: UIImageView!
     @IBOutlet weak var thumbnailAdd: UIButton!
     @IBOutlet weak var tripListTableView: UITableView!
@@ -100,9 +101,6 @@ class PlannerEditorViewController: UIViewController {
             thumbnailAdd.setTitle("이미지 추가", for: .normal)
         }
 
-        tripThumbnail.layer.cornerRadius = 12
-        tripThumbnail.clipsToBounds = true
-
         let nib = UINib(nibName: String(describing: ListTableViewCell.self), bundle: nil)
         tripListTableView.register(nib, forCellReuseIdentifier: String(describing: ListTableViewCell.self))
         tripListTableView.dataSource = self
@@ -110,6 +108,13 @@ class PlannerEditorViewController: UIViewController {
         tripListTableView.dragInteractionEnabled = true
         tripListTableView.dragDelegate = self
         tripListTableView.dropDelegate = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        tripThumbnailContainerView.layer.cornerRadius = 16
+        tripThumbnailContainerView.clipsToBounds = true
     }
 
     @IBAction func thumbnailAddAction(_ sender: UIButton) {
@@ -162,7 +167,6 @@ extension PlannerEditorViewController: PHPickerViewControllerDelegate {
 
             DispatchQueue.main.async {
                 self.tripThumbnail.image = selectedImage
-                self.tripThumbnail.layer.cornerRadius = 12
                 self.isImageSelected = true
                 self.thumbnailAdd.setTitle("이미지 삭제", for: .normal)
             }
