@@ -112,11 +112,13 @@ final class MapHeaderViewController: UIViewController {
 
     private func switchToVC(_ newVC: UIViewController) {
         // 현재 VC 제거
-        if let current = children.first {
-            current.willMove(toParent: nil)
-            current.view.removeFromSuperview()
-            current.removeFromParent()
+        for child in children {
+            child.willMove(toParent: nil)
+            child.view.removeFromSuperview()
+            child.removeFromParent()
         }
+
+
 
         // 새 VC 추가
         addChild(newVC)
@@ -138,7 +140,11 @@ extension MapHeaderViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let keyword = searchBar.text ?? ""
         placeListVC.updateKeyword(keyword)
+        switchToVC(placeListVC)
+        displaySegmentedControl.selectedSegmentIndex = 0
         searchBar.resignFirstResponder()
+
+
 
     }
 

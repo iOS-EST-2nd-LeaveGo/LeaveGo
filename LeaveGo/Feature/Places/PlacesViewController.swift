@@ -80,6 +80,11 @@ class PlacesViewController: UIViewController {
             fetchPlaces()
         }
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
+    }
 
     // 해제
     deinit {
