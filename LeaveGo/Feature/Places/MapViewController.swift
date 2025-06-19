@@ -76,17 +76,19 @@ class MapViewController: UIViewController {
 		
 		// 위치 업데이트 추적 시작
 		LocationManager.shared.startUpdating()
-		
+
+
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-		setupMapView()
-		addTarget()
-		configureSubviews()
-		addAnnotation()
-		
+        setupMapView()
+        addTarget()
+        configureSubviews()
+        addAnnotation()
+
+
 		if var center = centerPosition {
 			
 			if !initialCenterLocation {
@@ -107,7 +109,15 @@ class MapViewController: UIViewController {
 			selectedPlace = nil
 		}
 	}
-	
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // 리소스 정리
+        mapView.removeFromSuperview() // 필요 시
+        NotificationCenter.default.removeObserver(self)
+    }
+
 	deinit {
 		NotificationCenter.default.removeObserver(self)
 		print("MapViewController, 옵저버 해제 완료")
