@@ -23,8 +23,8 @@ class PreferenceItemCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             buttonContainerView.layer.backgroundColor = isSelected ? UIColor.accent.cgColor : UIColor.customBackground.cgColor
-            iconImageView.tintColor = isSelected ? UIColor.white : UIColor.accent
-            titleLabel.textColor = isSelected ? UIColor.white : UIColor.accent
+			iconImageView.tintColor = isSelected ? UIColor.white : UIColor.customLabel
+			titleLabel.textColor = isSelected ? UIColor.white : UIColor.customLabel
         }
     }
 
