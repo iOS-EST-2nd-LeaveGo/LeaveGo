@@ -122,6 +122,8 @@ final class MapHeaderViewController: UIViewController {
             child.removeFromParent()
         }
 
+
+
         // 새 VC 추가
         addChild(newVC)
         newVC.view.frame = segmentContentView.bounds
