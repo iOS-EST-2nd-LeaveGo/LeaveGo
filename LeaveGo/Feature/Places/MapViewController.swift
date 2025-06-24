@@ -84,10 +84,9 @@ class MapViewController: UIViewController {
 		super.viewDidAppear(animated)
 		
         setupMapView()
-        addTarget()
         configureSubviews()
+        addTarget()
         addAnnotation()
-
 
 		if var center = centerPosition {
 			

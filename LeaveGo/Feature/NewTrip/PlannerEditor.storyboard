@@ -41,7 +41,7 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jns-4J-Xpp" userLabel="Thumbnail">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jns-4J-Xpp" userLabel="Thumbnail Stack">
                                         <rect key="frame" x="0.0" y="78.333333333333329" width="361" height="128.33333333333337"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="llg-An-mds" userLabel="Label + Add Image Button">
@@ -67,7 +67,7 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKs-rC-Wkj" userLabel="Thumbnail">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKs-rC-Wkj" userLabel="Thumbnail">
                                                 <rect key="frame" x="0.0" y="28.333333333333314" width="100" height="100"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PlaceholderImage" translatesAutoresizingMaskIntoConstraints="NO" id="k5W-xu-rEJ" userLabel="Planner Thumbnail Placeholder Image View">
@@ -80,7 +80,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     </imageView>
                                                 </subviews>
-                                                <color key="backgroundColor" name="BorderColor"/>
+                                                <color key="backgroundColor" name="AccentLighter"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="ezc-pE-kkm"/>
                                                     <constraint firstAttribute="height" constant="100" id="fpx-Hf-4m7"/>
@@ -189,6 +189,7 @@
                         <outlet property="tripListTableView" destination="ew6-mm-3Pk" id="ZLK-Wh-1rC"/>
                         <outlet property="tripName" destination="DhF-mp-Uif" id="BlW-Nc-NZS"/>
                         <outlet property="tripThumbnail" destination="SYi-mO-cv0" id="mfO-AC-z4g"/>
+                        <outlet property="tripThumbnailContainerView" destination="PKs-rC-Wkj" id="bwg-td-2Sh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -201,7 +202,7 @@
         <namedColor name="AccentColor">
             <color red="0.43900001049041748" green="0.28600001335144043" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="BorderColor">
+        <namedColor name="AccentLighter">
             <color red="0.94509803921568625" green="0.92941176470588238" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CustomBackgroundColor">
